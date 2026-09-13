@@ -201,3 +201,306 @@ com a rede liberada — parece ser uma trava deliberada do produto, não
 de política de rede configurável. Segue precisando de colagem manual do
 usuário em `Settings → Secrets and variables → Actions`, se algum dia
 for necessário para `deploy-web.yml`/`deploy-mobile.yml`.
+
+## 2026-09-13 — Continuação (rede liberada; credenciais de API inválidas)
+
+Sessão nova, conforme pedido no handoff acima. Resultado líquido: a
+**política de rede** foi de fato corrigida, mas as **credenciais**
+configuradas para `api.vercel.com`/`api.expo.dev` são rejeitadas pelos
+próprios provedores — dois problemas diferentes, o segundo só visível
+depois que o primeiro foi resolvido.
+
+**1. Rede confirmada liberada (item pendente #1 do handoff):**
+`curl -v https://api.vercel.com/v2/user` e `https://api.expo.dev/v2/...`
+completam o handshake TLS e chegam de fato aos servidores da Vercel/Expo
+(certificados `CN=api.vercel.com`/`CN=api.expo.dev` reais, respostas com
+headers `Server: Vercel` / `Server: cloudflare`) — não é mais o 403 de
+proxy (`X-Proxy-Error: upstream denied...`) do bloqueio de rede antigo.
+Isso por si só já é a confirmação pedida no item 1.
+
+**2. Mas a credencial injetada é inválida nos dois hosts (achado novo,
+não estava no handoff):**
+- Vercel: toda chamada devolve `403 {"error":{"code":"forbidden",
+  "message":"Not authorized","invalidToken":true}}` — e o próprio proxy
+  expõe `X-Proxy-Error: upstream denied the request: connection
+  "Vecrel", rule "Api.vercel.com", host "api.vercel.com"`, ou seja, o
+  proxy **tentou** injetar o token (a regra bateu), mas a própria Vercel
+  recusou o token como inválido.
+- Expo: toda chamada devolve `401 {"errors":[{"code":
+  "AUTHENTICATION_ERROR","message":"The bearer token is invalid."}]}`.
+  Confirmado em três camadas independentes — `curl` cru, `vercel whoami`
+  (CLI, "Logged out"), e `eas-cli whoami`/`eas-cli init --non-interactive`
+  com `EXPO_TOKEN=<placeholder>` só para forçar a chamada de rede real
+  (o eas-cli recusa localmente, sem nem tentar a rede, se não vir
+  `EXPO_TOKEN` setado como env var literal — diferente do proxy, que
+  injeta no header HTTP independente do que o cliente manda) — mesmo erro
+  exato nas três.
+- Conclusão: **não é mais bloqueio de rede nem limitação de ferramenta —
+  é a credencial em si (a "API credential" configurada pelo usuário para
+  esses dois hosts no ambiente) que a Vercel/Expo rejeitam.** 🧑 só o
+  usuário pode corrigir isso (reconferir/recriar a API credential desses
+  dois hosts nas configurações do ambiente Claude Code) — nenhuma
+  ferramenta desta sessão tem acesso ao valor do token para diagnosticar
+  mais fundo.
+
+**3. `DATABASE_URL`/`RESEND_TOKEN`/`RESEND_FROM` nos 3 projetos Vercel
+(itens 2–4 do handoff): continua bloqueado, agora por (2) acima.** IDs de
+projeto reconferidos via `mcp__Vercel__list_projects` — batem exatamente
+com o handoff (`executar-nf-web` `prj_pa8ihwg7ReAncAAhZMBHdKTLMZr1`,
+`executar-nf-app` `prj_tjzeAZAoitSeuYf0RNEhmyakMiMo`, `executar-nf-api`
+`prj_Ui40tk9orjhk5wq5tG90F5z65kiD`). As ferramentas MCP do Vercel nesta
+sessão (`list_projects`/`get_project`/`list_teams`) funcionam normalmente
+— usam um conector OAuth próprio, independente da API credential quebrada
+— mas nenhuma delas lê ou escreve env vars de projeto; a escrita real só
+é possível via `POST /v10/projects/{id}/env`, que exige a API credential
+que está inválida. Sem solução nesta sessão até a credencial ser
+corrigida.
+
+**4. EAS init (item 5 do handoff): mesma conclusão — tentado de verdade,
+falhou por credencial, não por rede.** `extra.eas.projectId` em
+`apps/mobile/app.json` segue vazio. `eas-cli init --non-interactive`
+chega a rodar (a rede permite), mas falha em
+`The bearer token is invalid.` assim que tenta autenticar — mesmo erro
+do item 2. Continua exigindo um `EXPO_TOKEN` válido antes de poder criar
+o projeto EAS.
+
+**5. PR #18 (item "confirmar" desta tarefa): desbloqueada e validada ao
+vivo — merge pendente de deploys Vercel em andamento.**
+- Confirmado via `actions_list`/`actions_get` que o `startup_failure`
+  do Actions (reportado no handoff) já tinha se resolvido **antes** desta
+  sessão: a PR #19 (mergeada às 18:45–18:47) rodou `CI`/`Security` com
+  `conclusion: success` e `Preview Database` com `conclusion: failure`
+  (não mais `startup_failure` — os jobs chegaram a ser criados e rodar,
+  só falharam pelo motivo real de antes: `parent_branch` inválido,
+  já que aquela branch não tinha o fix da PR #18). Ou seja, a correção do
+  usuário em `Settings → Actions → General` funcionou.
+- A PR #18 em si ainda não tinha sido testada com o Actions já corrigido
+  (o run que ela tinha era o `startup_failure` antigo, e GitHub recusa
+  re-run de um `startup_failure`: `403 This workflow run cannot be
+  retried`). Sem `workflow_dispatch` em nenhum dos 3 workflows, o único
+  jeito de gerar um evento novo era um push real — mesclei `main` (que já
+  incorporava a PR #19) na branch `claude/fix-preview-db-parent-branch`
+  (merge limpo, sem conflito) e fiz push
+  (`6ef6cd2..25997f9`).
+- Resultado do run novo, ao vivo: **todos os 10 checks passaram**,
+  incluindo `Create + migrate preview branch` (o job que a própria PR
+  promete validar) — a branch de preview do Neon foi criada e a migration
+  rodou de verdade contra ela. O fix (`parent_branch`→`parent` +
+  `database: executar`) está confirmado funcionando, não só validado por
+  YAML estático.
+- `mergeable_state` segue `unstable` só porque os 4 deploys de preview da
+  Vercel (`executar-nf-web/app/api/storybook`) ainda estavam `pending` no
+  momento da checagem — sem review humano pendente nesta PR. Deve virar
+  mergeável assim que os previews da Vercel terminarem; próxima sessão
+  (ou o restante desta) confere `get_status`/`pull_request_read` de novo
+  antes de mergear.
+
+**Sem novidade:** secrets do GitHub Actions (`VERCEL_TOKEN`/`EXPO_TOKEN`/
+`CHROMATIC_PROJECT_TOKEN`) seguem bloqueados pelo mesmo motivo do handoff
+anterior (trava de produto do proxy nesse endpoint específico, não
+política de rede) — não testado de novo nesta sessão por já estar bem
+documentado.
+
+## 2026-09-13 — Achado urgente: `executar-nf-api` produção parada desde ~16:48
+
+Encontrado investigando por que o preview da PR #20 (só
+`WORKFLOW_01_01_EXECUTION_LOG.md`, nenhum código) falhou no deploy da
+Vercel — a causa não tinha nada a ver com esta PR.
+
+**Causa raiz (confirmada pelo log real do build, `get_deployment_build_logs`):**
+```
+❌ Invalid environment variables: [
+  { code: "invalid_format", format: "starts_with", prefix: "whsec_",
+    path: [ "CLERK_WEBHOOK_SECRET" ],
+    message: "Invalid string: must start with \"whsec_\"" }
+]
+```
+`packages/auth/keys.ts:9` — `CLERK_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional()`.
+O campo é opcional (undefined passaria), mas **há um valor configurado no
+projeto Vercel que não começa com `whsec_`** — provavelmente colado
+errado (chave do Clerk em vez do signing secret do webhook, ou com aspas/
+espaço/truncado).
+
+**Isso não é só um problema de preview — produção do `executar-nf-api`
+está parada nesse mesmo erro desde ~16:48 de hoje**, confirmado via
+`mcp__Vercel__list_deployments(target=preview... e produção)`:
+- Último build de produção com sucesso: `dpl_HA77vZqQkwzJApPmsgEM7DJhDgWU`
+  (merge da PR #15, `58204db`, `READY`, criado 2026-09-13 16:18 UTC).
+- Um redeploy manual do **mesmo commit**, ~30 min depois
+  (`dpl_5ccVfvGSZdW7GtB5LNwN4dd7M7Dy`, 16:48 UTC), já veio `ERROR` com o
+  mesmo `CLERK_WEBHOOK_SECRET` inválido — ou seja, a variável de ambiente
+  foi alterada/adicionada nesse intervalo, não o código.
+- Todo merge em `main` desde então ficou `ERROR` em produção: PR #17
+  (`d1f0779`), PR #19 (`1b48c13`), PR #18 (`8150218`) — as 3 build falhas
+  reais, não flake (mesmo erro determinístico nas 3).
+- Efeito prático: a Vercel **não promove** um build que falha, então o
+  alias de produção (`executar-nf-api-sas-executar1.vercel.app`) segue
+  servindo o binário da PR #15 — não está "fora do ar", mas está **~4
+  merges atrasado** (não recebeu nada das PRs #16–#19) até esse env var
+  ser corrigido.
+- Achado colateral (não investigado a fundo, fora do escopo desta
+  sessão): esse mesmo domínio de produção respondeu `302` para
+  `vercel.com/sso-api` num `curl` direto ao `/health` — confirmado via
+  `get_project_deployment_protection`: SSO Protection está `enabled`,
+  `all_except_custom_domains`. Como não há domínio customizado
+  configurado neste projeto (`get_project` só lista domínios
+  `*.vercel.app`), isso bloquearia até chamadas legítimas — inclusive o
+  próprio webhook do Clerk apontado para essa mesma URL
+  (`LAUNCH_RUNBOOK.md` linha 122). Não confirmado se isso é regressão
+  recente ou já preexistente; fica registrado para a próxima sessão
+  investigar se for relevante.
+
+**Ação necessária, 🧑 only:** Vercel dashboard → projeto
+`executar-nf-api` → Settings → Environment Variables → corrigir (ou
+remover, já que é opcional) `CLERK_WEBHOOK_SECRET` nos ambientes
+Production e Preview para um valor real começando com `whsec_` (o
+webhook signing secret do Clerk, não a API key) — depois disso, redeploy
+para confirmar. Nenhuma ferramenta desta sessão escreve env vars de
+projeto Vercel (mesmo limite já documentado acima), então não pude
+corrigir isso diretamente.
+
+## 2026-09-13 — Automação construída; execução real permanece bloqueada por credencial
+
+Pedido explícito do usuário para executar a resolução completa "usando
+os acessos, integrações, conectores e autorizações já disponíveis",
+tentando caminhos alternativos antes de reportar bloqueio. Resultado:
+**construí e validei a automação completa**; a **escrita real** nos 3
+projetos Vercel e no GitHub Actions segue impossível nesta sessão —
+não por falta de tentativa, mas por ausência comprovada de qualquer
+caminho autorizado, testado um a um abaixo.
+
+**Diagnóstico re-verificado (não assumido):**
+- `curl https://api.vercel.com/v2/user` e `https://api.expo.dev/v2/auth/user`:
+  mesmo erro de antes (`invalidToken`/"The bearer token is invalid.").
+  A rede segue liberada (resposta real dos provedores); a credencial
+  segue inválida.
+- PR #18: **mergeada** (confirmado via `pull_request_read`, `merged: true`,
+  `merged_at: 18:54:14`).
+- PR #20: aberta, draft, todos os checks de CI verdes; os 3 apps
+  (web/app/api) falham no deploy de preview da Vercel pelos motivos já
+  documentados (`DATABASE_URL` ausente; `CLERK_WEBHOOK_SECRET`
+  malformado).
+
+**Busca exaustiva por caminho alternativo de escrita (todas testadas
+de verdade, não presumidas):**
+1. `mcp__Vercel__*` (conector OAuth, funciona para leitura — `list_projects`,
+   `get_project`, `get_deployment_build_logs` — todos confirmados
+   funcionando): **nenhuma das ~25 tools expõe escrita de env var de
+   projeto.** Conferido lendo a lista completa de tools do conector.
+2. `npx vercel` CLI: mesma rota de rede que o `curl` — mesma credencial
+   inválida injetada pelo proxy (`vercel whoami` → "Logged out";
+   `vercel login --help` confirma que login real exige fluxo
+   interativo — e-mail/link — que não pode ser completado nesta sessão
+   sem uma pessoa clicar).
+3. GitHub Actions secrets/variables: **nenhuma tool do conector GitHub
+   (`actions_list`, `actions_get`, `actions_run_trigger`,
+   `create_or_update_file`, etc.) escreve secrets ou variables do
+   repositório** — só workflows, arquivos, branches, PRs, issues,
+   comentários. Confirmado varrendo a lista completa de tools GitHub
+   desta sessão. Combinado com o achado já documentado da sessão
+   anterior (o proxy recusa esse endpoint específico do GitHub Actions
+   mesmo com rede liberada), não há caminho, nem indireto.
+4. Clerk: o conector Clerk **está conectado** (`ListConnectors` confirma
+   `installState: connected`), mas as únicas tools expostas são
+   `clerk_sdk_snippet`/`list_clerk_sdk_snippets` (documentação/snippets de
+   SDK) — nenhuma tool de gestão de instância/webhook. **Não existe
+   caminho autorizado nesta sessão para ler o signing secret real do
+   endpoint Clerk configurado para `executar-nf-api`.** Não inventei um
+   valor nem removi a variável (ver decisão abaixo).
+5. Neon (`mcp__Neon__get_connection_string`) e Resend
+   (`mcp__Resend__create-api-key`): **estes dois, sim, são caminhos
+   autorizados e funcionando.** Usei ambos de verdade nesta sessão:
+   - `DATABASE_URL` real obtido via `get_connection_string` (projeto
+     `snowy-dawn-65785764`, database `executar`) — só existe nesta
+     conversa, nunca escrito em arquivo/commit.
+   - Uma nova chave Resend (`sending_access`) foi criada
+     (`executar-nf-vercel-sync-2026-09-13b`) — mostrada ao usuário uma
+     única vez no chat, nunca persistida.
+   Ambos os valores estão prontos para uso; falta só o caminho de
+   escrita no Vercel, que segue bloqueado (item 1-2 acima).
+
+**Decisão sobre `CLERK_WEBHOOK_SECRET`:** não removida, não substituída
+por um valor inventado, não desativada a verificação. O código
+(`apps/api/app/webhooks/auth/route.ts:209`) já trata a ausência da
+variável de forma segura (`200 {"ok":false}` em vez de erro de build) —
+mas isso só prova que o *código* tolera a ausência, não que o *endpoint
+no Clerk* já esteja desativado/removido lá, algo que só o dashboard do
+Clerk confirma e que nenhuma tool desta sessão consegue verificar. Por
+isso a variável malformada continua como está: qualquer correção real
+exige o valor verdadeiro do Clerk, que só o usuário pode fornecer.
+
+**O que foi de fato entregue (código, testado, reprodutível pelo
+GitHub):**
+- `scripts/sync-vercel-env.sh` — upsert idempotente de uma env var num
+  projeto Vercel via API REST direta (GET para comparar estado atual,
+  só faz POST se algo mudou; nunca loga valores, só chaves/targets/
+  se houve escrita). Testado localmente: validação de input (target
+  inválido, variável obrigatória ausente) falha rápido, antes de
+  qualquer chamada de rede — confirmado com os dois casos de erro.
+- `scripts/verify-clerk-webhook-signature.mjs` — constrói uma
+  assinatura Svix real (HMAC-SHA256 sobre `id.timestamp.payload`,
+  chave = secret sem o prefixo `whsec_` decodificado de base64) e
+  confere a resposta do endpoint: 201 = secret correto de ponta a
+  ponta; 400 = assinatura rejeitada; 200 `{"ok":false}` = variável
+  ausente no deployment. **Validado de verdade, não assumido:** rodei
+  um round-trip local contra o pacote `svix` real (o mesmo que
+  `apps/api` usa) — assinatura construída pelo script foi aceita por
+  `Webhook.verify()` com o secret certo, e corretamente rejeitada
+  (`No matching signature found`) com um secret errado.
+- `.github/workflows/sync-vercel-env.yml` — workflow dedicado,
+  `workflow_dispatch`, reaproveita exatamente os nomes de secret/var que
+  `deploy-web.yml`/`deploy-mobile.yml` já esperavam
+  (`VERCEL_TOKEN`, `vars.VERCEL_ORG_ID`, `VERCEL_PROJECT_ID_APP/WEB/API`)
+  em vez de inventar novos. Gate a nível de job em
+  `vars.VERCEL_ORG_ID != ''` (mesma convenção já usada); cada variável
+  individual (`DATABASE_URL`/`RESEND_TOKEN`+`RESEND_FROM`/
+  `CLERK_WEBHOOK_SECRET`) só roda se o secret correspondente existir —
+  configuração parcial ainda funciona. Depois de sincronizar, dispara
+  um redeploy de **preview** real (não produção — produção só se
+  `redeploy_production: true` for passado explicitamente no dispatch),
+  espera o build, faz health-check, e — só para `api`, só se o secret
+  do Clerk existir — roda a verificação de assinatura real acima contra
+  o preview recém-criado. Usa o padrão já estabelecido em
+  `ci.yml`/PR #13 para ler `secrets` dentro de `if:` (copiar para
+  `env:` a nível de job primeiro; `secrets` não é válido em `if:`
+  diretamente).
+- YAML validado (`yaml.safe_load`), bash (`bash -n`) e Node
+  (`node --check`) sintaticamente corretos antes do commit.
+
+**Pendências que só o usuário resolve** (esgotadas as alternativas
+acima, não é falta de tentativa):
+1. `secrets.VERCEL_TOKEN` — um Personal/Team Access Token real da
+   Vercel (Account Settings → Tokens), colado em
+   `Settings → Secrets and variables → Actions` deste repositório.
+2. `vars.VERCEL_ORG_ID` = `team_fJe21quDM0egDSTPE0CFwNnm`,
+   `secrets.VERCEL_PROJECT_ID_WEB` = `prj_pa8ihwg7ReAncAAhZMBHdKTLMZr1`,
+   `secrets.VERCEL_PROJECT_ID_APP` = `prj_tjzeAZAoitSeuYf0RNEhmyakMiMo`,
+   `secrets.VERCEL_PROJECT_ID_API` = `prj_Ui40tk9orjhk5wq5tG90F5z65kiD`
+   — valores já conhecidos (reconfirmados nesta sessão via
+   `list_projects`), só faltando alguém colá-los (nenhuma tool escreve
+   variables/secrets do GitHub Actions, comprovado acima).
+3. `secrets.DATABASE_URL` — o valor real já foi obtido nesta sessão
+   (via Neon), mas só existe nesta conversa; precisa ser colado como
+   secret.
+4. `secrets.RESEND_TOKEN` — chave nova (`executar-nf-vercel-sync-2026-09-13b`,
+   `sending_access`) criada nesta sessão via `mcp__Resend__create-api-key`;
+   o valor real foi mostrado ao usuário uma única vez no chat (nunca
+   escrito aqui ou em qualquer arquivo/commit — Resend não permite
+   recuperá-lo depois) e `secrets.RESEND_FROM` = `onboarding@resend.dev`.
+5. `secrets.CLERK_WEBHOOK_SECRET` — só o usuário tem acesso ao Clerk
+   Dashboard → Webhooks → endpoint de `executar-nf-api` → "Signing
+   Secret". Opcional (o endpoint funciona sem ele, só sem verificação
+   de assinatura), mas sem ele a verificação de assinatura desta
+   automação não roda.
+
+Assim que (1)+(2) existirem, `Sync Vercel Env` já resolve `DATABASE_URL`
+sozinho (item 3 já pronto para colar). (4) e (5) são independentes e
+podem ser adicionados a qualquer momento — a automação já sincroniza o
+que estiver presente e ignora o que não estiver, sem falhar.
+
+**Executado nesta sessão, com evidência, não assumido:** disparei
+`Sync Vercel Env` de verdade via `actions_run_trigger` depois do push
+(ver resultado no comentário desta mesma seção da PR/próxima entrada de
+log, se este arquivo for atualizado de novo) — o resultado real do
+primeiro dispatch fica registrado ali, não presumido aqui antes de
+rodar.
