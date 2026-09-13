@@ -1,6 +1,41 @@
-# ▲ / next-forge
+# EXECUTAR
 
-**Production-grade Turborepo template for Next.js apps.**
+**pt-BR execution/productivity copilot SaaS, built on next-forge.**
+
+> New here, or an AI agent picking up this repo? Read
+> **[`MASTER_WORKBOOK.md`](./MASTER_WORKBOOK.md)** first — it's the single
+> entry point that indexes every other doc below, states current status
+> with evidence, and names the next actionable task. This README is the
+> human-facing repo overview; the workbook is the agent-facing one.
+
+## What this repo actually is
+
+EXECUTAR is an AI-copilot execution/productivity product: deterministic
+task and routine management, an AI chat copilot, a camera-based visual
+task scanner, WhatsApp/Gmail/Outlook integrations, and a companion mobile
+app — built on top of the [next-forge](https://github.com/vercel/next-forge)
+Turborepo/Next.js SaaS template (the template's own description follows
+below, since the stack, tooling, and package layout are still next-forge's).
+
+Requirements live in a separate, read-only-from-here repo,
+`Sas-Executar/Executar-app-Blueprint` (PRDs/ADRs/specs) — see `AGENTS.md`
+for the exact precedence rule.
+
+## Where to find things
+
+| Doc | Answers |
+|---|---|
+| [`MASTER_WORKBOOK.md`](./MASTER_WORKBOOK.md) | Full system map, current status, next action — start here |
+| [`AGENTS.md`](./AGENTS.md) | Stack conventions, what an agent can change vs. must ask about |
+| [`PRODUCT_AUDIT.md`](./PRODUCT_AUDIT.md) | What's actually built vs. claimed, milestone by milestone |
+| [`QUALITY_GATES.md`](./QUALITY_GATES.md) | CI gates and their real thresholds |
+| [`INFRASTRUCTURE.md`](./INFRASTRUCTURE.md) | Deploy/CD config, what's code vs. dashboard-only |
+| [`LAUNCH_RUNBOOK.md`](./LAUNCH_RUNBOOK.md) | Accounts/credentials/env vars needed to launch, and their status |
+| [`WORKFLOW_01_01_RUNBOOK.md`](./WORKFLOW_01_01_RUNBOOK.md) | The step-by-step launch workflow and its live status |
+| [`WORKFLOW_01_01_EXECUTION_LOG.md`](./WORKFLOW_01_01_EXECUTION_LOG.md) | Dated, raw findings log from live verification sessions |
+| [`HANDOFF.md`](./HANDOFF.md) | A specific session's handoff notes (may be stale — cross-check dates) |
+
+---
 
 <div>
   <img src="https://img.shields.io/npm/dy/next-forge" alt="" />
@@ -8,7 +43,7 @@
   <img src="https://img.shields.io/github/license/vercel/next-forge" alt="" />
 </div>
 
-## Overview
+## Template overview
 
 [next-forge](https://github.com/vercel/next-forge) is a production-grade [Turborepo](https://turborepo.com) template for [Next.js](https://nextjs.org/) apps. It's designed to be a comprehensive starting point for building SaaS applications, providing a solid, opinionated foundation with minimal configuration required.
 
