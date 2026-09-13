@@ -1,29 +1,5 @@
-# Idempotent sync of application env vars (DATABASE_URL, RESEND_TOKEN,
-# RESEND_FROM, CLERK_WEBHOOK_SECRET) into the 3 Vercel projects
-# (executar-nf-web/app/api), scoped per environment (Preview vs
-# Production differ per project — see the matrix below), followed by a
-# real preview redeploy + health check + (for the API project, when a
-# Clerk secret is configured) a genuine signed-webhook round trip —
-# not just "the write call returned 200".
-#
-# Reuses the same secrets/vars deploy-web.yml and deploy-mobile.yml
-# already reference (VERCEL_TOKEN, vars.VERCEL_ORG_ID,
-# VERCEL_PROJECT_ID_APP/WEB/API) rather than inventing new names, and
-# the same job-level-env-then-step-if pattern ci.yml's own history
-# (ADR-DS-001, PR #13) established for reading `secrets` in a
-# conditional: `secrets` is only valid in `env:`/`with:`/`run:`, never
-# directly in `if:`.
-#
-# Gated on `vars.VERCEL_ORG_ID != ''` so this safely no-ops (not errors)
-# until real Vercel credentials exist — same convention as
-# deploy-web.yml/deploy-mobile.yml. Each individual var is independently
-# gated on its own secret being present, so partial configuration (e.g.
-# DATABASE_URL set but CLERK_WEBHOOK_SECRET not yet) still does useful
-# work instead of failing outright.
-#
-# Never echoes a secret value. The sync script only logs key names,
-# targets, and whether a write happened; the Clerk check logs pass/fail,
-# never the secret.
+# Shared non-secret identity: config/deployment.json. Explicit sync fails if blocked.
+# A local signature self-test does not establish that Clerk uses the same secret.
 name: Sync Vercel Env
 
 on:
@@ -45,28 +21,23 @@ permissions:
 jobs:
   sync:
     name: Sync + verify ${{ matrix.app }}
-    if: vars.VERCEL_ORG_ID != ''
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
           - app: web
-            project_id_secret: VERCEL_PROJECT_ID_WEB
             database_url_targets: "production,preview"
             health_path: /en
           - app: app
-            project_id_secret: VERCEL_PROJECT_ID_APP
             database_url_targets: "preview" # production's DATABASE_URL already works (M21/W1.1 reconciliation)
             health_path: /sign-in
           - app: api
-            project_id_secret: VERCEL_PROJECT_ID_API
             database_url_targets: "preview" # production's DATABASE_URL already works
             health_path: /health
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_TEAM_ID: ${{ vars.VERCEL_ORG_ID }}
-      PROJECT_ID: ${{ secrets[matrix.project_id_secret] }}
+      DEPLOY_APP: ${{ matrix.app }}
       DATABASE_URL_VALUE: ${{ secrets.DATABASE_URL }}
       RESEND_TOKEN_VALUE: ${{ secrets.RESEND_TOKEN }}
       RESEND_FROM_VALUE: ${{ secrets.RESEND_FROM }}
@@ -77,6 +48,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Validate shared deployment configuration
+        run: bash scripts/load-deployment-config.sh sync
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Sync DATABASE_URL
         if: env.HAS_DATABASE_URL == 'true'
@@ -102,13 +79,8 @@ jobs:
           ENV_VALUE: ${{ env.RESEND_FROM_VALUE }}
           ENV_TARGETS: production,preview
 
-      # Deliberately validated, never invented: only runs when a real
-      # secrets.CLERK_WEBHOOK_SECRET exists. This step upserts it; the
-      # LATER "Verify Clerk webhook signature" step is what actually
-      # proves the value works end-to-end, not this write call
-      # succeeding — a syntactically valid "whsec_..." string that
-      # doesn't match Clerk's own configured secret would upsert fine
-      # here and still fail that later check.
+      # An absent GitHub secret preserves the value set directly in Vercel.
+      # The local signed self-test below cannot verify the provider's secret.
       - name: Sync CLERK_WEBHOOK_SECRET (api only)
         if: matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true'
         run: bash scripts/sync-vercel-env.sh
@@ -134,26 +106,16 @@ jobs:
           vercel build --token="$VERCEL_TOKEN"
           url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
           echo "url=$url" >> "$GITHUB_OUTPUT"
-        env:
-          VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ env.PROJECT_ID }}
 
       - name: Health check
         if: steps.deploy.outputs.url != ''
-        run: |
-          status=$(curl -s -o /dev/null -w "%{http_code}" "${{ steps.deploy.outputs.url }}${{ matrix.health_path }}")
-          echo "HTTP $status from ${{ steps.deploy.outputs.url }}${{ matrix.health_path }}"
-          if [ "$status" -ge 500 ]; then
-            echo "::error::${{ matrix.app }} preview returned a server error ($status) after the env sync — see the deployment's build logs before assuming the sync itself is at fault."
-            exit 1
-          fi
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
+          HEALTH_PATH: ${{ matrix.health_path }}
+        run: bash scripts/check-deployment-health.sh
 
-      # The one check in this workflow that proves CLERK_WEBHOOK_SECRET
-      # is correct, not just present and correctly formatted: builds a
-      # real Svix-signed request with the value just synced and confirms
-      # the freshly deployed endpoint accepts it (HTTP 201), which only
-      # happens if this value matches what Clerk's own webhook sender
-      # would sign with.
+      # Verifies the caller-supplied secret against the deployment only.
+      # A real Clerk delivery is still required to validate the provider.
       - name: Verify Clerk webhook signature (api only)
         if: matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true' && steps.deploy.outputs.url != ''
         run: node scripts/verify-clerk-webhook-signature.mjs
@@ -164,7 +126,7 @@ jobs:
   redeploy-production:
     name: Dispatch Deploy Web (production)
     needs: sync
-    if: vars.VERCEL_ORG_ID != '' && github.event.inputs.redeploy_production == 'true'
+    if: github.event.inputs.redeploy_production == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -173,7 +135,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          curl -sS -X POST \
+          curl --fail --silent --show-error --connect-timeout 10 --max-time 30 -X POST \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/${{ github.repository }}/actions/workflows/deploy-web.yml/dispatches" \

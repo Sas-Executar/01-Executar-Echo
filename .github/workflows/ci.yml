@@ -23,6 +23,21 @@ permissions:
   contents: read
 
 jobs:
+  deployment-config:
+    name: Deployment configuration regression checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate shell syntax
+        run: bash -n scripts/load-deployment-config.sh scripts/sync-vercel-env.sh scripts/check-deployment-health.sh
+      - name: Test gates, secret rotation and health checks
+        run: node --test scripts/deployment-config.test.mjs
+
   lint:
     name: Lint (ultracite/biome)
     runs-on: ubuntu-latest
