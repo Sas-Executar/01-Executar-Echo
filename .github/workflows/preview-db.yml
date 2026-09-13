@@ -9,10 +9,20 @@
 # the resulting connection string into a Vercel Preview Deployment's
 # environment — that's Vercel's own Neon integration (dashboard-
 # configured, outside what a workflow file can express) per M18-T01.
-# Needs two real secrets this repo's CI doesn't have: NEON_API_KEY,
-# NEON_PROJECT_ID (a real Neon project). Without them this workflow is
-# real, correct, and simply never runs — same disclosed-GAP shape as
-# every other credential this project has been missing since M02.
+# Needs two real secrets/vars: NEON_API_KEY, NEON_PROJECT_ID — both now
+# real, added automatically by the Neon<->GitHub integration once
+# connected (no manual paste needed after that).
+#
+# W1.1 reconciliation: the first real run after those existed (PR #17)
+# failed with "ERROR: Database not found: neondb" — confirmed from the
+# actual job log, not assumed. Root cause: `create-branch-action@v5`'s
+# real inputs are `project_id`/`branch_name`/`api_key`/`api_host`/
+# `username`/`database`/`prisma`/`parent`/`suspend_timeout`/`ssl` (the
+# job's own "Unexpected input(s)" warning names them) — this workflow
+# used `parent_branch`, which isn't one of them, so it was silently
+# ignored, and with no `database` input either, the action fell back to
+# Neon's default database name ("neondb") instead of this project's
+# real one ("executar"). Fixed both below.
 name: Preview Database
 
 on:
@@ -38,7 +48,8 @@ jobs:
         with:
           project_id: ${{ vars.NEON_PROJECT_ID }}
           branch_name: preview/pr-${{ github.event.pull_request.number }}
-          parent_branch: main
+          parent: main
+          database: executar
           api_key: ${{ secrets.NEON_API_KEY }}
 
       - name: Checkout
