@@ -12,20 +12,20 @@ const AuthLayout = ({ children }: AuthLayoutProps) => (
       <div className="absolute inset-0 bg-muted" />
       <div className="relative z-20 flex items-center font-medium text-lg text-primary">
         <CommandIcon className="mr-2 h-6 w-6" />
-        Acme Inc
+        EXECUTAR
       </div>
       <div className="absolute top-4 right-4">
         <ModeToggle />
       </div>
+      {/* No testimonial here: EXECUTAR is pre-launch (Trial-only, no real
+          customer quotes exist yet) — same disclosed rule
+          apps/web/app/[locale]/(home)/components/principles.tsx already
+          follows. A placeholder quote (the original next-forge scaffold's
+          "Sofia Davis") would be worse than showing nothing. */}
       <div className="relative z-20 mt-auto text-primary">
-        <blockquote className="space-y-2">
-          <p className="text-lg">
-            &ldquo;This library has saved me countless hours of work and helped
-            me deliver stunning designs to my clients faster than ever
-            before.&rdquo;
-          </p>
-          <footer className="text-sm">Sofia Davis</footer>
-        </blockquote>
+        <p className="text-lg">
+          Work one action at a time. Stop switching tasks.
+        </p>
       </div>
     </div>
     <div className="lg:p-8">
