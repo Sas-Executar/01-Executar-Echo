@@ -90,27 +90,39 @@ jobs:
 
   # ADR-DS-001 Required Change #9 — Storybook visual regression. Runs
   # only once a real CHROMATIC_PROJECT_TOKEN repo secret exists (no
-  # Chromatic connector to provision one automatically here — same
-  # `!= ''` gating pattern deploy-web.yml/preview-db.yml already use for
-  # their own tool-gap secrets/vars); until then this job is skipped, not
-  # failed, so CI stays honest about what it does and doesn't cover.
+  # Chromatic connector to provision one automatically here). Gated
+  # per-step, not with a job-level `if:` — GitHub Actions only exposes
+  # the `secrets` context to `jobs.<id>.steps.if`, not to
+  # `jobs.<id>.if` ("Unrecognized named-value: 'secrets'", confirmed
+  # from this workflow's own failed run history: the original
+  # job-level `if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}` was an
+  # invalid expression that failed the whole workflow file to parse —
+  # every job here, not just this one — on every push since this job
+  # was added. `deploy-web.yml`/`preview-db.yml`'s own gates use `vars`
+  # at job level, which *is* allowed there; this job has no equivalent
+  # repo variable, hence the step-level gate instead. Until the secret
+  # exists, every step below no-ops and the job reports success, so CI
+  # stays honest about what it does and doesn't cover without failing.
   visual-regression:
     name: Storybook visual regression (Chromatic)
     runs-on: ubuntu-latest
-    if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
     steps:
       - name: Checkout
+        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Bun
+        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
+        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
         run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
+        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
         working-directory: apps/storybook
         run: bunx chromatic --exit-zero-on-changes
         env:
