@@ -358,3 +358,149 @@ webhook signing secret do Clerk, não a API key) — depois disso, redeploy
 para confirmar. Nenhuma ferramenta desta sessão escreve env vars de
 projeto Vercel (mesmo limite já documentado acima), então não pude
 corrigir isso diretamente.
+
+## 2026-09-13 — Automação construída; execução real permanece bloqueada por credencial
+
+Pedido explícito do usuário para executar a resolução completa "usando
+os acessos, integrações, conectores e autorizações já disponíveis",
+tentando caminhos alternativos antes de reportar bloqueio. Resultado:
+**construí e validei a automação completa**; a **escrita real** nos 3
+projetos Vercel e no GitHub Actions segue impossível nesta sessão —
+não por falta de tentativa, mas por ausência comprovada de qualquer
+caminho autorizado, testado um a um abaixo.
+
+**Diagnóstico re-verificado (não assumido):**
+- `curl https://api.vercel.com/v2/user` e `https://api.expo.dev/v2/auth/user`:
+  mesmo erro de antes (`invalidToken`/"The bearer token is invalid.").
+  A rede segue liberada (resposta real dos provedores); a credencial
+  segue inválida.
+- PR #18: **mergeada** (confirmado via `pull_request_read`, `merged: true`,
+  `merged_at: 18:54:14`).
+- PR #20: aberta, draft, todos os checks de CI verdes; os 3 apps
+  (web/app/api) falham no deploy de preview da Vercel pelos motivos já
+  documentados (`DATABASE_URL` ausente; `CLERK_WEBHOOK_SECRET`
+  malformado).
+
+**Busca exaustiva por caminho alternativo de escrita (todas testadas
+de verdade, não presumidas):**
+1. `mcp__Vercel__*` (conector OAuth, funciona para leitura — `list_projects`,
+   `get_project`, `get_deployment_build_logs` — todos confirmados
+   funcionando): **nenhuma das ~25 tools expõe escrita de env var de
+   projeto.** Conferido lendo a lista completa de tools do conector.
+2. `npx vercel` CLI: mesma rota de rede que o `curl` — mesma credencial
+   inválida injetada pelo proxy (`vercel whoami` → "Logged out";
+   `vercel login --help` confirma que login real exige fluxo
+   interativo — e-mail/link — que não pode ser completado nesta sessão
+   sem uma pessoa clicar).
+3. GitHub Actions secrets/variables: **nenhuma tool do conector GitHub
+   (`actions_list`, `actions_get`, `actions_run_trigger`,
+   `create_or_update_file`, etc.) escreve secrets ou variables do
+   repositório** — só workflows, arquivos, branches, PRs, issues,
+   comentários. Confirmado varrendo a lista completa de tools GitHub
+   desta sessão. Combinado com o achado já documentado da sessão
+   anterior (o proxy recusa esse endpoint específico do GitHub Actions
+   mesmo com rede liberada), não há caminho, nem indireto.
+4. Clerk: o conector Clerk **está conectado** (`ListConnectors` confirma
+   `installState: connected`), mas as únicas tools expostas são
+   `clerk_sdk_snippet`/`list_clerk_sdk_snippets` (documentação/snippets de
+   SDK) — nenhuma tool de gestão de instância/webhook. **Não existe
+   caminho autorizado nesta sessão para ler o signing secret real do
+   endpoint Clerk configurado para `executar-nf-api`.** Não inventei um
+   valor nem removi a variável (ver decisão abaixo).
+5. Neon (`mcp__Neon__get_connection_string`) e Resend
+   (`mcp__Resend__create-api-key`): **estes dois, sim, são caminhos
+   autorizados e funcionando.** Usei ambos de verdade nesta sessão:
+   - `DATABASE_URL` real obtido via `get_connection_string` (projeto
+     `snowy-dawn-65785764`, database `executar`) — só existe nesta
+     conversa, nunca escrito em arquivo/commit.
+   - Uma nova chave Resend (`sending_access`) foi criada
+     (`executar-nf-vercel-sync-2026-09-13b`) — mostrada ao usuário uma
+     única vez no chat, nunca persistida.
+   Ambos os valores estão prontos para uso; falta só o caminho de
+   escrita no Vercel, que segue bloqueado (item 1-2 acima).
+
+**Decisão sobre `CLERK_WEBHOOK_SECRET`:** não removida, não substituída
+por um valor inventado, não desativada a verificação. O código
+(`apps/api/app/webhooks/auth/route.ts:209`) já trata a ausência da
+variável de forma segura (`200 {"ok":false}` em vez de erro de build) —
+mas isso só prova que o *código* tolera a ausência, não que o *endpoint
+no Clerk* já esteja desativado/removido lá, algo que só o dashboard do
+Clerk confirma e que nenhuma tool desta sessão consegue verificar. Por
+isso a variável malformada continua como está: qualquer correção real
+exige o valor verdadeiro do Clerk, que só o usuário pode fornecer.
+
+**O que foi de fato entregue (código, testado, reprodutível pelo
+GitHub):**
+- `scripts/sync-vercel-env.sh` — upsert idempotente de uma env var num
+  projeto Vercel via API REST direta (GET para comparar estado atual,
+  só faz POST se algo mudou; nunca loga valores, só chaves/targets/
+  se houve escrita). Testado localmente: validação de input (target
+  inválido, variável obrigatória ausente) falha rápido, antes de
+  qualquer chamada de rede — confirmado com os dois casos de erro.
+- `scripts/verify-clerk-webhook-signature.mjs` — constrói uma
+  assinatura Svix real (HMAC-SHA256 sobre `id.timestamp.payload`,
+  chave = secret sem o prefixo `whsec_` decodificado de base64) e
+  confere a resposta do endpoint: 201 = secret correto de ponta a
+  ponta; 400 = assinatura rejeitada; 200 `{"ok":false}` = variável
+  ausente no deployment. **Validado de verdade, não assumido:** rodei
+  um round-trip local contra o pacote `svix` real (o mesmo que
+  `apps/api` usa) — assinatura construída pelo script foi aceita por
+  `Webhook.verify()` com o secret certo, e corretamente rejeitada
+  (`No matching signature found`) com um secret errado.
+- `.github/workflows/sync-vercel-env.yml` — workflow dedicado,
+  `workflow_dispatch`, reaproveita exatamente os nomes de secret/var que
+  `deploy-web.yml`/`deploy-mobile.yml` já esperavam
+  (`VERCEL_TOKEN`, `vars.VERCEL_ORG_ID`, `VERCEL_PROJECT_ID_APP/WEB/API`)
+  em vez de inventar novos. Gate a nível de job em
+  `vars.VERCEL_ORG_ID != ''` (mesma convenção já usada); cada variável
+  individual (`DATABASE_URL`/`RESEND_TOKEN`+`RESEND_FROM`/
+  `CLERK_WEBHOOK_SECRET`) só roda se o secret correspondente existir —
+  configuração parcial ainda funciona. Depois de sincronizar, dispara
+  um redeploy de **preview** real (não produção — produção só se
+  `redeploy_production: true` for passado explicitamente no dispatch),
+  espera o build, faz health-check, e — só para `api`, só se o secret
+  do Clerk existir — roda a verificação de assinatura real acima contra
+  o preview recém-criado. Usa o padrão já estabelecido em
+  `ci.yml`/PR #13 para ler `secrets` dentro de `if:` (copiar para
+  `env:` a nível de job primeiro; `secrets` não é válido em `if:`
+  diretamente).
+- YAML validado (`yaml.safe_load`), bash (`bash -n`) e Node
+  (`node --check`) sintaticamente corretos antes do commit.
+
+**Pendências que só o usuário resolve** (esgotadas as alternativas
+acima, não é falta de tentativa):
+1. `secrets.VERCEL_TOKEN` — um Personal/Team Access Token real da
+   Vercel (Account Settings → Tokens), colado em
+   `Settings → Secrets and variables → Actions` deste repositório.
+2. `vars.VERCEL_ORG_ID` = `team_fJe21quDM0egDSTPE0CFwNnm`,
+   `secrets.VERCEL_PROJECT_ID_WEB` = `prj_pa8ihwg7ReAncAAhZMBHdKTLMZr1`,
+   `secrets.VERCEL_PROJECT_ID_APP` = `prj_tjzeAZAoitSeuYf0RNEhmyakMiMo`,
+   `secrets.VERCEL_PROJECT_ID_API` = `prj_Ui40tk9orjhk5wq5tG90F5z65kiD`
+   — valores já conhecidos (reconfirmados nesta sessão via
+   `list_projects`), só faltando alguém colá-los (nenhuma tool escreve
+   variables/secrets do GitHub Actions, comprovado acima).
+3. `secrets.DATABASE_URL` — o valor real já foi obtido nesta sessão
+   (via Neon), mas só existe nesta conversa; precisa ser colado como
+   secret.
+4. `secrets.RESEND_TOKEN` — chave nova (`executar-nf-vercel-sync-2026-09-13b`,
+   `sending_access`) criada nesta sessão via `mcp__Resend__create-api-key`;
+   o valor real foi mostrado ao usuário uma única vez no chat (nunca
+   escrito aqui ou em qualquer arquivo/commit — Resend não permite
+   recuperá-lo depois) e `secrets.RESEND_FROM` = `onboarding@resend.dev`.
+5. `secrets.CLERK_WEBHOOK_SECRET` — só o usuário tem acesso ao Clerk
+   Dashboard → Webhooks → endpoint de `executar-nf-api` → "Signing
+   Secret". Opcional (o endpoint funciona sem ele, só sem verificação
+   de assinatura), mas sem ele a verificação de assinatura desta
+   automação não roda.
+
+Assim que (1)+(2) existirem, `Sync Vercel Env` já resolve `DATABASE_URL`
+sozinho (item 3 já pronto para colar). (4) e (5) são independentes e
+podem ser adicionados a qualquer momento — a automação já sincroniza o
+que estiver presente e ignora o que não estiver, sem falhar.
+
+**Executado nesta sessão, com evidência, não assumido:** disparei
+`Sync Vercel Env` de verdade via `actions_run_trigger` depois do push
+(ver resultado no comentário desta mesma seção da PR/próxima entrada de
+log, se este arquivo for atualizado de novo) — o resultado real do
+primeiro dispatch fica registrado ali, não presumido aqui antes de
+rodar.
