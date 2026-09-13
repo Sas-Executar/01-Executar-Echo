@@ -201,3 +201,102 @@ com a rede liberada — parece ser uma trava deliberada do produto, não
 de política de rede configurável. Segue precisando de colagem manual do
 usuário em `Settings → Secrets and variables → Actions`, se algum dia
 for necessário para `deploy-web.yml`/`deploy-mobile.yml`.
+
+## 2026-09-13 — Continuação (rede liberada; credenciais de API inválidas)
+
+Sessão nova, conforme pedido no handoff acima. Resultado líquido: a
+**política de rede** foi de fato corrigida, mas as **credenciais**
+configuradas para `api.vercel.com`/`api.expo.dev` são rejeitadas pelos
+próprios provedores — dois problemas diferentes, o segundo só visível
+depois que o primeiro foi resolvido.
+
+**1. Rede confirmada liberada (item pendente #1 do handoff):**
+`curl -v https://api.vercel.com/v2/user` e `https://api.expo.dev/v2/...`
+completam o handshake TLS e chegam de fato aos servidores da Vercel/Expo
+(certificados `CN=api.vercel.com`/`CN=api.expo.dev` reais, respostas com
+headers `Server: Vercel` / `Server: cloudflare`) — não é mais o 403 de
+proxy (`X-Proxy-Error: upstream denied...`) do bloqueio de rede antigo.
+Isso por si só já é a confirmação pedida no item 1.
+
+**2. Mas a credencial injetada é inválida nos dois hosts (achado novo,
+não estava no handoff):**
+- Vercel: toda chamada devolve `403 {"error":{"code":"forbidden",
+  "message":"Not authorized","invalidToken":true}}` — e o próprio proxy
+  expõe `X-Proxy-Error: upstream denied the request: connection
+  "Vecrel", rule "Api.vercel.com", host "api.vercel.com"`, ou seja, o
+  proxy **tentou** injetar o token (a regra bateu), mas a própria Vercel
+  recusou o token como inválido.
+- Expo: toda chamada devolve `401 {"errors":[{"code":
+  "AUTHENTICATION_ERROR","message":"The bearer token is invalid."}]}`.
+  Confirmado em três camadas independentes — `curl` cru, `vercel whoami`
+  (CLI, "Logged out"), e `eas-cli whoami`/`eas-cli init --non-interactive`
+  com `EXPO_TOKEN=<placeholder>` só para forçar a chamada de rede real
+  (o eas-cli recusa localmente, sem nem tentar a rede, se não vir
+  `EXPO_TOKEN` setado como env var literal — diferente do proxy, que
+  injeta no header HTTP independente do que o cliente manda) — mesmo erro
+  exato nas três.
+- Conclusão: **não é mais bloqueio de rede nem limitação de ferramenta —
+  é a credencial em si (a "API credential" configurada pelo usuário para
+  esses dois hosts no ambiente) que a Vercel/Expo rejeitam.** 🧑 só o
+  usuário pode corrigir isso (reconferir/recriar a API credential desses
+  dois hosts nas configurações do ambiente Claude Code) — nenhuma
+  ferramenta desta sessão tem acesso ao valor do token para diagnosticar
+  mais fundo.
+
+**3. `DATABASE_URL`/`RESEND_TOKEN`/`RESEND_FROM` nos 3 projetos Vercel
+(itens 2–4 do handoff): continua bloqueado, agora por (2) acima.** IDs de
+projeto reconferidos via `mcp__Vercel__list_projects` — batem exatamente
+com o handoff (`executar-nf-web` `prj_pa8ihwg7ReAncAAhZMBHdKTLMZr1`,
+`executar-nf-app` `prj_tjzeAZAoitSeuYf0RNEhmyakMiMo`, `executar-nf-api`
+`prj_Ui40tk9orjhk5wq5tG90F5z65kiD`). As ferramentas MCP do Vercel nesta
+sessão (`list_projects`/`get_project`/`list_teams`) funcionam normalmente
+— usam um conector OAuth próprio, independente da API credential quebrada
+— mas nenhuma delas lê ou escreve env vars de projeto; a escrita real só
+é possível via `POST /v10/projects/{id}/env`, que exige a API credential
+que está inválida. Sem solução nesta sessão até a credencial ser
+corrigida.
+
+**4. EAS init (item 5 do handoff): mesma conclusão — tentado de verdade,
+falhou por credencial, não por rede.** `extra.eas.projectId` em
+`apps/mobile/app.json` segue vazio. `eas-cli init --non-interactive`
+chega a rodar (a rede permite), mas falha em
+`The bearer token is invalid.` assim que tenta autenticar — mesmo erro
+do item 2. Continua exigindo um `EXPO_TOKEN` válido antes de poder criar
+o projeto EAS.
+
+**5. PR #18 (item "confirmar" desta tarefa): desbloqueada e validada ao
+vivo — merge pendente de deploys Vercel em andamento.**
+- Confirmado via `actions_list`/`actions_get` que o `startup_failure`
+  do Actions (reportado no handoff) já tinha se resolvido **antes** desta
+  sessão: a PR #19 (mergeada às 18:45–18:47) rodou `CI`/`Security` com
+  `conclusion: success` e `Preview Database` com `conclusion: failure`
+  (não mais `startup_failure` — os jobs chegaram a ser criados e rodar,
+  só falharam pelo motivo real de antes: `parent_branch` inválido,
+  já que aquela branch não tinha o fix da PR #18). Ou seja, a correção do
+  usuário em `Settings → Actions → General` funcionou.
+- A PR #18 em si ainda não tinha sido testada com o Actions já corrigido
+  (o run que ela tinha era o `startup_failure` antigo, e GitHub recusa
+  re-run de um `startup_failure`: `403 This workflow run cannot be
+  retried`). Sem `workflow_dispatch` em nenhum dos 3 workflows, o único
+  jeito de gerar um evento novo era um push real — mesclei `main` (que já
+  incorporava a PR #19) na branch `claude/fix-preview-db-parent-branch`
+  (merge limpo, sem conflito) e fiz push
+  (`6ef6cd2..25997f9`).
+- Resultado do run novo, ao vivo: **todos os 10 checks passaram**,
+  incluindo `Create + migrate preview branch` (o job que a própria PR
+  promete validar) — a branch de preview do Neon foi criada e a migration
+  rodou de verdade contra ela. O fix (`parent_branch`→`parent` +
+  `database: executar`) está confirmado funcionando, não só validado por
+  YAML estático.
+- `mergeable_state` segue `unstable` só porque os 4 deploys de preview da
+  Vercel (`executar-nf-web/app/api/storybook`) ainda estavam `pending` no
+  momento da checagem — sem review humano pendente nesta PR. Deve virar
+  mergeável assim que os previews da Vercel terminarem; próxima sessão
+  (ou o restante desta) confere `get_status`/`pull_request_read` de novo
+  antes de mergear.
+
+**Sem novidade:** secrets do GitHub Actions (`VERCEL_TOKEN`/`EXPO_TOKEN`/
+`CHROMATIC_PROJECT_TOKEN`) seguem bloqueados pelo mesmo motivo do handoff
+anterior (trava de produto do proxy nesse endpoint específico, não
+política de rede) — não testado de novo nesta sessão por já estar bem
+documentado.
