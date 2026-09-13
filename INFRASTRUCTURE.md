@@ -83,7 +83,6 @@ contributor's own `.env.local`.
 | `CLERK_SECRET_KEY` / `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Clerk's own "Development instance" keys | Same Development instance (Clerk doesn't branch per-PR) | Clerk's Production instance keys — a distinct key pair, not the same value promoted |
 | `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET` | Stripe test-mode keys | Same test-mode keys | Stripe live-mode keys |
 | `OPENAI_API_KEY` | A real key with a low spend cap | Same as Development, or a separate capped preview key | A real key with production-scale budget alerts |
-| `BASEHUB_TOKEN` | BaseHub's own preview/dev token | Same | BaseHub's production token |
 | `INTEGRATIONS_ENCRYPTION_KEY` | A locally-generated throwaway (`openssl rand -base64 32`) | A distinct preview key — never the production key, so a leaked preview environment can't decrypt production `IntegrationConnection` rows | The real production key, rotated per the org's own policy (not defined in this repo) |
 | Everything else (`RESEND_*`, `KNOCK_*`, `WHATSAPP_*`, `GMAIL_*`, `OUTLOOK_*`, `BETTERSTACK_*`, `ARCJET_KEY`, `SVIX_TOKEN`, `LIVEBLOCKS_SECRET`, `UPSTASH_REDIS_REST_*`, `FLAGS_SECRET`, `BLOB_READ_WRITE_TOKEN`) | Real test/sandbox credentials where the provider offers them, unset otherwise (every one of these is `.optional()` in its `keys.ts` — the app degrades honestly, per each package's own comment, never crashes) | Same as Development | Real production credentials |
 
@@ -141,7 +140,7 @@ milestone).
 | `@repo/ai` | `OPENAI_API_KEY` | `app` (Copilot, `/api/chat`) |
 | `@repo/payments` | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | `app` (checkout actions via `@repo/billing`), `api` (webhook route) |
 | `@repo/integrations` | `INTEGRATIONS_ENCRYPTION_KEY`, `WHATSAPP_*`, `GMAIL_*`, `GOOGLE_PUBSUB_AUDIENCE`, `OUTLOOK_*` | `app` (OAuth connect/callback routes), `api` (inbound webhooks) |
-| `@repo/cms` | `BASEHUB_TOKEN` | `web` only (confirmed the hard way this milestone — M17's `apps/web/e2e/README.md` — every route crashes without it) |
+| `@repo/cms` | none — no `keys.ts` | `web`'s blog/legal content is local MDX (`packages/cms/content/{blog,legal}`), read from the repo itself at build/request time. `BASEHUB_TOKEN` was removed entirely (see `LAUNCH_RUNBOOK.md` §6) — no external CMS account or token needed. |
 | `@repo/email` | `RESEND_FROM`, `RESEND_TOKEN` | `app`, `api`, `web` |
 | `@repo/notifications` | `KNOCK_*` | `app` |
 | `@repo/collaboration` | `LIVEBLOCKS_SECRET` | `app` |
