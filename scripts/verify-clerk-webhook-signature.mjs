@@ -36,7 +36,7 @@ import { createHmac } from "node:crypto";
 const secret = process.env.CLERK_WEBHOOK_SECRET;
 const targetUrl = process.env.TARGET_URL;
 
-if (!secret || !targetUrl) {
+if (!(secret && targetUrl)) {
   console.error(
     "usage: CLERK_WEBHOOK_SECRET=... TARGET_URL=... node verify-clerk-webhook-signature.mjs"
   );
