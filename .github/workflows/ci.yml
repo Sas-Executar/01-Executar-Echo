@@ -90,43 +90,46 @@ jobs:
 
   # ADR-DS-001 Required Change #9 — Storybook visual regression. Runs
   # only once a real CHROMATIC_PROJECT_TOKEN repo secret exists (no
-  # Chromatic connector to provision one automatically here). Gated
-  # per-step, not with a job-level `if:` — GitHub Actions only exposes
-  # the `secrets` context to `jobs.<id>.steps.if`, not to
-  # `jobs.<id>.if` ("Unrecognized named-value: 'secrets'", confirmed
-  # from this workflow's own failed run history: the original
-  # job-level `if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}` was an
-  # invalid expression that failed the whole workflow file to parse —
-  # every job here, not just this one — on every push since this job
-  # was added. `deploy-web.yml`/`preview-db.yml`'s own gates use `vars`
-  # at job level, which *is* allowed there; this job has no equivalent
-  # repo variable, hence the step-level gate instead. Until the secret
-  # exists, every step below no-ops and the job reports success, so CI
-  # stays honest about what it does and doesn't cover without failing.
+  # Chromatic connector to provision one automatically here). GitHub
+  # Actions does not expose the `secrets` context to *any* `if:`
+  # condition — job-level or step-level — confirmed the hard way: this
+  # job originally gated itself with a job-level
+  # `if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}`, which failed the
+  # whole workflow file to parse ("Unrecognized named-value: 'secrets'"),
+  # silently skipping every job here on every push since ADR-DS-001. A
+  # first attempted fix moved the same `secrets.…` expression onto each
+  # step's own `if:` instead — same error, same position, still invalid;
+  # `secrets` genuinely isn't readable from an `if:` anywhere, only from
+  # `env:`/`with:`/`run:`. The actual fix: copy the secret into a job-level
+  # `env:` (env assignment, unlike `if:`, can read `secrets`), then gate
+  # each step on that `env` value instead — the `env` context *is* valid
+  # in step-level `if:`. Until the secret exists, every step below
+  # no-ops and the job reports success, so CI stays honest about what it
+  # does and doesn't cover without failing the file to parse.
   visual-regression:
     name: Storybook visual regression (Chromatic)
     runs-on: ubuntu-latest
+    env:
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
     steps:
       - name: Checkout
-        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Bun
-        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
-        if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         working-directory: apps/storybook
         run: bunx chromatic --exit-zero-on-changes
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
   test:
     name: Unit tests (vitest, every package)
