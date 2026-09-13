@@ -39,12 +39,21 @@ next-forge comes with batteries included:
 
 ### Apps
 
-- **Web** — Marketing site built with Tailwind CSS and TWBlocks
-- **App** — Main application with authentication and database integration
-- **API** — RESTful API with health checks and monitoring
-- **Docs** — Documentation site powered by Mintlify
-- **Email** — Email templates with React Email
-- **Storybook** — Component development environment
+Publicly launched (each has a real Vercel project — see
+`LAUNCH_RUNBOOK.md` §2):
+
+- **Web** (`apps/web`) — Marketing site, blog and legal pages (local MDX)
+- **App** (`apps/app`) — Main application (workspace, Copiloto, Mapa-OS)
+- **API** (`apps/api`) — Backend API, webhooks, cron, MCP endpoint
+- **Storybook** (`apps/storybook`) — Component development environment
+
+Internal tooling only — not deployed, not part of the public launch:
+
+- **Docs** (`apps/docs`) — Mintlify docs scaffold, still unbranded
+  next-forge boilerplate; not required for the product to function
+- **Email** (`apps/email`) — Local React Email template preview server
+- **Studio** (`apps/studio`) — Local Prisma Studio wrapper for DB admin
+  (never meant to be exposed publicly)
 
 ### Packages
 
