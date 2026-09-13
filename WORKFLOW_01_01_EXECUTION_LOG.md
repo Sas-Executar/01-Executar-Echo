@@ -300,3 +300,61 @@ vivo — merge pendente de deploys Vercel em andamento.**
 anterior (trava de produto do proxy nesse endpoint específico, não
 política de rede) — não testado de novo nesta sessão por já estar bem
 documentado.
+
+## 2026-09-13 — Achado urgente: `executar-nf-api` produção parada desde ~16:48
+
+Encontrado investigando por que o preview da PR #20 (só
+`WORKFLOW_01_01_EXECUTION_LOG.md`, nenhum código) falhou no deploy da
+Vercel — a causa não tinha nada a ver com esta PR.
+
+**Causa raiz (confirmada pelo log real do build, `get_deployment_build_logs`):**
+```
+❌ Invalid environment variables: [
+  { code: "invalid_format", format: "starts_with", prefix: "whsec_",
+    path: [ "CLERK_WEBHOOK_SECRET" ],
+    message: "Invalid string: must start with \"whsec_\"" }
+]
+```
+`packages/auth/keys.ts:9` — `CLERK_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional()`.
+O campo é opcional (undefined passaria), mas **há um valor configurado no
+projeto Vercel que não começa com `whsec_`** — provavelmente colado
+errado (chave do Clerk em vez do signing secret do webhook, ou com aspas/
+espaço/truncado).
+
+**Isso não é só um problema de preview — produção do `executar-nf-api`
+está parada nesse mesmo erro desde ~16:48 de hoje**, confirmado via
+`mcp__Vercel__list_deployments(target=preview... e produção)`:
+- Último build de produção com sucesso: `dpl_HA77vZqQkwzJApPmsgEM7DJhDgWU`
+  (merge da PR #15, `58204db`, `READY`, criado 2026-09-13 16:18 UTC).
+- Um redeploy manual do **mesmo commit**, ~30 min depois
+  (`dpl_5ccVfvGSZdW7GtB5LNwN4dd7M7Dy`, 16:48 UTC), já veio `ERROR` com o
+  mesmo `CLERK_WEBHOOK_SECRET` inválido — ou seja, a variável de ambiente
+  foi alterada/adicionada nesse intervalo, não o código.
+- Todo merge em `main` desde então ficou `ERROR` em produção: PR #17
+  (`d1f0779`), PR #19 (`1b48c13`), PR #18 (`8150218`) — as 3 build falhas
+  reais, não flake (mesmo erro determinístico nas 3).
+- Efeito prático: a Vercel **não promove** um build que falha, então o
+  alias de produção (`executar-nf-api-sas-executar1.vercel.app`) segue
+  servindo o binário da PR #15 — não está "fora do ar", mas está **~4
+  merges atrasado** (não recebeu nada das PRs #16–#19) até esse env var
+  ser corrigido.
+- Achado colateral (não investigado a fundo, fora do escopo desta
+  sessão): esse mesmo domínio de produção respondeu `302` para
+  `vercel.com/sso-api` num `curl` direto ao `/health` — confirmado via
+  `get_project_deployment_protection`: SSO Protection está `enabled`,
+  `all_except_custom_domains`. Como não há domínio customizado
+  configurado neste projeto (`get_project` só lista domínios
+  `*.vercel.app`), isso bloquearia até chamadas legítimas — inclusive o
+  próprio webhook do Clerk apontado para essa mesma URL
+  (`LAUNCH_RUNBOOK.md` linha 122). Não confirmado se isso é regressão
+  recente ou já preexistente; fica registrado para a próxima sessão
+  investigar se for relevante.
+
+**Ação necessária, 🧑 only:** Vercel dashboard → projeto
+`executar-nf-api` → Settings → Environment Variables → corrigir (ou
+remover, já que é opcional) `CLERK_WEBHOOK_SECRET` nos ambientes
+Production e Preview para um valor real começando com `whsec_` (o
+webhook signing secret do Clerk, não a API key) — depois disso, redeploy
+para confirmar. Nenhuma ferramenta desta sessão escreve env vars de
+projeto Vercel (mesmo limite já documentado acima), então não pude
+corrigir isso diretamente.
