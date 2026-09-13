@@ -164,7 +164,7 @@ jobs:
   redeploy-production:
     name: Dispatch Deploy Web (production)
     needs: sync
-    if: vars.VERCEL_ORG_ID != '' && inputs.redeploy_production == true
+    if: vars.VERCEL_ORG_ID != '' && github.event.inputs.redeploy_production == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: write
