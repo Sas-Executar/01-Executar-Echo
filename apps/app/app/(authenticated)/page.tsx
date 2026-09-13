@@ -8,8 +8,13 @@ import { AvatarStack } from "./components/avatar-stack";
 import { Cursors } from "./components/cursors";
 import { Header } from "./components/header";
 
-const title = "Acme Inc";
-const description = "My application.";
+// Matches the real copy already used for apps/web's own home metadata
+// (packages/internationalization/dictionaries/en.json, web.home.meta) —
+// this app has no separate marketing copy of its own, so it reuses the
+// same one-sentence description rather than inventing a second one.
+const title = "EXECUTAR";
+const description =
+  'EXECUTAR shows your one eligible next action and only accepts "done" with evidence attached.';
 
 const CollaborationProvider = dynamic(() =>
   import("./components/collaboration-provider").then(
