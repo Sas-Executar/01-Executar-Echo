@@ -1,0 +1,6 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F08-T01,PLAN-EXEC-1409-F08,FASE-08,1,Validar jornada de autenticação ponta a ponta,TEST,A4,Clerk produção,sign-in e sign-up reais criam workspace,Playwright autenticado,YES,PLANNED
+PLAN-EXEC-1409-F08-T02,PLAN-EXEC-1409-F08,FASE-08,2,Completar e validar Mapa OS,CODE,A4,packages/mapa-os,Mapa OS renderiza estado real (agora/próximo/depois/bloqueado) a partir do banco,E2E + captura,YES,PLANNED
+PLAN-EXEC-1409-F08-T03,PLAN-EXEC-1409-F08,FASE-08,3,Implementar impressão do Mapa OS,CODE,A3,Briefing §5,Mapa OS gera versão impressa fiel ao estado digital,PDF gerado,YES,PLANNED
+PLAN-EXEC-1409-F08-T04,PLAN-EXEC-1409-F08,FASE-08,4,"Validar Projetos, Agora/Hoje/Amanhã e Relatórios",CODE,A4,25 rotas autenticadas,Jornada núcleo completa sem erro de runtime,E2E,YES,PLANNED
+PLAN-EXEC-1409-F08-T05,PLAN-EXEC-1409-F08,FASE-08,5,Zerar erros de runtime em produção,FIX,A4,get_runtime_errors,Nenhum cluster de erro nas rotas núcleo em 24h,Vercel runtime errors,YES,PLANNED

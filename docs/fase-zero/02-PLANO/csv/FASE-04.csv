@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F04-T01,PLAN-EXEC-1409-F04,FASE-04,1,Comprar domínio e configurar DNS,INFRA,A2,DEC-003,Domínio adquirido e resolvendo,Vercel domains,YES,PLANNED
+PLAN-EXEC-1409-F04-T02,PLAN-EXEC-1409-F04,FASE-04,2,Anexar domínio aos 3 projetos,INFRA,A4,Domínio ativo,"web, app e api servindo pelo domínio próprio com TLS",curl -I,YES,PLANNED
+PLAN-EXEC-1409-F04-T03,PLAN-EXEC-1409-F04,FASE-04,3,Migrar Clerk para instância de produção,CONFIG,A2,Credenciais do FORM-ZERO,Chaves de produção em uso; instância de desenvolvimento fora de produção,Clerk dashboard + build,YES,PLANNED
+PLAN-EXEC-1409-F04-T04,PLAN-EXEC-1409-F04,FASE-04,4,Desligar SSO Protection e validar webhook Clerk real,CONFIG,A3,Domínio custom ativo,SSO desligado; entrega real do Clerk registrada no log da api com assinatura válida,Runtime log da api,YES,PLANNED

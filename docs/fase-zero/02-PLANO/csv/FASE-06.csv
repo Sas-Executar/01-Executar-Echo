@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F06-T01,PLAN-EXEC-1409-F06,FASE-06,1,Recriar produtos e preços em livemode,BILLING,A2,KYC aprovado,6 preços replicados em livemode com os mesmos lookup_key,Stripe API,NO,PLANNED
+PLAN-EXEC-1409-F06-T02,PLAN-EXEC-1409-F06,FASE-06,2,Revalidar webhook de pagamentos,BILLING,A4,STRIPE_WEBHOOK_SECRET,7 tipos de evento entregues e processados,Stripe events,YES,PLANNED
+PLAN-EXEC-1409-F06-T03,PLAN-EXEC-1409-F06,FASE-06,3,Finalizar textos legais LGPD,CONTENT,A3,packages/cms/content/legal,"Termos e Privacidade completos, com subprocessadores reais e transferência internacional declarada",PR + páginas publicadas,YES,PLANNED
+PLAN-EXEC-1409-F06-T04,PLAN-EXEC-1409-F06,FASE-06,4,Testar round-trip de exportação e exclusão LGPD,TEST,A4,Workspace real,Export gera arquivo completo; delete remove dado e mantém trilha,Evidência de execução,YES,PLANNED

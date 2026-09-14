@@ -1,0 +1,57 @@
+var,owner,layer,scope,required,prefix,format,build_blocking,consumed_by,validator
+DATABASE_URL,database,package,server,YES,,url,YES,api|app,z.url()
+NEXT_PUBLIC_APP_URL,next-config,package,client,YES,,url,YES,api|app|web,z.url()
+NEXT_PUBLIC_WEB_URL,next-config,package,client,YES,,url,YES,api|app|web,z.url()
+ANALYZE,next-config,package,server,NO,,string,NO,api|app|web,z.string().optional()
+ARCJET_KEY,security,package,server,NO,ajkey_,string,YES_IF_SET_WRONG,app|web,"z.string().startsWith(""ajkey_"").optional()"
+BETTERSTACK_API_KEY,observability,package,server,NO,,string,NO,api|app|web,z.string().optional()
+BETTERSTACK_URL,observability,package,server,NO,,url,YES_IF_SET_WRONG,api|app|web,z.url().optional()
+BLOB_READ_WRITE_TOKEN,storage,package,server,NO,,string,NO,-,z.string().optional()
+CLERK_SECRET_KEY,auth,package,server,NO,sk_,string,YES_IF_SET_WRONG,api|app,"z.string().startsWith(""sk_"").optional()"
+CLERK_WEBHOOK_SECRET,auth,package,server,NO,whsec_,string,YES_IF_SET_WRONG,api|app,"z.string().startsWith(""whsec_"").optional()"
+CRON_SECRET,api,app,server,NO,,string,NO,api,z.string().min(1).optional()
+FLAGS_SECRET,feature-flags,package,server,NO,,string,NO,app|web,z.string().optional()
+GMAIL_CLIENT_ID,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+GMAIL_CLIENT_SECRET,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+GMAIL_REDIRECT_URI,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+GOOGLE_PUBSUB_AUDIENCE,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+INTEGRATIONS_ENCRYPTION_KEY,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+KNOCK_PUSH_CHANNEL_ID,notifications,package,server,NO,,string,NO,app,z.string().optional()
+KNOCK_SECRET_API_KEY,notifications,package,server,NO,,string,NO,app,z.string().optional()
+LIVEBLOCKS_SECRET,collaboration,package,server,NO,sk_,string,YES_IF_SET_WRONG,app,"z.string().startsWith(""sk_"").optional()"
+NEXT_PUBLIC_API_URL,next-config,package,client,NO,,url,YES_IF_SET_WRONG,api|app|web,z.url().optional()
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,auth,package,client,NO,/,string,YES_IF_SET_WRONG,api|app,"z .string() .startsWith(""/"") .optional()"
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,auth,package,client,NO,/,string,YES_IF_SET_WRONG,api|app,"z .string() .startsWith(""/"") .optional()"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,auth,package,client,NO,pk_,string,YES_IF_SET_WRONG,api|app,"z .string() .startsWith(""pk_"") .optional()"
+NEXT_PUBLIC_CLERK_SIGN_IN_URL,auth,package,client,NO,/,string,YES_IF_SET_WRONG,api|app,"z.string().startsWith(""/"").optional()"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL,auth,package,client,NO,/,string,YES_IF_SET_WRONG,api|app,"z.string().startsWith(""/"").optional()"
+NEXT_PUBLIC_DOCS_URL,next-config,package,client,NO,,url,YES_IF_SET_WRONG,api|app|web,z.url().optional()
+NEXT_PUBLIC_GA_MEASUREMENT_ID,analytics,package,client,NO,G-,string,YES_IF_SET_WRONG,api|app,"z.string().startsWith(""G-"").optional()"
+NEXT_PUBLIC_KNOCK_API_KEY,notifications,package,client,NO,,string,NO,app,z.string().optional()
+NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID,notifications,package,client,NO,,string,NO,app,z.string().optional()
+NEXT_PUBLIC_POSTHOG_HOST,analytics,package,client,NO,,url,YES_IF_SET_WRONG,api|app,z.url().optional()
+NEXT_PUBLIC_POSTHOG_KEY,analytics,package,client,NO,phc_,string,YES_IF_SET_WRONG,api|app,"z.string().startsWith(""phc_"").optional()"
+NEXT_PUBLIC_SENTRY_DSN,observability,package,client,NO,,url,YES_IF_SET_WRONG,api|app|web,z.url().optional()
+NEXT_RUNTIME,next-config,package,server,NO,,enum,NO,api|app|web,"z.enum([""nodejs"", ""edge""]).optional()"
+OPENAI_API_KEY,ai,package,server,NO,sk-,string,YES_IF_SET_WRONG,app,"z.string().startsWith(""sk-"").optional()"
+OUTLOOK_CLIENT_ID,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+OUTLOOK_CLIENT_SECRET,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+OUTLOOK_REDIRECT_URI,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+RESEND_FROM,email,package,server,NO,,email,YES_IF_SET_WRONG,api|app|web,z.string().email().optional()
+RESEND_TOKEN,email,package,server,NO,re_,string,YES_IF_SET_WRONG,api|app|web,"z.string().startsWith(""re_"").optional()"
+SENTRY_ORG,observability,package,server,NO,,string,NO,api|app|web,z.string().optional()
+SENTRY_PROJECT,observability,package,server,NO,,string,NO,api|app|web,z.string().optional()
+STRIPE_SECRET_KEY,payments,package,server,NO,sk_,string,YES_IF_SET_WRONG,api,"z.string().startsWith(""sk_"").optional()"
+STRIPE_WEBHOOK_SECRET,payments,package,server,NO,whsec_,string,YES_IF_SET_WRONG,api,"z.string().startsWith(""whsec_"").optional()"
+SVIX_TOKEN,webhooks,package,server,NO,sk_,string,YES_IF_SET_WRONG,app,"z .union([z.string().startsWith(""sk_""), z.string().startsWith(""testsk_"")]) .optional()"
+UPSTASH_REDIS_REST_TOKEN,rate-limit,package,server,NO,,string,NO,web,z.string().optional()
+UPSTASH_REDIS_REST_URL,rate-limit,package,server,NO,,url,YES_IF_SET_WRONG,web,z.url().optional()
+VERCEL,next-config,package,server,NO,,string,NO,api|app|web,z.string().optional()
+VERCEL_ENV,next-config,package,server,NO,,enum,NO,api|app|web,"z.enum([""development"", ""preview"", ""production""]).optional()"
+VERCEL_PROJECT_PRODUCTION_URL,next-config,package,server,NO,,string,NO,api|app|web,z.string().optional()
+VERCEL_REGION,next-config,package,server,NO,,string,NO,api|app|web,z.string().optional()
+VERCEL_URL,next-config,package,server,NO,,string,NO,api|app|web,z.string().optional()
+WHATSAPP_ACCESS_TOKEN,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+WHATSAPP_API_VERSION,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+WHATSAPP_APP_SECRET,integrations,package,server,NO,,string,NO,api,z.string().min(1).optional()
+WHATSAPP_WEBHOOK_VERIFY_TOKEN,api,app,server,NO,,string,NO,api,z.string().min(1).optional()

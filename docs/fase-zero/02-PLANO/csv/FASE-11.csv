@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F11-T01,PLAN-EXEC-1409-F11,FASE-11,1,Inicializar EAS e gravar projectId,INFRA,A2,EXPO_TOKEN válido,extra.eas.projectId preenchido em apps/mobile/app.json,app.json,YES,PLANNED
+PLAN-EXEC-1409-F11-T02,PLAN-EXEC-1409-F11,FASE-11,2,Gerar builds de produção iOS e Android,BUILD,A3,EAS configurado,Dois builds de produção concluídos,EAS build,YES,PLANNED
+PLAN-EXEC-1409-F11-T03,PLAN-EXEC-1409-F11,FASE-11,3,"Produzir metadados, capturas e textos das lojas",CONTENT,A4,App real rodando,"Todas as capturas, ícones, descrições, palavras-chave e classificação etária gerados — nenhum campo deixado para Leo",Pacote de submissão,YES,PLANNED
+PLAN-EXEC-1409-F11-T04,PLAN-EXEC-1409-F11,FASE-11,4,Submeter às duas lojas,SUBMIT,A2,Contas de desenvolvedor,Submissão aceita e em revisão nas duas lojas,Status das lojas,YES,PLANNED
