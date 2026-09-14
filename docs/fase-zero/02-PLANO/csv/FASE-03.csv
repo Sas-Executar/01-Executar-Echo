@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F03-T01,PLAN-EXEC-1409-F03,FASE-03,1,Criar projeto e ciclos no Linear a partir da matriz,INTEGRATION,A4,MATRIZ-PLANO.xlsx,"Um projeto Linear por fase, com data e descrição 3P",Linear MCP,YES,PLANNED
+PLAN-EXEC-1409-F03-T02,PLAN-EXEC-1409-F03,FASE-03,2,Criar issues espelhando os IDs de tarefa,INTEGRATION,A4,CSVs por fase,Toda tarefa tem issue com o mesmo ID; nenhum ID duplicado ou ausente,Contagem CSV vs Linear,YES,PLANNED
+PLAN-EXEC-1409-F03-T03,PLAN-EXEC-1409-F03,FASE-03,3,Validar sincronização da pasta EXECUTAR LINEAR MATRIX no Drive,INTEGRATION,A3,Pasta do Drive,"Se a sincronização refletir o plano, manter; se não, popular direto via MCP e registrar que a pasta não sincroniza",Evidência comparativa,NO,PLANNED
+PLAN-EXEC-1409-F03-T04,PLAN-EXEC-1409-F03,FASE-03,4,Ligar encerramento de gate à mudança de status no Linear,INTEGRATION,A4,Protocolo da fase 2,Encerrar gate move issue para Done com link do PR,Issue Linear,YES,PLANNED

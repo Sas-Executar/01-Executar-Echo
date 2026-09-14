@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F02-T01,PLAN-EXEC-1409-F02,FASE-02,1,Criar PLAN/ registry versionado,CODE,A4,Matriz do plano,"PLAN/plan.json, PLAN/state.json e PLAN/schema.json no repositório, validados em CI",Job de CI,YES,PLANNED
+PLAN-EXEC-1409-F02-T02,PLAN-EXEC-1409-F02,FASE-02,2,Criar GATE_LOG.md append-only,CODE,A4,Protocolo de gates,"Cada gate encerrado grava fase, commit, PR, evidência, modelo e esforço usados",GATE_LOG.md,YES,PLANNED
+PLAN-EXEC-1409-F02-T03,PLAN-EXEC-1409-F02,FASE-02,3,Configurar agente runner e README de rastreio,CODE,A3,AGENTS.md existente,Sessão nova lê PLAN/state.json + GATE_LOG.md e retoma sem contexto conversacional,README de rastreio,YES,PLANNED
+PLAN-EXEC-1409-F02-T04,PLAN-EXEC-1409-F02,FASE-02,4,Protocolo de encerramento de fase com auto-PR,CODE,A4,AUTHORIZATIONS.md,"Ao fim de cada fase: commit, PR aberto, state.json atualizado, issue Linear movida — em uma única sequência",PR da própria fase,YES,PLANNED
