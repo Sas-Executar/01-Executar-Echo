@@ -116,13 +116,34 @@ env:
 ##[error]Deployment blocked. Missing: VERCEL_TOKEN at least one application secret to synchronize
 ```
 
-**Veredito, por saída de máquina e não por declaração: nenhum dos segredos está
-gravado.** `VERCEL_TOKEN`, `DATABASE_URL`, `RESEND_TOKEN`, `RESEND_FROM` e
-`CLERK_WEBHOOK_SECRET` chegaram ao runner como string vazia. O critério do GATE-00
-**não** está satisfeito.
-
 Este probe é repetível a custo zero e sem expor valor: qualquer sessão futura dispara o
 mesmo workflow e lê o mesmo veredito. Substitui "Leo disse que gravou" por evidência.
+
+#### Inventário de segredos, por evidência
+
+O probe acima cobre só os cinco segredos que o `sync-vercel-env.yml` consome. O CI do
+próprio PR #22 cobriu o resto. Estado completo:
+
+| Item | Estado | Evidência |
+|---|---|---|
+| `VERCEL_TOKEN` | **ausente** | `VERCEL_TOKEN:` vazio no runner, run `34852124203` |
+| `DATABASE_URL` | **ausente** | `HAS_DATABASE_URL: false`, mesmo run |
+| `RESEND_TOKEN` | **ausente** | `HAS_RESEND: false`, mesmo run |
+| `RESEND_FROM` | **ausente** | `HAS_RESEND: false`, mesmo run |
+| `CLERK_WEBHOOK_SECRET` | **ausente** | `HAS_CLERK_SECRET: false`, mesmo run |
+| `NEON_API_KEY` | ✅ **gravado** | job `Create + migrate preview branch` (`104003464081`) criou branch de preview e rodou `prisma migrate deploy` de verdade contra `ep-autumn-queen-…us-east-2.aws.neon.tech/executar`: "8 migrations found", "No pending migrations to apply" |
+| variable `NEON_PROJECT_ID` | ✅ **gravada** | o mesmo job é gated em `vars.NEON_PROJECT_ID != ''` e **não** ficou `skipped` |
+| `CHROMATIC_PROJECT_TOKEN` | ausente (não bloqueia) | job `Storybook visual regression` encerrou em 3s sem executar passo algum — o caminho de skip por ausência de token |
+| `EXPO_TOKEN` | **não verificado** | nenhum workflow o exercita em evento de PR; só o `deploy-mobile.yml` |
+
+**Correção de registro.** A primeira leitura deste probe concluiu "nenhum segredo está
+gravado". Errado por excesso: o probe só enxerga os cinco do `sync-vercel-env.yml`.
+`NEON_API_KEY` e `NEON_PROJECT_ID` já estavam configurados, e a prova é uma migration
+real executada contra o Neon. O que falta a Leo no §1 são **cinco** secrets, não sete,
+e o §2 já está feito.
+
+O critério do GATE-00 continua **não** satisfeito: `VERCEL_TOKEN` e `DATABASE_URL`,
+que são os que destravam a FASE-01, seguem ausentes.
 
 ### Pendências USER_ACTION_REQUIRED
 
@@ -130,9 +151,8 @@ mesmo workflow e lê o mesmo veredito. Substitui "Leo disse que gravou" por evid
 |---|---|
 | `VERCEL_TOKEN` e `DATABASE_URL` no cofre do GitHub | **FASE-01** — sozinhos já destravam |
 | `CLERK_WEBHOOK_SECRET`, `RESEND_TOKEN`, `RESEND_FROM` | FASE-01 (parcial), FASE-04, FASE-06 |
-| `NEON_API_KEY` | FASE-05 |
-| `EXPO_TOKEN` | FASE-11 |
-| variable `NEON_PROJECT_ID` | FASE-05 |
+| `EXPO_TOKEN` | FASE-11 — estado não verificado, nenhum workflow o exercita em PR |
+| ~~`NEON_API_KEY`~~ · ~~variable `NEON_PROJECT_ID`~~ | ✅ **já gravados** — ver inventário acima |
 | DEC-003 — domínio, compra, upgrade Pro | FASE-04, FASE-07, FASE-10 |
 | DEC-004 — Scanner | FASE-10 |
 | FORM-ZERO §4 — dados legais e de loja | FASE-06, FASE-11 |

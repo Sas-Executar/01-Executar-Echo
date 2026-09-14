@@ -26,6 +26,7 @@ Não cole nenhum valor em chat, em arquivo do repositório, em PR ou em comentá
 | §3 — DEC-001, DEC-002 e DEC-005 já respondidas | decididas na sessão de 2026-09-14 | `DECISION_LOG.md` |
 | §7 nova — DEC-005 | o pacote original não previu que o Linear já estaria populado | `GATE_LOG.md` FP-004 |
 | Nota no §1 sobre `DATABASE_URL` | é a variável que está derrubando a `web`, não a URL pública | `docs/fase-zero/ADDENDUM-2026-09-14.md` §1 |
+| `NEON_API_KEY` e `NEON_PROJECT_ID` marcados como já gravados | confirmados por migration real no CI do PR #22 | `GATE_LOG.md`, inventário de segredos |
 
 Os 7 secrets do §1 foram **confirmados** contra o código e permanecem como estavam.
 
@@ -42,11 +43,16 @@ Estes sete são o desbloqueio. Sem eles, a FASE-01 não roda e nenhuma outra fas
 | 3 | `CLERK_WEBHOOK_SECRET` | **tem que começar com `whsec_`** | Clerk dashboard → Webhooks → endpoint → Signing Secret | FASE-01, FASE-04 |
 | 4 | `RESEND_TOKEN` | **tem que começar com `re_`** | resend.com → API Keys | FASE-01, FASE-06 |
 | 5 | `RESEND_FROM` | e-mail válido | o remetente do domínio verificado na Resend | FASE-01, FASE-06 |
-| 6 | `NEON_API_KEY` | token opaco | Neon console → Account Settings → API Keys | FASE-05 |
+| 6 | `NEON_API_KEY` | token opaco | ✅ **já gravado** — não faça nada | FASE-05 |
 | 7 | `EXPO_TOKEN` | token opaco | expo.dev → Access Tokens | FASE-11 |
 
-Opcional, não bloqueia nada: `CHROMATIC_PROJECT_TOKEN` (chromatic.com) — sem ele o job
-de regressão visual pula em vez de falhar.
+`NEON_API_KEY` foi confirmado gravado pelo CI do PR #22: o job
+`Create + migrate preview branch` criou uma branch de preview no Neon e rodou
+`prisma migrate deploy` de verdade ("8 migrations found", "No pending migrations to
+apply"). **Sobram cinco para você:** 1, 2, 3, 4, 5 e o 7.
+
+Opcional, não bloqueia nada: `CHROMATIC_PROJECT_TOKEN` (chromatic.com) — hoje ausente,
+e o job de regressão visual pula em vez de falhar (confirmado: encerra em 3s).
 
 > **Os nºs 1 e 2 são os que apagam o incêndio.** O build da `executar-nf-web` reprova
 > hoje com `path: [ "DATABASE_URL" ], "expected string, received undefined"` — o
@@ -62,9 +68,12 @@ de regressão visual pula em vez de falhar.
 
 ## §2 — Variables do GitHub Actions (aba **Variables** → New repository variable)
 
-| Nome | Valor | Observação |
+| Nome | Valor | Estado |
 |---|---|---|
-| `NEON_PROJECT_ID` | `snowy-dawn-65785764` | já conhecido, é só colar. Lido por `preview-db.yml` |
+| `NEON_PROJECT_ID` | `snowy-dawn-65785764` | ✅ **já gravada — nada a fazer neste §** |
+
+Confirmada pelo CI do PR #22: o job de preview do Neon é gated em
+`vars.NEON_PROJECT_ID != ''` e **não** ficou `skipped` — rodou.
 
 **Removidos da v1.0.0, não faça:** `VERCEL_ORG_ID` (passou a vir de
 `config/deployment.json` no PR #21) e `EAS_PROJECT_CONFIGURED` (nunca foi lido —
@@ -152,8 +161,9 @@ Sua decisão: time novo para o plano técnico, `Executar-Rotina` intacto. Nada a
 
 ## Checklist de conclusão da Fase Zero
 
-- [ ] 7 secrets gravados — os nºs 1 e 2 sozinhos já destravam a FASE-01
-- [ ] 1 variable gravada (`NEON_PROJECT_ID`)
+- [ ] 5 secrets restantes (1, 2, 3, 4, 5 e 7) — os nºs 1 e 2 sozinhos já destravam a FASE-01
+- [x] `NEON_API_KEY` gravado
+- [x] variable `NEON_PROJECT_ID` gravada
 - [x] DEC-001, DEC-002 e DEC-005 respondidas
 - [ ] DEC-003 respondida
 - [ ] DEC-004 respondida (pode esperar até a FASE-10)
