@@ -1,6 +1,6 @@
 ---
 name: estado
-description: Deriva o estado operacional do EXECUTAR: progresso verificável, WIP atual, fila elegível, bloqueios e gaps sem criar status paralelos.
+description: "Deriva o estado operacional do EXECUTAR: progresso verificável, WIP atual, fila elegível, bloqueios e gaps sem criar status paralelos."
 context: fork
 agent: "executar-copiloto:copiloto"
 background: false
