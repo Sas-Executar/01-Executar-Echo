@@ -1,6 +1,6 @@
 ---
 name: replanejamento
-description: Replaneja o EXECUTAR com gate PRE_APPROVE: primeiro propõe entregável e tarefas; só persiste alterações após confirmação humana explícita.
+description: "Replaneja o EXECUTAR com gate PRE_APPROVE: primeiro propõe entregável e tarefas; só persiste alterações após confirmação humana explícita."
 context: fork
 agent: "executar-copiloto:copiloto"
 background: false
