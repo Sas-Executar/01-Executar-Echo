@@ -847,3 +847,63 @@ correção explícita da conclusão anterior.
 `sync-vercel-env.yml` (pra levar os valores corrigidos de volta pra
 Vercel) e então `deploy-web.yml` de novo para confirmar os 3 jobs de
 Deploy verdes.
+
+## 2026-09-19 — PR #23 mesclada; deploy-web.yml verde de ponta a ponta;
+início da integração de todas as branches (plano de lançamento público)
+
+Usuário confirmou ter corrigido `RESEND_TOKEN`/`RESEND_FROM`/
+`CLERK_WEBHOOK_SECRET` no GitHub Secrets. Sequência de validação real:
+
+1. Re-disparei `sync-vercel-env.yml` (run `35430335886`, `success`) —
+   necessário porque eu tinha esquecido que a Vercel só recebe o valor
+   corrigido depois de um sync novo; o secret do GitHub por si só não
+   basta.
+2. Disparei `deploy-web.yml` — build passou (`DATABASE_URL`/`RESEND_*`/
+   `CLERK_WEBHOOK_SECRET` todos válidos), mas o **health check** falhou
+   em dois lugares novos, ambos falsos-negativos da própria automação,
+   não da aplicação:
+   - `api`/`app`: a URL efêmera que `vercel deploy` imprime carrega
+     Deployment Protection (SSO) da própria Vercel e redireciona
+     (`302` → `vercel.com/sso-api`) qualquer request sem sessão —
+     inclusive o health check. O alias estável (`executar-nf-api.vercel.app`)
+     não tem essa proteção e responde `200` direto, confirmado via curl.
+     **Fix**: `deploy-web.yml` agora resolve o alias real via API da
+     Vercel (`GET /v13/deployments/{host}`, campo `.alias[0]`) e usa esse
+     alias no health check em vez da URL bruta.
+   - `web`: `/en` responde `307` para `/` (comportamento normal do
+     `next-intl` com `localePrefix: "as-needed"` no locale padrão) — `/`
+     responde `200` direto, sem redirect, confirmado via curl. **Fix**:
+     `health_path` de `web` trocado de `/en` para `/`.
+3. Run seguinte (`35431320343`) saiu **100% verde**: migração +
+   `Deploy web`/`Deploy app`/`Deploy api`, todos com health check
+   passando — primeira vez que `deploy-web.yml` completa de ponta a
+   ponta nesta branch.
+4. PR #23 tirada de draft e **mesclada** em `main`
+   (`0e9abbb`, merge commit).
+
+**Início da Fase 2 do plano de integração de branches**: usuário pediu
+que todas as ~27 branches e as 3 PRs abertas sejam "promovidas e
+integradas", sem excluir nenhuma, visando a fase final de testes/
+lançamento público. Levantamento completo (3 auditorias de código +
+spot-checks diretos) resultou num plano de execução em 7 fases,
+aprovado e registrado em `/root/.claude/plans/distributed-growing-clover.md`.
+Achados principais do levantamento:
+- 17 branches já 100% contidas em `main` — sem merge possível, só
+  documentação (ver `LAUNCH_RUNBOOK.md` §11).
+- 4 branches/PR são merges triviais e seguros (Grupo B).
+- `claude/image-execution-import-6ot4wf` contém a implementação real da
+  feature "scroll-task" (página Next.js de verdade, autenticada pelo
+  Clerk, com testes) — junto de um serviço novo (`apps/copiloto-runtime`,
+  deliberadamente não-Vercel por decisão já documentada no seu próprio
+  Dockerfile), pacotes novos (`packages/domain`, `packages/schemas`) e
+  uma migração Prisma aditiva.
+- PR #3 (`chatgpt/scroll-task-prototype`) e `integration/d22-weekly-sprint-renderer`
+  são o mesmo conteúdo: um protótipo estático que, mesclado, desativaria
+  o build Next.js real de `apps/app` e tiraria a autenticação Clerk de
+  todas as rotas — confirmado por duas auditorias de código
+  independentes. Decisão do usuário: usar a implementação real
+  (`image-execution-import-6ot4wf`) como a feature de produção; fechar a
+  PR #3 explicando o motivo; manter as duas branches sem excluir.
+
+Próximos passos: Fase 2 (PR de documentação do Grupo A, em andamento),
+depois Fases 3–7 conforme o plano aprovado.
