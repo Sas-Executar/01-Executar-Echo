@@ -454,6 +454,10 @@
         "@types/react-dom": "19.2.3",
       },
     },
+    "packages/copiloto-skills": {
+      "name": "@repo/copiloto-skills",
+      "version": "0.0.0",
+    },
     "packages/database": {
       "name": "@repo/database",
       "version": "0.0.0",
@@ -1992,6 +1996,8 @@
     "@repo/cms": ["@repo/cms@workspace:packages/cms"],
 
     "@repo/collaboration": ["@repo/collaboration@workspace:packages/collaboration"],
+
+    "@repo/copiloto-skills": ["@repo/copiloto-skills@workspace:packages/copiloto-skills"],
 
     "@repo/database": ["@repo/database@workspace:packages/database"],
 
