@@ -907,3 +907,87 @@ Achados principais do levantamento:
 
 Próximos passos: Fase 2 (PR de documentação do Grupo A, em andamento),
 depois Fases 3–7 conforme o plano aprovado.
+
+## 2026-09-19 (continuação) — Fases 3–6 executadas; Fase 7 BLOQUEADO por cota externa
+
+**Fase 3 (Grupo B) e Fase 4 (Grupo D) executadas em sequência**, cada merge
+gated em CI verde contra o `main` pós-merge anterior: #25 (`.gitignore`
+`.env*`), #26 (`MASTER_WORKBOOK.md`), #27 (plugin `executar-copiloto`), #22
+(docs `fase-zero`), #28 (`claude/image-execution-import-6ot4wf` — feature
+real). Conflito real de merge em `docs/executar/README.md` na #28 (framing
+"não iniciada" do #22 vs. framing "concluída" com evidência real desta
+branch) — resolvido a favor da versão com evidência, sem perda de
+conteúdo. `bun.lock` teve merge automático sem marcadores de conflito;
+regenerado via `bun install` por convenção, não confiado cegamente
+(commit separado `chore: regenerate bun.lock after merging main`).
+
+**Gate pós-merge da #28 (o mais importante do plano inteiro)**: run
+`35434129909` disparado pelo push em `main`. Job `migrate` — **verde**,
+`Migrate deploy (production)` concluído com sucesso em 2026-09-19T09:18:43Z.
+Isso é a prova real de que a migração Prisma aditiva (tabelas novas de
+scroll-task) aplica limpo em produção, não só no branch de preview do Neon
+(`preview-db.yml` já tinha confirmado isso na PR, mas não é a mesma
+garantia). Os 3 jobs `Deploy` desse mesmo run falharam — ver achado 2
+abaixo; não é uma falha de migração, então as Fases 5/6 não foram
+interrompidas pela cláusula de "incidente de produção" do plano (essa
+cláusula é específica a falha de *migração*, que não ocorreu).
+
+**Dois problemas de pipeline foram diagnosticados nesta janela**, ambos com
+evidência de log, não suposição:
+
+1. **Corrida de resolução de alias** — run `35433615472` (merge da #25).
+   `Deploy web` e `Deploy api` fizeram build com sucesso (11 min, `✓ Ready`,
+   sob backlog pesado de builds concorrentes na Vercel), mas a consulta de
+   alias (`curl` + `jq '.alias[0]'`) voltou vazia na primeira tentativa,
+   caindo no fallback da URL bruta por deployment. Essa URL bruta é
+   protegida por SSO da Vercel (302), e foi lida como falha de saúde da
+   app — não é. Log relevante (`Deploy api`, job `105872563088`):
+   ```
+   DEPLOYMENT_URL: https://executar-nf-m1ojlfdqw-sas-executar1.vercel.app
+   HEALTH_PATH: /health
+   ##[error]Health check failed: HTTP 302 for /health
+   ```
+   Corrigido em PR [#29](https://github.com/Sas-Executar/01-Executar-Echo/pull/29)
+   (branch `claude/busy-hopper-7mp8kj`, recriada a partir do `main` atual
+   já que a #23 — o PR anterior dessa branch — já tinha sido mesclado):
+   loop de até 5 tentativas, 5s entre elas, antes do fallback para a URL
+   bruta.
+2. **Cota diária de deployments da Vercel esgotada** — run `35434129909`
+   (merge da #28). Os 3 jobs `Deploy` falharam em ~2-4s (não minutos), sem
+   sequer completar o build:
+   ```
+   ✗ Resource is limited - try again in 24 hours (more than 100, code: "api-deployments-free-per-day").
+     Check the billing or feature requirement reported above with a team owner.
+   ```
+   Confirmado via `mcp__Vercel__list_deployments`: 100 deployments
+   registrados só entre 06:24 e 09:09 UTC de hoje (28 `executar-nf-api`, 28
+   `executar-nf-app`, 27 `executar-nf-web`, 17 `executar-nf-storybook` — este
+   último via integração git nativa da Vercel, fora do escopo de
+   `deploy-web.yml`). É um limite de conta/plano, não um bug de código —
+   nenhum retry ou fix de workflow contorna isso. Requer decisão do team
+   owner (upgrade de plano/billing) ou esperar a janela de 24h.
+
+**Fase 5 (Grupo F)** — `claude/lucid-galileo-3jnpad` reconferido com
+`git diff main...lucid-galileo` (três pontos, isolando só os commits
+próprios da branch). Resultado: 3 arquivos, 2 já idênticos byte a byte ao
+que está em `main` e 1 (`docs/executar/README.md`) com a framing antiga já
+substituída durante a resolução de conflito da #28. Confirmado superseded,
+sem conteúdo único real perdido. Branch mantida, sem exclusão.
+
+**Fase 6 (Grupo E)** — PR #3 fechado sem merge
+(comentário: https://github.com/Sas-Executar/01-Executar-Echo/pull/3#issuecomment-5740750243),
+branch `chatgpt/scroll-task-prototype` mantida. `integration/d22-weekly-sprint-renderer`
+(sem PR) documentado com o mesmo motivo em `LAUNCH_RUNBOOK.md` §12, branch
+mantida.
+
+**Fase 7 (verificação final de produção): BLOQUEADO.** Não por falha de
+migração (que já está provada, achado acima) nem por um bug de workflow
+restante (o único bug real encontrado já foi corrigido no PR #29) — é um
+limite de conta da Vercel (`api-deployments-free-per-day`, "mais de 100"),
+que impede qualquer novo `vercel deploy --prod` pelos próximos ~24h a
+partir de ~09:19 UTC de hoje, ou até o team owner resolver via billing. Sem
+isso, os 3 jobs `Deploy` de qualquer novo run de `deploy-web.yml` vão
+falhar instantaneamente, independente de qualquer fix de código. Ação
+pendente do usuário: decidir entre aguardar a janela de reset ou contatar a
+Vercel/fazer upgrade do plano do time (`sas-executar1`) para levantar a
+cota antes disso. Reconfirmar Fase 7 assim que a cota liberar.
