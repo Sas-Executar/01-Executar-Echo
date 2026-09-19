@@ -791,3 +791,59 @@ automação de CI/CD comprovada.
 motivo já documentado na seção anterior (falha interna do próprio tool
 `sandbox_create`, não negação de autorização) — reconfirmado nesta sessão
 sem nova tentativa por não haver alternativa nova a testar.
+
+## 2026-09-19 — Correção: item 3.d acima estava errado; `RESEND_TOKEN`/
+`RESEND_FROM`/`CLERK_WEBHOOK_SECRET` corrompidos de verdade, não uma
+"quirk de preview"; `DATABASE_URL` confirmado corrigido
+
+Usuário recolou `DATABASE_URL` no GitHub Secrets. Disparei
+`deploy-web.yml` de novo (run `35428117314`) para validar.
+
+**`DATABASE_URL` — RESOLVIDO, confirmado ao vivo.** "Migrate deploy
+(production)" → `success` pela primeira vez nesta branch, sem `P1013`.
+Valor reconferido direto na Neon (`mcp__Neon__get_connection_string`,
+projeto `snowy-dawn-65785764`) antes de pedir a recolagem — batia
+exatamente com o que já tinha sido fornecido antes, confirmando que o
+valor em si nunca esteve errado, só a colagem no GitHub.
+
+**Achado que corrige a seção anterior: os 3 jobs de `Deploy` (`web`/
+`app`/`api`) falharam de verdade, pela primeira vez rodando com
+`vercel deploy --prod` real (não um build ad-hoc de preview):**
+- `Deploy api`: `CLERK_WEBHOOK_SECRET` — `invalid_format`, não começa
+  com `whsec_`.
+- `Deploy app` e `Deploy web`: `RESEND_TOKEN` — não começa com `re_`;
+  `RESEND_FROM` — não é um email válido.
+
+Isso **corrige o item 3.d da seção anterior**, que atribuiu falhas
+similares de `RESEND_TOKEN`/`RESEND_FROM` em preview a uma "particularidade
+do lado da Vercel... fora do alcance deste workflow", concluindo que
+produção não seria afetada. Essa conclusão estava errada: os valores em
+si estavam corrompidos (mesma classe de problema já vista 2x hoje com
+`VERCEL_TOKEN` e `DATABASE_URL` — colagem com lixo extra que quebra o
+prefixo/formato esperado), e o `sync-vercel-env.yml` rodado mais cedo
+hoje já tinha escrito esses valores corrompidos no target `production`
+de `web`/`app`/`api` na Vercel, sobrescrevendo valores que antes
+funcionavam (o teste ao vivo da assinatura do webhook Clerk, HTTP 201,
+foi feito **antes** desse sync rodar com o secret do GitHub). Produção
+ao vivo não foi afetada até agora só porque a Vercel não promove um
+build que falha — os deployments atualmente no ar ainda têm os valores
+antigos (bons) compilados.
+
+**Ação tomada:** gerei uma chave Resend nova
+(`executar-nf-vercel-sync-2026-09-19`, `sending_access`) via
+`mcp__Resend__create-api-key` para eliminar qualquer dúvida sobre o
+valor de `RESEND_TOKEN` — a antiga não é recuperável (Resend só mostra
+o token uma vez). Passada ao usuário diretamente no chat, nunca
+persistida em arquivo. `RESEND_FROM` segue `onboarding@resend.dev`
+(sandbox do Resend, sem domínio próprio verificado). `CLERK_WEBHOOK_SECRET`
+não pode ser regenerado por esta sessão (nenhuma tool do conector Clerk
+gerencia webhooks) — usuário precisa copiar de novo em Clerk Dashboard
+→ Webhooks → endpoint do `executar-nf-api` → Signing Secret.
+
+Comentário com o diagnóstico completo postado na PR #23, incluindo a
+correção explícita da conclusão anterior.
+
+**Pendente:** usuário recolar os 3 valores acima; depois, re-disparar
+`sync-vercel-env.yml` (pra levar os valores corrigidos de volta pra
+Vercel) e então `deploy-web.yml` de novo para confirmar os 3 jobs de
+Deploy verdes.
