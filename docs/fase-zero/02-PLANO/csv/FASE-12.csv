@@ -1,0 +1,6 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F12-T01,PLAN-EXEC-1409-F12,FASE-12,1,Promover build e E2E a gates bloqueantes,CI,A4,QUALITY_GATES.md,ci.yml falha o PR quando build ou E2E quebram,ci.yml + PR de teste,YES,PLANNED
+PLAN-EXEC-1409-F12-T02,PLAN-EXEC-1409-F12,FASE-12,2,"Ligar observabilidade (Sentry, BetterStack)",INFRA,A3,Chaves do FORM-ZERO,Erro real aparece no painel em menos de 5 minutos,Alerta recebido,YES,PLANNED
+PLAN-EXEC-1409-F12-T03,PLAN-EXEC-1409-F12,FASE-12,3,Executar smoke sequence completa,TEST,A4,LAUNCH_RUNBOOK §10,Os 4 passos da smoke sequence executados e registrados,GATE_LOG,YES,PLANNED
+PLAN-EXEC-1409-F12-T04,PLAN-EXEC-1409-F12,FASE-12,4,Testar rollback uma vez,TEST,A4,Deploy anterior READY,"Rollback executado e revertido, com tempo medido",Evidência Vercel,YES,PLANNED
+PLAN-EXEC-1409-F12-T05,PLAN-EXEC-1409-F12,FASE-12,5,Corte público e handoff final,RELEASE,A2,Todos os gates verdes,"Ecossistema público; Leo testa, navega e usa; relatório final no Linear",Aprovação de Leo,YES,PLANNED

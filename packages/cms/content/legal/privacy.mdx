@@ -1,0 +1,124 @@
+---
+title: "Política de Privacidade"
+description: "Como o EXECUTAR trata seus dados."
+date: "2026-09-13"
+---
+
+> Este documento foi elaborado com base nas obrigações da Lei Geral de
+> Proteção de Dados (Lei nº 13.709/2018, "LGPD") e reflete com precisão
+> quais dados o EXECUTAR realmente coleta e para quais finalidades, a
+> partir da arquitetura real do produto. Ele **não substitui a revisão
+> de um advogado ou encarregado de dados (DPO)** antes de qualquer uso
+> em escala — recomendamos essa revisão como próximo passo formal.
+> Editar este arquivo em `packages/cms/content/legal/privacy.mdx` e
+> abrir um PR normal é o processo para publicar atualizações.
+
+## 1. Quem somos e o que este documento cobre
+
+Esta Política de Privacidade explica como tratamos dados pessoais de
+usuários do EXECUTAR ("Serviço"), como controladores de dados nos
+termos da LGPD, ao operar o aplicativo web, o aplicativo móvel e as
+integrações por e-mail/WhatsApp que você conectar.
+
+## 2. Dados que coletamos e por quê
+
+| Categoria | Exemplos | Finalidade | Base legal (LGPD) |
+|---|---|---|---|
+| Dados de conta | Nome, e-mail, organização/workspace, função | Criar e autenticar sua conta, controle de acesso | Execução de contrato (art. 7º, V) |
+| Dados de uso do produto | Projetos, tarefas, rotinas, evidências, relatórios, eventos de telemetria | Operar o produto, gerar o Mapa-OS, prevenir fraude, medir uso para suporte | Execução de contrato; legítimo interesse (art. 7º, IX) |
+| Dados de pagamento | Identificador de cliente/assinatura, histórico de cobrança | Processar sua assinatura | Execução de contrato |
+| Integrações conectadas (opcionais) | Metadados de mensagens de WhatsApp, e-mail (Gmail/Outlook) que você conectar | Trazer tarefas/contexto de outros canais para o EXECUTAR, só quando você habilita | Consentimento (art. 7º, I) |
+| Dados de uso de IA (opcional) | Prompts e respostas do Copiloto, quando você usa o assistente | Executar comandos do Copiloto, registrar custo/uso | Execução de contrato |
+| Dados de dispositivo/scanner (app móvel, opcional) | Imagens processadas localmente no dispositivo para reconhecimento de símbolos | Funcionalidade do Scanner | Consentimento (permissão de câmera do sistema operacional) |
+
+Não coletamos dados pessoais sensíveis (art. 5º, II da LGPD) como parte
+do funcionamento normal do produto.
+
+## 3. Com quem compartilhamos dados (operadores/subprocessadores)
+
+Compartilhamos dados apenas com provedores necessários para operar o
+Serviço, sob contrato, e nunca vendemos dados pessoais a terceiros:
+
+- **Neon** (banco de dados Postgres) — armazenamento primário dos seus
+  dados. Hospedado em infraestrutura AWS na região `us-east-2` (Ohio,
+  EUA) — isso constitui **transferência internacional de dados** nos
+  termos do art. 33 da LGPD, feita para um provedor com salvaguardas
+  contratuais de proteção de dados.
+- **Vercel** (hospedagem e CDN) — entrega o aplicativo, também com
+  infraestrutura distribuída internacionalmente.
+- **Clerk** (autenticação) — gerencia login e identidade de conta.
+- **Stripe** (pagamentos) — processa cobranças; não armazenamos números
+  completos de cartão em nossos próprios servidores.
+- **Resend** (e-mail transacional) — envia e-mails do produto (ex.:
+  confirmações, notificações).
+- Provedores opcionais, habilitados apenas se sua organização conectar
+  a integração correspondente ou se recursos específicos forem
+  ativados: OpenAI (Copiloto/IA), Knock (notificações push), Sentry e
+  BetterStack (monitoramento de erros/observabilidade), PostHog e
+  Google Analytics (analytics de produto), WhatsApp/Meta, Google
+  (Gmail) e Microsoft (Outlook) (integrações omnichannel que você
+  autoriza explicitamente).
+
+Cada um desses provedores só recebe os dados estritamente necessários
+para prestar seu serviço específico.
+
+## 4. Por quanto tempo mantemos seus dados
+
+Mantemos dados de conta e de uso do produto enquanto sua conta estiver
+ativa. Após o encerramento da conta ou solicitação de exclusão,
+mantemos os dados pelo prazo necessário para cumprir obrigações legais
+(por exemplo, fiscais, sobre registros de cobrança) e, decorrido esse
+prazo, os eliminamos ou anonimizamos.
+
+## 5. Seus direitos (art. 18 da LGPD)
+
+Você tem direito a: confirmação da existência de tratamento; acesso aos
+dados; correção de dados incompletos, inexatos ou desatualizados;
+anonimização, bloqueio ou eliminação de dados desnecessários;
+portabilidade dos dados a outro fornecedor; eliminação dos dados
+tratados com seu consentimento; informação sobre compartilhamento;
+informação sobre a possibilidade de não fornecer consentimento e suas
+consequências; e revogação do consentimento.
+
+Você pode exercer os direitos de **exportação** e **exclusão** dos
+seus dados diretamente pelas configurações da conta, a qualquer
+momento — essas ações produzem efeito imediato sobre os dados sob
+nosso controle direto. Para os demais direitos, ou dúvidas, use o canal
+de contato abaixo.
+
+## 6. Cookies e analytics
+
+Usamos cookies essenciais para manter sua sessão autenticada. Quando
+habilitados pela organização, podemos usar PostHog e/ou Google
+Analytics para entender uso agregado do produto — esses são opcionais e
+não essenciais ao funcionamento do Serviço.
+
+## 7. Segurança
+
+Aplicamos controles técnicos como isolamento de dados por organização
+(Row-Level Security no banco de dados, garantindo que uma organização
+nunca acesse dados de outra), criptografia em trânsito, e controle de
+acesso por função. Nenhum sistema é perfeitamente seguro; comunicaremos
+incidentes de segurança relevantes conforme exigido pela LGPD (art.
+48).
+
+## 8. Menores de idade
+
+O Serviço não é direcionado a menores de 18 anos e não coletamos
+intencionalmente dados de crianças ou adolescentes sem o consentimento
+específico e em destaque de um dos pais ou responsável legal, nos
+termos do art. 14 da LGPD.
+
+## 9. Alterações a esta política
+
+Podemos atualizar esta Política periodicamente. Mudanças materiais
+serão comunicadas com antecedência razoável antes de entrarem em
+vigor.
+
+## 10. Contato e encarregado de dados (DPO)
+
+Dúvidas sobre privacidade, ou para exercer os direitos listados na
+Seção 5, podem ser enviadas pelo canal de suporte do produto. Uma
+organização que já opere uma operação de tratamento de dados em escala
+deve designar formalmente um Encarregado de Proteção de Dados (DPO) nos
+termos do art. 41 da LGPD e publicar seu contato direto aqui.

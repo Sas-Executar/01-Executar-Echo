@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F07-T01,PLAN-EXEC-1409-F07,FASE-07,1,Publicar rotas públicas de apps/web,CODE,A4,6 rotas do índice,Todas respondem 200 no domínio próprio,curl + Playwright,YES,PLANNED
+PLAN-EXEC-1409-F07-T02,PLAN-EXEC-1409-F07,FASE-07,2,Implementar camada Quick Frameworks e deep links,CODE,A3,Briefing §23-24,Conceito citado em artigo abre explicação estruturada sem sair do artigo,Página real,NO,PLANNED
+PLAN-EXEC-1409-F07-T03,PLAN-EXEC-1409-F07,FASE-07,3,Implementar carrossel vertical de storyboard no topo do artigo,CODE,A3,Briefing §25,Artigo exibe storyboard visual navegável,Página real,NO,PLANNED
+PLAN-EXEC-1409-F07-T04,PLAN-EXEC-1409-F07,FASE-07,4,"SEO, sitemap e i18n",CODE,A4,next-config + internationalization,sitemap.xml válido; hreflang correto; Lighthouse ≥90 perf e a11y na home,Relatório Lighthouse,YES,PLANNED

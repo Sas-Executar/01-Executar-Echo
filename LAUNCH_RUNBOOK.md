@@ -31,21 +31,43 @@ tool mints this. Once you have it:
   add `NEON_API_KEY`.
 - Same page → **Variables**: add `NEON_PROJECT_ID` = `snowy-dawn-65785764`.
 
-## 2. 🤖 Vercel projects — DONE (env vars still 🧑 manual)
+## 2. 🤖 Vercel projects — RECRIADOS (repo foi renomeado; env vars ainda 🧑 manual)
 
-Team: `Sas_Executar` (`team_fJe21quDM0egDSTPE0CFwNnm`), 4 real projects,
-each linked to `Sas-Executar/next-forge` with the matching `rootDirectory`:
+**2026-09-12 — reconciliação:** o PR #1 foi mergeado em `main`. Nesse meio-tempo,
+outra sessão/processo renomeou o repositório (`Sas-Executar/next-forge` →
+`Sas-Executar/01-Executar-Echo`, o GitHub redireciona a URL antiga) e os 4
+projetos Vercel originais abaixo **deixaram de existir** (o time passou a
+listar 3 projetos completamente diferentes, ligados a outros repositórios).
+O GitHub App do Vercel também precisou ser reinstalado manualmente
+(`https://github.com/apps/vercel`) antes de recriar os projetos — a
+integração anterior não sobreviveu à renomeação. Os 4 projetos foram
+recriados com os mesmos nomes/`rootDirectory`, novos IDs:
 
-| App | Project | Project ID | URL |
-|---|---|---|---|
-| `apps/app` | `executar-nf-app` | `prj_MkAbPkEyQRJboeX6xTKiLFoviPdl` | executar-nf-app-sas-executar1.vercel.app |
-| `apps/web` | `executar-nf-web` | `prj_h4tfuhTnIiedTObU16xvBAEWkBWI` | executar-nf-web-sas-executar1.vercel.app |
-| `apps/api` | `executar-nf-api` | `prj_eT3E4NGlkjWnDhv1XmGCnxi0932M` | executar-nf-api-sas-executar1.vercel.app |
-| `apps/storybook` | `executar-nf-storybook` | `prj_ZaRfOZdchptCOpjViZj4RubN4I4C` | executar-nf-storybook-sas-executar1.vercel.app |
+Team: `Sas_Executar` (`team_fJe21quDM0egDSTPE0CFwNnm`), 4 projetos reais,
+cada um ligado a `Sas-Executar/01-Executar-Echo` (ainda respondendo por
+`Sas-Executar/next-forge`) com o `rootDirectory` correspondente:
 
-Each fired an initial preview deploy against `main` (pre-M21 content, no env
-vars yet) — expected to be broken/incomplete right now; that's diagnostic,
-not a bug to chase. Two real, fixed findings from that first deploy:
+| App | Project | Project ID |
+|---|---|---|
+| `apps/app` | `executar-nf-app` | `prj_tjzeAZAoitSeuYf0RNEhmyakMiMo` |
+| `apps/web` | `executar-nf-web` | `prj_pa8ihwg7ReAncAAhZMBHdKTLMZr1` |
+| `apps/api` | `executar-nf-api` | `prj_Ui40tk9orjhk5wq5tG90F5z65kiD` |
+| `apps/storybook` | `executar-nf-storybook` | `prj_AgAOTg4tmiNRlgHViJnqy6SAtKSn` |
+
+O usuário conectou, pelo próprio dashboard da Vercel, uma integração de
+Storage/Database aos projetos — ainda não verificado nesta sessão se ela
+injeta um `DATABASE_URL` equivalente ao do Neon `executar-production`
+(seção 1) ou aponta para um banco novo/vazio. Isso será confirmado pelo
+primeiro deploy real (commit que gerou este parágrafo) + smoke test da
+seção 10; se apontar para um banco vazio, as 8 migrations precisam rodar
+contra ele antes de qualquer teste de RLS fazer sentido.
+
+Antigos IDs (não usar mais, projetos não existem): `prj_MkAbPkEyQRJboeX6xTKiLFoviPdl`
+(app), `prj_h4tfuhTnIiedTObU16xvBAEWkBWI` (web), `prj_eT3E4NGlkjWnDhv1XmGCnxi0932M`
+(api), `prj_ZaRfOZdchptCOpjViZj4RubN4I4C` (storybook).
+
+Histórico da primeira rodada de deploys (projetos antigos, achados que
+seguem válidos e já corrigidos no código, `apps/*/vercel.json`):
 - `apps/storybook`'s `vercel.json` was missing an explicit `framework`/
   `buildCommand`/`outputDirectory` — Vercel auto-detected "Next.js" from
   a vestigial `next.config.ts`/`next` dependency (unused; the app's real
@@ -61,23 +83,20 @@ not a bug to chase. Two real, fixed findings from that first deploy:
   Pro, not a design change. That file's own comment documents the exact
   revert.
 
-It becomes fully real once:
+Estado em 2026-09-12 (segunda reconciliação, feita pelo usuário direto no
+dashboard, confirmada nesta sessão via `get_database_tables`):
 
-🧑 **Populate env vars** — Vercel dashboard → each project → Settings →
-Environment Variables (no MCP tool sets these). Per `INFRASTRUCTURE.md`'s
-matrix:
-
-| Var | `app` | `web` | `api` | Value source |
+| Var | `app` | `web` | `api` | Status |
 |---|---|---|---|---|
-| `DATABASE_URL` | ✅ | — | ✅ | 🔑 §1 above |
-| `CLERK_SECRET_KEY` / `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` / `CLERK_WEBHOOK_SECRET` | ✅ | — | ✅ (webhook secret: `api` only) | §4 below |
-| `STRIPE_SECRET_KEY` | ✅ | — | ✅ | Stripe dashboard → Developers → API keys (test mode; this session only got price/webhook write access, not the secret key itself) |
-| `STRIPE_WEBHOOK_SECRET` | — | — | ✅ | 🔑 §5 below (`we_1UEB5OQ7o5IHoh4HmGA3hBwM`'s signing secret) |
-| `OPENAI_API_KEY` | ✅ | — | — | platform.openai.com |
-| `BASEHUB_TOKEN` | — | ✅ | — | BaseHub dashboard |
-| `INTEGRATIONS_ENCRYPTION_KEY` / `WHATSAPP_*` / `GMAIL_*` / `OUTLOOK_*` | ✅ | — | ✅ | §7 below |
-| `RESEND_FROM` / `RESEND_TOKEN` | ✅ | ✅ | ✅ | §6 below |
-| Full remaining inventory | — | — | — | `INFRASTRUCTURE.md`'s own table — unchanged |
+| `DATABASE_URL` | ✅ | — | ✅ | 🤖 sobrescrito pelo usuário via Edit (não Add — a variável era `Sensitive`, write-only) com o valor confirmado de `executar-production` (Neon), 30 tabelas reais, migrations aplicadas |
+| `OPENAI_API_KEY` | ✅ | — | — | 🤖 chave real da OpenAI configurada |
+| `STRIPE_SECRET_KEY` | ✅ | — | ✅ | 🤖 configurada (test-mode, `sk_test_51UEAHq...`) |
+| `STRIPE_WEBHOOK_SECRET` | — | — | 🧑 | ainda pendente — §5 abaixo |
+| `NEXT_PUBLIC_APP_URL` / `NEXT_PUBLIC_WEB_URL` | ✅ | ✅ | ✅ | 🤖 confirmado pelo usuário nos 3 projetos (`packages/next-config/keys.ts` exige `z.url()` sem `.optional()` — bloqueava `next build` com "Invalid environment variables" antes disso) |
+| `CLERK_SECRET_KEY` / `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` / `CLERK_WEBHOOK_SECRET` | 🧑 | — | 🧑 | ainda pendente — §4 abaixo (todas opcionais no schema, não bloqueiam build) |
+| `INTEGRATIONS_ENCRYPTION_KEY` / `WHATSAPP_*` / `GMAIL_*` / `OUTLOOK_*` | 🧑 | — | 🧑 | §7 abaixo |
+| `RESEND_FROM` / `RESEND_TOKEN` | 🧑 | 🧑 | 🧑 | §6 abaixo |
+| Inventário completo restante | — | — | — | `INFRASTRUCTURE.md` — inalterado |
 
 🧑 **Custom domains** — once §3 buys one, attach it in each project's
 Settings → Domains.
@@ -144,12 +163,19 @@ activated, this session re-runs the same product + webhook creation against
 connector's own "warn before switching test/live" rule) and hands you the
 new live `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET` to swap in.
 
-## 6. 🧑 OpenAI / BaseHub / Resend / Knock / BetterStack / Arcjet / Svix / Liveblocks / Upstash / Vercel Blob / PostHog
+## 6. 🧑 OpenAI / Resend / Knock / BetterStack / Arcjet / Svix / Liveblocks / Upstash / Vercel Blob / PostHog
 
 No connector for any of these — real signup + key generation per provider,
 exact var names in `INFRASTRUCTURE.md`'s existing inventory table (unchanged
-here). **BaseHub also needs real Privacy Policy/Terms content authored** —
-the CMS holds no content yet; this is a legal/content task, not code.
+here).
+
+**BaseHub — 🤖 fechado, sem conta externa.** O blog e as páginas legais do
+`apps/web` deixaram de depender do BaseHub: o conteúdo agora é MDX local em
+`packages/cms/content/{blog,legal}`, editado direto no repo via PR normal.
+`BASEHUB_TOKEN` não existe mais em nenhum `.env.example`. **Os textos de
+Termos/Privacidade em `packages/cms/content/legal/` são rascunhos-placeholder
+— precisam de revisão jurídica real antes do lançamento** (CONTENT_GAP,
+não ACCOUNT_GAP).
 
 ## 7. 🧑 WhatsApp / Gmail / Outlook
 
@@ -209,3 +235,25 @@ Once §2's env vars land and a real deploy succeeds:
    against a real workspace.
 4. A Stripe **test-mode** checkout dry run (§5's real prices) end-to-end
    before ever touching live keys.
+
+## 11. Branch/PR integration status — 2026-09-19
+
+Full audit of all repository branches, done ahead of the final integration
+push toward public launch. Every branch below was diffed against `main`
+directly (not assumed from commit messages); none were deleted — this
+policy is preserved even for branches whose content is already fully live.
+
+**Zero diff against `main` — content already fully present, no merge
+possible or needed:**
+
+`claude/fix-app-branding-placeholders`, `claude/fix-ci-workflow-syntax`,
+`claude/fix-preview-db-parent-branch`, `claude/legal-content-and-docs-cleanup`,
+`claude/session-handoff-2026-09-13`, `claude/trusting-pasteur-w4jzf1`,
+`claude/w1-1-reconciliation-2026-09-13`, `claude/web-env-production-fallback`,
+`docs/launch-runbook-database-url-fixed`, `docs/launch-runbook-env-status`,
+`docs/launch-runbook-public-urls-confirmed`,
+`docs/launch-runbook-vercel-reconciliation`, `feat/local-mdx-content`,
+`fix/production-build-no-test-gate`, `fix/shared-deploy-config`,
+`fix/turbo-database-generate-ordering`, `integration/ecosystem-boundaries`.
+
+Branches kept, no further action needed.

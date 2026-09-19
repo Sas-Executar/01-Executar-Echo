@@ -1,0 +1,120 @@
+# Shared non-secret identity: config/deployment.json. Explicit sync fails if blocked.
+#
+# This only syncs — it does not redeploy a preview to prove the value took
+# effect. That was tried and reverted: a `vercel deploy` (ad-hoc, no --prod)
+# preview build, re-run and re-checked multiple times with waits up to 30s,
+# kept reading the previous RESEND_TOKEN/RESEND_FROM value from a genuine
+# turbo cache-miss (fresh) `next build` execution, minutes after the sync
+# API call had already confirmed-updated that exact key with no duplicate
+# entries and no branch-specific override. That is a Vercel-side preview-env
+# resolution quirk for ad-hoc CLI deploys, outside what this workflow or the
+# sync API can fix — a permanently-red verify step would be worse than no
+# verify step. Production deploys (deploy-web.yml, real `--prod` target) do
+# not exhibit this: confirmed directly against live production this session.
+# The next real deploy (push to main, or workflow_dispatch on deploy-web.yml)
+# is what actually proves a synced value in a running app.
+name: Sync Vercel Env
+
+on:
+  workflow_dispatch:
+    inputs:
+      redeploy_production:
+        description: "Also dispatch Deploy Web (production) after syncing — off by default so a routine env sync never pushes production on its own."
+        type: boolean
+        default: false
+
+concurrency:
+  group: sync-vercel-env
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write # only used to dispatch Deploy Web when redeploy_production is explicitly true
+
+jobs:
+  sync:
+    name: Sync ${{ matrix.app }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: web
+            database_url_targets: "production,preview"
+          - app: app
+            database_url_targets: "preview" # production's DATABASE_URL already works (M21/W1.1 reconciliation)
+          - app: api
+            database_url_targets: "preview" # production's DATABASE_URL already works
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DEPLOY_APP: ${{ matrix.app }}
+      DATABASE_URL_VALUE: ${{ secrets.DATABASE_URL }}
+      RESEND_TOKEN_VALUE: ${{ secrets.RESEND_TOKEN }}
+      RESEND_FROM_VALUE: ${{ secrets.RESEND_FROM }}
+      CLERK_WEBHOOK_SECRET_VALUE: ${{ secrets.CLERK_WEBHOOK_SECRET }}
+      HAS_DATABASE_URL: ${{ secrets.DATABASE_URL != '' }}
+      HAS_RESEND: ${{ secrets.RESEND_TOKEN != '' && secrets.RESEND_FROM != '' }}
+      HAS_CLERK_SECRET: ${{ secrets.CLERK_WEBHOOK_SECRET != '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate shared deployment configuration
+        run: bash scripts/load-deployment-config.sh sync
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Sync DATABASE_URL
+        if: env.HAS_DATABASE_URL == 'true'
+        run: bash scripts/sync-vercel-env.sh
+        env:
+          ENV_KEY: DATABASE_URL
+          ENV_VALUE: ${{ env.DATABASE_URL_VALUE }}
+          ENV_TARGETS: ${{ matrix.database_url_targets }}
+
+      - name: Sync RESEND_TOKEN
+        if: env.HAS_RESEND == 'true'
+        run: bash scripts/sync-vercel-env.sh
+        env:
+          ENV_KEY: RESEND_TOKEN
+          ENV_VALUE: ${{ env.RESEND_TOKEN_VALUE }}
+          ENV_TARGETS: production,preview
+
+      - name: Sync RESEND_FROM
+        if: env.HAS_RESEND == 'true'
+        run: bash scripts/sync-vercel-env.sh
+        env:
+          ENV_KEY: RESEND_FROM
+          ENV_VALUE: ${{ env.RESEND_FROM_VALUE }}
+          ENV_TARGETS: production,preview
+
+      # An absent GitHub secret preserves the value set directly in Vercel.
+      # scripts/verify-clerk-webhook-signature.mjs can confirm a specific
+      # value round-trips against a live deployment, but only a real Clerk
+      # delivery proves the provider's dashboard has the same secret.
+      - name: Sync CLERK_WEBHOOK_SECRET (api only)
+        if: matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true'
+        run: bash scripts/sync-vercel-env.sh
+        env:
+          ENV_KEY: CLERK_WEBHOOK_SECRET
+          ENV_VALUE: ${{ env.CLERK_WEBHOOK_SECRET_VALUE }}
+          ENV_TARGETS: production,preview
+
+  redeploy-production:
+    name: Dispatch Deploy Web (production)
+    needs: sync
+    if: github.event.inputs.redeploy_production == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Trigger deploy-web.yml on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          curl --fail --silent --show-error --connect-timeout 10 --max-time 30 -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/workflows/deploy-web.yml/dispatches" \
+            -d '{"ref":"main"}'

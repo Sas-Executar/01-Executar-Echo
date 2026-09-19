@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F10-T01,PLAN-EXEC-1409-F10,FASE-10,1,Fechar decisão técnica do Scanner,DECISION,A2,Conflito OCR vs DINOv2/ONNX,"Decisão registrada com base em evidência de custo, latência e viabilidade on-device",DECISION_LOG DEC-004,YES,PLANNED
+PLAN-EXEC-1409-F10-T02,PLAN-EXEC-1409-F10,FASE-10,2,"Implementar scanner dispatch, symbols e undo",CODE,A3,3 rotas de api já existentes,Símbolo escaneado dispara ação real e é reversível,E2E,YES,PLANNED
+PLAN-EXEC-1409-F10-T03,PLAN-EXEC-1409-F10,FASE-10,3,Ligar integrações autorizadas (WhatsApp/Gmail/Outlook),INTEGRATION,A3,Credenciais do FORM-ZERO,Webhook de cada canal autorizado entrega 200 com assinatura válida,Log da api,YES,PLANNED
+PLAN-EXEC-1409-F10-T04,PLAN-EXEC-1409-F10,FASE-10,4,Validar rotina diária e registrar degradação do cron,CODE,A4,Plano Hobby = 1x/dia,"Rotina executa e entrega resumo; a limitação está registrada como item de upgrade, não escondida",Execução + registro,YES,PLANNED

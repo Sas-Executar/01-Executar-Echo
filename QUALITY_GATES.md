@@ -18,11 +18,11 @@ not a transcription of something the Blueprint specifies.
 
 ## What's deliberately not a gate yet
 
-- **Build.** `apps/web` cannot render any route without a real
-  `BASEHUB_TOKEN` (confirmed by actually starting it — see
-  `apps/web/e2e/README.md`); `apps/app` needs a live Postgres + Clerk
-  keys. A real build/deploy gate belongs to M19 (CD Web/Mobile), once
-  those credentials exist somewhere this repo's CI can reach them.
+- **Build.** `apps/web`'s BaseHub dependency is gone (local MDX content
+  now — see `LAUNCH_RUNBOOK.md` §6); `apps/app` still needs a live
+  Postgres + Clerk keys. A real build/deploy gate belongs to M19 (CD
+  Web/Mobile), once those credentials exist somewhere this repo's CI
+  can reach them.
 - **E2E (Playwright).** `apps/app/playwright.config.ts` and
   `apps/web/playwright.config.ts` (M17-T01) are real and ready to run,
   but need the same credentials the build gate does — not wired into

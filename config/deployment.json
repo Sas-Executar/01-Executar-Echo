@@ -1,0 +1,15 @@
+{
+  "vercel": {
+    "orgId": "team_fJe21quDM0egDSTPE0CFwNnm",
+    "projects": {
+      "app": "prj_tjzeAZAoitSeuYf0RNEhmyakMiMo",
+      "web": "prj_pa8ihwg7ReAncAAhZMBHdKTLMZr1",
+      "api": "prj_Ui40tk9orjhk5wq5tG90F5z65kiD"
+    }
+  },
+  "mobile": {
+    "appConfig": "apps/mobile/app.json",
+    "updateBranch": "production",
+    "buildProfile": "production"
+  }
+}

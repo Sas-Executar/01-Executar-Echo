@@ -2,12 +2,12 @@
 # this, the repo's only workflows were release.yml (publishes the
 # next-forge CLI to npm on push to main) and security.yml (M16,
 # secrets/dependency scanning) — nothing ran on a pull request at all.
-# `build` is deliberately not a job here yet: `apps/web` hard-crashes on
-# every route without a real BASEHUB_TOKEN (its shared [locale] layout
-# fetches CMS content — confirmed by actually starting it, see
-# apps/web/e2e/README.md) and `apps/app` needs a live Postgres + Clerk
-# keys neither this workflow nor this repo's CI secrets currently carry.
-# A real build/deploy gate is M19's job (CD Web/Mobile), not this one's.
+# `build` is deliberately not a job here yet: `apps/web`'s BaseHub
+# dependency was removed (content is local MDX now, see
+# packages/cms/index.ts) but `apps/app` still needs a live Postgres +
+# Clerk keys neither this workflow nor this repo's CI secrets currently
+# carry. A real build/deploy gate is M19's job (CD Web/Mobile), not this
+# one's.
 name: CI
 
 on:
@@ -23,6 +23,21 @@ permissions:
   contents: read
 
 jobs:
+  deployment-config:
+    name: Deployment configuration regression checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate shell syntax
+        run: bash -n scripts/load-deployment-config.sh scripts/sync-vercel-env.sh scripts/check-deployment-health.sh
+      - name: Test gates, secret rotation and health checks
+        run: node --test scripts/deployment-config.test.mjs
+
   lint:
     name: Lint (ultracite/biome)
     runs-on: ubuntu-latest
@@ -90,31 +105,46 @@ jobs:
 
   # ADR-DS-001 Required Change #9 — Storybook visual regression. Runs
   # only once a real CHROMATIC_PROJECT_TOKEN repo secret exists (no
-  # Chromatic connector to provision one automatically here — same
-  # `!= ''` gating pattern deploy-web.yml/preview-db.yml already use for
-  # their own tool-gap secrets/vars); until then this job is skipped, not
-  # failed, so CI stays honest about what it does and doesn't cover.
+  # Chromatic connector to provision one automatically here). GitHub
+  # Actions does not expose the `secrets` context to *any* `if:`
+  # condition — job-level or step-level — confirmed the hard way: this
+  # job originally gated itself with a job-level
+  # `if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}`, which failed the
+  # whole workflow file to parse ("Unrecognized named-value: 'secrets'"),
+  # silently skipping every job here on every push since ADR-DS-001. A
+  # first attempted fix moved the same `secrets.…` expression onto each
+  # step's own `if:` instead — same error, same position, still invalid;
+  # `secrets` genuinely isn't readable from an `if:` anywhere, only from
+  # `env:`/`with:`/`run:`. The actual fix: copy the secret into a job-level
+  # `env:` (env assignment, unlike `if:`, can read `secrets`), then gate
+  # each step on that `env` value instead — the `env` context *is* valid
+  # in step-level `if:`. Until the secret exists, every step below
+  # no-ops and the job reports success, so CI stays honest about what it
+  # does and doesn't cover without failing the file to parse.
   visual-regression:
     name: Storybook visual regression (Chromatic)
     runs-on: ubuntu-latest
-    if: ${{ secrets.CHROMATIC_PROJECT_TOKEN != '' }}
+    env:
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
     steps:
       - name: Checkout
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Bun
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
         working-directory: apps/storybook
         run: bunx chromatic --exit-zero-on-changes
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
   test:
     name: Unit tests (vitest, every package)

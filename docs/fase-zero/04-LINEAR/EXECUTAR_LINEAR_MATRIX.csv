@@ -1,0 +1,590 @@
+Title,Description,Status,Priority,Labels,Project,Estimate,External ID
+"[PLAN-EXEC-1409-F00] Fase Zero — Insumos, Segredos e Decisões Humanas","Título operacional: PLAN-EXEC-1409-F00 — FASE_00/12 — USAR: OPUS · plan mode · esforço HIGH
+
+Por que esses parâmetros: Opus + plan mode + HIGH: é a única fase que define a topologia de todo o resto; erro aqui propaga para 12 fases. Exige leitura cruzada de corpus, repositório e estado live, e decisões irreversíveis (domínio, repositório canônico, arquitetura de dados).
+
+JTBD: Como Leo, quero entregar de uma só vez tudo que só eu posso entregar, para que nenhuma fase seguinte pare por minha causa.
+
+Problema: Projetos Vercel ativos sem env vars válidas; produção de web nunca subiu; api quebrada por segredo com prefixo inválido; nenhuma sessão de agente consegue escrever env var na Vercel nem secret no GitHub.
+
+Processo: Coletar segredos e decisões em UM formulário único, gravar como GitHub Actions Secrets/Variables, resolver os 3 conflitos canônicos abertos e autorizar o modo de execução por gates.
+
+Progresso: Secrets presentes no repositório + decisões registradas em DECISION_LOG.md + autorização de auto-PR registrada.
+
+Gate: GATE-00: `gh secret list` retorna os 7 secrets obrigatórios; `gh variable list` retorna as 3 variables; DECISION_LOG.md contém DEC-001..DEC-003 resolvidas.",Backlog,High,"fase,opus,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00
+[PLAN-EXEC-1409-F01] Desbloqueio de Build — Contrato de Env à Prova de Falha,"Título operacional: PLAN-EXEC-1409-F01 — FASE_01/12 — USAR: OPUS · plan mode · esforço HIGH
+
+Por que esses parâmetros: Opus + HIGH: é diagnóstico de causa raiz em cadeia (t3-env + Turborepo + Vercel build env + Next.js env precedence) com histórico de 5 sessões anteriores que falharam. Plan mode porque a correção toca o contrato compartilhado de todos os apps.
+
+JTBD: Como Leo, quero que os três projetos Vercel construam e publiquem em produção sem eu tocar em painel nenhum.
+
+Problema: 16 variáveis opcionais com `.startsWith()` viram bloqueantes de build quando preenchidas com valor errado — foi exatamente isso que derrubou executar-nf-api. E 3 variáveis são obrigatórias sem fallback.
+
+Processo: Endurecer o contrato de env (preflight que falha com nome da variável e prefixo esperado, não 'Invalid environment variables'), rodar sync-vercel-env.yml, redeploy de produção dos 3 projetos, verificar READY.
+
+Progresso: Produção READY em executar-nf-web, executar-nf-app e executar-nf-api no mesmo commit de main.
+
+Gate: GATE-01: os 3 projetos com latestDeployment.readyState=READY e target=production; `/health` da api responde 200 sem SSO; preflight falha com mensagem nominal quando uma var obrigatória some.",Backlog,High,"fase,opus,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F01
+"[PLAN-EXEC-1409-F02] Governança de Execução — Registro, Runner e Retomada","Título operacional: PLAN-EXEC-1409-F02 — FASE_02/12 — USAR: SONNET · normal · esforço MEDIUM
+
+Por que esses parâmetros: Sonnet + MEDIUM: é implementação de estrutura conhecida (arquivos, workflow, schema JSON), sem decisão arquitetural aberta. Opus aqui seria overkill e adiciona latência.
+
+JTBD: Como Leo, quero que qualquer sessão nova assuma de onde a anterior parou, sem eu reexplicar nada.
+
+Problema: O plano aprovado vivia apenas no arquivo local de plan mode de uma sessão; ao estourar contexto, o plano se perdeu (evidência: commit 7ab7b90).
+
+Processo: Criar PLAN/ registry no repositório (plano, fases, estado), GATE_LOG.md append-only, agente runner + README de rastreio, e o protocolo de encerramento de fase (commit + PR + atualização de estado).
+
+Progresso: PLAN/ versionado no repo com estado de cada fase legível por máquina.
+
+Gate: GATE-02: PLAN/state.json válido contra PLAN/schema.json; GATE_LOG.md com entrada de GATE-00 e GATE-01; runner documentado no README.",Backlog,Medium,"fase,sonnet,esforco-medium",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F02
+[PLAN-EXEC-1409-F03] Linear como Entry Point Único de Controle,"Título operacional: PLAN-EXEC-1409-F03 — FASE_03/12 — USAR: SONNET · normal · esforço MEDIUM
+
+Por que esses parâmetros: Sonnet + MEDIUM: trabalho de integração via MCP com schema já definido na fase 2. Sem ambiguidade de design.
+
+JTBD: Como Leo, quero abrir o Linear e ver exatamente em que fase você está, sem entrar no GitHub ou na Vercel.
+
+Problema: O workspace Linear tem 1 time e 1 projeto de campanha editorial; nenhum item do plano técnico existe lá. Hoje o único lugar com o estado real é o log de commits.
+
+Processo: Popular o Linear a partir da matriz (projeto por fase, issue por tarefa, ciclos semanais), validar se a pasta do Drive sincronizou, e ligar o encerramento de gate à mudança de status no Linear.
+
+Progresso: Uma issue Linear por tarefa do plano, com ID espelhado no CSV e link para o commit/PR que a encerrou.
+
+Gate: GATE-03: toda tarefa do CSV tem issue Linear correspondente; encerrar uma fase move a issue para Done automaticamente; Leo confirma visualmente no app.",Backlog,Medium,"fase,sonnet,esforco-medium",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F03
+"[PLAN-EXEC-1409-F04] Identidade — Domínio, DNS, Clerk Produção e Fim do SSO","Título operacional: PLAN-EXEC-1409-F04 — FASE_04/12 — USAR: OPUS · plan mode · esforço HIGH
+
+Por que esses parâmetros: Opus + plan mode + HIGH: envolve compra irreversível, mudança de DNS e migração de provedor de identidade — a ordem das operações importa e um erro derruba o que a fase 1 estabilizou.
+
+JTBD: Como Leo, quero que o ecossistema tenha endereço próprio e login real, não URLs *.vercel.app protegidas por SSO.
+
+Problema: SSO Protection está ligado em executar-nf-api para todos os domínios exceto customizados — e não existe domínio customizado. Isso bloqueia até o webhook do Clerk. O Clerk roda instância de desenvolvimento em produção.
+
+Processo: Comprar domínio via conector Vercel, configurar DNS, anexar aos 3 projetos, migrar Clerk para instância de produção, apontar webhooks, desligar SSO por ter domínio custom.
+
+Progresso: Domínio próprio servindo web/app/api; login real; webhook do Clerk entregando 200.
+
+Gate: GATE-04: domínio resolve nos 3 apps; SSO desligado; entrega real de webhook Clerk registrada em log da api (não só self-test local).",Backlog,Medium,"fase,opus,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F04
+"[PLAN-EXEC-1409-F05] Dados — Neon Produção, Migrations, RLS e Preview Branches","Título operacional: PLAN-EXEC-1409-F05 — FASE_05/12 — USAR: SONNET · normal · esforço HIGH
+
+Por que esses parâmetros: Sonnet + HIGH: execução conhecida (Prisma + Neon MCP) mas volume alto de verificação e risco de dado. Esforço alto pela quantidade de asserções; Opus desnecessário pois a decisão arquitetural já foi tomada na fase 0.
+
+JTBD: Como Leo, quero saber que os dados dos usuários estão isolados e que cada PR testa contra um banco real.
+
+Problema: Conflito aberto: o corpus aprova AWS Aurora sa-east-1 como arquitetura persistente, o live roda Neon em aws-us-east-2. Além disso preview-db.yml só passou a funcionar após correção recente e a suíte de RLS (89 testes) pula quando DATABASE_URL está ausente.
+
+Processo: Resolver o conflito por decisão registrada, rodar migrate deploy contra produção, executar a suíte RLS real, validar branch por PR.
+
+Progresso: 89 testes de RLS executando (não pulando) contra o banco real; preview branch criado e destruído por PR.
+
+Gate: GATE-05: `bun run test` com DATABASE_URL exportado reporta 89 testes RLS passando; preview-db.yml verde em um PR real.",Backlog,Medium,"fase,sonnet,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F05
+[PLAN-EXEC-1409-F06] Receita e Conformidade — Stripe Live e LGPD,"Título operacional: PLAN-EXEC-1409-F06 — FASE_06/12 — USAR: SONNET · normal · esforço MEDIUM
+
+Por que esses parâmetros: Sonnet + MEDIUM: caminho já trilhado em test mode; a fase é replicação controlada + redação. A parte irreversível (KYC) é humana e foi antecipada na fase 0.
+
+JTBD: Como Leo, quero poder receber pagamento de verdade e não ter passivo jurídico no lançamento.
+
+Problema: Stripe está em test mode (6 preços criados); live depende de KYC que só Leo faz. Termos e Privacidade em packages/cms/content/legal são rascunhos e o próprio runbook os marca como CONTENT_GAP.
+
+Processo: Recriar produtos/preços em livemode após ativação, revalidar webhook de pagamentos, finalizar textos legais LGPD e o round-trip de exportação/exclusão de dados.
+
+Progresso: Checkout live funcional ponta a ponta + páginas legais publicadas + export/delete LGPD testado.
+
+Gate: GATE-06: um checkout test-mode completo ponta a ponta; se KYC aprovado na fase 0, um checkout live de valor mínimo; export e delete LGPD executados contra workspace real.",Backlog,Medium,"fase,sonnet,esforco-medium",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F06
+"[PLAN-EXEC-1409-F07] EXECUTAR Web — Site Público, Blog, Pricing e SEO","Título operacional: PLAN-EXEC-1409-F07 — FASE_07/12 — USAR: SONNET · normal · esforço MEDIUM
+
+Por que esses parâmetros: Sonnet + MEDIUM: implementação de front-end sobre estrutura existente, com critérios verificáveis por HTTP. Sem decisão arquitetural nova.
+
+JTBD: Como Leo, quero que quem chegar pelo conteúdo encontre um site que explica o ecossistema e converte.
+
+Problema: apps/web tem 6 rotas e conteúdo MDX local; nunca teve build de produção verde, então nada disso está publicado.
+
+Processo: Publicar home, blog, pricing, contato e legal; aplicar i18n; implementar a camada de Quick Frameworks e deep links prevista no briefing; SEO e sitemap.
+
+Progresso: Site público navegável no domínio próprio, indexável, com as rotas do índice respondendo 200.
+
+Gate: GATE-07: todas as rotas de apps/web respondem 200 no domínio próprio; Lighthouse ≥ 90 em performance e acessibilidade na home; sitemap.xml válido.",Backlog,Medium,"fase,sonnet,esforco-medium",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F07
+"[PLAN-EXEC-1409-F08] EXECUTAR App — Mapa OS, Now, Projetos e Relatórios","Título operacional: PLAN-EXEC-1409-F08 — FASE_08/12 — USAR: OPUS · normal · esforço HIGH
+
+Por que esses parâmetros: Opus + HIGH: é o núcleo do produto e a parte com mais lógica de domínio e estado; qualidade aqui define se o app é usável. Sem plan mode porque a fase 0 e o Blueprint já fixaram o escopo.
+
+JTBD: Como Leo, quero abrir o app e usar de verdade o Mapa OS e o Agora/Próximo/Depois, porque é isso que prova a tese do produto.
+
+Problema: apps/app tem 25 rotas autenticadas e os pacotes mapa-os, reports, domain existem — mas nada foi validado contra banco real com usuário real, porque produção nunca ficou verde junto com auth.
+
+Processo: Validar e completar as jornadas núcleo (Mapa OS, Agora/Hoje/Amanhã, Projetos, Relatórios, impressão do Mapa OS), com teste de ponta a ponta autenticado.
+
+Progresso: Jornada completa: login → criar projeto → ver no Mapa OS → gerar relatório → imprimir.
+
+Gate: GATE-08: Playwright autenticado cobre a jornada núcleo ponta a ponta contra a URL real; Mapa OS renderiza e imprime a partir de dados reais.",Backlog,Medium,"fase,opus,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F08
+"[PLAN-EXEC-1409-F09] Copiloto e Agent Runtime — MCP, Handoffs e Evals","Título operacional: PLAN-EXEC-1409-F09 — FASE_09/12 — USAR: OPUS · plan mode · esforço HIGH
+
+Por que esses parâmetros: Opus + plan mode + HIGH: maior densidade de decisão arquitetural aberta do plano (orquestrador, políticas, estado, ferramentas) e é onde erro silencioso é mais caro, porque o agente age sobre dados do usuário.
+
+JTBD: Como Leo, quero um copiloto que execute operações sobre meu backlog, não um chat que responde perguntas.
+
+Problema: O corpus registra o Multi-Agent Blueprint como especificado mas com registries e agentes majoritariamente não populados; o contrato MCP Skill V2.1 está especificado sem implementação verificada; o dataset de evals tem 18 casos.
+
+Processo: Implementar o runtime de agentes contra o contrato de handoff tipado, expor /mcp, popular o registry, ampliar o dataset de evals e ligar o gate de 100% de aprovação.
+
+Progresso: Copiloto executa um comando real sobre o backlog, com handoff auditável e eval passando.
+
+Gate: GATE-09: evals 100% verdes em datasets, adversarial e regression; um comando real do copiloto altera estado no banco com trilha de auditoria.",Backlog,Medium,"fase,opus,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F09
+"[PLAN-EXEC-1409-F10] Scanner, Rotina e Integrações Externas","Título operacional: PLAN-EXEC-1409-F10 — FASE_10/12 — USAR: SONNET · normal · esforço HIGH
+
+Por que esses parâmetros: Sonnet + HIGH: muitos pontos de integração e verificação por webhook, mas cada um com caminho documentado pelo provedor. A única decisão aberta (Scanner) é fechada por evidência, não por arquitetura nova.
+
+JTBD: Como Leo, quero que o sistema me procure pelos meus canais em vez de eu ter que lembrar de abrir o app.
+
+Problema: Conflito técnico aberto no Scanner (OCR tradicional vs DINOv2/ONNX/SymbolRegistry) sem resolução; o cron de rotinas caiu para 1x/dia por limite do plano Hobby; WhatsApp/Gmail/Outlook dependem de registro de app em cada provedor.
+
+Processo: Fechar a decisão do Scanner, implementar dispatch/undo, ligar as rotinas nos canais autorizados na fase 0 e tratar a degradação do cron como item explícito de upgrade de plano.
+
+Progresso: Um símbolo escaneado dispara ação real; uma rotina diária entrega resumo por um canal real.
+
+Gate: GATE-10: webhook de cada canal autorizado entrega 200 com assinatura válida; scanner dispatch + undo testados; rotina diária executa e registra evidência.",Backlog,Medium,"fase,sonnet,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F10
+"[PLAN-EXEC-1409-F11] Mobile — EAS, Build e Submissão às Lojas","Título operacional: PLAN-EXEC-1409-F11 — FASE_11/12 — USAR: SONNET · normal · esforço HIGH
+
+Por que esses parâmetros: Sonnet + HIGH: processo mecânico e bem documentado, porém longo e cheio de artefatos (ícones, capturas, textos, classificação etária). Esforço alto por volume, não por dificuldade conceitual.
+
+JTBD: Como Leo, quero o app publicado na App Store e no Google Play sem eu preencher formulário nenhum.
+
+Problema: apps/mobile/app.json tem extra.eas.projectId vazio, EXPO_TOKEN foi rejeitado como inválido, e o perfil submit.production do eas.json está vazio. Cada loja exige metadados, capturas e textos que hoje não existem.
+
+Processo: Inicializar EAS, gerar builds de produção, produzir todos os metadados e capturas a partir do app real, e submeter usando as credenciais entregues na fase 0.
+
+Progresso: Build de produção aceito por ambas as lojas e em revisão.
+
+Gate: GATE-11: EAS build de produção com sucesso para iOS e Android; submissão aceita (status 'Waiting for Review' / 'In review'); nenhum campo de formulário preenchido por Leo.",Backlog,Medium,"fase,sonnet,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F11
+"[PLAN-EXEC-1409-F12] Lançamento — Observabilidade, E2E, Smoke e Corte Público","Título operacional: PLAN-EXEC-1409-F12 — FASE_12/12 — USAR: OPUS · plan mode · esforço HIGH
+
+Por que esses parâmetros: Opus + plan mode + HIGH: é a fase de decisão go/no-go, onde o custo de um falso verde é máximo. Exige julgamento sobre risco agregado de 12 fases, não execução.
+
+JTBD: Como Leo, quero testar, navegar e usar — e liberar para o público sabendo que aguenta.
+
+Problema: Build e E2E não são gates hoje (QUALITY_GATES.md os declara deliberadamente fora); a auditoria de dependências tem baseline de 306 advisories em continue-on-error; não há smoke sequence executada de verdade.
+
+Processo: Promover build e E2E a gates bloqueantes, ligar Sentry/BetterStack, executar a smoke sequence completa do runbook e fazer o corte público com rollback documentado.
+
+Progresso: Ecossistema público, monitorado, com rollback testado e Leo usando o produto ponta a ponta.
+
+Gate: GATE-12: smoke sequence §10 do LAUNCH_RUNBOOK executada e registrada; build e E2E bloqueantes no ci.yml; rollback testado uma vez; Leo aprova o corte.",Backlog,Medium,"fase,opus,esforco-high",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F12
+[PLAN-EXEC-1409-F00-T01] Emitir formulário único de insumos humanos (FORM-ZERO),"Fase: FASE-00
+Tipo: PREP
+Nível de automação: A4
+Entrada: Contrato de env (56 vars) + checklist §9 do LAUNCH_RUNBOOK + requisitos de loja
+Critério de aceite: Formulário entregue com TODOS os campos que Leo precisa preencher, agrupados por sistema, com instrução de onde obter cada valor
+Evidência: 00-PROMPT/FORM-ZERO.md
+Bloqueante: YES",Backlog,Urgent,"tarefa,prep,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T01
+[PLAN-EXEC-1409-F00-T02] Gravar GitHub Actions Secrets obrigatórios,"Fase: FASE-00
+Tipo: CONFIG
+Nível de automação: A2
+Entrada: Valores do FORM-ZERO
+Critério de aceite: gh secret list retorna VERCEL_TOKEN, DATABASE_URL, RESEND_TOKEN, RESEND_FROM, CLERK_WEBHOOK_SECRET, NEON_API_KEY, EXPO_TOKEN
+Evidência: Saída de `gh secret list`
+Bloqueante: YES",Backlog,Urgent,"tarefa,config,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T02
+[PLAN-EXEC-1409-F00-T03] Gravar GitHub Actions Variables,"Fase: FASE-00
+Tipo: CONFIG
+Nível de automação: A2
+Entrada: IDs já conhecidos
+Critério de aceite: gh variable list retorna NEON_PROJECT_ID=snowy-dawn-65785764, VERCEL_ORG_ID=team_fJe21quDM0egDSTPE0CFwNnm, EAS_PROJECT_CONFIGURED
+Evidência: Saída de `gh variable list`
+Bloqueante: YES",Backlog,Urgent,"tarefa,config,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T03
+[PLAN-EXEC-1409-F00-T04] Resolver DEC-001 — repositório canônico,"Fase: FASE-00
+Tipo: DECISION
+Nível de automação: A1
+Entrada: Conflito: corpus D20 aprova Sas-Executar/Sas-Executar; live roda em Sas-Executar/01-Executar-Echo
+Critério de aceite: Decisão registrada com justificativa e impacto nos 7 projetos Vercel existentes
+Evidência: DECISION_LOG.md DEC-001
+Bloqueante: YES",Backlog,Urgent,"tarefa,decision,a1",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T04
+[PLAN-EXEC-1409-F00-T05] Resolver DEC-002 — arquitetura de dados persistente,"Fase: FASE-00
+Tipo: DECISION
+Nível de automação: A1
+Entrada: Conflito: corpus aprova AWS Aurora sa-east-1 privado; live roda Neon aws-us-east-2 com 30 tabelas e RLS
+Critério de aceite: Decisão registrada; se mantiver Neon, o registro de arquitetura aprovada é atualizado e a transferência internacional segue declarada no aviso LGPD
+Evidência: DECISION_LOG.md DEC-002
+Bloqueante: YES",Backlog,Urgent,"tarefa,decision,a1",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T05
+[PLAN-EXEC-1409-F00-T06] Resolver DEC-003 — domínio e plano Vercel,"Fase: FASE-00
+Tipo: DECISION
+Nível de automação: A1
+Entrada: Plano atual é Hobby (limita cron a 1x/dia e força SSO em *.vercel.app); domínio não existe
+Critério de aceite: Nome de domínio escolhido + autorização de compra + decisão sobre upgrade para Pro
+Evidência: DECISION_LOG.md DEC-003
+Bloqueante: YES",Backlog,Urgent,"tarefa,decision,a1",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T06
+[PLAN-EXEC-1409-F00-T07] Coletar dados pessoais e fiscais para submissão às lojas,"Fase: FASE-00
+Tipo: PREP
+Nível de automação: A2
+Entrada: Requisitos de App Store Connect e Google Play Console
+Critério de aceite: Nome legal, endereço, documento, telefone de suporte, e-mail de suporte, URL de política de privacidade e conta de desenvolvedor de cada loja disponíveis para uso nas fases 6 e 11
+Evidência: FORM-ZERO seção Lojas
+Bloqueante: YES",Backlog,Urgent,"tarefa,prep,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T07
+[PLAN-EXEC-1409-F00-T08] Registrar autorização de auto-PR e política de gates,"Fase: FASE-00
+Tipo: GOVERNANCE
+Nível de automação: A4
+Entrada: Instrução do 14-09.md item 15a
+Critério de aceite: AUTHORIZATIONS.md registra: auto-PR ao fim de cada fase autorizado; parada obrigatória ao fim de cada gate; nenhuma ação irreversível sem decisão registrada
+Evidência: AUTHORIZATIONS.md
+Bloqueante: NO",Backlog,Medium,"tarefa,governance,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F00-T08
+[PLAN-EXEC-1409-F01-T01] Implementar preflight de env com falha nominal,"Fase: FASE-01
+Tipo: CODE
+Nível de automação: A4
+Entrada: packages/*/keys.ts (56 vars, 16 com prefixo obrigatório)
+Critério de aceite: Build que falta variável falha citando o NOME da variável, o prefixo esperado e o app afetado — não 'Invalid environment variables'
+Evidência: Log de build da Vercel
+Bloqueante: YES",Backlog,Urgent,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F01-T01
+[PLAN-EXEC-1409-F01-T02] Blindar as 16 variáveis com prefixo contra valor inválido,"Fase: FASE-01
+Tipo: CODE
+Nível de automação: A4
+Entrada: Evidência: CLERK_WEBHOOK_SECRET sem 'whsec_' derrubou produção da api
+Critério de aceite: Variável opcional preenchida com prefixo errado produz erro de configuração identificável, não quebra global do build
+Evidência: Teste de regressão no repositório
+Bloqueante: YES",Backlog,Urgent,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F01-T02
+[PLAN-EXEC-1409-F01-T03] Executar sync-vercel-env.yml para os 3 projetos,"Fase: FASE-01
+Tipo: DEPLOY
+Nível de automação: A4
+Entrada: Secrets da FASE-00
+Critério de aceite: Workflow verde para web, app e api; cada variável sincronizada nos targets corretos
+Evidência: Run do GitHub Actions
+Bloqueante: YES",Backlog,Urgent,"tarefa,deploy,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F01-T03
+[PLAN-EXEC-1409-F01-T04] Redeploy de produção e verificação READY,"Fase: FASE-01
+Tipo: DEPLOY
+Nível de automação: A4
+Entrada: main na cabeça
+Critério de aceite: Os 3 projetos com readyState=READY e target=production no mesmo commit
+Evidência: get_project de cada projeto
+Bloqueante: YES",Backlog,Urgent,"tarefa,deploy,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F01-T04
+[PLAN-EXEC-1409-F01-T05] Documentar o contrato de env como fonte única,"Fase: FASE-01
+Tipo: DOC
+Nível de automação: A4
+Entrada: CONTRATO-ENV.csv
+Critério de aceite: INFRASTRUCTURE.md substituído por tabela gerada do código, com verificação automática de drift no ci.yml
+Evidência: PR + job de CI
+Bloqueante: NO",Backlog,Medium,"tarefa,doc,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F01-T05
+[PLAN-EXEC-1409-F02-T01] Criar PLAN/ registry versionado,"Fase: FASE-02
+Tipo: CODE
+Nível de automação: A4
+Entrada: Matriz do plano
+Critério de aceite: PLAN/plan.json, PLAN/state.json e PLAN/schema.json no repositório, validados em CI
+Evidência: Job de CI
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F02-T01
+[PLAN-EXEC-1409-F02-T02] Criar GATE_LOG.md append-only,"Fase: FASE-02
+Tipo: CODE
+Nível de automação: A4
+Entrada: Protocolo de gates
+Critério de aceite: Cada gate encerrado grava fase, commit, PR, evidência, modelo e esforço usados
+Evidência: GATE_LOG.md
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F02-T02
+[PLAN-EXEC-1409-F02-T03] Configurar agente runner e README de rastreio,"Fase: FASE-02
+Tipo: CODE
+Nível de automação: A3
+Entrada: AGENTS.md existente
+Critério de aceite: Sessão nova lê PLAN/state.json + GATE_LOG.md e retoma sem contexto conversacional
+Evidência: README de rastreio
+Bloqueante: YES",Backlog,High,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F02-T03
+[PLAN-EXEC-1409-F02-T04] Protocolo de encerramento de fase com auto-PR,"Fase: FASE-02
+Tipo: CODE
+Nível de automação: A4
+Entrada: AUTHORIZATIONS.md
+Critério de aceite: Ao fim de cada fase: commit, PR aberto, state.json atualizado, issue Linear movida — em uma única sequência
+Evidência: PR da própria fase
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F02-T04
+[PLAN-EXEC-1409-F03-T01] Criar projeto e ciclos no Linear a partir da matriz,"Fase: FASE-03
+Tipo: INTEGRATION
+Nível de automação: A4
+Entrada: MATRIZ-PLANO.xlsx
+Critério de aceite: Um projeto Linear por fase, com data e descrição 3P
+Evidência: Linear MCP
+Bloqueante: YES",Backlog,High,"tarefa,integration,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F03-T01
+[PLAN-EXEC-1409-F03-T02] Criar issues espelhando os IDs de tarefa,"Fase: FASE-03
+Tipo: INTEGRATION
+Nível de automação: A4
+Entrada: CSVs por fase
+Critério de aceite: Toda tarefa tem issue com o mesmo ID; nenhum ID duplicado ou ausente
+Evidência: Contagem CSV vs Linear
+Bloqueante: YES",Backlog,High,"tarefa,integration,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F03-T02
+[PLAN-EXEC-1409-F03-T03] Validar sincronização da pasta EXECUTAR LINEAR MATRIX no Drive,"Fase: FASE-03
+Tipo: INTEGRATION
+Nível de automação: A3
+Entrada: Pasta do Drive
+Critério de aceite: Se a sincronização refletir o plano, manter; se não, popular direto via MCP e registrar que a pasta não sincroniza
+Evidência: Evidência comparativa
+Bloqueante: NO",Backlog,Medium,"tarefa,integration,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F03-T03
+[PLAN-EXEC-1409-F03-T04] Ligar encerramento de gate à mudança de status no Linear,"Fase: FASE-03
+Tipo: INTEGRATION
+Nível de automação: A4
+Entrada: Protocolo da fase 2
+Critério de aceite: Encerrar gate move issue para Done com link do PR
+Evidência: Issue Linear
+Bloqueante: YES",Backlog,High,"tarefa,integration,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F03-T04
+[PLAN-EXEC-1409-F04-T01] Comprar domínio e configurar DNS,"Fase: FASE-04
+Tipo: INFRA
+Nível de automação: A2
+Entrada: DEC-003
+Critério de aceite: Domínio adquirido e resolvendo
+Evidência: Vercel domains
+Bloqueante: YES",Backlog,High,"tarefa,infra,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F04-T01
+[PLAN-EXEC-1409-F04-T02] Anexar domínio aos 3 projetos,"Fase: FASE-04
+Tipo: INFRA
+Nível de automação: A4
+Entrada: Domínio ativo
+Critério de aceite: web, app e api servindo pelo domínio próprio com TLS
+Evidência: curl -I
+Bloqueante: YES",Backlog,High,"tarefa,infra,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F04-T02
+[PLAN-EXEC-1409-F04-T03] Migrar Clerk para instância de produção,"Fase: FASE-04
+Tipo: CONFIG
+Nível de automação: A2
+Entrada: Credenciais do FORM-ZERO
+Critério de aceite: Chaves de produção em uso; instância de desenvolvimento fora de produção
+Evidência: Clerk dashboard + build
+Bloqueante: YES",Backlog,High,"tarefa,config,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F04-T03
+[PLAN-EXEC-1409-F04-T04] Desligar SSO Protection e validar webhook Clerk real,"Fase: FASE-04
+Tipo: CONFIG
+Nível de automação: A3
+Entrada: Domínio custom ativo
+Critério de aceite: SSO desligado; entrega real do Clerk registrada no log da api com assinatura válida
+Evidência: Runtime log da api
+Bloqueante: YES",Backlog,High,"tarefa,config,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F04-T04
+[PLAN-EXEC-1409-F05-T01] Aplicar decisão DEC-002 e reconciliar registro de arquitetura,"Fase: FASE-05
+Tipo: DOC
+Nível de automação: A4
+Entrada: DEC-002
+Critério de aceite: Registro de arquitetura aprovada coerente com o que roda de fato
+Evidência: PR
+Bloqueante: YES",Backlog,High,"tarefa,doc,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F05-T01
+[PLAN-EXEC-1409-F05-T02] Rodar migrate deploy contra produção,"Fase: FASE-05
+Tipo: DATA
+Nível de automação: A4
+Entrada: DATABASE_URL
+Critério de aceite: Migrations aplicadas sem conflito; _prisma_migrations consistente
+Evidência: Neon MCP
+Bloqueante: YES",Backlog,High,"tarefa,data,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F05-T02
+[PLAN-EXEC-1409-F05-T03] Executar suíte RLS real (89 testes),"Fase: FASE-05
+Tipo: TEST
+Nível de automação: A4
+Entrada: DATABASE_URL exportado
+Critério de aceite: 89 testes executam e passam — não pulam
+Evidência: Saída de teste
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F05-T03
+[PLAN-EXEC-1409-F05-T04] Validar preview-db.yml em PR real,"Fase: FASE-05
+Tipo: TEST
+Nível de automação: A4
+Entrada: NEON_API_KEY
+Critério de aceite: Branch criado e destruído por PR, com database 'executar'
+Evidência: Run do Actions
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F05-T04
+[PLAN-EXEC-1409-F06-T01] Recriar produtos e preços em livemode,"Fase: FASE-06
+Tipo: BILLING
+Nível de automação: A2
+Entrada: KYC aprovado
+Critério de aceite: 6 preços replicados em livemode com os mesmos lookup_key
+Evidência: Stripe API
+Bloqueante: NO",Backlog,Medium,"tarefa,billing,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F06-T01
+[PLAN-EXEC-1409-F06-T02] Revalidar webhook de pagamentos,"Fase: FASE-06
+Tipo: BILLING
+Nível de automação: A4
+Entrada: STRIPE_WEBHOOK_SECRET
+Critério de aceite: 7 tipos de evento entregues e processados
+Evidência: Stripe events
+Bloqueante: YES",Backlog,High,"tarefa,billing,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F06-T02
+[PLAN-EXEC-1409-F06-T03] Finalizar textos legais LGPD,"Fase: FASE-06
+Tipo: CONTENT
+Nível de automação: A3
+Entrada: packages/cms/content/legal
+Critério de aceite: Termos e Privacidade completos, com subprocessadores reais e transferência internacional declarada
+Evidência: PR + páginas publicadas
+Bloqueante: YES",Backlog,High,"tarefa,content,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F06-T03
+[PLAN-EXEC-1409-F06-T04] Testar round-trip de exportação e exclusão LGPD,"Fase: FASE-06
+Tipo: TEST
+Nível de automação: A4
+Entrada: Workspace real
+Critério de aceite: Export gera arquivo completo; delete remove dado e mantém trilha
+Evidência: Evidência de execução
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F06-T04
+[PLAN-EXEC-1409-F07-T01] Publicar rotas públicas de apps/web,"Fase: FASE-07
+Tipo: CODE
+Nível de automação: A4
+Entrada: 6 rotas do índice
+Critério de aceite: Todas respondem 200 no domínio próprio
+Evidência: curl + Playwright
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F07-T01
+[PLAN-EXEC-1409-F07-T02] Implementar camada Quick Frameworks e deep links,"Fase: FASE-07
+Tipo: CODE
+Nível de automação: A3
+Entrada: Briefing §23-24
+Critério de aceite: Conceito citado em artigo abre explicação estruturada sem sair do artigo
+Evidência: Página real
+Bloqueante: NO",Backlog,Medium,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F07-T02
+[PLAN-EXEC-1409-F07-T03] Implementar carrossel vertical de storyboard no topo do artigo,"Fase: FASE-07
+Tipo: CODE
+Nível de automação: A3
+Entrada: Briefing §25
+Critério de aceite: Artigo exibe storyboard visual navegável
+Evidência: Página real
+Bloqueante: NO",Backlog,Medium,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F07-T03
+"[PLAN-EXEC-1409-F07-T04] SEO, sitemap e i18n","Fase: FASE-07
+Tipo: CODE
+Nível de automação: A4
+Entrada: next-config + internationalization
+Critério de aceite: sitemap.xml válido; hreflang correto; Lighthouse ≥90 perf e a11y na home
+Evidência: Relatório Lighthouse
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F07-T04
+[PLAN-EXEC-1409-F08-T01] Validar jornada de autenticação ponta a ponta,"Fase: FASE-08
+Tipo: TEST
+Nível de automação: A4
+Entrada: Clerk produção
+Critério de aceite: sign-in e sign-up reais criam workspace
+Evidência: Playwright autenticado
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F08-T01
+[PLAN-EXEC-1409-F08-T02] Completar e validar Mapa OS,"Fase: FASE-08
+Tipo: CODE
+Nível de automação: A4
+Entrada: packages/mapa-os
+Critério de aceite: Mapa OS renderiza estado real (agora/próximo/depois/bloqueado) a partir do banco
+Evidência: E2E + captura
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F08-T02
+[PLAN-EXEC-1409-F08-T03] Implementar impressão do Mapa OS,"Fase: FASE-08
+Tipo: CODE
+Nível de automação: A3
+Entrada: Briefing §5
+Critério de aceite: Mapa OS gera versão impressa fiel ao estado digital
+Evidência: PDF gerado
+Bloqueante: YES",Backlog,High,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F08-T03
+"[PLAN-EXEC-1409-F08-T04] Validar Projetos, Agora/Hoje/Amanhã e Relatórios","Fase: FASE-08
+Tipo: CODE
+Nível de automação: A4
+Entrada: 25 rotas autenticadas
+Critério de aceite: Jornada núcleo completa sem erro de runtime
+Evidência: E2E
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F08-T04
+[PLAN-EXEC-1409-F08-T05] Zerar erros de runtime em produção,"Fase: FASE-08
+Tipo: FIX
+Nível de automação: A4
+Entrada: get_runtime_errors
+Critério de aceite: Nenhum cluster de erro nas rotas núcleo em 24h
+Evidência: Vercel runtime errors
+Bloqueante: YES",Backlog,High,"tarefa,fix,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F08-T05
+[PLAN-EXEC-1409-F09-T01] Implementar runtime de agentes contra o contrato de handoff,"Fase: FASE-09
+Tipo: CODE
+Nível de automação: A3
+Entrada: packages/agent-runtime
+Critério de aceite: Handoff tipado e auditável executando de ponta a ponta
+Evidência: Teste + trilha
+Bloqueante: YES",Backlog,High,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F09-T01
+"[PLAN-EXEC-1409-F09-T02] Popular registry de agentes, skills e tools","Fase: FASE-09
+Tipo: CODE
+Nível de automação: A3
+Entrada: Blueprint multi-agent
+Critério de aceite: Registry sem campos vazios para os agentes em uso
+Evidência: Registry versionado
+Bloqueante: YES",Backlog,High,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F09-T02
+[PLAN-EXEC-1409-F09-T03] Expor e validar /mcp contra o contrato MCP Skill V2.1,"Fase: FASE-09
+Tipo: CODE
+Nível de automação: A3
+Entrada: packages/mcp
+Critério de aceite: Cliente MCP externo lista e executa as tools declaradas
+Evidência: Sessão MCP real
+Bloqueante: YES",Backlog,High,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F09-T03
+[PLAN-EXEC-1409-F09-T04] Ampliar dataset de evals e ligar gate 100%,"Fase: FASE-09
+Tipo: TEST
+Nível de automação: A4
+Entrada: evals/ (18 casos)
+Critério de aceite: Dataset ampliado; gate bloqueante em datasets, adversarial e regression
+Evidência: ci.yml
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F09-T04
+[PLAN-EXEC-1409-F09-T05] Executar comando real do Copiloto sobre backlog,"Fase: FASE-09
+Tipo: TEST
+Nível de automação: A4
+Entrada: Copiloto + banco real
+Critério de aceite: Comando altera estado real com trilha de auditoria e desfazer
+Evidência: Evidência no banco
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F09-T05
+[PLAN-EXEC-1409-F10-T01] Fechar decisão técnica do Scanner,"Fase: FASE-10
+Tipo: DECISION
+Nível de automação: A2
+Entrada: Conflito OCR vs DINOv2/ONNX
+Critério de aceite: Decisão registrada com base em evidência de custo, latência e viabilidade on-device
+Evidência: DECISION_LOG DEC-004
+Bloqueante: YES",Backlog,High,"tarefa,decision,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F10-T01
+"[PLAN-EXEC-1409-F10-T02] Implementar scanner dispatch, symbols e undo","Fase: FASE-10
+Tipo: CODE
+Nível de automação: A3
+Entrada: 3 rotas de api já existentes
+Critério de aceite: Símbolo escaneado dispara ação real e é reversível
+Evidência: E2E
+Bloqueante: YES",Backlog,High,"tarefa,code,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F10-T02
+[PLAN-EXEC-1409-F10-T03] Ligar integrações autorizadas (WhatsApp/Gmail/Outlook),"Fase: FASE-10
+Tipo: INTEGRATION
+Nível de automação: A3
+Entrada: Credenciais do FORM-ZERO
+Critério de aceite: Webhook de cada canal autorizado entrega 200 com assinatura válida
+Evidência: Log da api
+Bloqueante: YES",Backlog,High,"tarefa,integration,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F10-T03
+[PLAN-EXEC-1409-F10-T04] Validar rotina diária e registrar degradação do cron,"Fase: FASE-10
+Tipo: CODE
+Nível de automação: A4
+Entrada: Plano Hobby = 1x/dia
+Critério de aceite: Rotina executa e entrega resumo; a limitação está registrada como item de upgrade, não escondida
+Evidência: Execução + registro
+Bloqueante: YES",Backlog,High,"tarefa,code,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F10-T04
+[PLAN-EXEC-1409-F11-T01] Inicializar EAS e gravar projectId,"Fase: FASE-11
+Tipo: INFRA
+Nível de automação: A2
+Entrada: EXPO_TOKEN válido
+Critério de aceite: extra.eas.projectId preenchido em apps/mobile/app.json
+Evidência: app.json
+Bloqueante: YES",Backlog,High,"tarefa,infra,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F11-T01
+[PLAN-EXEC-1409-F11-T02] Gerar builds de produção iOS e Android,"Fase: FASE-11
+Tipo: BUILD
+Nível de automação: A3
+Entrada: EAS configurado
+Critério de aceite: Dois builds de produção concluídos
+Evidência: EAS build
+Bloqueante: YES",Backlog,High,"tarefa,build,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F11-T02
+"[PLAN-EXEC-1409-F11-T03] Produzir metadados, capturas e textos das lojas","Fase: FASE-11
+Tipo: CONTENT
+Nível de automação: A4
+Entrada: App real rodando
+Critério de aceite: Todas as capturas, ícones, descrições, palavras-chave e classificação etária gerados — nenhum campo deixado para Leo
+Evidência: Pacote de submissão
+Bloqueante: YES",Backlog,High,"tarefa,content,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F11-T03
+[PLAN-EXEC-1409-F11-T04] Submeter às duas lojas,"Fase: FASE-11
+Tipo: SUBMIT
+Nível de automação: A2
+Entrada: Contas de desenvolvedor
+Critério de aceite: Submissão aceita e em revisão nas duas lojas
+Evidência: Status das lojas
+Bloqueante: YES",Backlog,High,"tarefa,submit,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F11-T04
+[PLAN-EXEC-1409-F12-T01] Promover build e E2E a gates bloqueantes,"Fase: FASE-12
+Tipo: CI
+Nível de automação: A4
+Entrada: QUALITY_GATES.md
+Critério de aceite: ci.yml falha o PR quando build ou E2E quebram
+Evidência: ci.yml + PR de teste
+Bloqueante: YES",Backlog,High,"tarefa,ci,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F12-T01
+"[PLAN-EXEC-1409-F12-T02] Ligar observabilidade (Sentry, BetterStack)","Fase: FASE-12
+Tipo: INFRA
+Nível de automação: A3
+Entrada: Chaves do FORM-ZERO
+Critério de aceite: Erro real aparece no painel em menos de 5 minutos
+Evidência: Alerta recebido
+Bloqueante: YES",Backlog,High,"tarefa,infra,a3",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F12-T02
+[PLAN-EXEC-1409-F12-T03] Executar smoke sequence completa,"Fase: FASE-12
+Tipo: TEST
+Nível de automação: A4
+Entrada: LAUNCH_RUNBOOK §10
+Critério de aceite: Os 4 passos da smoke sequence executados e registrados
+Evidência: GATE_LOG
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F12-T03
+[PLAN-EXEC-1409-F12-T04] Testar rollback uma vez,"Fase: FASE-12
+Tipo: TEST
+Nível de automação: A4
+Entrada: Deploy anterior READY
+Critério de aceite: Rollback executado e revertido, com tempo medido
+Evidência: Evidência Vercel
+Bloqueante: YES",Backlog,High,"tarefa,test,a4",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F12-T04
+[PLAN-EXEC-1409-F12-T05] Corte público e handoff final,"Fase: FASE-12
+Tipo: RELEASE
+Nível de automação: A2
+Entrada: Todos os gates verdes
+Critério de aceite: Ecossistema público; Leo testa, navega e usa; relatório final no Linear
+Evidência: Aprovação de Leo
+Bloqueante: YES",Backlog,High,"tarefa,release,a2",EXECUTAR — Lançamento do Ecossistema,,PLAN-EXEC-1409-F12-T05
