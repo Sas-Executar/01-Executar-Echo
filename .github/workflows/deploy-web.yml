@@ -71,14 +71,18 @@ jobs:
       - name: Pull Vercel project settings
         working-directory: apps/${{ matrix.app }}
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
-      - name: Build
-        working-directory: apps/${{ matrix.app }}
-        run: vercel build --prod --token="$VERCEL_TOKEN"
-      - name: Deploy prebuilt output
+      # The build runs on Vercel, not locally: a "sensitive" env var
+      # (e.g. CLERK_WEBHOOK_SECRET, OPENAI_API_KEY) can never be pulled
+      # down by the CLI by Vercel's own design, so a local `vercel build`
+      # would see a "[SENSITIVE]" placeholder instead and fail any
+      # strict runtime env schema expecting a real prefix. A plain
+      # `vercel deploy` uploads the source and builds remotely, where
+      # the real values are injected directly.
+      - name: Deploy
         id: deploy
         working-directory: apps/${{ matrix.app }}
         run: |
-          url=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          url=$(vercel deploy --prod --token="$VERCEL_TOKEN")
           echo "url=$url" >> "$GITHUB_OUTPUT"
           printf 'Deployment: %s\n' "$url" >> "$GITHUB_STEP_SUMMARY"
       - name: Health check
