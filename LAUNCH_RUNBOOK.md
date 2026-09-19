@@ -257,3 +257,83 @@ possible or needed:**
 `fix/turbo-database-generate-ordering`, `integration/ecosystem-boundaries`.
 
 Branches kept, no further action needed.
+
+## 12. Integração final pré-lançamento — 2026-09-19 (continuação)
+
+Mesclados nesta sessão, em sequência, cada um gated em CI verde contra o
+`main` pós-merge anterior: #23 (pipeline de deploy — fixes de alias/health
+path), #24 (docs desta seção), #25 (`.gitignore` de `.env*`), #26
+(`MASTER_WORKBOOK.md`), #27 (plugin `executar-copiloto`), #22 (docs
+`fase-zero`/`GATE_LOG.md`), #28 (`claude/image-execution-import-6ot4wf` — a
+feature real de scroll-task, `agent session store`, serviço
+`apps/copiloto-runtime`, pacotes `@repo/domain`/`@repo/schemas`, migração
+Prisma aditiva). Nenhuma branch apagada.
+
+**Gate crítico da #28 (migração de produção):** o `deploy-web.yml` disparado
+pelo merge (run [35434129909](https://github.com/Sas-Executar/01-Executar-Echo/actions/runs/35434129909))
+teve seu job `migrate` **verde** — a migração das tabelas novas de
+scroll-task aplicou com sucesso em produção real, não só no branch de
+preview do Neon. Prova: `Migrate deploy (production)` concluído com sucesso
+às 2026-09-19T09:18:43Z.
+
+**`claude/lucid-galileo-3jnpad` (Grupo F) — confirmado superseded, branch
+mantida.** Diff de três pontos contra `main` (`git diff main...lucid-galileo`,
+isolando só os commits únicos da branch, não o que `main` ganhou depois)
+mostra exatamente 3 arquivos: `PLANO_EXECUTAR_COPILOTO.md` e
+`PROMPT_ATIVACAO_SESSAO.md` — já idênticos, byte a byte, aos que estão em
+`main` — e um `docs/executar/README.md` cujo conteúdo é a framing antiga
+("Implementação: não iniciada") já substituída pela framing real
+("Fase 0 concluída em 2026-09-11", com evidência) durante a resolução do
+conflito de merge da #28. Nenhum conteúdo único real perdido.
+
+**PR #3 (`chatgpt/scroll-task-prototype`) — fechado sem merge, branch
+mantida.** Reescrevia `apps/app/vercel.json` com `builds`/`routes` manual,
+desativando a detecção zero-config do Next.js e, com ela, o middleware de
+autenticação do Clerk em produção — confirmado por duas auditorias de
+código independentes. Comentário de fechamento:
+https://github.com/Sas-Executar/01-Executar-Echo/pull/3#issuecomment-5740750243.
+Substituído pela feature real já mesclada (#28).
+
+**`integration/d22-weekly-sprint-renderer` (sem PR aberto) — mesmo risco da
+PR #3, mesmo motivo de não integração, branch mantida sem exclusão.** É o
+branch que originou o preview que o usuário tentou promover para produção
+(`executar-nf-app-git-integration-d22-weekly-a4d192-sas-executar1.vercel.app`);
+o frontend "vazio" reportado é exatamente esse `vercel.json` estático
+servindo só o bundle de `public/scroll-task-prototype/` sem o app Next.js
+real por trás.
+
+### Achados no pipeline de deploy (`deploy-web.yml`)
+
+Dois problemas distintos, encontrados sob a carga de 7 merges consecutivos
+em `main` em ~15 minutos hoje (cada um disparando 3 deploys via este
+workflow, mais os deploys automáticos da integração git nativa da Vercel
+para os mesmos projetos e para `executar-nf-storybook`):
+
+1. **Corrida de resolução de alias (real, corrigido).** Run
+   [35433615472](https://github.com/Sas-Executar/01-Executar-Echo/actions/runs/35433615472)
+   (merge da #25): o deploy do `web`/`api` teve sucesso (build de 11 min,
+   `✓ Ready`), mas a consulta de alias (`GET /v13/deployments/{host}`)
+   voltou `.alias[0]` vazio na primeira tentativa, caindo no fallback da URL
+   bruta por deployment — protegida por SSO da Vercel, que devolve 302 e é
+   lida como falha de saúde da aplicação (não é). Corrigido em PR
+   [#29](https://github.com/Sas-Executar/01-Executar-Echo/pull/29): até 5
+   tentativas, 5s entre elas, antes do fallback.
+2. **Cota diária de deployments da Vercel esgotada (bloqueio externo, não
+   contornável por código).** Run
+   [35434129909](https://github.com/Sas-Executar/01-Executar-Echo/actions/runs/35434129909)
+   (merge da #28 — o run que prova a migração de produção): os 3 jobs
+   `Deploy` falharam instantaneamente (~2-4s, não min) com
+   `✗ Resource is limited - try again in 24 hours (more than 100, code:
+   "api-deployments-free-per-day")`. Confirmado via API da Vercel: 100
+   deployments nas últimas ~3h só nesta janela consultada (28
+   `executar-nf-api`, 28 `executar-nf-app`, 27 `executar-nf-web`, 17
+   `executar-nf-storybook` — este último fora do escopo de
+   `deploy-web.yml`, deploy automático da integração git nativa). Isso é um
+   limite de conta/plano da Vercel, não um bug de workflow — precisa do
+   time owner resolver via billing ("Check the billing or feature
+   requirement reported above with a team owner", texto literal da própria
+   Vercel CLI) ou aguardar a janela de 24h. **A migração de produção da #28
+   já está comprovadamente aplicada** (achado acima); o que falta é só a
+   reconfirmação dos 3 `Deploy`/health-check depois que a cota liberar —
+   Fase 7 do plano de integração fica registrada como **BLOQUEADO** por
+   esse motivo, não por qualquer defeito de código.
