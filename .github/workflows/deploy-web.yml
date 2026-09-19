@@ -51,8 +51,12 @@ jobs:
         include:
           - app: app
             health_path: /sign-in
+          # next-intl's localePrefix "as-needed" 307s the default
+          # locale's prefixed path (/en) back to the bare "/" — a real,
+          # working redirect, not a health problem. "/" itself resolves
+          # directly with 200 (confirmed live), so it's the stable path.
           - app: web
-            health_path: /en
+            health_path: /
           - app: api
             health_path: /health
     env:
