@@ -69,7 +69,6 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel project settings
-        working-directory: apps/${{ matrix.app }}
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
       # The build runs on Vercel, not locally: a "sensitive" env var
       # (e.g. CLERK_WEBHOOK_SECRET, OPENAI_API_KEY) can never be pulled
@@ -78,9 +77,13 @@ jobs:
       # strict runtime env schema expecting a real prefix. A plain
       # `vercel deploy` uploads the source and builds remotely, where
       # the real values are injected directly.
+      #
+      # Runs from the repo root, not apps/<app>: each project's own
+      # Settings already has rootDirectory=apps/<app>, resolved by
+      # Vercel relative to the repo root. Running from inside the app
+      # directory doubles that path (apps/api/apps/api) and 404s.
       - name: Deploy
         id: deploy
-        working-directory: apps/${{ matrix.app }}
         run: |
           url=$(vercel deploy --prod --token="$VERCEL_TOKEN")
           echo "url=$url" >> "$GITHUB_OUTPUT"

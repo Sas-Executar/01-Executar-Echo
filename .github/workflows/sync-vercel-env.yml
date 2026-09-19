@@ -105,10 +105,14 @@ jobs:
       # each one — which fails any strict runtime env schema expecting
       # a real prefix. A plain `vercel deploy` uploads the source and
       # builds remotely, where the real values are injected directly.
+      #
+      # Runs from the repo root, not apps/<app>: each project's own
+      # Settings already has rootDirectory=apps/<app>, resolved by
+      # Vercel relative to the repo root. Running from inside the app
+      # directory doubles that path (apps/api/apps/api) and 404s.
       - name: Redeploy preview with the synced vars
         id: deploy
         if: env.HAS_DATABASE_URL == 'true' || env.HAS_RESEND == 'true' || (matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true')
-        working-directory: apps/${{ matrix.app }}
         run: |
           vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
           url=$(vercel deploy --token="$VERCEL_TOKEN")
