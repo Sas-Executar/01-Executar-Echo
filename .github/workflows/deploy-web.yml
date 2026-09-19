@@ -99,10 +99,21 @@ jobs:
           echo "url=$url" >> "$GITHUB_OUTPUT"
           printf 'Deployment: %s\n' "$url" >> "$GITHUB_STEP_SUMMARY"
           host="${url#https://}"
-          alias_host=$(curl --silent --show-error --connect-timeout 10 --max-time 30 \
-            -H "Authorization: Bearer $VERCEL_TOKEN" \
-            "https://api.vercel.com/v13/deployments/$host?teamId=$VERCEL_ORG_ID" \
-            | jq -r '.alias[0] // empty')
+          # Under heavy concurrent build load, the alias can take a moment to
+          # propagate after the deployment reports READY, and the Vercel API
+          # itself can be momentarily rate-limited — either shows up here as
+          # an empty `.alias[0]`. Retry instead of falling back to the raw
+          # per-deployment URL (which the SSO check below would then 302 on)
+          # on the very first empty response.
+          alias_host=""
+          for attempt in 1 2 3 4 5; do
+            alias_host=$(curl --silent --show-error --connect-timeout 10 --max-time 30 \
+              -H "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v13/deployments/$host?teamId=$VERCEL_ORG_ID" \
+              | jq -r '.alias[0] // empty')
+            [ -n "$alias_host" ] && break
+            sleep 5
+          done
           if [ -n "$alias_host" ]; then
             echo "health_url=https://$alias_host" >> "$GITHUB_OUTPUT"
           else
