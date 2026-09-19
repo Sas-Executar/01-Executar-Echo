@@ -93,6 +93,16 @@ jobs:
         if: env.HAS_DATABASE_URL == 'true' || env.HAS_RESEND == 'true' || (matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true')
         run: npm install --global vercel@latest
 
+      # Confirmed live: a deployment built within ~15s of an env var
+      # write still saw the previous value (same failure, same synced
+      # value, three runs in a row) — Vercel's own env store takes a
+      # few seconds to propagate to a fresh build container. This is
+      # not a retry-on-flake; it's a fixed wait before the one deploy
+      # attempt below.
+      - name: Wait for Vercel env propagation
+        if: env.HAS_DATABASE_URL == 'true' || env.HAS_RESEND == 'true' || (matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true')
+        run: sleep 30
+
       # A new env var only takes effect on the NEXT build — Vercel does
       # not hot-reload existing deployments. This deploys a fresh
       # PREVIEW build from the current ref so the sync above is actually
