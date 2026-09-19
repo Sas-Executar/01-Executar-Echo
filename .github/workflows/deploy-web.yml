@@ -51,8 +51,12 @@ jobs:
         include:
           - app: app
             health_path: /sign-in
+          # next-intl's localePrefix "as-needed" 307s the default
+          # locale's prefixed path (/en) back to the bare "/" — a real,
+          # working redirect, not a health problem. "/" itself resolves
+          # directly with 200 (confirmed live), so it's the stable path.
           - app: web
-            health_path: /en
+            health_path: /
           - app: api
             health_path: /health
     env:
@@ -69,20 +73,43 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel project settings
-        working-directory: apps/${{ matrix.app }}
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
-      - name: Build
-        working-directory: apps/${{ matrix.app }}
-        run: vercel build --prod --token="$VERCEL_TOKEN"
-      - name: Deploy prebuilt output
+      # The build runs on Vercel, not locally: a "sensitive" env var
+      # (e.g. CLERK_WEBHOOK_SECRET, OPENAI_API_KEY) can never be pulled
+      # down by the CLI by Vercel's own design, so a local `vercel build`
+      # would see a "[SENSITIVE]" placeholder instead and fail any
+      # strict runtime env schema expecting a real prefix. A plain
+      # `vercel deploy` uploads the source and builds remotely, where
+      # the real values are injected directly.
+      #
+      # Runs from the repo root, not apps/<app>: each project's own
+      # Settings already has rootDirectory=apps/<app>, resolved by
+      # Vercel relative to the repo root. Running from inside the app
+      # directory doubles that path (apps/api/apps/api) and 404s.
+      # The raw per-deployment URL `vercel deploy` prints can carry
+      # Vercel's own Deployment Protection (SSO), which 302s any request
+      # without a Vercel session — including this job's health check,
+      # even though the deployment itself is healthy. The project's
+      # stable production alias (e.g. executar-nf-api.vercel.app) isn't
+      # protected the same way, so health checks target that instead.
+      - name: Deploy
         id: deploy
-        working-directory: apps/${{ matrix.app }}
         run: |
-          url=$(vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN")
+          url=$(vercel deploy --prod --token="$VERCEL_TOKEN")
           echo "url=$url" >> "$GITHUB_OUTPUT"
           printf 'Deployment: %s\n' "$url" >> "$GITHUB_STEP_SUMMARY"
+          host="${url#https://}"
+          alias_host=$(curl --silent --show-error --connect-timeout 10 --max-time 30 \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v13/deployments/$host?teamId=$VERCEL_ORG_ID" \
+            | jq -r '.alias[0] // empty')
+          if [ -n "$alias_host" ]; then
+            echo "health_url=https://$alias_host" >> "$GITHUB_OUTPUT"
+          else
+            echo "health_url=$url" >> "$GITHUB_OUTPUT"
+          fi
       - name: Health check
         env:
-          DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.health_url }}
           HEALTH_PATH: ${{ matrix.health_path }}
         run: bash scripts/check-deployment-health.sh
