@@ -1,0 +1,5 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F05-T01,PLAN-EXEC-1409-F05,FASE-05,1,Aplicar decisão DEC-002 e reconciliar registro de arquitetura,DOC,A4,DEC-002,Registro de arquitetura aprovada coerente com o que roda de fato,PR,YES,PLANNED
+PLAN-EXEC-1409-F05-T02,PLAN-EXEC-1409-F05,FASE-05,2,Rodar migrate deploy contra produção,DATA,A4,DATABASE_URL,Migrations aplicadas sem conflito; _prisma_migrations consistente,Neon MCP,YES,PLANNED
+PLAN-EXEC-1409-F05-T03,PLAN-EXEC-1409-F05,FASE-05,3,Executar suíte RLS real (89 testes),TEST,A4,DATABASE_URL exportado,89 testes executam e passam — não pulam,Saída de teste,YES,PLANNED
+PLAN-EXEC-1409-F05-T04,PLAN-EXEC-1409-F05,FASE-05,4,Validar preview-db.yml em PR real,TEST,A4,NEON_API_KEY,"Branch criado e destruído por PR, com database 'executar'",Run do Actions,YES,PLANNED

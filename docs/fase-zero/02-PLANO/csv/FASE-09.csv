@@ -1,0 +1,6 @@
+task_id,phase_id,fase,seq,titulo,tipo,automation_level,entrada,criterio_aceite,evidencia,bloqueante,status
+PLAN-EXEC-1409-F09-T01,PLAN-EXEC-1409-F09,FASE-09,1,Implementar runtime de agentes contra o contrato de handoff,CODE,A3,packages/agent-runtime,Handoff tipado e auditável executando de ponta a ponta,Teste + trilha,YES,PLANNED
+PLAN-EXEC-1409-F09-T02,PLAN-EXEC-1409-F09,FASE-09,2,"Popular registry de agentes, skills e tools",CODE,A3,Blueprint multi-agent,Registry sem campos vazios para os agentes em uso,Registry versionado,YES,PLANNED
+PLAN-EXEC-1409-F09-T03,PLAN-EXEC-1409-F09,FASE-09,3,Expor e validar /mcp contra o contrato MCP Skill V2.1,CODE,A3,packages/mcp,Cliente MCP externo lista e executa as tools declaradas,Sessão MCP real,YES,PLANNED
+PLAN-EXEC-1409-F09-T04,PLAN-EXEC-1409-F09,FASE-09,4,Ampliar dataset de evals e ligar gate 100%,TEST,A4,evals/ (18 casos),"Dataset ampliado; gate bloqueante em datasets, adversarial e regression",ci.yml,YES,PLANNED
+PLAN-EXEC-1409-F09-T05,PLAN-EXEC-1409-F09,FASE-09,5,Executar comando real do Copiloto sobre backlog,TEST,A4,Copiloto + banco real,Comando altera estado real com trilha de auditoria e desfazer,Evidência no banco,YES,PLANNED
