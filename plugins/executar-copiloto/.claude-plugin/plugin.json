@@ -1,0 +1,6 @@
+{
+  "name": "executar-copiloto",
+  "description": "Copiloto operacional do ecossistema EXECUTAR: WIP=1, evidência, estado real, rotina diária e replanejamento com pré-aprovação humana.",
+  "version": "0.1.0",
+  "repository": "https://github.com/Sas-Executar/01-Executar-Echo"
+}

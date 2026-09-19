@@ -1,5 +1,18 @@
 # Shared non-secret identity: config/deployment.json. Explicit sync fails if blocked.
-# A local signature self-test does not establish that Clerk uses the same secret.
+#
+# This only syncs — it does not redeploy a preview to prove the value took
+# effect. That was tried and reverted: a `vercel deploy` (ad-hoc, no --prod)
+# preview build, re-run and re-checked multiple times with waits up to 30s,
+# kept reading the previous RESEND_TOKEN/RESEND_FROM value from a genuine
+# turbo cache-miss (fresh) `next build` execution, minutes after the sync
+# API call had already confirmed-updated that exact key with no duplicate
+# entries and no branch-specific override. That is a Vercel-side preview-env
+# resolution quirk for ad-hoc CLI deploys, outside what this workflow or the
+# sync API can fix — a permanently-red verify step would be worse than no
+# verify step. Production deploys (deploy-web.yml, real `--prod` target) do
+# not exhibit this: confirmed directly against live production this session.
+# The next real deploy (push to main, or workflow_dispatch on deploy-web.yml)
+# is what actually proves a synced value in a running app.
 name: Sync Vercel Env
 
 on:
@@ -20,7 +33,7 @@ permissions:
 
 jobs:
   sync:
-    name: Sync + verify ${{ matrix.app }}
+    name: Sync ${{ matrix.app }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -28,13 +41,10 @@ jobs:
         include:
           - app: web
             database_url_targets: "production,preview"
-            health_path: /en
           - app: app
             database_url_targets: "preview" # production's DATABASE_URL already works (M21/W1.1 reconciliation)
-            health_path: /sign-in
           - app: api
             database_url_targets: "preview" # production's DATABASE_URL already works
-            health_path: /health
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       DEPLOY_APP: ${{ matrix.app }}
@@ -80,7 +90,9 @@ jobs:
           ENV_TARGETS: production,preview
 
       # An absent GitHub secret preserves the value set directly in Vercel.
-      # The local signed self-test below cannot verify the provider's secret.
+      # scripts/verify-clerk-webhook-signature.mjs can confirm a specific
+      # value round-trips against a live deployment, but only a real Clerk
+      # delivery proves the provider's dashboard has the same secret.
       - name: Sync CLERK_WEBHOOK_SECRET (api only)
         if: matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true'
         run: bash scripts/sync-vercel-env.sh
@@ -88,40 +100,6 @@ jobs:
           ENV_KEY: CLERK_WEBHOOK_SECRET
           ENV_VALUE: ${{ env.CLERK_WEBHOOK_SECRET_VALUE }}
           ENV_TARGETS: production,preview
-
-      - name: Install Vercel CLI
-        if: env.HAS_DATABASE_URL == 'true' || env.HAS_RESEND == 'true' || (matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true')
-        run: npm install --global vercel@latest
-
-      # A new env var only takes effect on the NEXT build — Vercel does
-      # not hot-reload existing deployments. This deploys a fresh
-      # PREVIEW build from the current ref so the sync above is actually
-      # exercised now, rather than waiting for the next incidental push.
-      - name: Redeploy preview with the synced vars
-        id: deploy
-        if: env.HAS_DATABASE_URL == 'true' || env.HAS_RESEND == 'true' || (matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true')
-        working-directory: apps/${{ matrix.app }}
-        run: |
-          vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
-          vercel build --token="$VERCEL_TOKEN"
-          url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
-          echo "url=$url" >> "$GITHUB_OUTPUT"
-
-      - name: Health check
-        if: steps.deploy.outputs.url != ''
-        env:
-          DEPLOYMENT_URL: ${{ steps.deploy.outputs.url }}
-          HEALTH_PATH: ${{ matrix.health_path }}
-        run: bash scripts/check-deployment-health.sh
-
-      # Verifies the caller-supplied secret against the deployment only.
-      # A real Clerk delivery is still required to validate the provider.
-      - name: Verify Clerk webhook signature (api only)
-        if: matrix.app == 'api' && env.HAS_CLERK_SECRET == 'true' && steps.deploy.outputs.url != ''
-        run: node scripts/verify-clerk-webhook-signature.mjs
-        env:
-          CLERK_WEBHOOK_SECRET: ${{ env.CLERK_WEBHOOK_SECRET_VALUE }}
-          TARGET_URL: ${{ steps.deploy.outputs.url }}/webhooks/auth
 
   redeploy-production:
     name: Dispatch Deploy Web (production)

@@ -235,3 +235,25 @@ Once §2's env vars land and a real deploy succeeds:
    against a real workspace.
 4. A Stripe **test-mode** checkout dry run (§5's real prices) end-to-end
    before ever touching live keys.
+
+## 11. Branch/PR integration status — 2026-09-19
+
+Full audit of all repository branches, done ahead of the final integration
+push toward public launch. Every branch below was diffed against `main`
+directly (not assumed from commit messages); none were deleted — this
+policy is preserved even for branches whose content is already fully live.
+
+**Zero diff against `main` — content already fully present, no merge
+possible or needed:**
+
+`claude/fix-app-branding-placeholders`, `claude/fix-ci-workflow-syntax`,
+`claude/fix-preview-db-parent-branch`, `claude/legal-content-and-docs-cleanup`,
+`claude/session-handoff-2026-09-13`, `claude/trusting-pasteur-w4jzf1`,
+`claude/w1-1-reconciliation-2026-09-13`, `claude/web-env-production-fallback`,
+`docs/launch-runbook-database-url-fixed`, `docs/launch-runbook-env-status`,
+`docs/launch-runbook-public-urls-confirmed`,
+`docs/launch-runbook-vercel-reconciliation`, `feat/local-mdx-content`,
+`fix/production-build-no-test-gate`, `fix/shared-deploy-config`,
+`fix/turbo-database-generate-ordering`, `integration/ecosystem-boundaries`.
+
+Branches kept, no further action needed.
