@@ -337,3 +337,70 @@ para os mesmos projetos e para `executar-nf-storybook`):
    reconfirmação dos 3 `Deploy`/health-check depois que a cota liberar —
    Fase 7 do plano de integração fica registrada como **BLOQUEADO** por
    esse motivo, não por qualquer defeito de código.
+
+## 13. Fase 7 — verificação final de produção — 2026-09-20
+
+Cota da Vercel resetou (~19h após o esgotamento de ontem, antes da janela de
+24h completar). Run
+[35489451110](https://github.com/Sas-Executar/01-Executar-Echo/actions/runs/35489451110)
+(`workflow_dispatch` em `main`, já inclui o fix de retry de alias da #29):
+`migrate` verde, e os 3 jobs `Deploy` (`app`/`web`/`api`) verdes com health
+check passando — primeira vez que `deploy-web.yml` completa 100% de ponta a
+ponta desde o merge da #28. URLs de alias resolvidas corretamente desta vez
+(`executar-nf-app.vercel.app`, `executar-nf-web.vercel.app`,
+`executar-nf-api.vercel.app`), sem precisar do retry.
+
+**Smoke checks manuais (além do health check automático):**
+
+- `app`: `/` não-autenticado → 307 para o sign-in hospedado do Clerk, com
+  `redirect_url` correto. `/scroll` e `/copiloto` → mesmo redirect (confirma
+  que as rotas reais estão protegidas pelo Clerk, não expostas). `/copilot`
+  → 307 para `/copiloto` (redirect de compatibilidade funcionando).
+- `api`: `/health` → 200 `OK`. Zero erros em `get_runtime_errors` na última
+  1h.
+- Round-trip de assinatura do webhook Clerk
+  (`scripts/verify-clerk-webhook-signature.mjs`): **não executável nesta
+  sessão** — o script exige o valor real de `CLERK_WEBHOOK_SECRET`, que
+  existe apenas como secret do GitHub Actions/Vercel, não exposto neste
+  shell. Não simulado, não pulado silenciosamente — registrado como
+  verificação pendente para quem tiver acesso ao secret.
+
+**Achado real, não esperado, dos smoke checks — encontrado e corrigido
+nesta sessão:** `web` (`executar-nf-web`, o site institucional) respondia
+`/` com um 404 genuíno do Next.js em ~1 a cada 8 requisições reais (~12%),
+apesar do health check automático (que só amostra 1 requisição por deploy)
+ter passado. Confirmado por amostragem repetida de status HTTP real e corpo
+da resposta — não é artefato de proxy/cache local, nem CDN (reproduzido com
+headers anti-cache), nem rolling release (nenhum ativo, `rollingRelease:
+null`), nem alias dividido entre deployments (`list_deployment_aliases`
+mostra um único deployment atual como alvo). Causa raiz: `apps/web/proxy.ts`
+chamava `securityHeaders()` (nosecone) de forma síncrona e sem proteção
+**antes** do `composedMiddleware()` — que é quem carrega o rewrite
+essencial de `/` para `/[locale]` (estratégia `rewriteDefault` do
+next-international). O nosecone lança um valor não-Error intermitentemente
+(confirmado via `get_runtime_logs`: mesma assinatura `Error: [object
+Object]` também presente nos logs de middleware do `apps/app`, que
+compartilha essa mesma dependência), abortando toda a função antes do
+rewrite rodar — `/` sem rewrite não bate em nenhuma rota sob o segmento
+`[locale]` (obrigatório), e o Next genuinely retorna 404 (não é cache
+servindo algo velho). `apps/app` não exibia o mesmo sintoma visível porque
+o redirect do Clerk ali não depende do retorno desse callback — mas seus
+logs mostram o mesmo throw acontecendo silenciosamente.
+
+**Fix**: PR [#30](https://github.com/Sas-Executar/01-Executar-Echo/pull/30)
+— roda o `composedMiddleware()` (rewrite essencial) primeiro, e protege
+`securityHeaders()` com try/catch em `apps/web/proxy.ts` e
+`apps/app/proxy.ts`, usando o `parseError()` já existente (mesmo padrão já
+usado para erros do arcjet no mesmo arquivo) para logar a mensagem real em
+vez de `[object Object]` numa próxima ocorrência. `bunx ultracite check` e
+`bun run typecheck` (`apps/web`, `apps/app`) limpos localmente; CI da PR em
+andamento no momento deste registro.
+
+**Estado real da Fase 7, por evidência (maturidade: verificado ≠
+released):** o pipeline automatizado (migração + deploy + health check) está
+comprovadamente verde de ponta a ponta. As rotas autenticadas do `app` e a
+`api` estão corretas e sem erros. O `web` tinha um defeito real e
+reproduzível, root-caused e corrigido nesta sessão — falta apenas: (1) a PR
+#30 passar no CI e ser mesclada, (2) reconfirmar com nova amostragem (20+
+requisições) que a taxa de 404 caiu para 0% no deployment pós-fix, antes de
+declarar `main` verificado em produção sem ressalvas.
