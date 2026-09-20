@@ -8,7 +8,8 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://executar-nf-api.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://executar-nf-api.vercel.app",
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZW5kbGVzcy1ob3JuZXQtMTk2NC5jbGVyay5hY2NvdW50cy5kZXYk"
       },
       "ios": {
         "resourceClass": "m-medium"
