@@ -71,9 +71,14 @@ export default authMiddleware(async (_auth, request, event) => {
     event
   );
 
-  let headersResponse: ReturnType<typeof securityHeaders> | undefined;
+  let headersResponse: Awaited<ReturnType<typeof securityHeaders>> | undefined;
   try {
-    headersResponse = securityHeaders();
+    // securityHeaders() returns a Promise (@nosecone/next's createMiddleware
+    // signature: () => Promise<Response>) — must be awaited inside the try,
+    // or a rejection surfaces after this catch already returned, which is
+    // exactly what kept producing "Error: [object Object]" in production
+    // after the first (synchronous try/catch only) attempt at this guard.
+    headersResponse = await securityHeaders();
   } catch (error) {
     parseError(error);
   }
