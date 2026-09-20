@@ -51,8 +51,18 @@ completed:
      not a missing/invalid EXPO_TOKEN."
 
 in_progress:
-  - "Waiting on user to enable the 'Expo' connector for this chat before
-     eas init / eas build can run."
+  - "Expo connector enabled by the user (message: 'Use Expo for this').
+     mcp__Expo__* tools confirmed loaded. build_list({appId:
+     '0479ea20-47e9-4e42-8b8a-c648e6f60b83'}) returned [] (empty, not an
+     error) -- confirms this is a real, existing EAS project the user
+     already created outside this session. Populated apps/mobile/app.json
+     (extra.eas.projectId, expo.updates.url, expo.runtimeVersion) and
+     apps/mobile/eas.json (development profile env: EXPO_PUBLIC_API_URL)
+     accordingly. EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY deliberately left unset
+     -- the only known value is corrupted (see blocked[] below); AUTH-01
+     will fail until the user provides the correct one, but BUILD-01 does
+     not depend on it. About to trigger the Android build via
+     mcp__Expo__build_run."
 
 blocked:
   - "apps/app production: every signed-out visit to a protected route
@@ -64,17 +74,6 @@ blocked:
      same key had been reused for EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY."
 
 user_action_required:
-  - action: "Enable the 'Expo' MCP connector for this chat (already
-      authenticated at the account level — it's a per-chat toggle, not a
-      new credential)."
-    where: "This conversation's connector settings panel (same place
-      Vercel/Neon/GitHub/Linear already show enabled)."
-    why: "Without it, no tool in this session can run `eas init`/`eas
-      build` — this is the only remaining blocker to generate the Android
-      installable build."
-    after: "Re-run ToolSearch for Expo tools, confirm mcp__Expo__* is
-      loaded, then run `eas init` in apps/mobile and proceed to the build
-      step."
   - action: "Get the real, complete Clerk publishable key and paste it
       here (copy carefully end-to-end — this exact class of truncation
       has already hit 4 other secrets in this repo's history)."
@@ -97,11 +96,11 @@ test_results:
   mobile_e2e: "none exist (confirmed: zero test files under apps/mobile)"
 
 mobile_build:
-  eas_project_id: "" # empty in apps/mobile/app.json — no EAS project exists yet
+  eas_project_id: "0479ea20-47e9-4e42-8b8a-c648e6f60b83" # real, pre-existing project confirmed via build_list
   eas_profile_planned: development
   platform_priority: "android first, then ios (needs Apple Developer + UDID)"
-  status: NOT_STARTED
-  blocker: "Expo connector not enabled in this chat (see user_action_required)"
+  status: TRIGGERING
+  blocker: "none for BUILD-01 itself; AUTH-01 still blocked on the corrupted Clerk key"
 
 scanner_status:
   pipeline: "real, on-device (DINOv2 ONNX via onnxruntime-react-native),
