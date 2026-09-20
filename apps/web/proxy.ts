@@ -55,14 +55,28 @@ const composedMiddleware = createNEMO(
 
 // Clerk middleware wraps other middleware in its callback
 export default authMiddleware(async (_auth, request, event) => {
-  // Run security headers first
-  const headersResponse = securityHeaders();
-
-  // Then run composed middleware (i18n + arcjet)
+  // Run composed middleware (i18n + arcjet) first: the i18n rewrite is what
+  // makes the bare "/" resolve to "/[locale]" at all (next-international's
+  // "rewriteDefault" strategy). Security headers are decorative by
+  // comparison — nosecone's own middleware has been observed throwing a
+  // non-Error value intermittently (see WORKFLOW_01_01_EXECUTION_LOG.md,
+  // 2026-09-20), and running it first meant that throw aborted this whole
+  // callback before the rewrite ever ran, sending the un-rewritten "/"
+  // straight to Next's router — which 404s, since no route matches a bare
+  // "/" under the required [locale] segment. Guarding it here so a
+  // decorative-header failure degrades to "missing extra headers on this
+  // response" instead of "wrong route entirely".
   const middlewareResponse = await composedMiddleware(
     request as unknown as NextRequest,
     event
   );
+
+  let headersResponse: ReturnType<typeof securityHeaders> | undefined;
+  try {
+    headersResponse = securityHeaders();
+  } catch (error) {
+    parseError(error);
+  }
 
   // Return middleware response if it exists, otherwise headers response
   return middlewareResponse || headersResponse;
