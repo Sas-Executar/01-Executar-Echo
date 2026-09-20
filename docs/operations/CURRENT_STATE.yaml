@@ -13,7 +13,7 @@ current_objective: >
   (MOBILE-GATE-003/004). A parallel, lower-effort Web track re-confirms
   apps/web + apps/app production health.
 
-head_sha: 4145d7217f724accbb68cac377770bf5d575c7ff
+head_sha: f8db4738a7348e961dcd7ed662f79f20afd49390
 working_branch: claude/peaceful-fermi-b6hv5x
 current_gate: MOBILE-GATE-001
 
@@ -51,43 +51,86 @@ completed:
      not a missing/invalid EXPO_TOKEN."
 
 in_progress:
-  - "Expo connector enabled by the user (message: 'Use Expo for this').
-     mcp__Expo__* tools confirmed loaded. build_list({appId:
-     '0479ea20-47e9-4e42-8b8a-c648e6f60b83'}) returned [] (empty, not an
-     error) -- confirms this is a real, existing EAS project the user
-     already created outside this session. Populated apps/mobile/app.json
-     (extra.eas.projectId, expo.updates.url, expo.runtimeVersion) and
-     apps/mobile/eas.json (development profile env: EXPO_PUBLIC_API_URL)
-     accordingly. EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY deliberately left unset
-     -- the only known value is corrupted (see blocked[] below); AUTH-01
-     will fail until the user provides the correct one, but BUILD-01 does
-     not depend on it. About to trigger the Android build via
-     mcp__Expo__build_run."
+  - "Mobile build (Android, development profile) via mcp__Expo__build_run,
+     appId 0479ea20-47e9-4e42-8b8a-c648e6f60b83 (confirmed real/pre-existing).
+     3 attempts so far, each errored on a distinct real root cause, each
+     found via the actual build log (not guessed) and fixed:
+     (1) missing expo-dev-client dependency -- fixed, commit 34a6f4a;
+     (2) app.json slug (\"executar\") didn't match the real EAS project's
+     slug (\"executar-mobile\") -- fixed, commit 26e61ab;
+     (3) CURRENT: Gradle build fails in RUN_GRADLEW -- two Gradle
+     configuration errors: onnxruntime-react-native@1.24.3's own
+     android/build.gradle:250 references an unknown Gradle property
+     'VersionNumber' (Gradle/AGP API incompatibility with the EAS build
+     image's Gradle 9.3.1), and a second, possibly related error
+     \"SoftwareComponent with name 'release' not found\" configuring
+     project :expo. Not yet fixed -- needs investigation into whether
+     onnxruntime-react-native has a newer version compatible with this
+     Gradle, or whether the EAS build image's Gradle version needs pinning
+     down via an expo-build-properties config plugin."
+  - "Web track: found (via mcp__Vercel__list_deployments metadata) that a
+     PARALLEL session had already diagnosed the identical corrupted-Clerk-
+     key bug independently and opened PR #32
+     (fix(auth): reject Clerk publishable keys with an unresolvable host --
+     packages/auth/keys.ts now validates the decoded Clerk key host at
+     config time instead of shipping a broken redirect). User confirmed
+     merge; PR #32 merged as f8db4738, then merged into this session's
+     working branch (no conflicts). This does NOT fix production by itself
+     -- it makes the next executar-nf-app/api deploy hard-fail until the
+     real key is supplied, which is the deliberate, agreed trade-off."
+  - "User asked to recover Clerk via a NEW, separate Clerk application
+     ('EXECUTAR Echo', not reusing the corrupted one) using the real
+     `clerk` CLI (npm package `clerk`, official, confirmed real via `npm
+     view`/`--help` -- not hallucinated). Attempted `clerk auth login` from
+     apps/app: this is a browser-OAuth flow with a LOCAL loopback callback
+     (http://127.0.0.1:<port>/callback) -- confirmed by direct execution
+     that this cannot complete from this remote/cloud container, since the
+     user's own browser can never reach this container's 127.0.0.1. This
+     is a structural environment limitation, not a retryable error.
+     Reverse-engineered the compiled CLI binary (strings analysis) and
+     found a real, documented-in-code non-interactive bypass: the
+     `CLERK_PLATFORM_API_KEY` env var (prefix `ak_`) fully replaces
+     `clerk auth login` for every subsequent command (apps list/create,
+     link, env pull, doctor) -- confirmed by reading the actual auth-check
+     logic in the binary, not guessed. See user_action_required below."
 
 blocked:
   - "apps/app production: every signed-out visit to a protected route
      redirects to a malformed Clerk Account Portal URL
-     (https://.accounts.dev/sign-in?...) because
-     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is corrupted (see completed[] entry
-     above and MOBILE_VALIDATION_MANIFEST.csv row WEB-03). Blocks a real
-     web login verification, and would have blocked mobile auth too if the
-     same key had been reused for EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY."
+     (https://.accounts.dev/sign-in?...) -- reconfirmed deterministic (3/3
+     curl attempts), not transient. PR #32 (merged) now makes future
+     deploys fail loudly on this instead of shipping it silently, but
+     production today still serves the last (broken-redirect) build until
+     a corrected key triggers a new, passing deploy."
+  - "apps/mobile Android build: Gradle-level native module incompatibility
+     (onnxruntime-react-native vs. EAS's Gradle 9.3.1) -- see in_progress
+     above. Not a credential/config issue this time; needs a real
+     dependency-version or build-config fix."
 
 user_action_required:
-  - action: "Get the real, complete Clerk publishable key and paste it
-      here (copy carefully end-to-end — this exact class of truncation
-      has already hit 4 other secrets in this repo's history)."
-    where: "Clerk Dashboard -> your EXECUTAR application -> Configure ->
-      API Keys -> Publishable key."
-    why: "The value currently live in Vercel (web/api/app) and the only
-      one any tool in this session can read back is itself corrupted
-      (decodes to '.clerk.accounts.dev$', missing the instance subdomain).
-      No MCP tool can recover the correct value -- the Clerk connector
-      only exposes SDK snippets, not dashboard secrets."
-    after: "Write the corrected value to executar-nf-app/web/api's
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY via Vercel MCP + redeploy, and use
-      the same corrected value for apps/mobile's
-      EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in the EAS build."
+  - action: "Provide a Clerk Platform API Key (starts with `ak_`) so the
+      `clerk` CLI can run non-interactively in this session -- paste it in
+      chat (session-scoped, never committed/logged) or set it as this
+      environment's CLERK_PLATFORM_API_KEY credential."
+    where: "Clerk Dashboard. The CLI's own fallback link is
+      https://dashboard.clerk.com/last-active?path=api-keys -- if that
+      page only shows pk_/sk_ keys for one application, look for an
+      account-level 'Platform API Keys' or 'CLI' section instead (this is
+      an account-wide credential, not scoped to one Clerk application --
+      broader blast radius than a normal secret key, worth knowing before
+      sharing it)."
+    why: "`clerk auth login`'s browser OAuth needs a loopback callback on
+      this container's own 127.0.0.1, which the user's browser can never
+      reach from a separate machine -- confirmed by direct execution, not
+      assumed. CLERK_PLATFORM_API_KEY is the CLI's own documented bypass
+      for exactly this (CI/automation) case."
+    after: "Run the user's ECHO-CLERK-RECOVERY-001 sequence end-to-end:
+      clerk apps list --json (evidence) -> clerk apps create \"EXECUTAR
+      Echo\" -> clerk link --app <new_app_id> -> clerk env pull (dev only)
+      -> clerk doctor --verbose -> decode & validate the new
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY -> report only the sanitized
+      summary (app name, app_id, environment, decoded FAPI host,
+      doctor result, PASS/FAIL) -- never the secret key."
 
 test_results:
   typecheck: "not re-run this session (last known green per PRODUCT_AUDIT.md
@@ -151,4 +194,4 @@ next_action: >
   android -> hand the install link to the user -> verify login -> Home on
   the real device.
 
-last_verified_at: "2026-09-20T07:00:55Z"
+last_verified_at: "2026-09-20T08:52:00Z"
