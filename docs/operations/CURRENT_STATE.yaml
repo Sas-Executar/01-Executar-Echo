@@ -49,25 +49,32 @@ completed:
      level (ListConnectors: installState=connected) but enabledInChat=false
      for this session — this is the single blocker for eas init/eas build,
      not a missing/invalid EXPO_TOKEN."
+  - "BUILD-01 DONE: first real installable Android build of apps/mobile,
+     build 627bfb17-6f10-4083-8fab-64b06d81489a, status FINISHED, APK at
+     https://expo.dev/artifacts/eas/lUKYu12rWKO_-wKaI6FxUbGPVZVkgOZ4AQ3RUcbxf18.apk.
+     Took 4 attempts; 3 real root causes found via actual build logs and
+     fixed in order: missing expo-dev-client dependency, app.json slug
+     mismatch vs. the real EAS project, and onnxruntime-react-native's
+     Gradle script using a Gradle-internal API removed/unbound in Gradle
+     9.3.1 (fixed via a committed bun patch, not a node_modules edit that
+     would be wiped on reinstall)."
 
 in_progress:
-  - "Mobile build (Android, development profile) via mcp__Expo__build_run,
-     appId 0479ea20-47e9-4e42-8b8a-c648e6f60b83 (confirmed real/pre-existing).
-     3 attempts so far, each errored on a distinct real root cause, each
-     found via the actual build log (not guessed) and fixed:
-     (1) missing expo-dev-client dependency -- fixed, commit 34a6f4a;
-     (2) app.json slug (\"executar\") didn't match the real EAS project's
-     slug (\"executar-mobile\") -- fixed, commit 26e61ab;
-     (3) CURRENT: Gradle build fails in RUN_GRADLEW -- two Gradle
-     configuration errors: onnxruntime-react-native@1.24.3's own
-     android/build.gradle:250 references an unknown Gradle property
-     'VersionNumber' (Gradle/AGP API incompatibility with the EAS build
-     image's Gradle 9.3.1), and a second, possibly related error
-     \"SoftwareComponent with name 'release' not found\" configuring
-     project :expo. Not yet fixed -- needs investigation into whether
-     onnxruntime-react-native has a newer version compatible with this
-     Gradle, or whether the EAS build image's Gradle version needs pinning
-     down via an expo-build-properties config plugin."
+  - "CLERK_PLATFORM_API_KEY: user says they authorized/configured a Clerk
+     API key for their organization (likely as an environment-level API
+     credential, same mechanism used before for api.vercel.com/api.expo.dev
+     in this repo's history). Tested 3 independent ways in this session --
+     `clerk whoami`/`clerk apps list --json` (still 'Not logged in'),
+     `clerk --verbose whoami` (confirms it never even checks
+     CLERK_PLATFORM_API_KEY -- goes straight to keyring/credentials-file,
+     meaning the env var is not set in this process), and a raw
+     `curl https://api.clerk.com/v1/users` (plain 401, no proxy injection
+     header at all, unlike the Vercel/Expo cases which showed an
+     X-Proxy-Error when a rule existed but the token was rejected -- here
+     there's no evidence any rule exists for this host at all). Matches
+     this repo's own documented pattern (WORKFLOW_01_01_EXECUTION_LOG.md,
+     2026-09-13): environment credential changes do not retroact into an
+     already-running session, only a new one. See user_action_required."
   - "Web track: found (via mcp__Vercel__list_deployments metadata) that a
      PARALLEL session had already diagnosed the identical corrupted-Clerk-
      key bug independently and opened PR #32
@@ -108,10 +115,18 @@ blocked:
      dependency-version or build-config fix."
 
 user_action_required:
-  - action: "Provide a Clerk Platform API Key (starts with `ak_`) so the
-      `clerk` CLI can run non-interactively in this session -- paste it in
-      chat (session-scoped, never committed/logged) or set it as this
-      environment's CLERK_PLATFORM_API_KEY credential."
+  - action: "The Clerk Platform API Key the user says they authorized is
+      not reaching this session (tested 3 ways, see in_progress above).
+      Two real options, pick one: (A) paste the `ak_...` value directly in
+      chat -- session-scoped only, goes into a scratchpad temp file for
+      the CLI to read via --input-json/env, never into a command string,
+      never committed/logged, works immediately in THIS session; (B) if
+      it was set as an environment-level credential, it needs a genuinely
+      NEW Claude Code session to take effect (this exact limitation is
+      already documented in WORKFLOW_01_01_EXECUTION_LOG.md from
+      2026-09-13 for the same class of credential) -- continuation state
+      for a new session is already kept current in this file + GATE_LOG.md
+      for exactly this handoff."
     where: "Clerk Dashboard. The CLI's own fallback link is
       https://dashboard.clerk.com/last-active?path=api-keys -- if that
       page only shows pk_/sk_ keys for one application, look for an
@@ -123,14 +138,18 @@ user_action_required:
       this container's own 127.0.0.1, which the user's browser can never
       reach from a separate machine -- confirmed by direct execution, not
       assumed. CLERK_PLATFORM_API_KEY is the CLI's own documented bypass
-      for exactly this (CI/automation) case."
+      for exactly this (CI/automation) case, confirmed by reading the
+      compiled CLI binary's own auth-check logic."
     after: "Run the user's ECHO-CLERK-RECOVERY-001 sequence end-to-end:
       clerk apps list --json (evidence) -> clerk apps create \"EXECUTAR
       Echo\" -> clerk link --app <new_app_id> -> clerk env pull (dev only)
       -> clerk doctor --verbose -> decode & validate the new
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY -> report only the sanitized
       summary (app name, app_id, environment, decoded FAPI host,
-      doctor result, PASS/FAIL) -- never the secret key."
+      doctor result, PASS/FAIL) -- never the secret key. Then: write the
+      corrected key into apps/mobile's eas.json env + a NEW EAS build
+      (env is build-time, can't hot-swap the existing APK), plus into the
+      3 Vercel projects + redeploy for the web track."
 
 test_results:
   typecheck: "not re-run this session (last known green per PRODUCT_AUDIT.md
@@ -142,7 +161,9 @@ mobile_build:
   eas_project_id: "0479ea20-47e9-4e42-8b8a-c648e6f60b83" # real, pre-existing project confirmed via build_list
   eas_profile_planned: development
   platform_priority: "android first, then ios (needs Apple Developer + UDID)"
-  status: TRIGGERING
+  status: FINISHED
+  build_id: "627bfb17-6f10-4083-8fab-64b06d81489a"
+  apk_url: "https://expo.dev/artifacts/eas/lUKYu12rWKO_-wKaI6FxUbGPVZVkgOZ4AQ3RUcbxf18.apk"
   blocker: "none for BUILD-01 itself; AUTH-01 still blocked on the corrupted Clerk key"
 
 scanner_status:
