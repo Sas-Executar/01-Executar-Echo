@@ -92,11 +92,15 @@ completed:
      that's apps/web's own routing/content, a pre-existing, separate,
      out-of-scope gap, not the crash that was fixed.)"
 
-in_progress:
+completed_ios_sim_with_key:
   - "iOS Simulator build with the real Clerk key: df01196f-5e8b-4a10-9cba-d3cec0b51983
-     (commit 1d4b7fc, profile development-simulator) -- IN_PROGRESS as of
-     last check. A prior iOS Simulator build (31d1c06c) FINISHED but
-     predates the Clerk key fix, so it can't be used for AUTH-01."
+     (commit 1d4b7fc, profile development-simulator) FINISHED. Artifact:
+     https://expo.dev/artifacts/eas/bipbVXdNzMQahWiqO7FYrro_ZvT_8i1-bRkoiJ3uRPg.tar.gz
+     -- this is the build to hand to the user for real device verification
+     on their Mac (drag the .app out of the .tar.gz into Simulator, or use
+     `xcrun simctl install`)."
+
+in_progress: []
   - "CLERK_PLATFORM_API_KEY: user says they authorized/configured a Clerk
      API key for their organization (likely as an environment-level API
      credential, same mechanism used before for api.vercel.com/api.expo.dev
