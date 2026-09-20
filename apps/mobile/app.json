@@ -49,7 +49,15 @@
           "cameraPermission": "EXECUTAR usa a câmera para reconhecer símbolos visuais do Mapa-OS (Scanner)."
         }
       ],
-      "onnxruntime-react-native"
+      "onnxruntime-react-native",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "17.0"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
