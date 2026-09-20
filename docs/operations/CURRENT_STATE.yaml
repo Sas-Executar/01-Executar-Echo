@@ -1,0 +1,155 @@
+# CURRENT_STATE — EXECUTAR Mobile validation
+#
+# Machine-updatable checkpoint for MOBILE-GATE-001..005. A new session must
+# be able to continue by reading only this file + GATE_LOG.md +
+# HANDOFF_CURRENT.md (if present) — never by re-deriving state from scratch.
+# Overwrite this file in place after every gate-relevant action; do not
+# append history here (that belongs in GATE_LOG.md / WORKFLOW_01_01_EXECUTION_LOG.md).
+
+current_objective: >
+  MOBILE-GATE-001 — produce an installable Android EAS build of apps/mobile,
+  install it on a real device, and verify login (Clerk) -> Home ("Agora")
+  loads real workspace data. Scanner is the priority after this gate closes
+  (MOBILE-GATE-003/004). A parallel, lower-effort Web track re-confirms
+  apps/web + apps/app production health.
+
+head_sha: 4145d7217f724accbb68cac377770bf5d575c7ff
+working_branch: claude/peaceful-fermi-b6hv5x
+current_gate: MOBILE-GATE-001
+
+completed:
+  - "Bootstrap: read MASTER_WORKBOOK.md, AGENTS.md, DECISION_LOG.md, GATE_LOG.md,
+     QUALITY_GATES.md, LAUNCH_RUNBOOK.md, PRODUCT_AUDIT.md, HANDOFF.md,
+     WORKFLOW_01_01_EXECUTION_LOG.md, git log (2026-09-20)."
+  - "Evidence-based audit of apps/mobile build config, Scanner pipeline, and
+     all non-Scanner screens (Login/Home/Projects/Copilot/Mapa-OS/Reports/
+     Settings) via 3 Explore agents — see summaries in this session's
+     transcript and in GATE_LOG.md's next entry."
+  - "Confirmed production backend is live: https://executar-nf-api.vercel.app/health
+     -> 200; https://executar-nf-web.vercel.app/ -> 200;
+     https://executar-nf-app.vercel.app/sign-in -> 200."
+  - "CORRECTION (superseded, see blocked/user_action_required below): the
+     Clerk publishable key found in production HTML
+     (pk_live_LmNsZXJrLmFjY291bnRzLmRldiQ) is CORRUPTED, not safe to reuse.
+     Base64-decoding its payload gives '.clerk.accounts.dev$' -- the
+     instance subdomain segment is missing. Confirmed live impact:
+     https://executar-nf-app.vercel.app/ returns HTTP 307 to
+     'https://.accounts.dev/sign-in?...', a malformed host. Same secret-
+     corruption pattern already seen with VERCEL_TOKEN/DATABASE_URL/
+     RESEND_TOKEN/CLERK_WEBHOOK_SECRET (WORKFLOW_01_01_EXECUTION_LOG.md,
+     2026-09-19). This key is shared by executar-nf-app/web/api (a prior
+     session propagated app's value to web/api on 2026-09-19), so all
+     three currently carry the corrupted value."
+  - "Corrected doc drift: LAUNCH_RUNBOOK.md and INFRASTRUCTURE.md both
+     claimed deploy-mobile.yml is gated on vars.EAS_PROJECT_CONFIGURED; that
+     variable does not exist in the workflow (GATE_LOG.md FP-001 + direct
+     read). Both docs now cite the real gate
+     (scripts/load-deployment-config.sh mobile)."
+  - "Confirmed Expo MCP connector exists and is authenticated at the org
+     level (ListConnectors: installState=connected) but enabledInChat=false
+     for this session — this is the single blocker for eas init/eas build,
+     not a missing/invalid EXPO_TOKEN."
+
+in_progress:
+  - "Waiting on user to enable the 'Expo' connector for this chat before
+     eas init / eas build can run."
+
+blocked:
+  - "apps/app production: every signed-out visit to a protected route
+     redirects to a malformed Clerk Account Portal URL
+     (https://.accounts.dev/sign-in?...) because
+     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is corrupted (see completed[] entry
+     above and MOBILE_VALIDATION_MANIFEST.csv row WEB-03). Blocks a real
+     web login verification, and would have blocked mobile auth too if the
+     same key had been reused for EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY."
+
+user_action_required:
+  - action: "Enable the 'Expo' MCP connector for this chat (already
+      authenticated at the account level — it's a per-chat toggle, not a
+      new credential)."
+    where: "This conversation's connector settings panel (same place
+      Vercel/Neon/GitHub/Linear already show enabled)."
+    why: "Without it, no tool in this session can run `eas init`/`eas
+      build` — this is the only remaining blocker to generate the Android
+      installable build."
+    after: "Re-run ToolSearch for Expo tools, confirm mcp__Expo__* is
+      loaded, then run `eas init` in apps/mobile and proceed to the build
+      step."
+  - action: "Get the real, complete Clerk publishable key and paste it
+      here (copy carefully end-to-end — this exact class of truncation
+      has already hit 4 other secrets in this repo's history)."
+    where: "Clerk Dashboard -> your EXECUTAR application -> Configure ->
+      API Keys -> Publishable key."
+    why: "The value currently live in Vercel (web/api/app) and the only
+      one any tool in this session can read back is itself corrupted
+      (decodes to '.clerk.accounts.dev$', missing the instance subdomain).
+      No MCP tool can recover the correct value -- the Clerk connector
+      only exposes SDK snippets, not dashboard secrets."
+    after: "Write the corrected value to executar-nf-app/web/api's
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY via Vercel MCP + redeploy, and use
+      the same corrected value for apps/mobile's
+      EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in the EAS build."
+
+test_results:
+  typecheck: "not re-run this session (last known green per PRODUCT_AUDIT.md
+    / CI on main)"
+  unit_tests: "not re-run this session"
+  mobile_e2e: "none exist (confirmed: zero test files under apps/mobile)"
+
+mobile_build:
+  eas_project_id: "" # empty in apps/mobile/app.json — no EAS project exists yet
+  eas_profile_planned: development
+  platform_priority: "android first, then ios (needs Apple Developer + UDID)"
+  status: NOT_STARTED
+  blocker: "Expo connector not enabled in this chat (see user_action_required)"
+
+scanner_status:
+  pipeline: "real, on-device (DINOv2 ONNX via onnxruntime-react-native),
+    EXISTS-AND-WIRED end to end for dispatch/undo"
+  model_artifact: "MISSING — no .onnx file anywhere, DINOV2_MODEL_URL/SHA256
+    unset, no GitHub Release exists (DEC-004 OCR-vs-DINOv2 still A DEFINIR
+    in DECISION_LOG.md)"
+  symbol_enrollment: "MISSING — no API route or mobile screen calls
+    registerSymbol() for a real workspace; only test fixtures do"
+  known_bug: "packages/scanner/src/dispatch.ts:20-25 selects latest open
+    task from {DOING,VERIFY}, but TASK_STATE_TRANSITIONS only allows
+    VERIFY->DONE, not DOING->DONE (packages/schemas/src/task-state.ts:34-39)
+    — dispatch errors instead of completing if the latest task is in DOING.
+    Not fixed yet; scheduled for MOBILE-GATE-004 (SCN-09)."
+  gate: "out of scope for GATE-001; targeted at GATE-003/004"
+
+api_status:
+  executar-nf-api: "production alias healthy (200 on /health); latest
+    deployment attempt shows readyState=ERROR (likely the 2026-09-19 Vercel
+    daily-deployment-quota exhaustion documented in
+    WORKFLOW_01_01_EXECUTION_LOG.md — production alias still serves the
+    last good build, unaffected)"
+  executar-nf-web: "production alias healthy (200 on /)"
+  executar-nf-app: "production alias healthy (200 on /sign-in; root / had a
+    transient proxy tunnel error in this session's curl, not confirmed as
+    an app-side failure — re-test before relying on it)"
+
+auth_status:
+  clerk_web: "REGRESSED since the 2026-09-19 log entry that called it
+    healthy: that check only confirmed CLERK_SECRET_KEY/webhook-signature
+    server-side, never a live browser sign-in. NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    is now confirmed corrupted (see blocked[] above) -- apps/app's
+    sign-out redirect target is malformed in production right now."
+  clerk_mobile: "code is real and wired (apps/mobile/app/_layout.tsx,
+    (auth)/sign-in.tsx, (auth)/sign-up.tsx) but never run against a real
+    device — blocked on the same corrupted publishable key; do not embed
+    the current value in a build."
+
+next_action: >
+  Two independent user_action_required items block this gate: (1) enable
+  the Expo connector for this chat, (2) get the correct, complete Clerk
+  publishable key from the dashboard. Once (1) lands: eas init in
+  apps/mobile -> populate app.json (projectId/updates.url/runtimeVersion).
+  Once (2) lands: fix NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in
+  executar-nf-app/web/api via Vercel + redeploy, then set
+  EXPO_PUBLIC_API_URL and the corrected EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+  for the mobile build. Then: eas build --profile development --platform
+  android -> hand the install link to the user -> verify login -> Home on
+  the real device.
+
+last_verified_at: "2026-09-20T07:00:55Z"
