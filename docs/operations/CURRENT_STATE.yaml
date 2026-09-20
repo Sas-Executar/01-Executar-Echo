@@ -115,41 +115,42 @@ blocked:
      dependency-version or build-config fix."
 
 user_action_required:
-  - action: "The Clerk Platform API Key the user says they authorized is
-      not reaching this session (tested 3 ways, see in_progress above).
-      Two real options, pick one: (A) paste the `ak_...` value directly in
-      chat -- session-scoped only, goes into a scratchpad temp file for
-      the CLI to read via --input-json/env, never into a command string,
-      never committed/logged, works immediately in THIS session; (B) if
-      it was set as an environment-level credential, it needs a genuinely
-      NEW Claude Code session to take effect (this exact limitation is
-      already documented in WORKFLOW_01_01_EXECUTION_LOG.md from
-      2026-09-13 for the same class of credential) -- continuation state
-      for a new session is already kept current in this file + GATE_LOG.md
-      for exactly this handoff."
-    where: "Clerk Dashboard. The CLI's own fallback link is
-      https://dashboard.clerk.com/last-active?path=api-keys -- if that
-      page only shows pk_/sk_ keys for one application, look for an
-      account-level 'Platform API Keys' or 'CLI' section instead (this is
-      an account-wide credential, not scoped to one Clerk application --
-      broader blast radius than a normal secret key, worth knowing before
-      sharing it)."
-    why: "`clerk auth login`'s browser OAuth needs a loopback callback on
-      this container's own 127.0.0.1, which the user's browser can never
-      reach from a separate machine -- confirmed by direct execution, not
-      assumed. CLERK_PLATFORM_API_KEY is the CLI's own documented bypass
-      for exactly this (CI/automation) case, confirmed by reading the
-      compiled CLI binary's own auth-check logic."
-    after: "Run the user's ECHO-CLERK-RECOVERY-001 sequence end-to-end:
-      clerk apps list --json (evidence) -> clerk apps create \"EXECUTAR
-      Echo\" -> clerk link --app <new_app_id> -> clerk env pull (dev only)
-      -> clerk doctor --verbose -> decode & validate the new
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY -> report only the sanitized
-      summary (app name, app_id, environment, decoded FAPI host,
-      doctor result, PASS/FAIL) -- never the secret key. Then: write the
-      corrected key into apps/mobile's eas.json env + a NEW EAS build
-      (env is build-time, can't hot-swap the existing APK), plus into the
-      3 Vercel projects + redeploy for the web track."
+  - action: "SUPERSEDED the CLERK_PLATFORM_API_KEY/CLI route (dropped --
+      too much uncertainty about where in Clerk's dashboard that key
+      lives, and the CLI's browser login can't work from this container
+      anyway). Simpler path instead, pure dashboard UI, no CLI: user is
+      already logged into dashboard.clerk.com. Click '+ Create
+      Application' -> name it 'EXECUTAR Echo' -> open its Configure ->
+      API Keys page -> copy the Publishable key (pk_test_...) and Secret
+      key (sk_test_...) -> paste both here in chat."
+    where: "dashboard.clerk.com, directly in the UI (no CLI needed at all
+      for this simpler path)."
+    why: "Creating an application and reading its own API Keys page is
+      completely standard Clerk UI, needs no special account-level
+      permission or CLI auth -- unlike the Platform API Key route, which
+      needed an auth mechanism this session structurally can't complete
+      (browser OAuth loopback) and a dashboard location that was never
+      confirmed."
+    after: "Decode the new pk_test_ key's payload to confirm it's a real,
+      non-placeholder host (same check as before -- must NOT be
+      '.clerk.accounts.dev$'). Then: write both keys into apps/mobile's
+      eas.json development profile env + trigger a NEW EAS build for both
+      android and ios (env is build-time, existing artifacts can't be
+      hot-patched), and write NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY +
+      CLERK_SECRET_KEY into the 3 Vercel projects (app/web/api) + redeploy
+      for the web track."
+  - action: "Enroll in the Apple Developer Program (paid, ~$99/yr) --
+      external, user-only, no code/tool involved. Not blocking today's
+      testing (iOS Simulator build covers that, see mobile_build.ios_device
+      above) but blocks a real-iPhone install."
+    where: "https://developer.apple.com/programs/enroll/"
+    why: "EAS can't sign/provision a real-device iOS build without it.
+      Simulator builds are unsigned and don't need this, which is why
+      that path was used for today's interim test."
+    after: "Once enrolled, provide the Apple Team ID (and ideally an App
+      Store Connect API Key instead of an Apple ID password, so EAS can
+      manage signing non-interactively) -- then trigger a real
+      internal-distribution iOS build."
 
 test_results:
   typecheck: "not re-run this session (last known green per PRODUCT_AUDIT.md
@@ -159,12 +160,29 @@ test_results:
 
 mobile_build:
   eas_project_id: "0479ea20-47e9-4e42-8b8a-c648e6f60b83" # real, pre-existing project confirmed via build_list
-  eas_profile_planned: development
-  platform_priority: "android first, then ios (needs Apple Developer + UDID)"
-  status: FINISHED
-  build_id: "627bfb17-6f10-4083-8fab-64b06d81489a"
-  apk_url: "https://expo.dev/artifacts/eas/lUKYu12rWKO_-wKaI6FxUbGPVZVkgOZ4AQ3RUcbxf18.apk"
-  blocker: "none for BUILD-01 itself; AUTH-01 still blocked on the corrupted Clerk key"
+  platform_priority: >
+    REVISED: user's real test device is an iPhone, not Android -- they
+    don't own an Android device. The Android APK (below) proves the build
+    pipeline works but isn't the user's actual test target. User does not
+    yet have an Apple Developer Program account (needed for a real-device
+    iOS build's signing/provisioning) -- external dependency, enrollment
+    takes hours to days. Interim: user has a Mac, so an iOS Simulator
+    build (unsigned, no Apple account needed) unblocks seeing/interacting
+    with the app today. Real-iPhone build stays blocked on Apple
+    enrollment.
+  android_development:
+    status: FINISHED
+    build_id: "627bfb17-6f10-4083-8fab-64b06d81489a"
+    apk_url: "https://expo.dev/artifacts/eas/lUKYu12rWKO_-wKaI6FxUbGPVZVkgOZ4AQ3RUcbxf18.apk"
+  ios_simulator:
+    status: TRIGGERED
+    build_id: "c916731f-607a-440d-898f-e6db1487db2a"
+    eas_profile: development-simulator # new profile, extends "development", ios.simulator=true
+  ios_device:
+    status: BLOCKED
+    blocker: "User has no Apple Developer Program account yet (external,
+      user_action_required below)."
+  blocker: "AUTH-01 (both platforms) still blocked on the corrupted Clerk key"
 
 scanner_status:
   pipeline: "real, on-device (DINOv2 ONNX via onnxruntime-react-native),
