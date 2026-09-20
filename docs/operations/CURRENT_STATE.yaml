@@ -13,7 +13,7 @@ current_objective: >
   (MOBILE-GATE-003/004). A parallel, lower-effort Web track re-confirms
   apps/web + apps/app production health.
 
-head_sha: f8db4738a7348e961dcd7ed662f79f20afd49390
+head_sha: 1d4b7fccb1d850445c8d0b17a1cf45dd94b16eb4
 working_branch: claude/peaceful-fermi-b6hv5x
 current_gate: MOBILE-GATE-001
 
@@ -58,8 +58,45 @@ completed:
      Gradle script using a Gradle-internal API removed/unbound in Gradle
      9.3.1 (fixed via a committed bun patch, not a node_modules edit that
      would be wiped on reinstall)."
+  - "CLERK KEY RESOLVED: user created a new Clerk Development app
+     ('EXECUTAR Echo') and provided real pk_test_/sk_test_ credentials.
+     Decoded and confirmed non-corrupted (endless-hornet-1964.clerk.accounts.dev,
+     non-empty subdomain). Written to executar-nf-app/web/api Vercel envs
+     (production+preview) and to apps/mobile/eas.json's development profile.
+     Never committed the secret key to the repo (Vercel API only); the
+     publishable key is intentionally committed (public by convention)."
+  - "ANDROID BUILD WITH REAL KEY: build 48cd7d39-7764-41a0-937d-f5fb2d415521
+     (commit 9305750) FINISHED. APK:
+     https://expo.dev/artifacts/eas/tAsX12tMaeviB1yoQJm8xU5mscf0sOLuSpT3FsU83DA.apk.
+     User has no Android device -- this is pipeline proof only, not the
+     user's real verification path."
+  - "SECOND PROD BUG FOUND+FIXED (independent of the Clerk key): user
+     reported a live 'Oops, something went wrong' error via iPhone Safari
+     screenshot on executar-nf-app. Root-caused via
+     mcp__Vercel__get_runtime_errors/get_runtime_logs: recurring
+     'Error: [object Object]' on middleware since 2026-09-12. PR #30's
+     try/catch guard around @nosecone/next's securityHeaders() in both
+     apps/app/proxy.ts and apps/web/proxy.ts never awaited the call inside
+     the try block, so the async rejection (createMiddleware() returns
+     Promise<Response>, confirmed via its own .d.ts) surfaced after the
+     catch had already returned. Fixed by adding await in both files,
+     verified with tsc --noEmit + ultracite check (both clean), committed
+     1d4b7fccb1d850445c8d0b17a1cf45dd94b16eb4, redeployed both apps."
+  - "WEB FIX VERIFIED LIVE: executar-nf-app root -> 8/8 curl 307, 0x 500.
+     executar-nf-web deployment dpl_8NBkGS7otkU9ZTUaVwuvFHrUxU6c READY on
+     the correct branch+commit (verified via get_deployment
+     withGitRepoInfo); root -> 6/6 curl 200 with
+     x-clerk-auth-status=signed-out header present, confirming the full
+     proxy chain (i18n rewrite + arcjet + clerk + security headers) runs
+     without crashing. (Root path itself still 404s past the proxy --
+     that's apps/web's own routing/content, a pre-existing, separate,
+     out-of-scope gap, not the crash that was fixed.)"
 
 in_progress:
+  - "iOS Simulator build with the real Clerk key: df01196f-5e8b-4a10-9cba-d3cec0b51983
+     (commit 1d4b7fc, profile development-simulator) -- IN_PROGRESS as of
+     last check. A prior iOS Simulator build (31d1c06c) FINISHED but
+     predates the Clerk key fix, so it can't be used for AUTH-01."
   - "CLERK_PLATFORM_API_KEY: user says they authorized/configured a Clerk
      API key for their organization (likely as an environment-level API
      credential, same mechanism used before for api.vercel.com/api.expo.dev
