@@ -293,9 +293,14 @@ verified_fix_oops_screen:
     NEXT_HTTP_ERROR_FALLBACK;404 and NEXT_REDIRECT remain -- both are
     normal Next.js control-flow sentinels, not crashes. Location header
     correctly points at endless-hornet-1964.accounts.dev/sign-in.
-  caveat: >
-    Verified on the BRANCH PREVIEW only. Production serves main, which
-    does not carry this commit -- the fix reaches production only when
-    PR #33 merges. That merge is the user's decision.
+  merged_to_production: >
+    PR #33 merged to main by the user (2026-09-21, commit fe54b6b,
+    squash merge). Production deployment dpl_3NGW3Dj6iGF53f2cVMJQzvzXo5uX
+    READY. Re-verified directly against https://executar-nf-app.vercel.app/
+    (production alias, not preview): 5/5 curl -> 307, no 500s. RSC payload
+    via mcp__Vercel__web_fetch_vercel_url shows only
+    NEXT_HTTP_ERROR_FALLBACK;404 and NEXT_REDIRECT -- digest
+    2873733393@E394 does not appear. sentry-release header confirms
+    fe54b6b is the code actually serving the request. CLOSED.
 
 last_verified_at: "2026-09-21T06:07:00Z"
