@@ -39,7 +39,7 @@ something checkable (a commit SHA, a live API response, a build log).
 | "What's the architecture/stack convention, what can I change vs. must ask first?" | `AGENTS.md` |
 | "Is this repo's code actually finished — what's real vs. claimed?" | `PRODUCT_AUDIT.md` |
 | "What CI gates exist, what are their thresholds, why?" | `QUALITY_GATES.md` |
-| "How do I verify and release the Blog safely?" | `docs/operations/BLOG_DEPLOY_CHECKLIST.md` (human runbook) + `docs/operations/BLOG_DEPLOY_CHECKLIST.yaml` (agent gate manifest) |
+| "How do I verify and release the Blog safely?" | `docs/operations/BLOG_REQUIREMENTS_TRACEABILITY.md` / `.yaml` (normative chain) → `docs/operations/BLOG_DEPLOY_CHECKLIST.md` / `.yaml` (execution gates) |
 | "What infra/deploy config exists, what's dashboard-only?" | `INFRASTRUCTURE.md` |
 | "What accounts/credentials/env vars does launch need, what's done?" | `LAUNCH_RUNBOOK.md` |
 | "What's the step-by-step launch workflow and its live status?" | `WORKFLOW_01_01_RUNBOOK.md` (spec) + `WORKFLOW_01_01_EXECUTION_LOG.md` (raw findings log) |
