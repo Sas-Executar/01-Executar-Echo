@@ -10,7 +10,12 @@ source_method:
   - anthropic_knowledge_work_engineering_documentation
   - repository_live_structure
   - executar_blog_launch_input
-blocking_rule: "No release is DONE_VERIFIED with a blocking gate in FAIL, BLOCKED, or NOT_RUN."
+  - notion_master_index_blog_01_20
+  - blueprint_traceability_rules
+status_values: [PASS, BLOCKED]
+traceability_manifest: docs/operations/BLOG_REQUIREMENTS_TRACEABILITY.yaml
+normative_gap: GAP-PRD-BLOG-001
+blocking_rule: "Any missing/failed mandatory source link, implementation, test, deployment, verification, or evidence is BLOCKED."
 critical_invariant: "Every MDX intentionally published maps to a production /blog/<slug> URL returning HTTP 200 with rendered body."
 gates:
   - id: source_scope
