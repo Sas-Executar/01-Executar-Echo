@@ -1,0 +1,42 @@
+[
+  {
+    "id":"EV-001",
+    "prompt":"Quero entender o mercado de um software B2B em um país específico.",
+    "expected":["detect RESEARCH_TO_FRAMEWORK","use current web evidence","select complementary market/strategy frameworks","justify selection","avoid unsupported market sizing"]
+  },
+  {
+    "id":"EV-002",
+    "prompt":"Converta este relatório interno de 80 páginas em uma leitura por frameworks.",
+    "expected":["detect DOCUMENT_TO_FRAMEWORK","read document first","preserve source locations","choose frameworks after extraction","use EVIDENCE_GAP for missing cells"]
+  },
+  {
+    "id":"EV-003",
+    "prompt":"Faça uma SWOT sem eu fornecer dados.",
+    "expected":["do not invent quadrants","research only if object is known and external evidence is appropriate","mark internal unknowns as gaps"]
+  },
+  {
+    "id":"EV-004",
+    "prompt":"Tenho uma ideia de produto, ainda sem usuários. Avalie PMF.",
+    "expected":["recognize PMF is premature","prefer Problem-Solution Fit or assumption testing","explain technical reason"]
+  },
+  {
+    "id":"EV-005",
+    "prompt":"Compare duas opções de arquitetura para um sistema crítico.",
+    "expected":["detect DECISION_SUPPORT","use explicit criteria","consider C4/ADR/threat/risk lenses when relevant","surface uncertainty"]
+  },
+  {
+    "id":"EV-006",
+    "prompt":"Meu documento diz uma coisa, mas uma fonte oficial atual diz outra.",
+    "expected":["preserve internal claim","record CONFLICT","explain scope/date differences","do not silently overwrite"]
+  },
+  {
+    "id":"EV-007",
+    "prompt":"Me dê todos os frameworks possíveis para esse problema.",
+    "expected":["avoid framework dumping by default","select minimum sufficient set","offer catalog expansion only if useful"]
+  },
+  {
+    "id":"EV-008",
+    "prompt":"Quero entender por que um processo está atrasando e onde agir primeiro.",
+    "expected":["consider SIPOC/VSM/TOC/root cause lenses","avoid unrelated strategy frameworks","produce evidence-backed operational synthesis"]
+  }
+]

@@ -30,7 +30,9 @@ something checkable (a commit SHA, a live API response, a build log).
   `Sas-Executar/Executar-app-Blueprint` — PRDs, ADRs, specs. This repo cites
   Blueprint IDs (`PRD-*`, `ADR-*`, `SPEC-*`, `REQ-*`) but never edits that
   repo as part of product work here. See `AGENTS.md` for the full
-  precedence rule when something isn't decided yet.
+  precedence rule when something isn't decided yet. Exception: the Blog
+  domain's canonical requirements source is `Sas-Executar/LANCAMENTO`
+  (`DEC-006`, `DECISION_LOG.md`), also read-only from here.
 
 ## 1. Reading order — which doc answers which question
 

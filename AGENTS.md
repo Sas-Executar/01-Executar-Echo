@@ -15,6 +15,12 @@ in this repo. Documentation updates in the Blueprint happen only as a
 trailing traceability step after code here proves something, in a
 separate PR to that repo, not as a substitute for shipping code here.
 
+**Exception — Blog domain (DEC-006, `DECISION_LOG.md`):** for the Blog
+product specifically, the canonical requirements source is
+`Sas-Executar/LANCAMENTO`, `D23__blueprints/Executar Blog/#00`–`#22`
+(also read-only from here, same rule as above). This does not change the
+canonical source for any other domain.
+
 This repo (`next-forge`) is where the EXECUTAR product is actually built:
 architecture, code, schema, migrations, tests, CI/CD, deploy. See
 `/root/.claude/plans/root-claude-uploads-5b3d88f9-9bbc-5d5c-wise-nautilus.md`
