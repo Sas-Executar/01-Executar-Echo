@@ -1,4 +1,3 @@
-import { showBetaFeature } from "@repo/feature-flags";
 import { getDictionary } from "@repo/internationalization";
 import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
@@ -15,18 +14,32 @@ interface HomeProps {
   }>;
 }
 
-// This page called showBetaFeature() -> Clerk's auth() -> headers(), a
-// dynamic API, while Next still treated the route as statically
-// prerenderable. The flags SDK catches auth()'s own error internally (it
-// logs "falling back to its defaultValue" and returns false), and that
-// catch also swallows Next's internal bail-out-of-static-rendering
-// signal — so the build kept a prerendered artifact for this route that
-// renders as not-found. In production that artifact was served for
-// roughly 1 in 8 requests to "/" (the rest were dynamic renders, which
-// were always correct), confirmed by x-nextjs-prerender:1 on every 404
-// and its absence on every 200. Declaring the route dynamic stops the
-// broken artifact from being produced at all. Sibling routes
-// (/pricing, /contact, /blog) never called the flag and never failed.
+// This page used to call showBetaFeature() -> Clerk's auth() -> headers().
+// The flags SDK swallows whatever decide() throws (it logs "falling back
+// to its defaultValue" and returns false), including Next's own internal
+// render-control signals, which left the render in a not-found state.
+//
+// Measured on production (2026-09-21, dpl_pk6r7D6dxoMmnEr5NAzi69VcRUsX),
+// forcing a cache MISS on every request so each one is a fresh render:
+//
+//     /          7/40 and 2/30 returned 404
+//     /pricing   0/30
+//     /contact   0/30
+//     /blog      0/30
+//
+// Only this route called the flag, and only this route failed. The CDN
+// then pinned one of those 404s under the bare "/" key (it is the static
+// _not-found artifact, so it carries x-nextjs-prerender:1 and caching
+// headers), which turned an ~18% render failure into a ~100% outage.
+//
+// The call was also dead: decide() returns defaultValue whenever there is
+// no userId, and an anonymous visitor to a public marketing page never
+// has one, so the banner could never render. It gated a hardcoded,
+// untranslated Next Forge placeholder. Removing it changes no behavior
+// and takes Clerk out of this page's render path entirely.
+//
+// force-dynamic stays: it is what keeps a prerendered artifact from being
+// built for this route in the first place.
 export const dynamic = "force-dynamic";
 
 export const generateMetadata = async ({
@@ -41,15 +54,9 @@ export const generateMetadata = async ({
 const Home = async ({ params }: HomeProps) => {
   const { locale } = await params;
   const dictionary = await getDictionary(locale);
-  const betaFeature = await showBetaFeature();
 
   return (
     <>
-      {betaFeature && (
-        <div className="w-full bg-black py-2 text-center text-white">
-          Beta feature now available
-        </div>
-      )}
       <Hero dictionary={dictionary} />
       <Features dictionary={dictionary} />
       <Stats dictionary={dictionary} />
