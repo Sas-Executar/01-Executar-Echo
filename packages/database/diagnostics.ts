@@ -110,6 +110,60 @@ const rawUpgradeProbe = (host: string): Promise<Probe> =>
     request.end();
   });
 
+/**
+ * Node 24 delivers Neon's (valid) 101 as a `response` event rather than
+ * an `upgrade`, which is what breaks the `ws` package. The platform's
+ * own WebSocket does not go through that code path at all, so this asks
+ * whether swapping the constructor is enough.
+ */
+const nativeWsProbe = (host: string): Promise<Probe> =>
+  new Promise((resolve) => {
+    const name = "native WebSocket handshake";
+
+    if (!globalThis.WebSocket) {
+      resolve({ name, outcome: "SKIPPED - no global WebSocket" });
+      return;
+    }
+
+    const socket = new globalThis.WebSocket(`wss://${host}/v2`);
+    let settled = false;
+
+    const settle = (outcome: string) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      socket.close();
+      resolve({ name, outcome });
+    };
+
+    socket.onopen = () => settle("HANDSHAKE OK");
+    socket.onerror = () => settle("FAILED");
+    setTimeout(() => settle("TIMEOUT"), HANDSHAKE_TIMEOUT_MS);
+  });
+
+/** A real Prisma-style pool over the platform's own WebSocket. */
+const nativePoolProbe = async (connectionString: string): Promise<Probe> => {
+  const name = "Pool.query over native WebSocket";
+  const previous = neonConfig.webSocketConstructor;
+
+  neonConfig.webSocketConstructor = globalThis.WebSocket as never;
+  const pool = new Pool({ connectionString });
+
+  try {
+    const result = await pool.query("SELECT 1 AS ok");
+
+    return { name, outcome: `OK -> ${JSON.stringify(result.rows)}` };
+  } catch (error) {
+    return { name, outcome: `FAILED -> ${describeError(error)}` };
+  } finally {
+    neonConfig.webSocketConstructor = previous;
+    await pool.end().catch(() => {
+      /* already closed */
+    });
+  }
+};
+
 const wsHandshakeProbe = (host: string): Promise<Probe> =>
   new Promise((resolve) => {
     const name = "ws handshake (what the Prisma adapter does)";
@@ -182,6 +236,8 @@ export const runNeonDiagnostics = async (): Promise<NeonDiagnostics> => {
     probes: [
       await rawUpgradeProbe(host),
       await wsHandshakeProbe(host),
+      await nativeWsProbe(host),
+      await nativePoolProbe(connectionString),
       await httpQueryProbe(connectionString),
       await pooledFetchProbe(connectionString),
     ],
