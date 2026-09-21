@@ -70,6 +70,7 @@ mesmo jeito.
 | ID | Falha | Correção aplicada |
 |---|---|---|
 | **FP-005** | O plano inicial desta sessão assumiu que o publishable key já servido publicamente em produção era seguro para reusar no mobile sem verificar seu conteúdo decodificado. Só a decodificação direta (não a leitura da doc anterior) revelou a corrupção | Decodifiquei o payload antes de escrever qualquer env var; documentado aqui e no manifest (`WEB-03`) antes de pedir qualquer coisa nova a Leo |
+| **FP-006** | Declarei a tela "Oops, something went wrong" resolvida pelo `await securityHeaders()` (commit `1d4b7fc`) usando como prova 40 `curl` sem `500`. Duas falhas no método: (a) `curl` sem `-L` não segue o redirect, então nunca chegava na rota que realmente quebrava; (b) tratei ausência de `500` como ausência de erro, quando o erro vinha no payload RSC com status `307`. O usuário reportou o mesmo erro logo depois | Passei a exigir prova negativa antes de afirmar correção: `parseError()` grava a linha `"Parsing error"` sempre que o `try/catch` do proxy dispara, e **zero** dessas linhas existem em 3h de log — o que derruba a hipótese do nosecone. A causa real saiu de isolamento por rota (`/` com digest `2873733393@E394`; `/now` e `/projects`, no mesmo layout, limpas): `database.page.findMany()` rodava antes do `auth()` em `(authenticated)/page.tsx`. Corrigido em `240a122` |
 
 ### Pendências USER_ACTION_REQUIRED
 
