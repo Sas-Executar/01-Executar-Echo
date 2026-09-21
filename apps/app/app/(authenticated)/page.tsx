@@ -28,12 +28,21 @@ export const metadata: Metadata = {
 };
 
 const App = async () => {
-  const pages = await database.page.findMany();
+  // auth() first: this route renders for signed-out visitors too (the layout's
+  // redirectToSignIn() and this page render concurrently), and querying the
+  // database before knowing there is an org meant every signed-out hit to "/"
+  // ran a Prisma query it had no authority to run — which surfaced as an
+  // unhandled "Error: [object Object]" in the RSC stream and rendered
+  // global-error.tsx ("Oops, something went wrong") instead of the sign-in
+  // redirect. Sibling routes (/now, /projects) never did this and redirect
+  // cleanly, which is what isolated it here.
   const { orgId } = await auth();
 
   if (!orgId) {
     notFound();
   }
+
+  const pages = await database.page.findMany();
 
   return (
     <>

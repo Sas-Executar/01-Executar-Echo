@@ -60,7 +60,12 @@ test("configured web resolves versioned project and does not export secrets", ()
 });
 
 test("mobile is blocked even with a token when app.json is unlinked", () => {
-  const result = run("mobile", { EXPO_TOKEN: "test-only" });
+  const cwd = fixture();
+  const path = `${cwd}/apps/mobile/app.json`;
+  const app = JSON.parse(readFileSync(path, "utf8"));
+  app.expo.extra.eas.projectId = "";
+  writeFileSync(path, JSON.stringify(app));
+  const result = run("mobile", { EXPO_TOKEN: "test-only" }, cwd);
   assert.equal(result.status, 1);
   assert.ok(result.stdout.includes("expo.extra.eas.projectId"));
 });

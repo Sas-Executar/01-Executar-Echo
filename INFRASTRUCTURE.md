@@ -27,7 +27,13 @@ step, not a shortcut around code that could have been written instead.
 - **`deploy-mobile.yml`** (M19-T03) — EAS Update (OTA) on every push to
   `main`, EAS Build on a `mobile-v*` tag, EAS Submit on manual dispatch
   only (store submission is a deliberate, reviewed action, never
-  auto-triggered by a build). Gated on `vars.EAS_PROJECT_CONFIGURED`.
+  auto-triggered by a build). Docs previously said this was gated on
+  `vars.EAS_PROJECT_CONFIGURED`; that variable is never referenced in the
+  workflow file (confirmed by direct read, see `GATE_LOG.md` FP-001). The
+  real gate is `scripts/load-deployment-config.sh mobile`, which validates
+  `extra.eas.projectId`/`expo.updates.url`/`expo.runtimeVersion` in
+  `apps/mobile/app.json` and soft-skips (not fails) on a `main` push when
+  they're missing.
 
 None of these four release/deploy workflows have run for real in this
 sandbox — each needs a real cloud account this project has never had

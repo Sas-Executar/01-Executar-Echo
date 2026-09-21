@@ -195,12 +195,23 @@ a distinct value per environment (never reuse preview/production).
 
 ## 8. 🧑 Expo/EAS + Apple/Google
 
-No connector. `eas init` (writes a real `extra.eas.projectId` into
-`apps/mobile/app.json`, currently empty) → `EXPO_TOKEN` as a GitHub secret →
-set `vars.EAS_PROJECT_CONFIGURED=true`. Then: Apple Developer Program
-enrollment + App Store Connect app record; Google Play Console developer
-account + app record; populate `apps/mobile/eas.json`'s empty
-`submit.production` profile with the real credentials both stores issue.
+An Expo MCP connector exists and is authenticated at the org level
+(`ListConnectors` → `installState: connected`), but was `enabledInChat:
+false` as of 2026-09-20 — a human has to flip it on for the working
+session before any `mcp__Expo__*` tool call or `eas`/`eas-cli` command can
+authenticate. `eas init` (writes a real `extra.eas.projectId` into
+`apps/mobile/app.json`, currently empty, plus `expo.updates.url` and
+`expo.runtimeVersion`, both currently absent) → `EXPO_TOKEN` as a GitHub
+secret → set `vars.EAS_PROJECT_CONFIGURED=true`. **Correction (2026-09-20,
+`GATE_LOG.md` FP-001 + direct read of `deploy-mobile.yml`): this
+`vars.EAS_PROJECT_CONFIGURED` gate is not actually implemented in the
+workflow** — the real gate `deploy-mobile.yml` checks is
+`scripts/load-deployment-config.sh mobile`'s validation of
+`extra.eas.projectId`/`expo.updates.url`/`expo.runtimeVersion`. Then: Apple
+Developer Program enrollment + App Store Connect app record; Google Play
+Console developer account + app record; populate `apps/mobile/eas.json`'s
+empty `submit.production` profile with the real credentials both stores
+issue.
 
 ## 9. Consolidated GitHub secrets/variables checklist
 

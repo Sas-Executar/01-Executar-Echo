@@ -13,6 +13,82 @@ Entrada mais recente no topo.
 
 ---
 
+## GATE-MOBILE-001 — Build Mobile instalável (início) · **PARCIAL/BLOCKED**
+
+| | |
+|---|---|
+| **Fase** | `MOBILE-GATE-001` (build → login → Home), primeira sessão dedicada ao mobile |
+| **Data** | 2026-09-20 |
+| **Modelo / modo / esforço** | Sonnet 5 · plan mode → execução · alto (3 agentes Explore em paralelo + verificação de ambiente) |
+| **Critério do gate** | Build Android instalável, login Clerk real, Home ("Agora") com dado real do workspace |
+| **Resultado** | **BLOCKED por 2 dependências humanas independentes**, ambas com o trabalho anterior já feito |
+
+### Entregue
+
+- Auditoria completa (não uma nova, uma verificação factual) de `apps/mobile`
+  (build config, Scanner, telas Home/Projects/Copilot/Mapa-OS/Reports/Settings)
+  via 3 agentes Explore — nenhuma reimplementação, só confirmação de
+  EXISTS-AND-WIRED vs MISSING vs BLOCKED.
+- `docs/operations/CURRENT_STATE.yaml` e
+  `docs/operations/MOBILE_VALIDATION_MANIFEST.csv` criados (não existiam).
+- Corrigido drift de documentação: `LAUNCH_RUNBOOK.md`/`INFRASTRUCTURE.md`
+  descreviam `deploy-mobile.yml` como gated em `vars.EAS_PROJECT_CONFIGURED`
+  — essa variável não existe no workflow real (já apontado em FP-001, agora
+  também corrigido no texto das duas docs).
+
+### Achado novo — bug real em produção, não documentado antes
+
+`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (compartilhada por `executar-nf-app`,
+`executar-nf-web`, `executar-nf-api`, valor `pk_live_LmNsZXJrLmFjY291bnRzLmRldiQ`)
+está **corrompida**: o payload base64 decodifica para `.clerk.accounts.dev$`
+— falta o segmento de subdomínio da instância. Impacto confirmado ao vivo:
+
+```
+$ curl -D- https://executar-nf-app.vercel.app/
+HTTP/2 307
+location: https://.accounts.dev/sign-in?redirect_url=...
+```
+
+Host de redirecionamento malformado (começa com `.`). Mesma classe de
+corrupção (colagem truncada) já documentada 4x nesta mesma investigação
+histórica (`VERCEL_TOKEN`, `DATABASE_URL`, `RESEND_TOKEN`,
+`CLERK_WEBHOOK_SECRET` — `WORKFLOW_01_01_EXECUTION_LOG.md`, 2026-09-19). A
+sessão de 2026-09-19 que declarou `executar-nf-web` "saudável" e propagou
+esse mesmo valor de `app` para `web`/`api` verificou só `CLERK_SECRET_KEY`
+(server-side) e a assinatura do webhook — nunca um login real de navegador.
+**Correção de registro**: esse achado supera a leitura anterior de
+"web/app saudáveis" quanto a auth especificamente — os endpoints respondem
+200, mas o fluxo de login real está quebrado para usuário não-autenticado.
+
+Consequência direta para este gate: eu **não** propaguei esse valor para
+`EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY` do mobile, como o plano original previa
+(reusar o valor público já em produção) — teria quebrado o login mobile do
+mesmo jeito.
+
+### Falha de planejamento registrada
+
+| ID | Falha | Correção aplicada |
+|---|---|---|
+| **FP-005** | O plano inicial desta sessão assumiu que o publishable key já servido publicamente em produção era seguro para reusar no mobile sem verificar seu conteúdo decodificado. Só a decodificação direta (não a leitura da doc anterior) revelou a corrupção | Decodifiquei o payload antes de escrever qualquer env var; documentado aqui e no manifest (`WEB-03`) antes de pedir qualquer coisa nova a Leo |
+| **FP-006** | Declarei a tela "Oops, something went wrong" resolvida pelo `await securityHeaders()` (commit `1d4b7fc`) usando como prova 40 `curl` sem `500`. Duas falhas no método: (a) `curl` sem `-L` não segue o redirect, então nunca chegava na rota que realmente quebrava; (b) tratei ausência de `500` como ausência de erro, quando o erro vinha no payload RSC com status `307`. O usuário reportou o mesmo erro logo depois | Passei a exigir prova negativa antes de afirmar correção: `parseError()` grava a linha `"Parsing error"` sempre que o `try/catch` do proxy dispara, e **zero** dessas linhas existem em 3h de log — o que derruba a hipótese do nosecone. A causa real saiu de isolamento por rota (`/` com digest `2873733393@E394`; `/now` e `/projects`, no mesmo layout, limpas): `database.page.findMany()` rodava antes do `auth()` em `(authenticated)/page.tsx`. Corrigido em `240a122` |
+
+### Pendências USER_ACTION_REQUIRED
+
+| Item | Trava |
+|---|---|
+| Habilitar o conector MCP "Expo" nesta conversa (já autenticado na conta, só `enabledInChat: false`) | `eas init`/`eas build` — único bloqueio para gerar o build Android |
+| Valor completo e correto de `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (Clerk Dashboard → API Keys) | Login real no `apps/app` web (já quebrado em produção) **e** login mobile (`EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY`) |
+
+### Próxima ação
+
+Assim que qualquer uma das duas pendências acima for resolvida, seguir
+imediatamente: (Expo) `eas init` → popular `app.json` → build Android;
+(Clerk) escrever o valor corrigido nos 3 projetos Vercel + redeploy, depois
+usar o mesmo valor corrigido no build mobile. As duas são independentes —
+não é preciso esperar as duas para começar a que já estiver disponível.
+
+---
+
 ## GATE-00 — Insumos, Segredos e Decisões Humanas
 
 | | |
