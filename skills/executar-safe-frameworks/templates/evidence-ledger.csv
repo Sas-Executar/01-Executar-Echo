@@ -1,0 +1,2 @@
+claim_id,claim,claim_state,source_class,source_type,source,location,retrieved_or_document_date,scope,confidence,conflict_id,notes
+E-001,,FACT,P0,user_file,,,,,High,,

@@ -27,7 +27,8 @@
       "!apps/docs/**/*.json",
       "!apps/email/.react-email",
       "!packages/cms/basehub-types.d.ts",
-      "!packages/mapa-os/templates"
+      "!packages/mapa-os/templates",
+      "!skills/executar-safe-frameworks"
     ]
   },
   "overrides": [

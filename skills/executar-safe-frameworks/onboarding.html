@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Tutorial de onboarding em 3 passos para usar a skill Executar Safe Frameworks." />
+  <title>Executar Safe Frameworks — Comece em 3 passos</title>
+  <style>
+    :root{
+      --bg:#f6f7f9;
+      --surface:#ffffff;
+      --surface-2:#f0f2f5;
+      --text:#17191c;
+      --muted:#626973;
+      --line:#dde1e6;
+      --accent:#1b62d1;
+      --accent-soft:#e8f0fd;
+      --ok:#16794a;
+      --shadow:0 16px 40px rgba(23,25,28,.08);
+      --radius:22px;
+      --max:980px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+      -webkit-font-smoothing:antialiased;
+    }
+    button{font:inherit}
+    a{color:inherit}
+
+    .shell{
+      width:min(calc(100% - 32px), var(--max));
+      margin:0 auto;
+      padding:calc(28px + env(safe-area-inset-top)) 0 calc(48px + env(safe-area-inset-bottom));
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:42px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:14px;
+      font-weight:750;
+      letter-spacing:.01em;
+    }
+    .brand-mark{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:var(--text);
+      color:white;
+      font-weight:850;
+      font-size:13px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      min-height:32px;
+      padding:6px 11px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:var(--surface);
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:28px;
+      align-items:end;
+      margin-bottom:32px;
+    }
+    h1{
+      margin:0 0 14px;
+      max-width:740px;
+      font-size:clamp(38px,7vw,72px);
+      line-height:.98;
+      letter-spacing:-.055em;
+      font-weight:850;
+    }
+    .lead{
+      max-width:680px;
+      margin:0;
+      color:var(--muted);
+      font-size:clamp(16px,2.1vw,20px);
+    }
+    .hero-note{
+      border-left:3px solid var(--accent);
+      padding:4px 0 4px 16px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .hero-note strong{color:var(--text)}
+
+    .progress{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin:28px 0 18px;
+    }
+    .progress span{
+      height:6px;
+      border-radius:999px;
+      background:var(--accent);
+    }
+    .progress span:nth-child(2){opacity:.72}
+    .progress span:nth-child(3){opacity:.44}
+
+    .steps{
+      display:grid;
+      gap:16px;
+    }
+    .step{
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:104px 1fr;
+      gap:18px;
+      padding:26px;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .step-number{
+      width:76px;
+      height:76px;
+      border-radius:22px;
+      display:grid;
+      place-items:center;
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-size:32px;
+      font-weight:850;
+      letter-spacing:-.03em;
+    }
+    .step h2{
+      margin:1px 0 6px;
+      font-size:clamp(22px,3.4vw,30px);
+      letter-spacing:-.03em;
+      line-height:1.08;
+    }
+    .step p{margin:0;color:var(--muted)}
+    .step strong{color:var(--text)}
+
+    .do-this{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:16px;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      background:var(--surface-2);
+      border:1px solid var(--line);
+      color:#3f4650;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .example{
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fbfcfd;
+      padding:14px;
+    }
+    .example-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:9px;
+    }
+    .example-label{
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .copy-btn{
+      border:0;
+      border-radius:10px;
+      background:var(--text);
+      color:#fff;
+      padding:8px 11px;
+      font-size:12px;
+      font-weight:750;
+      cursor:pointer;
+    }
+    .copy-btn:focus-visible{outline:3px solid rgba(27,98,209,.28);outline-offset:2px}
+    .prompt{
+      margin:0;
+      font-size:14px;
+      color:var(--text);
+      white-space:pre-wrap;
+    }
+
+    .flow{
+      margin:30px 0 0;
+      padding:24px;
+      border-radius:var(--radius);
+      background:var(--text);
+      color:white;
+    }
+    .flow h3{
+      margin:0 0 13px;
+      font-size:14px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.65;
+    }
+    .flow-line{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:clamp(14px,2vw,18px);
+      font-weight:750;
+    }
+    .flow-arrow{opacity:.35}
+
+    .result-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-top:18px;
+    }
+    .result-item{
+      min-height:96px;
+      padding:14px;
+      border-radius:15px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+    }
+    .result-item b{display:block;font-size:13px;margin-bottom:5px}
+    .result-item span{display:block;font-size:12px;line-height:1.35;opacity:.68}
+
+    .starter{
+      margin-top:30px;
+      padding:26px;
+      border-radius:var(--radius);
+      border:1px solid var(--line);
+      background:var(--surface);
+    }
+    .starter h3{margin:0 0 6px;font-size:22px;letter-spacing:-.025em}
+    .starter > p{margin:0;color:var(--muted)}
+    .starter-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-top:16px;
+    }
+    .starter-btn{
+      text-align:left;
+      min-height:88px;
+      padding:14px 15px;
+      background:#fbfcfd;
+      border:1px solid var(--line);
+      border-radius:15px;
+      cursor:pointer;
+      color:var(--text);
+    }
+    .starter-btn:hover{border-color:#bec6d0;background:#fff}
+    .starter-btn:focus-visible{outline:3px solid rgba(27,98,209,.28);outline-offset:2px}
+    .starter-btn b{display:block;margin-bottom:4px;font-size:13px}
+    .starter-btn span{display:block;color:var(--muted);font-size:12px;line-height:1.35}
+
+    .rule{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:13px 14px;
+      border-radius:14px;
+      background:#f3f8f5;
+      border:1px solid #d8e9df;
+      color:#2f5f47;
+      font-size:13px;
+    }
+    .check{
+      flex:0 0 auto;
+      width:20px;
+      height:20px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      background:var(--ok);
+      color:white;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    footer{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:center;
+      margin-top:24px;
+      padding:0 2px;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:calc(22px + env(safe-area-inset-bottom));
+      transform:translate(-50%,16px);
+      background:#15171a;
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:750;
+      opacity:0;
+      pointer-events:none;
+      transition:.2s ease;
+      z-index:10;
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+
+    @media (max-width:760px){
+      .shell{width:min(calc(100% - 24px), var(--max));padding-top:20px}
+      .topbar{margin-bottom:30px}
+      .hero{grid-template-columns:1fr;gap:18px}
+      .hero-note{max-width:560px}
+      .step{grid-template-columns:1fr;padding:20px}
+      .step-number{width:56px;height:56px;border-radius:17px;font-size:24px}
+      .result-grid{grid-template-columns:repeat(2,1fr)}
+      .starter-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:430px){
+      h1{font-size:43px}
+      .badge{display:none}
+      .result-grid{grid-template-columns:1fr}
+      footer{align-items:flex-start;flex-direction:column}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{transition:none!important;animation:none!important}
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">ESF</span> Executar Safe Frameworks</div>
+      <span class="badge">Tutorial para iniciantes · 3 passos</span>
+    </header>
+
+    <section class="hero" aria-labelledby="title">
+      <div>
+        <h1 id="title">Você não precisa saber qual framework usar.</h1>
+        <p class="lead">Diga o que quer entender. A skill identifica sua intenção, escolhe as lentes adequadas, busca evidências quando necessário e devolve um relatório estruturado.</p>
+      </div>
+      <div class="hero-note"><strong>Regra simples:</strong> você traz a pergunta, o tema ou o documento. A skill cuida da escolha dos frameworks.</div>
+    </section>
+
+    <div class="progress" aria-label="Três passos"><span></span><span></span><span></span></div>
+
+    <section class="steps" aria-label="Tutorial em três passos">
+      <article class="step">
+        <div class="step-number" aria-hidden="true">1</div>
+        <div>
+          <h2>Diga o que você quer entender</h2>
+          <p>Escreva em linguagem normal. Pode ser um <strong>mercado, negócio, produto, problema, decisão ou tema</strong>. Você não precisa citar SWOT, PESTEL, PMF ou qualquer outro método.</p>
+          <div class="do-this">
+            <span class="pill">tema</span><span class="pill">pergunta</span><span class="pill">decisão</span><span class="pill">objetivo</span>
+          </div>
+          <div class="example">
+            <div class="example-head"><span class="example-label">Exemplo</span><button class="copy-btn" data-copy="Quero entender o mercado brasileiro de softwares de produtividade para pequenas empresas, os principais riscos, oportunidades e onde um novo produto poderia se diferenciar.">Copiar</button></div>
+            <p class="prompt">“Quero entender o mercado brasileiro de softwares de produtividade para pequenas empresas, os principais riscos, oportunidades e onde um novo produto poderia se diferenciar.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number" aria-hidden="true">2</div>
+        <div>
+          <h2>Envie seus materiais — ou deixe a skill pesquisar</h2>
+          <p>Se você tiver <strong>PDFs, relatórios, planilhas, notas ou pesquisas</strong>, anexe-os. Se não tiver, a skill pode pesquisar fontes externas atuais. Quando houver os dois, ela cruza evidência interna e externa sem inventar o que está faltando.</p>
+          <div class="do-this">
+            <span class="pill">PDF</span><span class="pill">relatório</span><span class="pill">planilha</span><span class="pill">web search</span><span class="pill">fontes</span>
+          </div>
+          <div class="example">
+            <div class="example-head"><span class="example-label">Exemplo com documento</span><button class="copy-btn" data-copy="Analise os arquivos anexados. Organize as informações usando os frameworks mais adequados ao objetivo do material e complemente somente o que precisar com pesquisa externa confiável.">Copiar</button></div>
+            <p class="prompt">“Analise os arquivos anexados. Organize as informações usando os frameworks mais adequados ao objetivo do material e complemente somente o que precisar com pesquisa externa confiável.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-number" aria-hidden="true">3</div>
+        <div>
+          <h2>Leia o relatório já estruturado</h2>
+          <p>A skill seleciona normalmente <strong>2–5 frameworks complementares</strong>, explica por que cada um foi escolhido, preenche apenas o que tiver evidência e cruza as conclusões. Lacunas, hipóteses e conflitos aparecem claramente sinalizados.</p>
+          <div class="do-this">
+            <span class="pill">justificativa técnica</span><span class="pill">frameworks</span><span class="pill">síntese</span><span class="pill">gaps</span><span class="pill">fontes</span>
+          </div>
+          <div class="example">
+            <div class="example-head"><span class="example-label">O que você recebe</span></div>
+            <p class="prompt">Resumo executivo → frameworks escolhidos → análise de cada lente → síntese cruzada → lacunas e conflitos → fontes e próximos dados necessários.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="flow" aria-label="Como a skill trabalha">
+      <h3>Por trás dos 3 passos</h3>
+      <div class="flow-line">
+        <span>Entende a intenção</span><span class="flow-arrow">→</span>
+        <span>inspeciona evidências</span><span class="flow-arrow">→</span>
+        <span>escolhe frameworks</span><span class="flow-arrow">→</span>
+        <span>pesquisa</span><span class="flow-arrow">→</span>
+        <span>cruza</span><span class="flow-arrow">→</span>
+        <span>verifica</span>
+      </div>
+      <div class="result-grid">
+        <div class="result-item"><b>Fatos</b><span>Informações sustentadas por documentos ou fontes.</span></div>
+        <div class="result-item"><b>Inferências</b><span>Interpretações separadas dos fatos observados.</span></div>
+        <div class="result-item"><b>Gaps</b><span>Campos não preenchidos quando falta evidência.</span></div>
+        <div class="result-item"><b>Rastreabilidade</b><span>Conclusões ligadas às evidências que as sustentam.</span></div>
+      </div>
+    </section>
+
+    <section class="starter" aria-labelledby="starter-title">
+      <h3 id="starter-title">Comece copiando uma destas perguntas</h3>
+      <p>Toque em um exemplo para copiar. Depois, troque apenas o assunto pelo seu.</p>
+      <div class="starter-grid">
+        <button class="starter-btn" data-copy="Quero entender este mercado: [descreva o mercado]. Pesquise dados atuais e use os frameworks mais adequados para explicar ambiente, concorrência, oportunidades, riscos e diferenciação."><b>Entender um mercado</b><span>Ambiente, concorrência, oportunidades, riscos e diferenciação.</span></button>
+        <button class="starter-btn" data-copy="Quero entender este negócio: [descreva o negócio]. Estruture uma análise baseada em evidências e escolha os frameworks mais adequados para explicar estratégia, capacidades, mercado e riscos."><b>Entender um negócio</b><span>Estratégia, capacidades, mercado e riscos.</span></button>
+        <button class="starter-btn" data-copy="Analise os documentos anexados e converta o conteúdo para os frameworks mais adequados. Preserve os fatos do material, sinalize lacunas e complemente com web search apenas quando necessário."><b>Converter documentos</b><span>Transforma material extenso em leitura estruturada.</span></button>
+        <button class="starter-btn" data-copy="Preciso comparar estas opções: [A], [B] e [C]. Escolha frameworks adequados à decisão, defina critérios verificáveis, use evidências e mostre os trade-offs sem inventar dados ausentes."><b>Apoiar uma decisão</b><span>Critérios, evidências, trade-offs e lacunas.</span></button>
+      </div>
+      <div class="rule"><span class="check">✓</span><span><strong>Você pode pedir um framework específico.</strong> Mas, se não souber qual usar, não escolha nenhum: a skill faz essa seleção a partir da sua intenção e das evidências disponíveis.</span></div>
+    </section>
+
+    <footer>
+      <span>Executar Safe Frameworks · SKILL-EXE-SF-001</span>
+      <span>Framework organiza evidência; não cria evidência.</span>
+    </footer>
+  </main>
+
+  <div class="toast" role="status" aria-live="polite">Texto copiado</div>
+  <script>
+    const toast = document.querySelector('.toast');
+    let toastTimer;
+
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+      }catch(err){
+        const area = document.createElement('textarea');
+        area.value = text;
+        area.setAttribute('readonly','');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        area.remove();
+      }
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toast.classList.remove('show'), 1600);
+    }
+
+    document.querySelectorAll('[data-copy]').forEach(el=>{
+      el.addEventListener('click',()=>copyText(el.dataset.copy));
+    });
+  </script>
+</body>
+</html>

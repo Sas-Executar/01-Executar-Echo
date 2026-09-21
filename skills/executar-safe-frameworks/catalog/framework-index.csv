@@ -1,0 +1,300 @@
+id,name,domain_id,domain_name,purpose,aliases,related_domains
+FW-D01-001,SWOT,D01,Gestão Empresarial,"Analisa forças, fraquezas, oportunidades e ameaças para apoiar diagnóstico estratégico e definição de prioridades.",FOFA,D10; D13; D07; D03
+FW-D01-002,TOWS,D01,Gestão Empresarial,Converte fatores SWOT em combinações estratégicas e linhas concretas de ação.,,D10; D13; D07; D03
+FW-D01-003,PESTEL,D01,Gestão Empresarial,"Examina fatores políticos, econômicos, sociais, tecnológicos, ambientais e legais do ambiente externo.",,D10; D13; D07; D03
+FW-D01-004,Porter Five Forces,D01,Gestão Empresarial,"Analisa rivalidade, entrantes, substitutos e poder de fornecedores e compradores.",Five Forces; 5 Forces; Cinco Forças de Porter,D10; D13; D07; D03
+FW-D01-005,Competitive Moat,D01,Gestão Empresarial,Identifica mecanismos defensáveis que dificultam a replicação da vantagem competitiva.,Moat,D10; D13; D07; D03
+FW-D01-006,VRIO,D01,Gestão Empresarial,"Avalia recursos segundo valor, raridade, imitabilidade e organização.",,D10; D13; D07; D03
+FW-D01-007,Resource-Based View,D01,Gestão Empresarial,Analisa vantagem competitiva a partir de recursos e capacidades internas.,,D10; D13; D07; D03
+FW-D01-008,Ansoff Matrix,D01,Gestão Empresarial,"Estrutura estratégias de penetração, desenvolvimento de mercado, produto e diversificação.",,D10; D13; D07; D03
+FW-D01-009,BCG Matrix,D01,Gestão Empresarial,Classifica portfólio por crescimento de mercado e participação relativa.,,D10; D13; D07; D03
+FW-D01-010,GE–McKinsey Matrix,D01,Gestão Empresarial,Prioriza unidades e produtos considerando atratividade do mercado e força competitiva.,,D10; D13; D07; D03
+FW-D01-011,Blue Ocean Strategy,D01,Gestão Empresarial,Busca espaços de mercado menos disputados por inovação de valor.,,D10; D13; D07; D03
+FW-D01-012,Strategy Canvas,D01,Gestão Empresarial,Compara fatores competitivos e evidencia oportunidades de diferenciação.,,D10; D13; D07; D03
+FW-D01-013,Value Chain Analysis,D01,Gestão Empresarial,"Decompõe atividades para localizar geração de valor, custos e vantagens.",,D10; D13; D07; D03
+FW-D01-014,Core Competencies,D01,Gestão Empresarial,Identifica competências centrais capazes de sustentar diferenciação e crescimento.,,D10; D13; D07; D03
+FW-D01-015,Strategic Group Mapping,D01,Gestão Empresarial,Posiciona concorrentes segundo dimensões estratégicas relevantes.,,D10; D13; D07; D03
+FW-D01-016,Competitive Positioning Map,D01,Gestão Empresarial,Representa visualmente posicionamentos relativos de ofertas ou concorrentes.,,D10; D13; D07; D03
+FW-D01-017,Scenario Planning,D01,Gestão Empresarial,Estrutura futuros plausíveis para testar decisões e resiliência estratégica.,,D10; D13; D07; D03
+FW-D01-018,Three Horizons,D01,Gestão Empresarial,"Distribui iniciativas entre negócio atual, crescimento emergente e inovação futura.",,D10; D13; D07; D03
+FW-D01-019,McKinsey 7S,D01,Gestão Empresarial,"Analisa alinhamento entre estratégia, estrutura, sistemas, habilidades, pessoas, estilo e valores.",,D10; D13; D07; D03
+FW-D01-020,Balanced Scorecard,D01,Gestão Empresarial,"Traduz estratégia em objetivos, indicadores e iniciativas distribuídos por perspectivas.",BSC,D10; D13; D07; D03
+FW-D01-021,OKR,D01,Gestão Empresarial,Conecta objetivos qualitativos a resultados-chave mensuráveis.,,D10; D13; D07; D03
+FW-D01-022,North Star Metric,D01,Gestão Empresarial,Define métrica central associada ao valor recorrente entregue ao usuário.,NSM,D10; D13; D07; D03
+FW-D01-023,OGSM,D01,Gestão Empresarial,"Estrutura objetivo, metas, estratégias e medidas em um modelo integrado.",,D10; D13; D07; D03
+FW-D01-024,Hoshin Kanri,D01,Gestão Empresarial,Desdobra prioridades estratégicas em execução coordenada entre níveis organizacionais.,,D10; D13; D07; D03
+FW-D01-025,Theory of Change,D01,Gestão Empresarial,Explicita como ações e condições devem produzir resultados e impactos esperados.,,D10; D13; D07; D03
+FW-D01-026,Logic Model,D01,Gestão Empresarial,"Relaciona recursos, atividades, outputs, outcomes e impacto.",,D10; D13; D07; D03
+FW-D02-001,COSO ERM,D02,"Jurídico, Riscos e Conformidade","Estrutura identificação, avaliação, tratamento e monitoramento integrado de riscos corporativos.",,D08; D12; D05; D22
+FW-D02-002,Three Lines Model,D02,"Jurídico, Riscos e Conformidade","Separa responsabilidades operacionais, supervisão de riscos e auditoria independente.",,D08; D12; D05; D22
+FW-D02-003,Risk Matrix,D02,"Jurídico, Riscos e Conformidade","Classifica riscos por probabilidade, impacto e criticidade.",,D08; D12; D05; D22
+FW-D02-004,Bow-Tie Analysis,D02,"Jurídico, Riscos e Conformidade","Relaciona causas, evento de risco, consequências, barreiras preventivas e mitigadoras.",,D08; D12; D05; D22
+FW-D02-005,Compliance Risk Assessment,D02,"Jurídico, Riscos e Conformidade","Mapeia obrigações, exposições, controles e risco residual de conformidade.",,D08; D12; D05; D22
+FW-D02-006,Risk-Control Matrix,D02,"Jurídico, Riscos e Conformidade",Relaciona riscos identificados aos controles responsáveis por preveni-los ou detectá-los.,,D08; D12; D05; D22
+FW-D02-007,DPIA,D02,"Jurídico, Riscos e Conformidade",Avalia impactos e salvaguardas associados ao tratamento de dados pessoais.,,D08; D12; D05; D22
+FW-D02-008,Privacy by Design,D02,"Jurídico, Riscos e Conformidade",Incorpora privacidade e proteção de dados desde a concepção de sistemas.,,D08; D12; D05; D22
+FW-D03-001,CAPEX/OPEX,D03,Finanças,Classifica e acompanha investimentos de capital e despesas operacionais.,,D01; D10; D13
+FW-D03-002,Budget vs. Actual,D03,Finanças,Compara orçamento planejado com execução financeira real.,,D01; D10; D13
+FW-D03-003,Break-even Analysis,D03,Finanças,Calcula o ponto em que receitas cobrem integralmente custos.,,D01; D10; D13
+FW-D03-004,Contribution Margin,D03,Finanças,Mede quanto cada venda contribui para custos fixos e resultado.,,D01; D10; D13
+FW-D03-005,ROI,D03,Finanças,Compara retorno obtido com investimento realizado.,,D01; D10; D13
+FW-D03-006,ROIC,D03,Finanças,Mede retorno econômico produzido sobre o capital investido.,,D01; D10; D13
+FW-D03-007,NPV / VPL,D03,Finanças,Avalia valor presente dos fluxos financeiros futuros.,,D01; D10; D13
+FW-D03-008,IRR / TIR,D03,Finanças,Calcula a taxa que iguala valor presente de entradas e saídas.,,D01; D10; D13
+FW-D03-009,Payback Period,D03,Finanças,Estima o prazo necessário para recuperar um investimento.,,D01; D10; D13
+FW-D03-010,Sensitivity Analysis,D03,Finanças,Mede como alterações em premissas afetam resultados financeiros.,,D01; D10; D13
+FW-D03-011,Financial Scenario Analysis,D03,Finanças,Compara resultados sob cenários financeiros alternativos.,,D01; D10; D13
+FW-D03-012,Monte Carlo Simulation,D03,Finanças,Simula distribuições de resultados considerando incerteza das variáveis.,,D01; D10; D13
+FW-D03-013,Cost-Benefit Analysis,D03,Finanças,Compara benefícios esperados aos custos totais de uma iniciativa.,,D01; D10; D13
+FW-D03-014,Total Cost of Ownership,D03,Finanças,Consolida custos diretos e indiretos ao longo da vida de um ativo.,TCO,D01; D10; D13
+FW-D03-015,Activity-Based Costing,D03,Finanças,Atribui custos segundo atividades e direcionadores de consumo.,ABC,D01; D10; D13
+FW-D03-016,Unit Economics,D03,Finanças,"Mede rentabilidade econômica no nível de cliente, unidade ou transação.",,D01; D10; D13
+FW-D03-017,LTV/CAC,D03,Finanças,Compara valor econômico do cliente com o custo de adquiri-lo.,,D01; D10; D13
+FW-D03-018,CAC Payback,D03,Finanças,Calcula o tempo necessário para recuperar o custo de aquisição.,,D01; D10; D13
+FW-D04-001,RACI,D04,Pessoas e Recursos Humanos,"Define responsáveis, aprovadores, consultados e informados para atividades e decisões.",,D01; D07; D08
+FW-D04-002,Skills Matrix,D04,Pessoas e Recursos Humanos,"Mapeia competências necessárias, disponíveis e lacunas da equipe.",,D01; D07; D08
+FW-D04-003,Competency Framework,D04,Pessoas e Recursos Humanos,Define competências e níveis esperados por função ou responsabilidade.,,D01; D07; D08
+FW-D04-004,Workforce Planning,D04,Pessoas e Recursos Humanos,Relaciona demanda futura de trabalho à capacidade de pessoas disponível.,,D01; D07; D08
+FW-D04-005,9-Box Grid,D04,Pessoas e Recursos Humanos,Organiza avaliações combinando desempenho e potencial.,,D01; D07; D08
+FW-D04-006,Capability Mapping,D04,Pessoas e Recursos Humanos,Identifica capacidades organizacionais necessárias para executar a estratégia.,,D01; D07; D08
+FW-D04-007,Responsibility Assignment Matrix,D04,Pessoas e Recursos Humanos,"Relaciona entregas, funções e responsabilidades organizacionais.",,D01; D07; D08
+FW-D04-008,Team Topologies,D04,Pessoas e Recursos Humanos,Organiza equipes e interações conforme fluxo de valor e carga cognitiva.,,D01; D07; D08
+FW-D05-001,DAMA-DMBOK,D05,Dados,"Referencial para governança, qualidade, arquitetura, integração e gestão de dados.",,D06; D10; D12
+FW-D05-002,Data Governance Framework,D05,Dados,"Define ownership, políticas, qualidade, controles e ciclo de vida dos dados.",,D06; D10; D12
+FW-D05-003,Data Quality Dimensions,D05,Dados,"Avalia completude, precisão, consistência, atualidade, unicidade e validade.",,D06; D10; D12
+FW-D05-004,Data Lineage,D05,Dados,"Rastreia origem, transformação, movimentação e consumo de cada dado.",,D06; D10; D12
+FW-D05-005,Dimensional Modeling,D05,Dados,Estrutura fatos e dimensões para análise e inteligência.,,D06; D10; D12
+FW-D05-006,Medallion Architecture,D05,Dados,Organiza dados em camadas progressivas de refinamento e confiabilidade.,,D06; D10; D12
+FW-D05-007,Data Mesh,D05,Dados,Distribui ownership de dados por domínio com governança federada.,,D06; D10; D12
+FW-D05-008,Data Fabric,D05,Dados,"Integra dados distribuídos por metadados, automação e serviços comuns.",,D06; D10; D12
+FW-D05-009,CRISP-DM,D05,Dados,Estrutura projetos analíticos desde entendimento do problema até implantação.,,D06; D10; D12
+FW-D05-010,KPI Tree,D05,Dados,Decompõe indicadores estratégicos em métricas causais e operacionais.,,D06; D10; D12
+FW-D06-001,DIKW,D06,Conhecimento e Busca Corporativa,"Organiza progressão entre dados, informação, conhecimento e sabedoria.",,D05; D09; D12
+FW-D06-002,SECI Model,D06,Conhecimento e Busca Corporativa,"Estrutura criação de conhecimento por socialização, externalização, combinação e internalização.",,D05; D09; D12
+FW-D06-003,KCS,D06,Conhecimento e Busca Corporativa,Integra criação e manutenção de conhecimento ao fluxo operacional.,,D05; D09; D12
+FW-D06-004,Knowledge Graph,D06,Conhecimento e Busca Corporativa,Representa entidades e relações para conectar conhecimento distribuído.,,D05; D09; D12
+FW-D06-005,Taxonomy Framework,D06,Conhecimento e Busca Corporativa,Organiza conceitos e conteúdos em categorias hierárquicas controladas.,,D05; D09; D12
+FW-D06-006,Ontology Framework,D06,Conhecimento e Busca Corporativa,"Define conceitos, propriedades e relações semânticas de um domínio.",,D05; D09; D12
+FW-D06-007,FAIR Principles,D06,Conhecimento e Busca Corporativa,"Orienta dados e conhecimento para serem localizáveis, acessíveis, interoperáveis e reutilizáveis.",,D05; D09; D12
+FW-D06-008,RAG Evaluation Framework,D06,Conhecimento e Busca Corporativa,"Avalia recuperação, relevância, groundedness e qualidade de respostas baseadas em conhecimento.",,D05; D09; D12
+FW-D07-001,5W2H,D07,Produtividade e Execução,"Estrutura execução por What, Why, Where, When, Who, How e How Much.",5W2H; Five Ws Two Hs,D01; D08; D22
+FW-D07-002,Critical Path Method,D07,Produtividade e Execução,Identifica atividades que determinam a duração mínima de um projeto.,CPM,D01; D08; D22
+FW-D07-003,Critical Chain,D07,Produtividade e Execução,Planeja execução considerando dependências e restrições reais de recursos.,,D01; D08; D22
+FW-D07-004,Kanban,D07,Produtividade e Execução,"Gerencia fluxo visualmente, limita WIP e evidencia gargalos.",,D01; D08; D22
+FW-D07-005,Scrum,D07,Produtividade e Execução,"Estrutura desenvolvimento iterativo por sprints, papéis, eventos e backlog.",,D01; D08; D22
+FW-D07-006,WIP Limits,D07,Produtividade e Execução,Limita trabalho simultâneo para aumentar fluxo e reduzir dispersão.,,D01; D08; D22
+FW-D07-007,Eisenhower Matrix,D07,Produtividade e Execução,Classifica atividades segundo importância e urgência.,,D01; D08; D22
+FW-D07-008,Impact × Urgency,D07,Produtividade e Execução,Prioriza tarefas combinando impacto esperado e urgência operacional.,,D01; D08; D22
+FW-D07-009,Impact × Effort,D07,Produtividade e Execução,Prioriza iniciativas comparando valor esperado e esforço necessário.,,D01; D08; D22
+FW-D07-010,Theory of Constraints,D07,Produtividade e Execução,Identifica e explora a principal restrição do sistema.,TOC,D01; D08; D22
+FW-D07-011,OODA Loop,D07,Produtividade e Execução,"Organiza ciclos rápidos de observar, orientar, decidir e agir.",,D01; D08; D22
+FW-D07-012,Timeboxing,D07,Produtividade e Execução,Reserva blocos finitos de tempo para execução de atividades específicas.,,D01; D08; D22
+FW-D08-001,PDCA,D08,Operações,"Estrutura melhoria contínua em planejar, executar, verificar e agir.",,D07; D02; D12
+FW-D08-002,DMAIC,D08,Operações,"Orienta melhorias por definir, medir, analisar, melhorar e controlar.",,D07; D02; D12
+FW-D08-003,SIPOC,D08,Operações,"Mapeia fornecedores, entradas, processo, saídas e clientes.",,D07; D02; D12
+FW-D08-004,Lean,D08,Operações,Busca eliminar desperdícios e maximizar fluxo de valor.,,D07; D02; D12
+FW-D08-005,Six Sigma,D08,Operações,Reduz variação e defeitos por análise quantitativa.,,D07; D02; D12
+FW-D08-006,Kaizen,D08,Operações,Promove melhoria contínua incremental.,,D07; D02; D12
+FW-D08-007,Value Stream Mapping,D08,Operações,"Mapeia fluxo de materiais, informação, tempos e desperdícios.",VSM,D07; D02; D12
+FW-D08-008,5S,D08,Operações,"Estrutura organização, padronização, disciplina e manutenção do ambiente.",,D07; D02; D12
+FW-D08-009,Pareto 80/20,D08,Operações,Prioriza poucas causas responsáveis pela maior parte dos efeitos.,,D07; D02; D12
+FW-D08-010,Ishikawa / Fishbone,D08,Operações,Organiza causas potenciais de um problema por categorias.,,D07; D02; D12
+FW-D08-011,Root Cause Analysis,D08,Operações,Busca causas fundamentais em vez de tratar apenas sintomas.,,D07; D02; D12
+FW-D08-012,5 Whys,D08,Operações,Aprofunda sucessivamente relações causais até localizar causas fundamentais.,Five Whys; 5 Porquês,D07; D02; D12
+FW-D08-013,A3 Problem Solving,D08,Operações,"Consolida problema, análise, contramedidas e acompanhamento em formato enxuto.",,D07; D02; D12
+FW-D08-014,FMEA,D08,Operações,"Avalia modos de falha por severidade, ocorrência e capacidade de detecção.",,D07; D02; D12
+FW-D08-015,Poka-Yoke,D08,Operações,Projeta processos para impedir ou detectar erros antes que produzam defeitos.,,D07; D02; D12
+FW-D09-001,Research Question Framework,D09,Pesquisa e Inovação,"Estrutura perguntas pesquisáveis, delimitadas e verificáveis.",,D06; D10; D13
+FW-D09-002,PICO/PICOT,D09,Pesquisa e Inovação,"Estrutura perguntas por população, intervenção, comparação, resultado e tempo.",,D06; D10; D13
+FW-D09-003,SPIDER,D09,Pesquisa e Inovação,"Estrutura pesquisas qualitativas por amostra, fenômeno, desenho, avaliação e tipo de pesquisa.",,D06; D10; D13
+FW-D09-004,FINER,D09,Pesquisa e Inovação,"Avalia se uma pergunta é factível, interessante, nova, ética e relevante.",,D06; D10; D13
+FW-D09-005,Evidence Pyramid,D09,Pesquisa e Inovação,Organiza tipos de evidência segundo desenho e força metodológica.,,D06; D10; D13
+FW-D09-006,Systematic Review,D09,Pesquisa e Inovação,"Estrutura busca, seleção, avaliação e síntese sistemática de evidências.",,D06; D10; D13
+FW-D09-007,Literature Mapping,D09,Pesquisa e Inovação,"Mapeia autores, temas, lacunas, métodos e evidências disponíveis.",,D06; D10; D13
+FW-D09-008,Benchmarking,D09,Pesquisa e Inovação,"Compara desempenho, processos ou práticas contra referências externas.",,D06; D10; D13
+FW-D09-009,Competitive Benchmarking,D09,Pesquisa e Inovação,Compara atributos e capacidades diretamente com concorrentes.,,D06; D10; D13
+FW-D09-010,Gap Analysis,D09,Pesquisa e Inovação,Compara estado atual ao estado desejado para identificar lacunas.,,D06; D10; D13
+FW-D09-011,Hypothesis Matrix,D09,Pesquisa e Inovação,"Registra hipóteses, importância, incerteza e estratégia de validação.",,D06; D10; D13
+FW-D09-012,Assumption Mapping,D09,Pesquisa e Inovação,Classifica premissas segundo criticidade e grau de evidência.,,D06; D10; D13
+FW-D09-013,Evidence Matrix,D09,Pesquisa e Inovação,"Relaciona afirmações, fontes, força da evidência e lacunas.",,D06; D10; D13
+FW-D09-014,Triangulation,D09,Pesquisa e Inovação,"Valida conclusões comparando múltiplas fontes, métodos ou perspectivas.",,D06; D10; D13
+FW-D10-001,Product-Market Fit,D10,Gestão de Produto,Avalia se um produto resolve necessidade relevante para mercado capaz de sustentá-lo.,PMF,D09; D11; D13; D03
+FW-D10-002,Problem-Solution Fit,D10,Gestão de Produto,Verifica se problema relevante e solução proposta demonstram aderência.,PSF,D09; D11; D13; D03
+FW-D10-003,Founder-Market Fit,D10,Gestão de Produto,Analisa aderência entre capacidades do time fundador e mercado escolhido.,,D09; D11; D13; D03
+FW-D10-004,Market-Solution Fit,D10,Gestão de Produto,"Avalia compatibilidade entre solução, segmento, necessidade e condições de mercado.",,D09; D11; D13; D03
+FW-D10-005,Business Model Canvas,D10,Gestão de Produto,"Representa proposta de valor, clientes, canais, recursos, atividades, parceiros, receitas e custos.",BMC,D09; D11; D13; D03
+FW-D10-006,Lean Canvas,D10,Gestão de Produto,"Adapta modelagem de negócios para problemas, soluções, métricas e vantagens.",,D09; D11; D13; D03
+FW-D10-007,Value Proposition Canvas,D10,Gestão de Produto,"Relaciona jobs, dores e ganhos do cliente à proposta de valor.",VPC,D09; D11; D13; D03
+FW-D10-008,Product Vision Board,D10,Gestão de Produto,"Consolida visão, usuários, necessidades, produto e objetivos de negócio.",,D09; D11; D13; D03
+FW-D10-009,Product Strategy Stack,D10,Gestão de Produto,"Conecta missão, estratégia empresarial, produto, roadmap e objetivos.",,D09; D11; D13; D03
+FW-D10-010,Product Operating Model,D10,Gestão de Produto,"Define como discovery, delivery, decisões e equipes operam produto continuamente.",,D09; D11; D13; D03
+FW-D10-011,Product Discovery,D10,Gestão de Produto,"Reduz incerteza sobre problema, solução, usabilidade e viabilidade.",,D09; D11; D13; D03
+FW-D10-012,Continuous Discovery,D10,Gestão de Produto,Incorpora pesquisa e validação contínuas ao desenvolvimento do produto.,,D09; D11; D13; D03
+FW-D10-013,Opportunity Solution Tree,D10,Gestão de Produto,"Conecta outcomes a oportunidades, soluções e experimentos.",OST,D09; D11; D13; D03
+FW-D10-014,Jobs to Be Done,D10,Gestão de Produto,Analisa o progresso que uma pessoa busca ao contratar uma solução.,JTBD,D09; D11; D13; D03
+FW-D10-015,Job Map,D10,Gestão de Produto,Decompõe sistematicamente as etapas necessárias para executar um job.,,D09; D11; D13; D03
+FW-D10-016,Outcome-Driven Innovation,D10,Gestão de Produto,Prioriza oportunidades segundo resultados desejados e grau de satisfação.,,D09; D11; D13; D03
+FW-D10-017,Kano Model,D10,Gestão de Produto,"Classifica atributos em básicos, desempenho, encantadores e indiferentes.",,D09; D11; D13; D03
+FW-D10-018,RICE,D10,Gestão de Produto,"Prioriza por alcance, impacto, confiança e esforço.",,D09; D11; D13; D03
+FW-D10-019,ICE,D10,Gestão de Produto,"Prioriza por impacto, confiança e facilidade.",,D09; D11; D13; D03
+FW-D10-020,MoSCoW,D10,Gestão de Produto,"Classifica requisitos em Must, Should, Could e Won’t.",,D09; D11; D13; D03
+FW-D10-021,WSJF,D10,Gestão de Produto,Prioriza trabalho considerando custo do atraso dividido pelo tamanho do trabalho.,,D09; D11; D13; D03
+FW-D10-022,Value × Complexity,D10,Gestão de Produto,Compara valor esperado com complexidade de implementação.,,D09; D11; D13; D03
+FW-D10-023,Cost of Delay,D10,Gestão de Produto,Quantifica impacto econômico de postergar uma entrega.,,D09; D11; D13; D03
+FW-D10-024,Buy vs. Build,D10,Gestão de Produto,"Estrutura decisão entre adquirir, integrar ou desenvolver capacidade internamente.",,D09; D11; D13; D03
+FW-D10-025,Build–Measure–Learn,D10,Gestão de Produto,"Organiza ciclos de construção, medição e aprendizado.",,D09; D11; D13; D03
+FW-D10-026,MVP,D10,Gestão de Produto,Define menor solução suficiente para testar hipótese relevante.,,D09; D11; D13; D03
+FW-D10-027,Minimum Lovable Product,D10,Gestão de Produto,Busca versão mínima que também gere percepção positiva de valor.,MLP,D09; D11; D13; D03
+FW-D10-028,Riskiest Assumption Test,D10,Gestão de Produto,Testa primeiro a premissa cujo erro mais ameaça a iniciativa.,RAT,D09; D11; D13; D03
+FW-D10-029,Pretotyping,D10,Gestão de Produto,Valida demanda e comportamento antes de construir efetivamente a solução.,,D09; D11; D13; D03
+FW-D11-001,Design Thinking,D11,Experiência e Projeto,"Estrutura entendimento humano, ideação, prototipação e testes.",,D10; D15; D12
+FW-D11-002,Human-Centered Design,D11,Experiência e Projeto,"Desenvolve soluções a partir das necessidades, capacidades e contexto das pessoas.",,D10; D15; D12
+FW-D11-003,Double Diamond,D11,Experiência e Projeto,"Organiza descoberta, definição, desenvolvimento e entrega.",,D10; D15; D12
+FW-D11-004,Design Sprint,D11,Experiência e Projeto,"Condensa definição de problema, solução, protótipo e validação em ciclo curto.",,D10; D15; D12
+FW-D11-005,Atomic Design,D11,Experiência e Projeto,"Estrutura interfaces em átomos, moléculas, organismos, templates e páginas.",,D10; D15; D12
+FW-D11-006,Design System,D11,Experiência e Projeto,"Padroniza tokens, componentes, padrões e regras de experiência.",,D10; D15; D12
+FW-D11-007,Nielsen Heuristics,D11,Experiência e Projeto,Avalia interfaces segundo heurísticas clássicas de usabilidade.,,D10; D15; D12
+FW-D11-008,Cognitive Walkthrough,D11,Experiência e Projeto,Avalia quão facilmente novos usuários conseguem completar tarefas.,,D10; D15; D12
+FW-D11-009,HEART,D11,Experiência e Projeto,"Mede experiência por felicidade, engajamento, adoção, retenção e sucesso da tarefa.",,D10; D15; D12
+FW-D11-010,SUS,D11,Experiência e Projeto,Mensura percepção de usabilidade por questionário padronizado.,,D10; D15; D12
+FW-D11-011,WCAG Evaluation,D11,Experiência e Projeto,Verifica acessibilidade segundo princípios e critérios WCAG.,,D10; D15; D12
+FW-D11-012,Information Architecture,D11,Experiência e Projeto,"Estrutura conteúdo, navegação, hierarquia, rótulos e encontrabilidade.",,D10; D15; D12
+FW-D11-013,Card Sorting,D11,Experiência e Projeto,Testa como usuários agrupam e nomeiam conteúdos.,,D10; D15; D12
+FW-D11-014,Tree Testing,D11,Experiência e Projeto,Avalia encontrabilidade dentro de uma estrutura hierárquica.,,D10; D15; D12
+FW-D11-015,Empathy Map,D11,Experiência e Projeto,"Organiza percepções sobre pensamentos, sentimentos, comportamentos e contexto do usuário.",,D10; D15; D12
+FW-D12-001,C4 Model,D12,Engenharia,"Representa arquitetura nos níveis de contexto, contêiner, componente e código.",,D10; D05; D18; D20
+FW-D12-002,arc42,D12,Engenharia,Estrutura documentação arquitetural em seções padronizadas.,,D10; D05; D18; D20
+FW-D12-003,Domain-Driven Design,D12,Engenharia,"Modela software segundo domínios, linguagem ubíqua e contextos delimitados.",,D10; D05; D18; D20
+FW-D12-004,Event Storming,D12,Engenharia,"Descobre processos e domínios por eventos, comandos, atores e políticas.",,D10; D05; D18; D20
+FW-D12-005,Clean Architecture,D12,Engenharia,Separa regras de negócio de detalhes tecnológicos.,,D10; D05; D18; D20
+FW-D12-006,Hexagonal Architecture,D12,Engenharia,Isola domínio por portas e adaptadores.,,D10; D05; D18; D20
+FW-D12-007,API-First,D12,Engenharia,Define interfaces e contratos antes da implementação.,,D10; D05; D18; D20
+FW-D12-008,Twelve-Factor App,D12,Engenharia,Reúne princípios para aplicações portáveis e operáveis em ambientes cloud.,,D10; D05; D18; D20
+FW-D12-009,SRE,D12,Engenharia,Aplica práticas de engenharia à confiabilidade operacional de sistemas.,,D10; D05; D18; D20
+FW-D12-010,DORA Metrics,D12,Engenharia,"Mede frequência de deploy, lead time, falhas e recuperação.",,D10; D05; D18; D20
+FW-D12-011,CALMS,D12,Engenharia,"Avalia DevOps por cultura, automação, lean, medição e compartilhamento.",,D10; D05; D18; D20
+FW-D12-012,STRIDE,D12,Engenharia,Classifica ameaças de segurança por seis categorias.,,D10; D05; D18; D20
+FW-D12-013,Threat Modeling,D12,Engenharia,"Identifica ativos, ameaças, superfícies de ataque e mitigações.",,D10; D05; D18; D20
+FW-D12-014,OWASP,D12,Engenharia,Organiza riscos e controles relevantes à segurança de aplicações.,,D10; D05; D18; D20
+FW-D12-015,CIA Triad,D12,Engenharia,"Estrutura segurança em confidencialidade, integridade e disponibilidade.",,D10; D05; D18; D20
+FW-D12-016,Fault Tree Analysis,D12,Engenharia,Modela combinações de falhas capazes de produzir um evento indesejado.,,D10; D05; D18; D20
+FW-D12-017,Verification & Validation Matrix,D12,Engenharia,Relaciona requisitos às evidências de verificação e validação.,,D10; D05; D18; D20
+FW-D12-018,Requirement Traceability Matrix,D12,Engenharia,Rastreia requisitos desde origem até implementação e testes.,RTM,D10; D05; D18; D20
+FW-D13-001,TAM/SAM/SOM,D13,Mercado e Geração de Demanda,"Dimensiona mercado total, mercado atendível e parcela realisticamente alcançável.",TAM; SAM; SOM,D01; D10; D14; D16
+FW-D13-002,Top-Down Market Sizing,D13,Mercado e Geração de Demanda,Estima mercado partindo de dados agregados.,,D01; D10; D14; D16
+FW-D13-003,Bottom-Up Market Sizing,D13,Mercado e Geração de Demanda,"Estima mercado usando unidades, preços e volumes observáveis.",,D01; D10; D14; D16
+FW-D13-004,Market Segmentation,D13,Mercado e Geração de Demanda,Divide mercado em grupos com características e necessidades semelhantes.,,D01; D10; D14; D16
+FW-D13-005,ICP,D13,Mercado e Geração de Demanda,Define características do cliente com maior aderência econômica e estratégica.,,D01; D10; D14; D16
+FW-D13-006,Buyer Persona,D13,Mercado e Geração de Demanda,"Representa padrões de contexto, comportamento, objetivos e decisão do comprador.",,D01; D10; D14; D16
+FW-D13-007,Customer Development,D13,Mercado e Geração de Demanda,"Valida problema, cliente, solução e modelo de crescimento diretamente no mercado.",,D01; D10; D14; D16
+FW-D13-008,STP,D13,Mercado e Geração de Demanda,"Estrutura segmentação, targeting e posicionamento.",,D01; D10; D14; D16
+FW-D13-009,4Ps,D13,Mercado e Geração de Demanda,"Analisa produto, preço, praça e promoção.",,D01; D10; D14; D16
+FW-D13-010,7Ps,D13,Mercado e Geração de Demanda,"Expande marketing mix com pessoas, processos e evidências físicas.",,D01; D10; D14; D16
+FW-D13-011,Brand Positioning,D13,Mercado e Geração de Demanda,Define espaço desejado da marca na percepção do público.,,D01; D10; D14; D16
+FW-D13-012,Brand Pyramid,D13,Mercado e Geração de Demanda,"Organiza atributos, benefícios, valores e essência da marca.",,D01; D10; D14; D16
+FW-D13-013,AARRR,D13,Mercado e Geração de Demanda,"Mede aquisição, ativação, retenção, receita e referência.",,D01; D10; D14; D16
+FW-D13-014,Growth Loops,D13,Mercado e Geração de Demanda,Modela mecanismos em que outputs de crescimento alimentam novas entradas.,,D01; D10; D14; D16
+FW-D13-015,Growth Flywheel,D13,Mercado e Geração de Demanda,Representa forças acumulativas que aumentam crescimento com menor fricção.,,D01; D10; D14; D16
+FW-D13-016,Funnel Analysis,D13,Mercado e Geração de Demanda,Mede progressão e perdas entre etapas de conversão.,,D01; D10; D14; D16
+FW-D13-017,Van Westendorp,D13,Mercado e Geração de Demanda,"Investiga percepção de preço aceitável, caro, barato e excessivo.",,D01; D10; D14; D16
+FW-D13-018,Gabor-Granger,D13,Mercado e Geração de Demanda,Mede intenção de compra em diferentes níveis de preço.,,D01; D10; D14; D16
+FW-D13-019,Willingness to Pay,D13,Mercado e Geração de Demanda,Estima o valor máximo percebido como aceitável pelo cliente.,,D01; D10; D14; D16
+FW-D13-020,Messaging House,D13,Mercado e Geração de Demanda,"Organiza mensagem principal, pilares de suporte e provas.",,D01; D10; D14; D16
+FW-D14-001,Sales Funnel,D14,Vendas,Estrutura progressão comercial desde oportunidade até fechamento.,,D13; D15; D03
+FW-D14-002,MEDDIC,D14,Vendas,"Qualifica negócios por métricas, comprador econômico, critérios, processo, dor e champion.",,D13; D15; D03
+FW-D14-003,MEDDPICC,D14,Vendas,Amplia MEDDIC com paper process e análise competitiva.,,D13; D15; D03
+FW-D14-004,BANT,D14,Vendas,"Qualifica por orçamento, autoridade, necessidade e prazo.",,D13; D15; D03
+FW-D14-005,SPIN Selling,D14,Vendas,"Estrutura perguntas de situação, problema, implicação e necessidade de solução.",,D13; D15; D03
+FW-D14-006,Challenger Sale,D14,Vendas,"Estrutura venda consultiva por ensinar, adaptar e assumir controle da conversa.",,D13; D15; D03
+FW-D14-007,Solution Selling,D14,Vendas,Relaciona necessidades diagnosticadas a capacidades específicas da solução.,,D13; D15; D03
+FW-D14-008,Sandler,D14,Vendas,Estrutura qualificação e avanço comercial por descoberta mútua.,,D13; D15; D03
+FW-D14-009,JTBD Sales,D14,Vendas,Relaciona venda ao progresso que o comprador busca realizar.,,D13; D15; D03
+FW-D14-010,Account Planning,D14,Vendas,"Estrutura objetivos, stakeholders, oportunidades e estratégia por conta.",,D13; D15; D03
+FW-D14-011,Territory Planning,D14,Vendas,Distribui cobertura comercial segundo potencial e características do território.,,D13; D15; D03
+FW-D14-012,Win/Loss Analysis,D14,Vendas,Analisa causas recorrentes de negócios ganhos e perdidos.,,D13; D15; D03
+FW-D15-001,Customer Journey Map,D15,Atendimento e Sucesso do Cliente,"Mapeia etapas, interações, necessidades, emoções e fricções do cliente.",CJM,D10; D11; D14
+FW-D15-002,Voice of Customer,D15,Atendimento e Sucesso do Cliente,Consolida necessidades e percepções expressas pelos clientes.,VoC,D10; D11; D14
+FW-D15-003,Customer Effort Score,D15,Atendimento e Sucesso do Cliente,Mede o esforço percebido para concluir uma interação.,CES,D10; D11; D14
+FW-D15-004,NPS,D15,Atendimento e Sucesso do Cliente,Mede propensão declarada a recomendar a solução.,,D10; D11; D14
+FW-D15-005,CSAT,D15,Atendimento e Sucesso do Cliente,Mede satisfação após experiência ou interação específica.,,D10; D11; D14
+FW-D15-006,Cohort Analysis,D15,Atendimento e Sucesso do Cliente,Compara comportamento de grupos de clientes ao longo do tempo.,,D10; D11; D14
+FW-D15-007,Retention Analysis,D15,Atendimento e Sucesso do Cliente,Mede permanência e recorrência da base.,,D10; D11; D14
+FW-D15-008,RFM,D15,Atendimento e Sucesso do Cliente,"Segmenta clientes por recência, frequência e valor monetário.",,D10; D11; D14
+FW-D15-009,Customer Health Score,D15,Atendimento e Sucesso do Cliente,"Combina sinais de uso, relacionamento e valor para indicar saúde da conta.",,D10; D11; D14
+FW-D15-010,Churn Analysis,D15,Atendimento e Sucesso do Cliente,Investiga padrões e causas associados à perda de clientes.,,D10; D11; D14
+FW-D16-001,PESO Model,D16,Mídias Sociais e Atuação Digital,"Organiza canais em paid, earned, shared e owned media.",,D13; D19; D15
+FW-D16-002,See–Think–Do–Care,D16,Mídias Sociais e Atuação Digital,Estrutura conteúdo segundo diferentes estágios de intenção do público.,,D13; D19; D15
+FW-D16-003,Content Pillars,D16,Mídias Sociais e Atuação Digital,Define grandes temas recorrentes que orientam produção editorial.,,D13; D19; D15
+FW-D16-004,Content Funnel,D16,Mídias Sociais e Atuação Digital,"Relaciona conteúdo a descoberta, consideração, conversão e relacionamento.",,D13; D19; D15
+FW-D16-005,Hero–Hub–Help,D16,Mídias Sociais e Atuação Digital,"Distribui conteúdo entre grandes ativações, séries recorrentes e respostas utilitárias.",,D13; D19; D15
+FW-D16-006,Content Repurposing Matrix,D16,Mídias Sociais e Atuação Digital,Planeja transformação de um ativo em múltiplos formatos e canais.,,D13; D19; D15
+FW-D16-007,Campaign Measurement Framework,D16,Mídias Sociais e Atuação Digital,"Relaciona objetivo, audiência, canal, indicadores e resultados.",,D13; D19; D15
+FW-D16-008,RACE,D16,Mídias Sociais e Atuação Digital,"Estrutura marketing digital por Reach, Act, Convert e Engage.",,D13; D19; D15
+FW-D16-009,Hook Model,D16,Mídias Sociais e Atuação Digital,"Analisa ciclos de gatilho, ação, recompensa e investimento.",,D13; D19; D15
+FW-D16-010,Social Media Content Matrix,D16,Mídias Sociais e Atuação Digital,"Cruza formato, tema, objetivo e canal para planejamento editorial.",,D13; D19; D15
+FW-D17-001,STAR,D17,Emprego e Portfólio,"Estrutura casos profissionais por situação, tarefa, ação e resultado.",,D04; D19; D22
+FW-D17-002,CAR,D17,Emprego e Portfólio,"Estrutura relatos por desafio, ação e resultado.",,D04; D19; D22
+FW-D17-003,SOAR,D17,Emprego e Portfólio,"Organiza situação, obstáculos, ações e resultados em narrativas profissionais.",,D04; D19; D22
+FW-D17-004,Competency Mapping,D17,Emprego e Portfólio,Relaciona evidências profissionais a competências requeridas.,,D04; D19; D22
+FW-D17-005,Career Gap Analysis,D17,Emprego e Portfólio,Compara perfil atual aos requisitos do papel desejado.,,D04; D19; D22
+FW-D17-006,Portfolio Case Study Framework,D17,Emprego e Portfólio,"Estrutura problema, contexto, processo, decisões, evidências e resultados de um projeto.",,D04; D19; D22
+FW-D17-007,Career Capital,D17,Emprego e Portfólio,"Organiza competências, experiência, reputação e ativos profissionais acumuláveis.",,D04; D19; D22
+FW-D17-008,Evidence-Based Portfolio,D17,Emprego e Portfólio,Vincula afirmações profissionais a entregáveis e evidências verificáveis.,,D04; D19; D22
+FW-D18-001,Contract-First Design,D18,Contratos e Esquemas,Define contratos formais antes da implementação dos componentes.,,D12; D20; D05
+FW-D18-002,OpenAPI,D18,Contratos e Esquemas,Especifica contratos de APIs HTTP de forma legível por humanos e máquinas.,,D12; D20; D05
+FW-D18-003,JSON Schema,D18,Contratos e Esquemas,"Define estrutura, tipos e validações para documentos JSON.",,D12; D20; D05
+FW-D18-004,AsyncAPI,D18,Contratos e Esquemas,Especifica arquiteturas e interfaces orientadas a eventos.,,D12; D20; D05
+FW-D18-005,Protocol Buffers,D18,Contratos e Esquemas,Define esquemas tipados e serialização eficiente entre sistemas.,,D12; D20; D05
+FW-D18-006,Schema Registry,D18,Contratos e Esquemas,Centraliza versões e compatibilidade de esquemas compartilhados.,,D12; D20; D05
+FW-D18-007,Consumer-Driven Contract Testing,D18,Contratos e Esquemas,Valida provedores contra expectativas reais dos consumidores.,,D12; D20; D05
+FW-D18-008,Pact,D18,Contratos e Esquemas,Implementa testes automatizados de contratos entre serviços.,,D12; D20; D05
+FW-D18-009,Semantic Versioning,D18,Contratos e Esquemas,"Comunica compatibilidade por versões major, minor e patch.",,D12; D20; D05
+FW-D18-010,Schema Evolution,D18,Contratos e Esquemas,Controla alterações de esquemas preservando compatibilidade entre versões.,,D12; D20; D05
+FW-D19-001,AIDA,D19,Assets e CTA,"Estrutura comunicação por atenção, interesse, desejo e ação.",,D16; D13; D14
+FW-D19-002,PAS,D19,Assets e CTA,"Estrutura mensagem por problema, agitação e solução.",,D16; D13; D14
+FW-D19-003,BAB,D19,Assets e CTA,"Organiza narrativa entre estado anterior, estado desejado e ponte para alcançá-lo.",,D16; D13; D14
+FW-D19-004,FAB,D19,Assets e CTA,"Comunica features, vantagens e benefícios.",,D16; D13; D14
+FW-D19-005,4Us,D19,Assets e CTA,"Avalia mensagens por utilidade, urgência, singularidade e especificidade.",,D16; D13; D14
+FW-D19-006,CTA Matrix,D19,Assets e CTA,"Relaciona estágio, objetivo, ação desejada e chamada correspondente.",,D16; D13; D14
+FW-D19-007,Asset Matrix,D19,Assets e CTA,"Cataloga ativos segundo formato, canal, público, objetivo e estágio do funil.",,D16; D13; D14
+FW-D19-008,Creative Testing Matrix,D19,Assets e CTA,"Organiza testes de mensagem, criativo, formato, público e oferta.",,D16; D13; D14
+FW-D19-009,Message Hierarchy,D19,Assets e CTA,Define ordem e prioridade das mensagens em uma peça.,,D16; D13; D14
+FW-D19-010,Offer Framework,D19,Assets e CTA,"Estrutura proposta, benefício, prova, redução de risco e chamada à ação.",,D16; D13; D14
+FW-D20-001,Platform Engineering,D20,Plataformas e Repositórios,Estrutura capacidades compartilhadas para acelerar entrega e reduzir carga cognitiva.,,D12; D18; D22
+FW-D20-002,GitFlow,D20,Plataformas e Repositórios,"Define branches específicas para desenvolvimento, releases e hotfixes.",,D12; D18; D22
+FW-D20-003,GitHub Flow,D20,Plataformas e Repositórios,"Usa branches curtas, pull requests e integração frequente.",,D12; D18; D22
+FW-D20-004,Trunk-Based Development,D20,Plataformas e Repositórios,Favorece integração frequente em branch principal.,,D12; D18; D22
+FW-D20-005,Monorepo,D20,Plataformas e Repositórios,Centraliza múltiplos componentes relacionados em um único repositório.,,D12; D18; D22
+FW-D20-006,Polyrepo,D20,Plataformas e Repositórios,Mantém componentes ou serviços em repositórios independentes.,,D12; D18; D22
+FW-D20-007,InnerSource,D20,Plataformas e Repositórios,Aplica práticas de colaboração open source dentro da organização.,,D12; D18; D22
+FW-D20-008,Software Catalog,D20,Plataformas e Repositórios,"Mantém inventário rastreável de sistemas, serviços, owners e dependências.",,D12; D18; D22
+FW-D20-009,Repository Governance,D20,Plataformas e Repositórios,"Padroniza ownership, branches, revisão, releases e documentação de repositórios.",,D12; D18; D22
+FW-D20-010,Semantic Release,D20,Plataformas e Repositórios,Automatiza versionamento e releases com base nas mudanças registradas.,,D12; D18; D22
+FW-D21-001,RAID Log,D21,Workbook,"Consolida riscos, ações, issues e dependências em registro operacional.",,D03; D05; D07; D22
+FW-D21-002,Action Register,D21,Workbook,"Registra ação, owner, prazo, status e evidência de conclusão.",,D03; D05; D07; D22
+FW-D21-003,Assumption Log,D21,Workbook,"Mantém hipóteses explícitas, validação, impacto e estado.",,D03; D05; D07; D22
+FW-D21-004,Dependency Matrix,D21,Workbook,Relaciona entregas e pré-condições entre iniciativas.,,D03; D05; D07; D22
+FW-D21-005,KPI Scorecard,D21,Workbook,"Consolida metas, resultados, desvios e tendências dos indicadores.",,D03; D05; D07; D22
+FW-D21-006,Milestone Tracker,D21,Workbook,"Registra marcos, datas planejadas, datas reais e desvios.",,D03; D05; D07; D22
+FW-D21-007,Source–Transform–Output,D21,Workbook,"Estrutura planilhas por fonte, tratamento e saída controlada.",,D03; D05; D07; D22
+FW-D21-008,Workbook Control Model,D21,Workbook,"Padroniza versão, fontes, fórmulas, owners, validações e outputs do workbook.",,D03; D05; D07; D22
+FW-D22-001,ADR,D22,Decisões e Registros,"Registra contexto, decisão arquitetural, alternativas e consequências.",,D01; D07; D12
+FW-D22-002,RFC,D22,Decisões e Registros,"Formaliza proposta para discussão, revisão e decisão rastreável.",,D01; D07; D12
+FW-D22-003,RAPID,D22,Decisões e Registros,"Distribui papéis de recomendar, concordar, executar, contribuir e decidir.",,D01; D07; D12
+FW-D22-004,DACI,D22,Decisões e Registros,"Define driver, approver, contributors e informed para decisões.",,D01; D07; D12
+FW-D22-005,Decision Matrix,D22,Decisões e Registros,Compara alternativas segundo critérios explícitos.,,D01; D07; D12
+FW-D22-006,Weighted Decision Matrix,D22,Decisões e Registros,Adiciona pesos aos critérios para comparação estruturada.,,D01; D07; D12
+FW-D22-007,Cynefin,D22,Decisões e Registros,Classifica contextos para adequar forma de análise e decisão.,,D01; D07; D12
+FW-D22-008,Stacey Matrix,D22,Decisões e Registros,Relaciona certeza e consenso para caracterizar complexidade decisória.,,D01; D07; D12
+FW-D22-009,Pre-Mortem,D22,Decisões e Registros,Antecipadamente imagina falha para identificar riscos ocultos.,,D01; D07; D12
+FW-D22-010,Post-Mortem,D22,Decisões e Registros,Analisa incidente ou resultado após ocorrência para produzir aprendizado.,,D01; D07; D12
+FW-D22-011,After Action Review,D22,Decisões e Registros,"Compara intenção, resultado, causas e aprendizados após execução.",,D01; D07; D12
+FW-D22-012,Decision Log,D22,Decisões e Registros,"Mantém registro cronológico de decisões, responsáveis, justificativas e evidências.",,D01; D07; D12
+FW-D23-001,Service Blueprint,D23,Blueprints,"Relaciona jornada do cliente a frontstage, backstage, processos e suportes.",,D01; D08; D10; D11; D12
+FW-D23-002,Operating Model Blueprint,D23,Blueprints,"Representa capacidades, pessoas, processos, tecnologia e governança operacional.",,D01; D08; D10; D11; D12
+FW-D23-003,Product Blueprint,D23,Blueprints,"Integra experiência, funcionalidades, dados, tecnologia e operações de um produto.",,D01; D08; D10; D11; D12
+FW-D23-004,Process Blueprint,D23,Blueprints,"Representa etapas, papéis, regras, sistemas, entradas e saídas de um processo.",,D01; D08; D10; D11; D12
+FW-D23-005,Capability Blueprint,D23,Blueprints,"Representa capacidades necessárias, maturidade, dependências e habilitadores.",,D01; D08; D10; D11; D12
+FW-D23-006,Reference Architecture,D23,Blueprints,Define modelo arquitetural reutilizável para uma classe de soluções.,,D01; D08; D10; D11; D12
+FW-D23-007,Experience Blueprint,D23,Blueprints,"Integra jornadas, touchpoints, serviços, canais e componentes de experiência.",,D01; D08; D10; D11; D12
+FW-D23-008,Enterprise Blueprint,D23,Blueprints,"Consolida estratégia, capacidades, processos, informação, aplicações e tecnologia.",,D01; D08; D10; D11; D12

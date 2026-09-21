@@ -85,3 +85,17 @@ Decisão que o pacote original da Fase Zero não previu. Registrada como FP-004 
 | **Data** | 2026-09-14 |
 | **Consequência** | `Executar-Rotina` fica com o plano editorial/operacional que já está lá, **intacto e não arquivado**. As 73 linhas vão para o time novo na F03. O gate V3 passa a ser contado só contra o time novo |
 | **Evidência** | `list_issues` no time `a9b14467-81ea-4f68-9276-ee136f75b935`: EXE-190 como maior ID, `createdAt` 2026-09-14 |
+
+---
+
+## DEC-006 — Fonte canônica de blueprint do domínio Blog · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | `AGENTS.md`/`README.md`/`MASTER_WORKBOOK.md` apontam `Sas-Executar/Executar-app-Blueprint` como fonte canônica de requisitos deste repo. Para o produto Blog, o material vivo (brief, UX, design tokens de marca, linha editorial, drafts em revisão, skill `executar-safe-frameworks`, bio de autor) foi materializado e está versionado em `Sas-Executar/LANCAMENTO`, `D23__blueprints/Executar Blog/#00`–`#22`, não em `Executar-app-Blueprint` |
+| **Impacto de adiar** | Este repo continuaria citando um repositório sem o conteúdo real do Blog; qualquer implementação real do Blog ficaria sem fonte rastreável até uma reconciliação manual |
+| **Recomendação** | Adotar `Sas-Executar/LANCAMENTO` como fonte canônica **para o domínio Blog especificamente**, sem alterar a fonte canônica dos demais domínios (copiloto, rotinas, scanner etc.), que seguem em `Executar-app-Blueprint` |
+| **Resposta de Leo** | **`Sas-Executar/LANCAMENTO` é a fonte canônica para o domínio Blog** |
+| **Data** | 2026-09-21 |
+| **Consequência** | `AGENTS.md`, `README.md` e `MASTER_WORKBOOK.md` passam a citar `Sas-Executar/LANCAMENTO` como fonte canônica do domínio Blog. Assets de marca, a skill `executar-safe-frameworks` e a bio do autor (DOC-0019) são materializados como conteúdo real neste repo (`apps/web/public/brand/`, `skills/executar-safe-frameworks/`, `docs/executar/blog/`). Nenhum artigo de blog foi criado: `LANCAMENTO` ainda não tem conteúdo editorial pronto para publicação (`#07-ARTIGOS-PRONTOS` vazio, `#08-ARTIGOS-REVISAO` só com drafts em revisão) — publicar a partir de draft não revisado violaria a régua de maturidade deste arquivo |
+| **Evidência** | `Sas-Executar/LANCAMENTO` PR #10 (mergeável, CI verde, dois receipts de governança: `D23-EXECUTAR-BLOG-IMPORT-001`, `D18-RC-UNIFIED-GOVERNANCE-SCHEMA-001`) |

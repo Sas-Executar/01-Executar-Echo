@@ -19,7 +19,9 @@ below, since the stack, tooling, and package layout are still next-forge's).
 
 Requirements live in a separate, read-only-from-here repo,
 `Sas-Executar/Executar-app-Blueprint` (PRDs/ADRs/specs) — see `AGENTS.md`
-for the exact precedence rule.
+for the exact precedence rule. Exception: the Blog domain's canonical
+requirements source is `Sas-Executar/LANCAMENTO` (`DEC-006`,
+`DECISION_LOG.md`).
 
 ## Where to find things
 
