@@ -5,7 +5,7 @@
 **Content source:** `packages/cms/content/blog/*.mdx`  
 **Deployment target:** Vercel project for `apps/web`  
 **Workflow:** `.github/workflows/deploy-web.yml`  
-**Method:** adapted from Anthropic Knowledge Work Engineering `deploy-checklist` + `documentation` skills, reconciled with the real repository.
+**Method:** adapted from Anthropic Knowledge Work Engineering `deploy-checklist` + `documentation` skills, reconciled with the real repository.\n**Normative traceability:** `docs/operations/BLOG_REQUIREMENTS_TRACEABILITY.md` + `.yaml`.
 
 ## 1. Purpose
 
@@ -218,7 +218,7 @@ vercel rollback <deployment-url-or-id> --token="$VERCEL_TOKEN"
 
 Never place the token value in repository documentation or logs.
 
-## 4. Known current gaps
+## 5. Known current gaps
 
 At activation time, repository evidence shows:
 
@@ -230,7 +230,7 @@ At activation time, repository evidence shows:
 
 These are gaps to close with executable automation. Their presence must not be hidden by marking documentation complete.
 
-## 5. Evidence record
+## 6. Evidence record
 
 ```yaml
 release:
@@ -239,18 +239,21 @@ release:
   ci_run: ""
   preview_url: ""
   production_deployment: ""
+normative_traceability:
+  requirements: []
+  gap_prd_blog_001: BLOCKED
 gates:
-  source_scope: NOT_RUN
-  cms_content: NOT_RUN
-  quality: NOT_RUN
-  routes_render: NOT_RUN
-  seo_discovery: NOT_RUN
-  launch_requirements: NOT_RUN
-  deploy: NOT_RUN
-  production_smoke: NOT_RUN
+  source_scope: BLOCKED
+  cms_content: BLOCKED
+  quality: BLOCKED
+  routes_render: BLOCKED
+  seo_discovery: BLOCKED
+  launch_requirements: BLOCKED
+  deploy: BLOCKED
+  production_smoke: BLOCKED
 rollback:
   last_known_good_deployment: ""
   triggered: false
   reason: ""
-result: NOT_RUN
+result: BLOCKED
 ```
