@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "EXECUTAR",
-    "slug": "executar",
+    "slug": "executar-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -49,14 +49,28 @@
           "cameraPermission": "EXECUTAR usa a câmera para reconhecer símbolos visuais do Mapa-OS (Scanner)."
         }
       ],
-      "onnxruntime-react-native"
+      "onnxruntime-react-native",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "17.0"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
     },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0479ea20-47e9-4e42-8b8a-c648e6f60b83"
+    },
     "extra": {
       "eas": {
-        "projectId": ""
+        "projectId": "0479ea20-47e9-4e42-8b8a-c648e6f60b83"
       }
     }
   }

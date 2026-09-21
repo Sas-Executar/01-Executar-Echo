@@ -1,0 +1,301 @@
+# CURRENT_STATE — EXECUTAR Mobile validation
+#
+# Machine-updatable checkpoint for MOBILE-GATE-001..005. A new session must
+# be able to continue by reading only this file + GATE_LOG.md +
+# HANDOFF_CURRENT.md (if present) — never by re-deriving state from scratch.
+# Overwrite this file in place after every gate-relevant action; do not
+# append history here (that belongs in GATE_LOG.md / WORKFLOW_01_01_EXECUTION_LOG.md).
+
+current_objective: >
+  MOBILE-GATE-001 — produce an installable Android EAS build of apps/mobile,
+  install it on a real device, and verify login (Clerk) -> Home ("Agora")
+  loads real workspace data. Scanner is the priority after this gate closes
+  (MOBILE-GATE-003/004). A parallel, lower-effort Web track re-confirms
+  apps/web + apps/app production health.
+
+head_sha: 65b90fc  # branch claude/peaceful-fermi-b6hv5x, includes main merge
+working_branch: claude/peaceful-fermi-b6hv5x
+current_gate: MOBILE-GATE-001
+
+completed:
+  - "Bootstrap: read MASTER_WORKBOOK.md, AGENTS.md, DECISION_LOG.md, GATE_LOG.md,
+     QUALITY_GATES.md, LAUNCH_RUNBOOK.md, PRODUCT_AUDIT.md, HANDOFF.md,
+     WORKFLOW_01_01_EXECUTION_LOG.md, git log (2026-09-20)."
+  - "Evidence-based audit of apps/mobile build config, Scanner pipeline, and
+     all non-Scanner screens (Login/Home/Projects/Copilot/Mapa-OS/Reports/
+     Settings) via 3 Explore agents — see summaries in this session's
+     transcript and in GATE_LOG.md's next entry."
+  - "Confirmed production backend is live: https://executar-nf-api.vercel.app/health
+     -> 200; https://executar-nf-web.vercel.app/ -> 200;
+     https://executar-nf-app.vercel.app/sign-in -> 200."
+  - "CORRECTION (superseded, see blocked/user_action_required below): the
+     Clerk publishable key found in production HTML
+     (pk_live_LmNsZXJrLmFjY291bnRzLmRldiQ) is CORRUPTED, not safe to reuse.
+     Base64-decoding its payload gives '.clerk.accounts.dev$' -- the
+     instance subdomain segment is missing. Confirmed live impact:
+     https://executar-nf-app.vercel.app/ returns HTTP 307 to
+     'https://.accounts.dev/sign-in?...', a malformed host. Same secret-
+     corruption pattern already seen with VERCEL_TOKEN/DATABASE_URL/
+     RESEND_TOKEN/CLERK_WEBHOOK_SECRET (WORKFLOW_01_01_EXECUTION_LOG.md,
+     2026-09-19). This key is shared by executar-nf-app/web/api (a prior
+     session propagated app's value to web/api on 2026-09-19), so all
+     three currently carry the corrupted value."
+  - "Corrected doc drift: LAUNCH_RUNBOOK.md and INFRASTRUCTURE.md both
+     claimed deploy-mobile.yml is gated on vars.EAS_PROJECT_CONFIGURED; that
+     variable does not exist in the workflow (GATE_LOG.md FP-001 + direct
+     read). Both docs now cite the real gate
+     (scripts/load-deployment-config.sh mobile)."
+  - "Confirmed Expo MCP connector exists and is authenticated at the org
+     level (ListConnectors: installState=connected) but enabledInChat=false
+     for this session — this is the single blocker for eas init/eas build,
+     not a missing/invalid EXPO_TOKEN."
+  - "BUILD-01 DONE: first real installable Android build of apps/mobile,
+     build 627bfb17-6f10-4083-8fab-64b06d81489a, status FINISHED, APK at
+     https://expo.dev/artifacts/eas/lUKYu12rWKO_-wKaI6FxUbGPVZVkgOZ4AQ3RUcbxf18.apk.
+     Took 4 attempts; 3 real root causes found via actual build logs and
+     fixed in order: missing expo-dev-client dependency, app.json slug
+     mismatch vs. the real EAS project, and onnxruntime-react-native's
+     Gradle script using a Gradle-internal API removed/unbound in Gradle
+     9.3.1 (fixed via a committed bun patch, not a node_modules edit that
+     would be wiped on reinstall)."
+  - "CLERK KEY RESOLVED: user created a new Clerk Development app
+     ('EXECUTAR Echo') and provided real pk_test_/sk_test_ credentials.
+     Decoded and confirmed non-corrupted (endless-hornet-1964.clerk.accounts.dev,
+     non-empty subdomain). Written to executar-nf-app/web/api Vercel envs
+     (production+preview) and to apps/mobile/eas.json's development profile.
+     Never committed the secret key to the repo (Vercel API only); the
+     publishable key is intentionally committed (public by convention)."
+  - "ANDROID BUILD WITH REAL KEY: build 48cd7d39-7764-41a0-937d-f5fb2d415521
+     (commit 9305750) FINISHED. APK:
+     https://expo.dev/artifacts/eas/tAsX12tMaeviB1yoQJm8xU5mscf0sOLuSpT3FsU83DA.apk.
+     User has no Android device -- this is pipeline proof only, not the
+     user's real verification path."
+  - "SECOND PROD BUG FOUND+FIXED (independent of the Clerk key): user
+     reported a live 'Oops, something went wrong' error via iPhone Safari
+     screenshot on executar-nf-app. Root-caused via
+     mcp__Vercel__get_runtime_errors/get_runtime_logs: recurring
+     'Error: [object Object]' on middleware since 2026-09-12. PR #30's
+     try/catch guard around @nosecone/next's securityHeaders() in both
+     apps/app/proxy.ts and apps/web/proxy.ts never awaited the call inside
+     the try block, so the async rejection (createMiddleware() returns
+     Promise<Response>, confirmed via its own .d.ts) surfaced after the
+     catch had already returned. Fixed by adding await in both files,
+     verified with tsc --noEmit + ultracite check (both clean), committed
+     1d4b7fccb1d850445c8d0b17a1cf45dd94b16eb4, redeployed both apps."
+  - "WEB FIX VERIFIED LIVE: executar-nf-app root -> 8/8 curl 307, 0x 500.
+     executar-nf-web deployment dpl_8NBkGS7otkU9ZTUaVwuvFHrUxU6c READY on
+     the correct branch+commit (verified via get_deployment
+     withGitRepoInfo); root -> 6/6 curl 200 with
+     x-clerk-auth-status=signed-out header present, confirming the full
+     proxy chain (i18n rewrite + arcjet + clerk + security headers) runs
+     without crashing. (Root path itself still 404s past the proxy --
+     that's apps/web's own routing/content, a pre-existing, separate,
+     out-of-scope gap, not the crash that was fixed.)"
+
+completed_ios_sim_with_key:
+  - "iOS Simulator build with the real Clerk key: df01196f-5e8b-4a10-9cba-d3cec0b51983
+     (commit 1d4b7fc, profile development-simulator) FINISHED. Artifact:
+     https://expo.dev/artifacts/eas/bipbVXdNzMQahWiqO7FYrro_ZvT_8i1-bRkoiJ3uRPg.tar.gz
+     -- this is the build to hand to the user for real device verification
+     on their Mac (drag the .app out of the .tar.gz into Simulator, or use
+     `xcrun simctl install`)."
+
+superseded_notes:
+  - "CLERK_PLATFORM_API_KEY: user says they authorized/configured a Clerk
+     API key for their organization (likely as an environment-level API
+     credential, same mechanism used before for api.vercel.com/api.expo.dev
+     in this repo's history). Tested 3 independent ways in this session --
+     `clerk whoami`/`clerk apps list --json` (still 'Not logged in'),
+     `clerk --verbose whoami` (confirms it never even checks
+     CLERK_PLATFORM_API_KEY -- goes straight to keyring/credentials-file,
+     meaning the env var is not set in this process), and a raw
+     `curl https://api.clerk.com/v1/users` (plain 401, no proxy injection
+     header at all, unlike the Vercel/Expo cases which showed an
+     X-Proxy-Error when a rule existed but the token was rejected -- here
+     there's no evidence any rule exists for this host at all). Matches
+     this repo's own documented pattern (WORKFLOW_01_01_EXECUTION_LOG.md,
+     2026-09-13): environment credential changes do not retroact into an
+     already-running session, only a new one. See user_action_required."
+  - "Web track: found (via mcp__Vercel__list_deployments metadata) that a
+     PARALLEL session had already diagnosed the identical corrupted-Clerk-
+     key bug independently and opened PR #32
+     (fix(auth): reject Clerk publishable keys with an unresolvable host --
+     packages/auth/keys.ts now validates the decoded Clerk key host at
+     config time instead of shipping a broken redirect). User confirmed
+     merge; PR #32 merged as f8db4738, then merged into this session's
+     working branch (no conflicts). This does NOT fix production by itself
+     -- it makes the next executar-nf-app/api deploy hard-fail until the
+     real key is supplied, which is the deliberate, agreed trade-off."
+  - "User asked to recover Clerk via a NEW, separate Clerk application
+     ('EXECUTAR Echo', not reusing the corrupted one) using the real
+     `clerk` CLI (npm package `clerk`, official, confirmed real via `npm
+     view`/`--help` -- not hallucinated). Attempted `clerk auth login` from
+     apps/app: this is a browser-OAuth flow with a LOCAL loopback callback
+     (http://127.0.0.1:<port>/callback) -- confirmed by direct execution
+     that this cannot complete from this remote/cloud container, since the
+     user's own browser can never reach this container's 127.0.0.1. This
+     is a structural environment limitation, not a retryable error.
+     Reverse-engineered the compiled CLI binary (strings analysis) and
+     found a real, documented-in-code non-interactive bypass: the
+     `CLERK_PLATFORM_API_KEY` env var (prefix `ak_`) fully replaces
+     `clerk auth login` for every subsequent command (apps list/create,
+     link, env pull, doctor) -- confirmed by reading the actual auth-check
+     logic in the binary, not guessed. See user_action_required below."
+
+blocked:
+  - "apps/app production: every signed-out visit to a protected route
+     redirects to a malformed Clerk Account Portal URL
+     (https://.accounts.dev/sign-in?...) -- reconfirmed deterministic (3/3
+     curl attempts), not transient. PR #32 (merged) now makes future
+     deploys fail loudly on this instead of shipping it silently, but
+     production today still serves the last (broken-redirect) build until
+     a corrected key triggers a new, passing deploy."
+  - "apps/mobile Android build: Gradle-level native module incompatibility
+     (onnxruntime-react-native vs. EAS's Gradle 9.3.1) -- see in_progress
+     above. Not a credential/config issue this time; needs a real
+     dependency-version or build-config fix."
+
+user_action_required:
+  - action: "SUPERSEDED the CLERK_PLATFORM_API_KEY/CLI route (dropped --
+      too much uncertainty about where in Clerk's dashboard that key
+      lives, and the CLI's browser login can't work from this container
+      anyway). Simpler path instead, pure dashboard UI, no CLI: user is
+      already logged into dashboard.clerk.com. Click '+ Create
+      Application' -> name it 'EXECUTAR Echo' -> open its Configure ->
+      API Keys page -> copy the Publishable key (pk_test_...) and Secret
+      key (sk_test_...) -> paste both here in chat."
+    where: "dashboard.clerk.com, directly in the UI (no CLI needed at all
+      for this simpler path)."
+    why: "Creating an application and reading its own API Keys page is
+      completely standard Clerk UI, needs no special account-level
+      permission or CLI auth -- unlike the Platform API Key route, which
+      needed an auth mechanism this session structurally can't complete
+      (browser OAuth loopback) and a dashboard location that was never
+      confirmed."
+    after: "Decode the new pk_test_ key's payload to confirm it's a real,
+      non-placeholder host (same check as before -- must NOT be
+      '.clerk.accounts.dev$'). Then: write both keys into apps/mobile's
+      eas.json development profile env + trigger a NEW EAS build for both
+      android and ios (env is build-time, existing artifacts can't be
+      hot-patched), and write NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY +
+      CLERK_SECRET_KEY into the 3 Vercel projects (app/web/api) + redeploy
+      for the web track."
+  - action: "Enroll in the Apple Developer Program (paid, ~$99/yr) --
+      external, user-only, no code/tool involved. Not blocking today's
+      testing (iOS Simulator build covers that, see mobile_build.ios_device
+      above) but blocks a real-iPhone install."
+    where: "https://developer.apple.com/programs/enroll/"
+    why: "EAS can't sign/provision a real-device iOS build without it.
+      Simulator builds are unsigned and don't need this, which is why
+      that path was used for today's interim test."
+    after: "Once enrolled, provide the Apple Team ID (and ideally an App
+      Store Connect API Key instead of an Apple ID password, so EAS can
+      manage signing non-interactively) -- then trigger a real
+      internal-distribution iOS build."
+
+test_results:
+  typecheck: "not re-run this session (last known green per PRODUCT_AUDIT.md
+    / CI on main)"
+  unit_tests: "not re-run this session"
+  mobile_e2e: "none exist (confirmed: zero test files under apps/mobile)"
+
+mobile_build:
+  eas_project_id: "0479ea20-47e9-4e42-8b8a-c648e6f60b83" # real, pre-existing project confirmed via build_list
+  platform_priority: >
+    REVISED: user's real test device is an iPhone, not Android -- they
+    don't own an Android device. The Android APK (below) proves the build
+    pipeline works but isn't the user's actual test target. User does not
+    yet have an Apple Developer Program account (needed for a real-device
+    iOS build's signing/provisioning) -- external dependency, enrollment
+    takes hours to days. Interim: user has a Mac, so an iOS Simulator
+    build (unsigned, no Apple account needed) unblocks seeing/interacting
+    with the app today. Real-iPhone build stays blocked on Apple
+    enrollment.
+  android_development:
+    status: FINISHED
+    build_id: "627bfb17-6f10-4083-8fab-64b06d81489a"
+    apk_url: "https://expo.dev/artifacts/eas/lUKYu12rWKO_-wKaI6FxUbGPVZVkgOZ4AQ3RUcbxf18.apk"
+  ios_simulator:
+    status: TRIGGERED
+    build_id: "c916731f-607a-440d-898f-e6db1487db2a"
+    eas_profile: development-simulator # new profile, extends "development", ios.simulator=true
+  ios_device:
+    status: BLOCKED
+    blocker: "User has no Apple Developer Program account yet (external,
+      user_action_required below)."
+  blocker: "AUTH-01 (both platforms) still blocked on the corrupted Clerk key"
+
+scanner_status:
+  pipeline: "real, on-device (DINOv2 ONNX via onnxruntime-react-native),
+    EXISTS-AND-WIRED end to end for dispatch/undo"
+  model_artifact: "MISSING — no .onnx file anywhere, DINOV2_MODEL_URL/SHA256
+    unset, no GitHub Release exists (DEC-004 OCR-vs-DINOv2 still A DEFINIR
+    in DECISION_LOG.md)"
+  symbol_enrollment: "MISSING — no API route or mobile screen calls
+    registerSymbol() for a real workspace; only test fixtures do"
+  known_bug: "packages/scanner/src/dispatch.ts:20-25 selects latest open
+    task from {DOING,VERIFY}, but TASK_STATE_TRANSITIONS only allows
+    VERIFY->DONE, not DOING->DONE (packages/schemas/src/task-state.ts:34-39)
+    — dispatch errors instead of completing if the latest task is in DOING.
+    Not fixed yet; scheduled for MOBILE-GATE-004 (SCN-09)."
+  gate: "out of scope for GATE-001; targeted at GATE-003/004"
+
+api_status:
+  executar-nf-api: "production alias healthy (200 on /health); latest
+    deployment attempt shows readyState=ERROR (likely the 2026-09-19 Vercel
+    daily-deployment-quota exhaustion documented in
+    WORKFLOW_01_01_EXECUTION_LOG.md — production alias still serves the
+    last good build, unaffected)"
+  executar-nf-web: "production alias healthy (200 on /)"
+  executar-nf-app: "production alias healthy (200 on /sign-in; root / had a
+    transient proxy tunnel error in this session's curl, not confirmed as
+    an app-side failure — re-test before relying on it)"
+
+auth_status:
+  clerk_web: "REGRESSED since the 2026-09-19 log entry that called it
+    healthy: that check only confirmed CLERK_SECRET_KEY/webhook-signature
+    server-side, never a live browser sign-in. NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    is now confirmed corrupted (see blocked[] above) -- apps/app's
+    sign-out redirect target is malformed in production right now."
+  clerk_mobile: "code is real and wired (apps/mobile/app/_layout.tsx,
+    (auth)/sign-in.tsx, (auth)/sign-up.tsx) but never run against a real
+    device — blocked on the same corrupted publishable key; do not embed
+    the current value in a build."
+
+next_action: >
+  Two independent user_action_required items block this gate: (1) enable
+  the Expo connector for this chat, (2) get the correct, complete Clerk
+  publishable key from the dashboard. Once (1) lands: eas init in
+  apps/mobile -> populate app.json (projectId/updates.url/runtimeVersion).
+  Once (2) lands: fix NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY in
+  executar-nf-app/web/api via Vercel + redeploy, then set
+  EXPO_PUBLIC_API_URL and the corrected EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
+  for the mobile build. Then: eas build --profile development --platform
+  android -> hand the install link to the user -> verify login -> Home on
+  the real device.
+
+verified_fix_oops_screen:
+  status: VERIFIED_LIVE
+  commit: "240a122a6adb21d4876ba54508f5a6a8f8481977"
+  what: >
+    The user-visible "Oops, something went wrong" screen on apps/app was
+    caused by (authenticated)/page.tsx calling database.page.findMany()
+    before auth() had established an orgId. Page and layout render
+    concurrently, so signed-out visits ran that Prisma query anyway, it
+    threw, and the throw reached global-error.tsx ahead of the layout's
+    redirect.
+  evidence_before: >
+    RSC payload on the branch preview carried two errors --
+    NEXT_REDIRECT (expected) AND digest 2873733393@E394 (the crash).
+  evidence_after: >
+    Same URL, same method (mcp__Vercel__web_fetch_vercel_url, which
+    passes Vercel SSO): digest 2873733393@E394 is gone. Only
+    NEXT_HTTP_ERROR_FALLBACK;404 and NEXT_REDIRECT remain -- both are
+    normal Next.js control-flow sentinels, not crashes. Location header
+    correctly points at endless-hornet-1964.accounts.dev/sign-in.
+  caveat: >
+    Verified on the BRANCH PREVIEW only. Production serves main, which
+    does not carry this commit -- the fix reaches production only when
+    PR #33 merges. That merge is the user's decision.
+
+last_verified_at: "2026-09-21T06:07:00Z"
