@@ -126,6 +126,36 @@ describe.skipIf(!process.env.DATABASE_URL)("dispatch / undo (M09-T02)", () => {
     expect(repeatUndo.status).toBe("ERROR");
   });
 
+  test("a DOING task (never VERIFY) is not selected — NO_OPEN_TASK, never an AuthorityGate error", async () => {
+    // Regression test for a real bug: findLatestOpenTask used to select
+    // from {DOING, VERIFY}, but TASK_STATE_TRANSITIONS only allows
+    // VERIFY -> DONE (not DOING -> DONE), so picking a DOING task made
+    // dispatch() fail with an ERROR ("DOING -> DONE was not authorized")
+    // instead of completing anything. Only a DOING task exists here, no
+    // VERIFY task at all — must resolve to NO_OPEN_TASK, not ERROR.
+    //
+    // The previous test left one VERIFY-state task behind (undone back
+    // from DONE) — close it out first so it can't be picked instead of
+    // (or ahead of) this test's own fixture, keeping this test isolated
+    // from that one's leftover state.
+    await database.task.updateMany({
+      where: { workspaceId, state: "VERIFY" },
+      data: { state: "DONE" },
+    });
+
+    const doingOnly = await database.task.create({
+      data: { workspaceId, title: "Only a DOING task", state: "DOING" },
+    });
+
+    const result = await dispatch(workspaceId, "SYM-DONE-001", "user_1");
+    expect(result).toEqual({ status: "NO_OPEN_TASK" });
+
+    const unchanged = await database.task.findUniqueOrThrow({
+      where: { id: doingOnly.id },
+    });
+    expect(unchanged.state).toBe("DOING");
+  });
+
   test("a disabled symbol returns DISABLED and mutates nothing", async () => {
     await database.visualSymbol.update({
       where: {

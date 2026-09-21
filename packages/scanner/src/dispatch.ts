@@ -9,17 +9,22 @@ import type { CommandResult, TaskCompletionMutation } from "./types";
  * no selection rule anywhere in the corpus — genuinely unspecified
  * (confirmed: PRD/SPEC/API-contract docs, and the Blueprint's own
  * domain-model/business-rules/state-machine docs, none define
- * "latest"). This package's own disclosed choice: "open" = actively
- * in-progress (DOING or VERIFY — the states between READY and DONE),
- * not merely eligible/backlog, since scanning Done physically means
- * "I just finished the work I was doing," not "promote something from
- * the backlog." "Latest" = most recently updated. A single global
- * ordering across the whole workspace (not scoped to a project) — no
- * scope qualifier is given either.
+ * "latest"). This package's own disclosed choice: "open" = a task
+ * that's ready to be marked Done by a physical scan — which, per
+ * TASK_STATE_TRANSITIONS (packages/schemas/src/task-state.ts), only
+ * VERIFY legally is (VERIFY -> DONE; DOING has no direct path to DONE,
+ * it must pass through VERIFY first). Selecting DOING here used to
+ * pick a task dispatch() could never actually complete, since
+ * canTransitionTask() below would correctly refuse the DOING -> DONE
+ * jump — so the selection is narrowed to VERIFY only, matching what
+ * the AuthorityGate actually allows rather than something it always
+ * rejects. "Latest" = most recently updated. A single global ordering
+ * across the whole workspace (not scoped to a project) — no scope
+ * qualifier is given either.
  */
 const findLatestOpenTask = async (db: ReturnType<typeof forWorkspace>) => {
   return await db.task.findFirst({
-    where: { state: { in: ["DOING", "VERIFY"] } },
+    where: { state: "VERIFY" },
     orderBy: { updatedAt: "desc" },
   });
 };

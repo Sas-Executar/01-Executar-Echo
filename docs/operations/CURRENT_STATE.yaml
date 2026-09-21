@@ -228,17 +228,27 @@ mobile_build:
 scanner_status:
   pipeline: "real, on-device (DINOv2 ONNX via onnxruntime-react-native),
     EXISTS-AND-WIRED end to end for dispatch/undo"
-  model_artifact: "MISSING — no .onnx file anywhere, DINOV2_MODEL_URL/SHA256
-    unset, no GitHub Release exists (DEC-004 OCR-vs-DINOv2 still A DEFINIR
-    in DECISION_LOG.md)"
+  model_artifact: "RESOLVED — facebook/dinov2-small (ViT-S/14) exported to
+    ONNX (torch.onnx.export, opset 17, fixed [1,3,224,224] float32 input,
+    [1,384] float32 pooler_output), verified numerically against the source
+    PyTorch model (cosine similarity 0.9999999). Published to the orphan
+    model-assets branch (commit 73188322c5ec55896731917a6a97093d05c593df),
+    served via an immutable raw.githubusercontent.com URL pinned to that
+    commit SHA. Wired into apps/mobile/.env.example and all 3 eas.json
+    build profiles. Verified end to end: curl+sha256sum match; real
+    apps/mobile/scripts/fetch-model.ts run downloaded+verified successfully.
+    DEC-004 (OCR-vs-DINOv2) resolved by this choice — see DECISION_LOG.md."
   symbol_enrollment: "MISSING — no API route or mobile screen calls
-    registerSymbol() for a real workspace; only test fixtures do"
-  known_bug: "packages/scanner/src/dispatch.ts:20-25 selects latest open
-    task from {DOING,VERIFY}, but TASK_STATE_TRANSITIONS only allows
-    VERIFY->DONE, not DOING->DONE (packages/schemas/src/task-state.ts:34-39)
-    — dispatch errors instead of completing if the latest task is in DOING.
-    Not fixed yet; scheduled for MOBILE-GATE-004 (SCN-09)."
-  gate: "out of scope for GATE-001; targeted at GATE-003/004"
+    registerSymbol() for a real workspace; only test fixtures do. In
+    progress this session (P0 launch plan)."
+  known_bug: "RESOLVED — packages/scanner/src/dispatch.ts's
+    findLatestOpenTask narrowed from {DOING,VERIFY} to VERIFY only, matching
+    what TASK_STATE_TRANSITIONS actually allows (VERIFY->DONE; DOING has no
+    direct path to DONE). Regression test added in dispatch.test.ts ('a
+    DOING task (never VERIFY) is not selected'), verified passing against
+    the real DB. MOBILE-GATE-004/SCN-09 closed."
+  gate: "model hosting + dispatch bug done this session (P0 launch);
+    enrollment path in progress; rest still targeted at GATE-003/004"
 
 api_status:
   executar-nf-api: "production alias healthy (200 on /health); latest
