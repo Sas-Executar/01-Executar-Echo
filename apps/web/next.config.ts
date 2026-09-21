@@ -6,6 +6,17 @@ import { env } from "@/env";
 
 let nextConfig: NextConfig = withToolbar(withLogging(config));
 
+// packages/cms reads its .mdx at request time with node:fs (see
+// packages/cms/lib/posts.ts). Next's file tracing only follows static
+// imports, so it never saw those files and left them out of the
+// serverless bundle: readSlugs() found an empty directory in production
+// and every /legal/* and /blog/[slug] URL 404'd while the .mdx sat in
+// the repo. Tracing them in explicitly is what puts them in the bundle.
+nextConfig.outputFileTracingIncludes = {
+  ...nextConfig.outputFileTracingIncludes,
+  "/**": ["../../packages/cms/content/**/*.mdx"],
+};
+
 if (process.env.NODE_ENV === "production") {
   const redirects: NextConfig["redirects"] = async () => [
     {
