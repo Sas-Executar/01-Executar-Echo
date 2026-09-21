@@ -10,7 +10,10 @@ interface HeroProps {
 }
 
 export const Hero = async ({ dictionary }: HeroProps) => {
-  const latestPost = await blog.getLatestPost();
+  // Metadata only: this renders a link and needs nothing but the slug.
+  // getLatestPost() would compile the post's MDX through Next's data
+  // cache, which is what was intermittently 404ing this page.
+  const latestPost = await blog.getLatestPostMeta();
 
   return (
     <div className="w-full">
