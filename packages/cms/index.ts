@@ -20,6 +20,18 @@ export const blog = {
     return getPost("blog", latest.slug);
   },
 
+  /**
+   * Frontmatter for the newest post, without compiling its body.
+   *
+   * getLatestPost() runs the MDX through compileMDX(), which goes
+   * through Next's data cache. On a request-time render that cache is
+   * not always reachable — production logged "No cache host available"
+   * on exactly the renders of "/" that came back 404 — and the failed
+   * render falls through to not-found. Callers that only need a title,
+   * slug or date should use this instead and never touch the cache.
+   */
+  getLatestPostMeta: () => Promise.resolve(getPostsMeta("blog")[0] ?? null),
+
   getPost: (slug: string) => getPost("blog", slug),
 };
 
