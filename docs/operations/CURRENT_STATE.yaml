@@ -13,7 +13,7 @@ current_objective: >
   (MOBILE-GATE-003/004). A parallel, lower-effort Web track re-confirms
   apps/web + apps/app production health.
 
-head_sha: 1d4b7fccb1d850445c8d0b17a1cf45dd94b16eb4
+head_sha: 65b90fc  # branch claude/peaceful-fermi-b6hv5x, includes main merge
 working_branch: claude/peaceful-fermi-b6hv5x
 current_gate: MOBILE-GATE-001
 
@@ -100,7 +100,7 @@ completed_ios_sim_with_key:
      on their Mac (drag the .app out of the .tar.gz into Simulator, or use
      `xcrun simctl install`)."
 
-in_progress: []
+superseded_notes:
   - "CLERK_PLATFORM_API_KEY: user says they authorized/configured a Clerk
      API key for their organization (likely as an environment-level API
      credential, same mechanism used before for api.vercel.com/api.expo.dev
