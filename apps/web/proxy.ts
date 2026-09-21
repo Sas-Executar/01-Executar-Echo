@@ -83,6 +83,29 @@ export default authMiddleware(async (_auth, request, event) => {
     parseError(error);
   }
 
-  // Return middleware response if it exists, otherwise headers response
-  return middlewareResponse || headersResponse;
+  // composedMiddleware always resolves to a real NextResponse — NEMO's own
+  // fallback (see @rescale/nemo's createFinalResponse) returns
+  // NextResponse.next() rather than null/undefined when nothing in the
+  // `before` chain terminates the request. That NextResponse.next() is
+  // still truthy, so `middlewareResponse || headersResponse` never actually
+  // fell through to headersResponse: nosecone's security headers
+  // (X-Frame-Options, X-Content-Type-Options, Referrer-Policy,
+  // Cross-Origin-*-Policy — confirmed absent in production via a live curl
+  // against executar-nf-web, while present on executar-nf-app, which has no
+  // competing middleware to discard them) were being dropped on every
+  // single request. Merging headersResponse's headers onto
+  // middlewareResponse — instead of picking one or the other — keeps
+  // whatever middlewareResponse is actually doing (the i18n rewrite/
+  // redirect, or arcjet's 403 JSON body) while still applying the security
+  // headers on top of it.
+  if (middlewareResponse) {
+    if (headersResponse) {
+      for (const [key, value] of headersResponse.headers) {
+        middlewareResponse.headers.set(key, value);
+      }
+    }
+    return middlewareResponse;
+  }
+
+  return headersResponse;
 }) as unknown as NextProxy;
