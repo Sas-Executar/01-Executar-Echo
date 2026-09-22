@@ -14,11 +14,14 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "e2e",
-  testMatch: "production-verify.spec.ts",
+  testMatch: /(production-verify|v2-identity)\.spec\.ts/,
   fullyParallel: false,
   reporter: "line",
   timeout: 90_000,
   use: {
+    // The deployed site. Specs may use relative paths; the older spec
+    // spells the host out and is unaffected.
+    baseURL: "https://executar-nf-web.vercel.app",
     trace: "off",
     launchOptions: {
       executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",

@@ -34,7 +34,16 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       lang={locale}
       suppressHydrationWarning
     >
-      <body>
+      {/*
+        The editorial scope sits on <body>, not on the shell div inside
+        it. Anything narrower leaves the page canvas itself on the
+        product tokens, which is invisible in the light appearance and
+        obvious in the dark one: the article would go dark while the
+        surrounding canvas stayed light. ADR-DS-002's isolation is
+        unaffected — this is still a scoped subtree, and apps/app and
+        apps/mobile never render this layout.
+      */}
+      <body data-surface="editorial">
         <AnalyticsProvider>
           <PublicDesignSystemProvider>
             <EditorialShell footer={<EditorialFooter />}>

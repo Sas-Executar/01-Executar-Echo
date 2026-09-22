@@ -107,13 +107,13 @@ test("bottom bar carries exactly three destinations", async ({ page }) => {
 
 test("the public surface uses no product-palette colour", async ({ page }) => {
   await page.goto(`${BASE}/mapa`, { waitUntil: "networkidle" });
-  const yellow = await page.evaluate(() => {
+  const accent = await page.evaluate(() => {
     const scope = document.querySelector('[data-surface="editorial"]');
     return scope
-      ? getComputedStyle(scope).getPropertyValue("--ed-yellow").trim()
+      ? getComputedStyle(scope).getPropertyValue("--ed-accent").trim()
       : null;
   });
-  expect(yellow).toBe("#fc0");
+  expect(expand(accent)).toBe("#ffcc00");
   // Asserted on *computed* values, not on the stylesheet text. The
   // product tokens are legitimately present at :root — apps/web still
   // imports the design system for its component primitives — and the
@@ -134,11 +134,12 @@ test("the public surface uses no product-palette colour", async ({ page }) => {
   });
 
   expect(resolved).not.toBeNull();
-  // Compared as expanded hex: the minifier rewrites #000000 as #000, and
+  // Compared as expanded hex: the minifier rewrites #ffffff as #fff, and
   // a literal string match would fail on a value that is in fact correct.
-  expect(expand(resolved?.primary)).toBe("#000000");
-  expect(expand(resolved?.ring)).toBe("#ffcc00");
+  expect(expand(resolved?.primary)).toBe("#1d1d1f");
+  // v2 focuses in the system blue, not the brand accent (ADR-DS-004).
+  expect(expand(resolved?.ring)).toBe("#0a84ff");
   expect(expand(resolved?.background)).toBe("#ffffff");
-  // Square corners are identity on this surface.
-  expect(resolved?.radius).toBe("0px");
+  // Moderate radius replaced square corners as identity in v2.
+  expect(resolved?.radius).toBe("16px");
 });
