@@ -1,4 +1,10 @@
-import type { CommandResult, RegisteredSymbol } from "@repo/scanner";
+import type {
+  CommandResult,
+  RegisteredSymbol,
+  VisualCommand,
+  VisualSymbolEnrollmentRequest,
+  VisualSymbolSemantic,
+} from "@repo/scanner";
 import { env } from "@/env";
 
 /**
@@ -94,4 +100,56 @@ export const postUndo = async (
     throw new UndoRequestFailedError(response.status);
   }
   return (await response.json()) as CommandResult;
+};
+
+class SymbolEnrollmentFailedError extends Error {
+  constructor(status: number) {
+    super(`/scanner/symbols (POST) failed: HTTP ${status}`);
+    this.name = "SymbolEnrollmentFailedError";
+  }
+}
+
+export interface EnrollSymbolInput {
+  command: VisualCommand;
+  embeddings: readonly Float32Array[];
+  semantic: VisualSymbolSemantic;
+  symbolId: string;
+}
+
+/**
+ * Enrolls (or re-enrolls) a symbol via apps/api's POST /scanner/symbols —
+ * counterpart to fetchRegisteredSymbols()'s GET, converting Float32Array
+ * embeddings to plain number[][] the same way that function converts
+ * back (Float32Array isn't directly JSON-transportable).
+ */
+export const postEnrollSymbol = async (
+  input: EnrollSymbolInput,
+  sessionToken: string
+): Promise<VisualSymbolEnrollmentRequest & { enabled: boolean }> => {
+  if (!env.EXPO_PUBLIC_API_URL) {
+    throw new Error("EXPO_PUBLIC_API_URL is not configured.");
+  }
+  const response = await fetch(
+    new URL("/scanner/symbols", env.EXPO_PUBLIC_API_URL),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionToken}`,
+      },
+      body: JSON.stringify({
+        symbolId: input.symbolId,
+        semantic: input.semantic,
+        command: input.command,
+        embeddings: input.embeddings.map((e) => Array.from(e)),
+      }),
+    }
+  );
+  if (!response.ok) {
+    throw new SymbolEnrollmentFailedError(response.status);
+  }
+  const body = (await response.json()) as {
+    symbol: VisualSymbolEnrollmentRequest & { enabled: boolean };
+  };
+  return body.symbol;
 };

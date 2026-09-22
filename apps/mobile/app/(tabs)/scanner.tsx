@@ -2,6 +2,7 @@ import { useAuth } from "@clerk/expo";
 import { light } from "@repo/design-tokens";
 import { INITIAL_LATCH_STATUS, type LatchStatus } from "@repo/scanner";
 import { CameraView, useCameraPermissions } from "expo-camera";
+import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/themed";
@@ -33,6 +34,7 @@ const SCAN_INTERVAL_MS = 800;
  * environment this was built in.
  */
 export default function ScannerScreen() {
+  const router = useRouter();
   const { getToken } = useAuth();
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
@@ -220,6 +222,9 @@ export default function ScannerScreen() {
             {isScanning ? "Parar" : "Escanear"}
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/scanner-enroll")}>
+          <Text style={styles.link}>Cadastrar símbolo</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -268,4 +273,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
   },
+  link: { color: light.color.focus, fontSize: 13, marginTop: 4 },
 });
