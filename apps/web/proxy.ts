@@ -14,9 +14,14 @@ import { env } from "@/env";
 
 export const config = {
   // matcher tells Next.js which routes to run the middleware on. This runs the
-  // middleware on all routes except for static assets and Posthog ingest
+  // middleware on all routes except for static assets and Posthog ingest.
+  //
+  // `api` and `.well-known` are excluded because they are not localized:
+  // the i18n middleware rewrites every matched path under a [locale]
+  // segment, so POST /api/vera became /en/api/vera — a route that does not
+  // exist — and the endpoint 404'd while the page calling it looked fine.
   matcher: [
-    "/((?!_next/static|_next/image|ingest|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!api|\\.well-known|_next/static|_next/image|ingest|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
 

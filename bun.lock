@@ -269,6 +269,7 @@
         "@repo/security": "workspace:*",
         "@repo/seo": "workspace:*",
         "@repo/solution-store": "workspace:*",
+        "@repo/vera": "workspace:*",
         "@rescale/nemo": "^2.1.1",
         "@sentry/nextjs": "^10.42.0",
         "@t3-oss/env-nextjs": "^0.13.10",
@@ -895,6 +896,20 @@
     "packages/typescript-config": {
       "name": "@repo/typescript-config",
       "version": "0.0.0",
+    },
+    "packages/vera": {
+      "name": "@repo/vera",
+      "version": "0.0.0",
+      "dependencies": {
+        "@repo/knowledge": "workspace:*",
+        "@repo/solution-store": "workspace:*",
+        "zod": "^4.3.6",
+      },
+      "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.18",
+      },
     },
     "packages/webhooks": {
       "name": "@repo/webhooks",
@@ -2092,6 +2107,8 @@
     "@repo/storage": ["@repo/storage@workspace:packages/storage"],
 
     "@repo/typescript-config": ["@repo/typescript-config@workspace:packages/typescript-config"],
+
+    "@repo/vera": ["@repo/vera@workspace:packages/vera"],
 
     "@repo/webhooks": ["@repo/webhooks@workspace:packages/webhooks"],
 
