@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/rc/schema/cognitive-graph-v1.json",
+  "title": "RC Cognitive Map Graph V1",
+  "type": "object",
+  "required": [
+    "metadata",
+    "nodes",
+    "edges",
+    "solutions",
+    "evidence"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": [
+        "schema_id",
+        "version",
+        "project",
+        "governance_rule"
+      ],
+      "properties": {
+        "schema_id": {
+          "const": "SCHEMA-RC-SOLUTION-004"
+        },
+        "version": {
+          "const": "1.0"
+        },
+        "project": {
+          "const": "Mapa Cognitivo · TP-001 · RC-SOLUTION-001"
+        },
+        "governance_rule": {
+          "const": "Fator != Vulnerabilidade != Exposição != Risco"
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "type",
+          "layer",
+          "epistemic_class",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "layer": {
+            "enum": [
+              "CENTER",
+              "R1",
+              "R2",
+              "R3",
+              "R4",
+              "R5",
+              "R6",
+              "R7"
+            ]
+          },
+          "group": {
+            "type": "string"
+          },
+          "epistemic_class": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E"
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "source_ref": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "edge_id",
+          "source",
+          "relation",
+          "target",
+          "epistemic_class",
+          "status"
+        ],
+        "properties": {
+          "edge_id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          },
+          "epistemic_class": {
+            "enum": [
+              "A",
+              "B",
+              "C",
+              "D",
+              "E"
+            ]
+          },
+          "evidence_ref": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "solutions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

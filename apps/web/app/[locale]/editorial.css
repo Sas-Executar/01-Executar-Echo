@@ -1,0 +1,18 @@
+/*
+ * Editorial surface stylesheet for apps/web.
+ *
+ * apps/web is the public surface of the ecosystem — Blog, Mapa,
+ * Frameworks, Oficina, VERA and the institutional pages. The
+ * authenticated product is a separate app (apps/app) and keeps the
+ * product design system, so the editorial identity applies to this whole
+ * app rather than to a route group inside it (ADR-DS-002).
+ *
+ * Order matters. The product design system loads first — it carries
+ * Tailwind itself and defines the shadcn bridge at :root — and the
+ * editorial token set then re-points that bridge inside
+ * [data-surface="editorial"]. Reversing the two would let the :root
+ * mapping win the cascade and every public page would render in
+ * Green/Azure.
+ */
+@import "./styles.css";
+@import "@repo/editorial-tokens/css/editorial.css";

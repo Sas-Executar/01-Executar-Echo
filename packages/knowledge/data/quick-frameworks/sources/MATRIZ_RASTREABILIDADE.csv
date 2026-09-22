@@ -1,0 +1,22 @@
+id,titulo,macrogrupo,arquivo,status
+FRC-01,Tailoring do projeto,Sistema e arquitetura de suporte,01-conceitos/FRC-01__tailoring-do-projeto.md,PREPARED
+FRC-02,Perfil cognitivo do executor,Pessoa e cognição,01-conceitos/FRC-02__perfil-cognitivo-do-executor.md,PREPARED
+FRC-03,Quantidade de informação,Informação e interface,01-conceitos/FRC-03__quantidade-de-informacao.md,PREPARED
+FRC-04,Forma e visualização da informação,Informação e interface,01-conceitos/FRC-04__forma-e-visualizacao-da-informacao.md,PREPARED
+FRC-05,Troca de tarefas,Tarefa e fluxo de execução,01-conceitos/FRC-05__troca-de-tarefas.md,PREPARED
+FRC-06,Decomposição de tarefas,Tarefa e fluxo de execução,01-conceitos/FRC-06__decomposicao-de-tarefas.md,PREPARED
+FRC-07,Clareza e escrita da tarefa,Tarefa e fluxo de execução,01-conceitos/FRC-07__clareza-e-escrita-da-tarefa.md,PREPARED
+FRC-08,Agrupamento e segmentação,Informação e interface,01-conceitos/FRC-08__agrupamento-e-segmentacao.md,PREPARED
+FRC-09,Dependências e cadeia de valor,Tarefa e fluxo de execução,01-conceitos/FRC-09__dependencias-e-cadeia-de-valor.md,PREPARED
+FRC-10,Externalização cognitiva,Sistema e arquitetura de suporte,01-conceitos/FRC-10__externalizacao-cognitiva.md,PREPARED
+FRC-11,Memória prospectiva,Pessoa e cognição,01-conceitos/FRC-11__memoria-prospectiva.md,PREPARED
+FRC-12,Excesso de opções e padrões manipulativos,Informação e interface,01-conceitos/FRC-12__excesso-de-opcoes-e-padroes-manipulativos.md,PREPARED
+FRC-13,Fadiga decisória,Pessoa e cognição,01-conceitos/FRC-13__fadiga-decisoria.md,PREPARED
+FRC-14,Ambiente físico e ergonomia,Ambiente e contexto,01-conceitos/FRC-14__ambiente-fisico-e-ergonomia.md,PREPARED
+FRC-15,Ambiente digital,Ambiente e contexto,01-conceitos/FRC-15__ambiente-digital.md,PREPARED
+FRC-16,Rotina hábitos e contexto,Ambiente e contexto,01-conceitos/FRC-16__rotina-habitos-e-contexto.md,PREPARED
+FRC-17,Preparação antes da execução,Tarefa e fluxo de execução,01-conceitos/FRC-17__preparacao-antes-da-execucao.md,PREPARED
+FRC-18,Competição pela atenção,Pessoa e cognição,01-conceitos/FRC-18__competicao-pela-atencao.md,PREPARED
+FRC-19,Sobrecarga cognitiva sistêmica,Sistema e arquitetura de suporte,01-conceitos/FRC-19__sobrecarga-cognitiva-sistemica.md,PREPARED
+FRC-20,Cadeia de desvalor para cadeia de valor,Sistema e arquitetura de suporte,01-conceitos/FRC-20__cadeia-de-desvalor-para-cadeia-de-valor.md,PREPARED
+ARTICLE-MASTER-TP001-V1,Fatores de Riscos Cognitivos,Artigo master,02-artigos/ARTICLE-MASTER-TP001-V1__fatores-de-riscos-cognitivos.md,PREPARED

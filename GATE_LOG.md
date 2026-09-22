@@ -244,3 +244,27 @@ dois caminhos de escrita de env var adotar como canônico) e ação com custo al
 silencioso (redeploy de produção nos três projetos). A ordem das operações importa mais
 que a velocidade — sincronizar antes de redeployar, e verificar `readyState` por
 projeto em vez de assumir que o merge publicou.
+
+---
+
+## GATE-PUBLIC-ECOSYSTEM-001 — Ecossistema público EXECUTAR · **VERIFICADO** (2026-09-22)
+
+| | |
+|---|---|
+| **Fase** | `EXECUTAR-PUBLIC-ECOSYSTEM-FULLSTACK-001`, branch `claude/executar-public-ecosystem-fullstack-bsnscq` |
+| **Escopo** | Superfícies públicas: institucional, Blog, Mapa Cognitivo, Quick Frameworks, Oficina (5 superfícies), VERA |
+| **Estado anterior** | `apps/web` com 10 arquivos de rota. Oficina, Mapa público, Frameworks e VERA: documentados, **zero código**. 85 PNGs de marca com zero referências em código. Nenhum token editorial. Nenhum mecanismo de escopo além de `.dark` |
+| **G0 — baseline** | ✅ Auditoria forense concluída; matriz publicada em `docs/ecosystem/IMPLEMENTATION_MATRIX.md`. Diagnóstico corrigido: o 404 em `/pt-BR` era código de locale errado da minha parte (o locale é `pt`), não um defeito |
+| **G1 — governança** | ✅ 5 ADRs em `docs/adr/`. Nenhum ADR anterior apagado; o binding da Oficina foi marcado `superseded_in_part`, preservando a parte estrutural |
+| **G2 — fundação visual** | ✅ Isolamento verificado no CSS compilado. `packages/design-tokens` e `apps/app`/`apps/mobile` intocados, fixados por hash. Focus-trap do drawer — item 🔴 bloqueante do handoff v6 — implementado |
+| **G3 — institucional + Blog** | ✅ Build, testes e runtime verificado em produção |
+| **G4 — frameworks** | ✅ 299 registros navegáveis; runtime verificado (`/frameworks/4ps` 200) |
+| **G5 — Mapa** | ✅ 237 nós reais; deep link `?no=CORE-PERSON` resolve em produção |
+| **G6 — VERA** | ✅ camada determinística respondendo em produção (`POST /api/vera` 200); camada generativa desligada por falta de chave, e a página diz isso. 21 testes, incluindo 4 de prompt injection |
+| **G7 — Oficina** | ✅ 5 superfícies, 2 soluções reais; runtime verificado, incluindo o onboarding |
+| **G9 — qualidade** | ✅ lint limpo em 765 arquivos; 25/25 tarefas de teste e 43/43 de typecheck; build de produção de `apps/web` verde. `apps/app` não compila localmente por falta de variáveis de ambiente — pré-existente, reproduzido em árvore limpa |
+| **G10 — deploy e verificação** | ✅ Deploy de produção `dpl_Gy4NtEmthnUriWf7Jzo1MZEJZzGo` em `executar-nf-web`. 18/18 URLs públicas em 200; 9/9 verificações de browser nas duas aparências |
+| **G2b — identidade v2** | ✅ `EXECUTAR-BLOG-IDENTITY-001` v2.0 adotada (ADR-DS-004), pacote vendorizado com 13/13 SHA-256 conferidos. Papéis semânticos resolvidos no browser: claro `--ed-bg #fff`, escuro `#000`, foco `#0a84ff` nas duas. Zero blocos `:root` com `--ed-*` no bundle servido |
+| **Defeito `/` — encerrado** | O 404 prerenderizado em `/` não era cache velho: a entrada era **regenerada** (age reiniciava), sobreviveu a quatro deploys e a dois remapeamentos de alias, enquanto a URL do deployment e qualquer `?query` davam 200. Corrigido em duas partes — `no-store` no rewrite da raiz impede nova fixação, e um endpoint de purge protegido por segredo removeu a entrada existente. Medido depois: 3/3 requisições em 200, `x-vercel-cache: MISS` |
+| **Falhas de planejamento registradas** | (1) Assumi `pt-BR` como locale e reportei um 404 inexistente antes de conferir `languine.json`. (2) Escrevi num comentário que o frontmatter era validado contra a taxonomia antes de implementar a validação; corrigido no mesmo commit. (3) Deixei o formatador reescrever dois artefatos vendorizados (grafo e referência v6) antes de excluí-los — os próprios gates de integridade pegaram, e é para isso que existem |
+| **Pendência externa** | Uma chave de LLM em `executar-nf-web` para a camada generativa da VERA. Não bloqueia nenhum outro gate |

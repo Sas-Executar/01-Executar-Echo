@@ -1,88 +1,190 @@
 import { blog } from "@repo/cms";
-import { cn } from "@repo/design-system/lib/utils";
-import { getDictionary } from "@repo/internationalization";
+import { AUTHOR, EDITORIAL_PILLARS, termSlug } from "@repo/knowledge";
 import type { Blog, WithContext } from "@repo/seo/json-ld";
 import { JsonLd } from "@repo/seo/json-ld";
 import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-interface BlogProps {
-  params: Promise<{
-    locale: string;
-  }>;
-}
+export const metadata: Metadata = createMetadata({
+  title: "Blog",
+  description:
+    "O custo cognitivo da execução: o que aumenta o esforço de trabalhar, e quais condições do sistema podem mudar.",
+});
 
-export const generateMetadata = async ({
-  params,
-}: BlogProps): Promise<Metadata> => {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
-
-  return createMetadata(dictionary.web.blog.meta);
-};
-
-const BlogIndex = async ({ params }: BlogProps) => {
-  const { locale } = await params;
-  const dictionary = await getDictionary(locale);
+/**
+ * Editorial home.
+ *
+ * Shows the real archive. The corpus names TP-002 and TP-003 as a launch
+ * minimum and neither exists, so nothing is padded out to fill the grid
+ * — an empty shelf is a fact about the publication, and inventing posts
+ * to hide it would be the worse outcome.
+ */
+const BlogIndex = async () => {
   const posts = await blog.getPosts();
+  const [lead, ...rest] = posts;
+
+  // Only pillars that actually have an article are offered as a filter;
+  // a category link to an empty page is a dead end.
+  const usedPillars = EDITORIAL_PILLARS.filter((pillar) =>
+    posts.some((post) => post.pillar === pillar.value)
+  );
 
   const jsonLd: WithContext<Blog> = {
     "@type": "Blog",
     "@context": "https://schema.org",
+    name: "Blog EXECUTAR",
+    description:
+      "O custo cognitivo da execução: fatores, mecanismos e o que reduz a exposição.",
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.description,
+      datePublished: post.date,
+      author: { "@type": "Person", name: post.author ?? AUTHOR.name },
+    })),
   };
 
   return (
     <>
       <JsonLd code={jsonLd} />
-      <div className="w-full py-20 lg:py-40">
-        <div className="container mx-auto flex flex-col gap-14">
-          <div className="flex w-full flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
-            <h4 className="max-w-xl font-regular text-3xl tracking-tighter md:text-5xl">
-              {dictionary.web.blog.meta.title}
-            </h4>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {posts.map((post, index) => (
-              <Link
-                className={cn(
-                  "flex cursor-pointer flex-col gap-4 hover:opacity-75",
-                  !index && "md:col-span-2"
-                )}
-                href={`/blog/${post.slug}`}
-                key={post.slug}
+      <div
+        className="mx-auto"
+        style={{
+          maxWidth: "var(--ed-content-max)",
+          paddingInline: "var(--ed-gutter)",
+          paddingBlock: "var(--ed-section)",
+        }}
+      >
+        <header style={{ maxWidth: "var(--ed-reading-max)" }}>
+          <h1
+            className="font-semibold"
+            style={{
+              fontSize: "var(--ed-display-md)",
+              letterSpacing: "var(--ed-tracking-display-md)",
+              lineHeight: 1.05,
+            }}
+          >
+            Blog
+          </h1>
+          <p
+            className="ed-text-body-lg mt-5"
+            style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
+          >
+            O custo cognitivo da execução — o que aumenta o esforço de
+            trabalhar, por que isso raramente é uma questão de disciplina, e
+            quais condições do sistema podem ser mudadas.
+          </p>
+        </header>
+
+        {posts.length === 0 ? (
+          <p className="mt-16" style={{ color: "var(--ed-label-secondary)" }}>
+            Nenhum artigo publicado ainda.
+          </p>
+        ) : null}
+
+        {lead ? (
+          <article className="mt-16">
+            <Link className="block" href={`/blog/${lead.slug}`}>
+              {lead.pillar ? (
+                <p
+                  className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
+                  style={{ color: "var(--ed-label-secondary)" }}
+                >
+                  {lead.pillar}
+                </p>
+              ) : null}
+              <h2
+                className="font-semibold"
+                style={{
+                  fontSize: "var(--ed-display-lg)",
+                  letterSpacing: "var(--ed-tracking-display-lg)",
+                  lineHeight: 1.02,
+                  maxWidth: "14ch",
+                }}
               >
-                {post.image ? (
-                  // biome-ignore lint/performance/noImgElement: local content image, no remote optimizer configured
-                  <img
-                    alt=""
-                    className="aspect-video w-full rounded-xl object-cover"
-                    height={630}
-                    src={post.image}
-                    width={1200}
-                  />
-                ) : null}
-                <div className="flex flex-row items-center gap-4">
-                  <p className="text-muted-foreground text-sm">
-                    {new Date(post.date).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="max-w-3xl text-4xl tracking-tight">
-                    {post.title}
-                  </h3>
-                  <p className="max-w-3xl text-base text-muted-foreground">
-                    {post.description}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+                {lead.title}
+              </h2>
+              <p
+                className="ed-text-body-lg mt-5"
+                style={{
+                  color: "var(--ed-label-secondary)",
+                  maxWidth: "var(--ed-reading-max)",
+                }}
+              >
+                {lead.description}
+              </p>
+            </Link>
+          </article>
+        ) : null}
+
+        {rest.length > 0 ? (
+          <section className="mt-20">
+            <h2 className="ed-text-small mb-6 font-semibold uppercase tracking-wider">
+              Mais artigos
+            </h2>
+            <ul
+              className="grid gap-px md:grid-cols-2 lg:grid-cols-3"
+              style={{ background: "var(--ed-separator)" }}
+            >
+              {rest.map((post) => (
+                <li key={post.slug} style={{ background: "var(--ed-bg)" }}>
+                  <Link
+                    className="flex h-full flex-col gap-3 p-6"
+                    href={`/blog/${post.slug}`}
+                    style={{ minHeight: 200 }}
+                  >
+                    {post.pillar ? (
+                      <span
+                        className="ed-text-caption uppercase tracking-[.1em]"
+                        style={{ color: "var(--ed-label-secondary)" }}
+                      >
+                        {post.pillar}
+                      </span>
+                    ) : null}
+                    <span className="ed-text-headline font-semibold leading-tight">
+                      {post.title}
+                    </span>
+                    <span
+                      className="ed-text-small"
+                      style={{
+                        color: "var(--ed-label-secondary)",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {post.description}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {usedPillars.length > 0 ? (
+          <section className="mt-20">
+            <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
+              Pilares editoriais
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {usedPillars.map((pillar) => (
+                <li key={pillar.value}>
+                  <Link
+                    className="ed-text-small inline-flex items-center"
+                    href={`/blog/pilar/${termSlug(pillar.value)}`}
+                    style={{
+                      minHeight: 44,
+                      border: "1px solid var(--ed-separator)",
+                      padding: "0 12px",
+                    }}
+                  >
+                    {pillar.value}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </div>
     </>
   );

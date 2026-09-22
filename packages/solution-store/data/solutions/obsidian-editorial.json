@@ -1,0 +1,362 @@
+{
+  "identity": {
+    "solution_id": "SOL-OBS-EDITORIAL-001",
+    "solution_name": "Obsidian Editorial",
+    "slug": "obsidian-editorial",
+    "solution_type": "AI_SKILL",
+    "product_type": "skill_workflow",
+    "product_subtype": "skill",
+    "category": "Knowledge Management",
+    "version": "1.4.1",
+    "source_file_ref": "obsidian-editorial.skill"
+  },
+  "classification": {
+    "areas": {
+      "primary": "productivity",
+      "secondary": ["research", "operations"],
+      "original_categories": [
+        "Files & documents",
+        "Reference docs",
+        "Productivity"
+      ]
+    },
+    "professions": {
+      "primary": [
+        {
+          "profession_id": "project_manager",
+          "relevance": "high",
+          "use_case_refs": ["BUC-01", "BUC-03"]
+        },
+        {
+          "profession_id": "researcher",
+          "relevance": "high",
+          "use_case_refs": ["BUC-02"]
+        },
+        {
+          "profession_id": "student",
+          "relevance": "high",
+          "use_case_refs": ["BUC-02"]
+        },
+        {
+          "profession_id": "teacher",
+          "relevance": "medium",
+          "use_case_refs": ["BUC-02", "BUC-03"]
+        }
+      ],
+      "related": [
+        {
+          "profession_id": "lawyer",
+          "relevance": "medium",
+          "rationale": "Fluxos documentais extensos podem se beneficiar da estruturação, sem substituir revisão jurídica."
+        },
+        {
+          "profession_id": "accountant",
+          "relevance": "medium",
+          "rationale": "Documentação recorrente e referências podem ser estruturadas, sem substituir validação contábil."
+        },
+        {
+          "profession_id": "product_manager",
+          "relevance": "medium",
+          "rationale": "Briefings, decisões e documentação de produto são casos compatíveis."
+        },
+        {
+          "profession_id": "software_developer",
+          "relevance": "medium",
+          "rationale": "Documentação técnica e bases de conhecimento podem usar a mesma estrutura."
+        }
+      ],
+      "evidence_status": "USE_FIT_INFERRED_FROM_DOCUMENTED_CAPABILITIES"
+    },
+    "task_types": [
+      "organize",
+      "structure",
+      "document",
+      "transform",
+      "knowledge_management"
+    ],
+    "artifact_types": [
+      "markdown_document",
+      "project_documentation",
+      "knowledge_base",
+      "briefing"
+    ],
+    "semantic_tags": [
+      "obsidian",
+      "markdown",
+      "document_structure",
+      "project_documentation",
+      "knowledge_management"
+    ],
+    "node_keys": [
+      "area:productivity",
+      "area:research",
+      "area:operations",
+      "profession:project_manager",
+      "profession:researcher",
+      "profession:student",
+      "profession:teacher",
+      "task:organize",
+      "task:structure",
+      "artifact:markdown_document",
+      "artifact:knowledge_base"
+    ]
+  },
+  "public_layer": {
+    "problem_statement": "Informações brutas e dispersas exigem esforço manual para virar documentação consistente, navegável e reutilizável no Obsidian.",
+    "target_user": "Usuários de Obsidian que organizam conhecimento, projetos e documentação.",
+    "three_p_n_three": {
+      "problema_que_resolve": "Reduz o trabalho de transformar notas, briefings, decisões, tarefas e referências dispersas em documentação estruturada.",
+      "processo_aplicado": "Recebe conteúdo, interpreta o objetivo, aplica uma estrutura editorial, organiza a saída em Markdown e valida consistência estrutural.",
+      "progresso_pretendido": "Converter informação não estruturada em uma base navegável, persistente e reutilizável no Obsidian.",
+      "next": {
+        "01": "Fornecer o conteúdo bruto.",
+        "02": "Definir o resultado ou formato desejado.",
+        "03": "Executar a transformação e validar a saída."
+      }
+    },
+    "tutorial": {
+      "title": "Obsidian Editorial — de conteúdo bruto para documentação estruturada",
+      "introduction": "Use a ferramenta quando você tiver conteúdo útil, mas ainda sem arquitetura clara para utilização contínua no Obsidian.",
+      "instructions": [
+        "Cole ou anexe o conteúdo que deseja organizar.",
+        "Descreva o resultado desejado ou selecione o perfil de saída.",
+        "Execute a transformação e incorpore a estrutura validada ao vault."
+      ],
+      "expected_result": "Markdown estruturado, navegável e pronto para continuidade."
+    },
+    "practical_example": {
+      "title": "De briefing caótico para documentação operacional",
+      "scenario": "Um projeto de lançamento possui prazo, tarefas, responsáveis, concorrentes, reuniões e referências misturados em uma única nota.",
+      "input_example": "Projeto: Lançamento Produto X\n- lançamento previsto para novembro\n- definir landing page\n- João cuida do design\n- falta confirmar orçamento\n- concorrentes: A, B e C\n- reunião sexta\n- pesquisar estratégia de SEO\n- campanha precisa estar pronta antes do dia 15\n- referência: campanha anterior",
+      "transformation": "Separar contexto, objetivos, decisões, tarefas, pesquisa e referências em uma arquitetura documental coerente.",
+      "output_example": "LANCAMENTO-PRODUTO-X/\n├── 00_INDEX.md\n├── 01_CONTEXT.md\n├── 02_OBJECTIVES.md\n├── 03_DECISIONS.md\n├── 04_TASKS.md\n├── 05_RESEARCH.md\n└── 06_REFERENCES.md",
+      "before_state": "Informação dispersa e difícil de reutilizar.",
+      "after_state": "Base operacional navegável e atualizável.",
+      "why_it_shines": "A ferramenta demonstra maior valor quando precisa converter conteúdo heterogêneo e desestruturado em uma arquitetura persistente sem exigir organização manual prévia."
+    }
+  },
+  "capability_contract": {
+    "process_applied": "Análise do conteúdo → estrutura editorial → Markdown → validação.",
+    "intended_progress": "Base Markdown organizada e reutilizável.",
+    "hero_use_case": "Briefing disperso → sistema documental operacional no Obsidian.",
+    "input_required": ["texto", "markdown", "documentos", "notas"],
+    "output_generated": ["markdown estruturado", "documentação navegável"],
+    "dependencies": ["Obsidian para uso final da estrutura"],
+    "limitations": [
+      "Não valida automaticamente a veracidade factual do conteúdo-fonte.",
+      "Não constitui intervenção clínica, diagnóstico ou tratamento."
+    ]
+  },
+  "usage_fit": {
+    "best_use_cases": [
+      {
+        "id": "BUC-01",
+        "title": "Briefing disperso para base operacional",
+        "problem": "Contexto, decisões, tarefas e referências estão misturados e difíceis de retomar.",
+        "scenario": "Projeto com múltiplas notas, responsáveis, prazos e referências ainda sem arquitetura documental.",
+        "why_this_tool": "Converte conteúdo heterogêneo em estrutura persistente e navegável.",
+        "expected_gain": "Menos organização manual e menor perda de contexto entre sessões.",
+        "fit_conditions": [
+          "Há volume suficiente de informação para justificar estrutura.",
+          "O conteúdo será reutilizado ou atualizado."
+        ],
+        "evidence_refs": ["TC-OBS-001"]
+      },
+      {
+        "id": "BUC-02",
+        "title": "Pesquisa extensa para base de conhecimento",
+        "problem": "Fontes, achados e notas de pesquisa acumulam-se sem navegação consistente.",
+        "scenario": "Pesquisa com múltiplos documentos que precisa virar notas conectadas, sínteses e referências.",
+        "why_this_tool": "Ajuda a separar tipos de informação e manter uma arquitetura editorial estável.",
+        "expected_gain": "Melhor recuperabilidade e continuidade da pesquisa.",
+        "fit_conditions": [
+          "Existem várias fontes ou blocos de conteúdo.",
+          "O usuário precisa continuar adicionando material."
+        ],
+        "evidence_refs": []
+      },
+      {
+        "id": "BUC-03",
+        "title": "Processo recorrente para documentação reutilizável",
+        "problem": "Um fluxo recorrente é documentado de formas diferentes a cada execução.",
+        "scenario": "SOP, checklist, template ou pacote operacional que precisa manter padrão entre ciclos.",
+        "why_this_tool": "Padroniza a saída e reduz decisões repetidas de estrutura e formatação.",
+        "expected_gain": "Maior consistência documental e menor retrabalho editorial.",
+        "fit_conditions": [
+          "A tarefa se repete.",
+          "Existe valor em padronização entre execuções."
+        ],
+        "evidence_refs": []
+      }
+    ],
+    "risk_of_use": [
+      {
+        "id": "RISK-01",
+        "scenario": "Nota curta, descartável ou de uso único.",
+        "failure_mode": "A estrutura gerada adiciona mais etapas do que a tarefa exige.",
+        "overkill_reason": "O custo de organizar supera o benefício de reutilização.",
+        "better_alternative": "Criar ou editar diretamente uma nota simples.",
+        "severity": "LOW",
+        "likelihood": "MEDIUM",
+        "mitigation": "Aplicar fit gate e recomendar fluxo simples quando não houver necessidade de estrutura persistente.",
+        "evidence_refs": []
+      },
+      {
+        "id": "RISK-02",
+        "scenario": "Conteúdo factual ainda não verificado usado em contexto de alta consequência.",
+        "failure_mode": "A boa apresentação estrutural pode criar falsa sensação de confiabilidade.",
+        "overkill_reason": "Estrutura editorial não substitui verificação factual, revisão especializada ou controles de domínio.",
+        "better_alternative": "Validar fontes e conteúdo antes da transformação editorial.",
+        "severity": "HIGH",
+        "likelihood": "CONTEXT_DEPENDENT",
+        "mitigation": "Separar validação factual de estruturação e exigir evidência quando o domínio for sensível.",
+        "evidence_refs": ["EVIDENCIAS.md"]
+      },
+      {
+        "id": "RISK-03",
+        "scenario": "Projeto muito dinâmico em que a taxonomia muda mais rápido que o conteúdo pode ser mantido.",
+        "failure_mode": "Manutenção da arquitetura passa a consumir tempo e gera dívida organizacional.",
+        "overkill_reason": "Estrutura excessivamente rígida pode aumentar custo de atualização.",
+        "better_alternative": "Usar estrutura mínima temporária e promover para arquitetura completa apenas após estabilização.",
+        "severity": "MEDIUM",
+        "likelihood": "MEDIUM",
+        "mitigation": "Começar com estrutura mínima e ampliar somente quando o padrão de uso estiver claro.",
+        "evidence_refs": []
+      }
+    ]
+  },
+  "lifecycle": {
+    "current_state": "BUNDLE_READY",
+    "next_state": "IN_EDITORIAL_PRODUCTION",
+    "blockers": [
+      "URL pública/CTA ainda não confirmada.",
+      "Áudio final/licenças ainda não confirmados."
+    ]
+  },
+  "definition_of_done": {
+    "G1_SCHEMA_COMPLETE": true,
+    "G2_BUNDLE_COMPLETE": true,
+    "G3_EDITORIAL_ASSETS_COMPLETE": false,
+    "G4_QA_COMPLETE": false,
+    "G5_STORE_SUBMISSION_COMPLETE": false,
+    "G6_PUBLISHED": false
+  },
+  "scoring": {
+    "methodology_id": "SEUS-v0.1",
+    "status": "MEASUREMENT_PENDING",
+    "overall": {
+      "utility_score": null,
+      "confidence_index": null,
+      "evidence_adjusted_score": null,
+      "weights": null,
+      "score_status": "NOT_COMPUTED",
+      "aggregation_policy": "No overall score is published until weights, benchmark population and minimum evidence thresholds are approved and versioned. Missing dimensions remain null, never zero."
+    }
+  },
+  "card": {
+    "variant": "solution",
+    "solution_id": "SOL-OBS-EDITORIAL-001",
+    "release_id": "REL-OBS-EDITORIAL-001",
+    "content": {
+      "eyebrow": "Skill & Workflow",
+      "title": "Obsidian Editorial",
+      "short_description": "Transforme conteúdo bruto em documentação Markdown estruturada e navegável.",
+      "product_type": "skill_workflow",
+      "primary_area": "productivity",
+      "professions": ["project_manager", "researcher", "student", "teacher"],
+      "tags": ["obsidian", "markdown", "knowledge_management"],
+      "metadata": [
+        {
+          "key": "status",
+          "value": "BUNDLE_READY"
+        }
+      ]
+    },
+    "media": {
+      "poster": null,
+      "video_loop": null,
+      "gif_fallback": null
+    },
+    "actions": {
+      "primary": {
+        "type": "start",
+        "label": "Start",
+        "target": "PENDING_PUBLIC_TOOL_URL"
+      },
+      "secondary": {
+        "type": "download",
+        "label": "Download",
+        "enabled": true,
+        "target": "PENDING_DOWNLOAD_PACKAGE_URL"
+      }
+    },
+    "states": {
+      "idle": true,
+      "hover": true,
+      "focus": true,
+      "playing": true,
+      "loading": true,
+      "error": true
+    },
+    "interaction": {
+      "autoplay_muted_loop": true,
+      "plays_inline": true,
+      "reduced_motion_fallback": "poster"
+    },
+    "accessibility": {
+      "keyboard_operable": true,
+      "focus_visible": true,
+      "media_has_text_alternative": true
+    }
+  },
+  "onboarding": {
+    "entry_action": "Start",
+    "steps": [
+      {
+        "id": "O01",
+        "role": "what_this_is",
+        "title": "O que é",
+        "body": "Uma skill para transformar conteúdo bruto em documentação estruturada para Obsidian."
+      },
+      {
+        "id": "O02",
+        "role": "what_you_need",
+        "title": "O que você precisa",
+        "body": "Notas, briefing, decisões, referências ou outro conteúdo que precise de estrutura."
+      },
+      {
+        "id": "O03",
+        "role": "how_to_start",
+        "title": "Como começar",
+        "body": "Forneça o conteúdo e descreva o resultado desejado."
+      },
+      {
+        "id": "O04",
+        "role": "example",
+        "title": "Exemplo",
+        "body": "Transforme este material em uma base operacional de projeto para Obsidian."
+      },
+      {
+        "id": "O05",
+        "role": "next_action",
+        "title": "Próxima ação",
+        "body": "Use a saída como base e continue atualizando a mesma arquitetura."
+      }
+    ],
+    "status": "BRIEF_READY"
+  },
+  "release": {
+    "release_id": "REL-OBS-EDITORIAL-001",
+    "solution_id": "SOL-OBS-EDITORIAL-001",
+    "solution_version": "1.4.1",
+    "product_type": "skill_workflow",
+    "handoff_id": "HANDOFF-OBS-EDITORIAL-001",
+    "submission_id": "STORE-OBS-EDITORIAL-001",
+    "asset_manifest_id": "ASSET-OBS-EDITORIAL-001"
+  },
+  "source": {
+    "repository": "Sas-Executar/LANCAMENTO",
+    "path": "D19__assets-e-cta/solution-store/obsidian-editorial/",
+    "note": "Ported verbatim. Field values are the corpus's own; nothing is inferred."
+  }
+}

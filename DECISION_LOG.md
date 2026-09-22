@@ -112,3 +112,59 @@ Decisão que o pacote original da Fase Zero não previu. Registrada como FP-004 
 | **Data** | 2026-09-21 |
 | **Consequência** | `AGENTS.md`, `README.md` e `MASTER_WORKBOOK.md` passam a citar `Sas-Executar/LANCAMENTO` como fonte canônica do domínio Blog. Assets de marca, a skill `executar-safe-frameworks` e a bio do autor (DOC-0019) são materializados como conteúdo real neste repo (`apps/web/public/brand/`, `skills/executar-safe-frameworks/`, `docs/executar/blog/`). Nenhum artigo de blog foi criado: `LANCAMENTO` ainda não tem conteúdo editorial pronto para publicação (`#07-ARTIGOS-PRONTOS` vazio, `#08-ARTIGOS-REVISAO` só com drafts em revisão) — publicar a partir de draft não revisado violaria a régua de maturidade deste arquivo |
 | **Evidência** | `Sas-Executar/LANCAMENTO` PR #10 (mergeável, CI verde, dois receipts de governança: `D23-EXECUTAR-BLOG-IMPORT-001`, `D18-RC-UNIFIED-GOVERNANCE-SCHEMA-001`) |
+
+---
+
+## DEC-007 — Identidade visual das superfícies públicas · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | Três fontes se contradiziam sobre a identidade das superfícies públicas. (1) `ADR-DS-001` faz de `packages/design-tokens` (green `#00bf63` / azure `#1f93ff` / IBM Plex) a SOT do Design System, consumida por `apps/app`, `apps/mobile` **e** `apps/web`. (2) O contrato NatGeo-hybrid v6 em `LANCAMENTO #02-UX-UI`/`#03-DESIGN-TOKENS` define para o Blog e institucional uma identidade oposta em quase todos os eixos: amarelo `#ffcc00`, preto, charcoal `#111111`, cantos retos, tipografia de sistema, **azul proibido**. (3) O `README.txt` do pacote de 82 PNGs declara uma terceira paleta, em escala de cinza, sem amarelo — conflito que o próprio corpus registra como `DS-01 USER_ACTION_REQUIRED`. Agravante técnico: Tailwind v4 CSS-first, sem `tailwind.config`, e o único mecanismo de escopo existente no repo era a classe `.dark`. Não havia como sustentar duas identidades — vestir o site significava editar os tokens do produto e repintar o app e o mobile junto |
+| **Impacto de adiar** | Qualquer implementação da superfície pública teria de escolher entre contrariar o contrato v6 (site com cara de app) ou editar `packages/design-tokens` (regressão visual silenciosa em `apps/app` e `apps/mobile`) |
+| **Recomendação** | Separar por **escopo**, não por disciplina: manter `packages/design-tokens` intocado como DS do produto e criar `@repo/editorial-tokens` emitido exclusivamente sob `[data-surface="editorial"]`, com a fronteira verificada mecanicamente no CI. Para o `DS-01`, adotar os tokens v6 — os PNGs são marcas em preto, branco e reverso, sem paleta própria, e compõem corretamente sobre a superfície editorial |
+| **Resposta de Leo** | **Tokens NatGeo v6 mandam na superfície pública** (2026-09-22) |
+| **Data** | 2026-09-22 |
+| **Consequência** | `ADR-DS-002` (separação), `ADR-DS-003` (resolve `DS-01`), `ADR-OFICINA-001` (o `visual_contract` do binding da Oficina deixa de governar superfícies públicas; a parte estrutural segue canônica). `packages/design-tokens` **não foi editado**: está fixado por hash em `scripts/PRODUCT_DS_BASELINE.sha256` e verificado pelo job `editorial-isolation`. `DS-01` sai de `USER_ACTION_REQUIRED` para `RESOLVED` |
+| **Evidência** | Isolamento confirmado no CSS **compilado**, não só no fonte: os tokens editoriais saem como `[data-surface=editorial]{--ed-yellow:#fc0…}` e nenhum bloco `:root` contém `--ed-*`. 11 testes, incluindo casos negativos que provam que a guarda falha quando violada |
+
+---
+
+## DEC-008 — Os três "Mapa" e a fonte de dados do Mapa Cognitivo · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | Três produtos diferentes são chamados de "Mapa": o Mapa Cognitivo público (`MAPA-PRD-001`, APPROVED, sem código), o Mapa-OS/Prisma interno (implementado em `packages/mapa-os` e `apps/app`), e o Scroll (`APP-SCR-001`, mobile). A ambiguidade já produziu erro de planejamento: um pedido para implementar `PRD-SCROLL-001`, identificador que **não existe em nenhum dos dois repositórios**. Além disso, o grafo materializado de 237 nós descrito pelo PRD não estava versionado em nenhum repositório |
+| **Impacto de adiar** | Risco concreto de regenerar o grafo por inferência a partir do BLOG-09 ou do corpus editorial — produzindo um artefato diferente com o mesmo identificador, sem que nada acusasse a substituição |
+| **Recomendação** | Registrar os três como produtos distintos, registrar a inexistência de `PRD-SCROLL-001`, e fixar `SCHEMA-RC-SOLUTION-004` como SOT de dados **não regenerável** |
+| **Resposta de Leo** | **Não reconstrua o grafo. O artefato já existe** — entregue como `SCHEMA-RC-SOLUTION-004_AGENT_BUNDLE` em 2026-09-22 |
+| **Data** | 2026-09-22 |
+| **Consequência** | `ADR-MAPA-001`. O bundle é vendorizado em `packages/knowledge/data/cognitive-map/` com checksums e procedência. Um teste verifica os checksums e as contagens a cada execução, de modo que regenerar o grafo **quebra o CI** — que é o comportamento desejado |
+| **Evidência** | `sha256sum -c` 10/10 OK na recepção; `graph_data.json` valida contra `graph_schema.json`; 237 nós · 528 relações · 20 soluções · 13 evidências, conferidos |
+
+---
+
+## DEC-009 — Identidade pública: EXECUTAR Native Editorial v2 substitui a v6 · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | A `DEC-007` adotou os tokens NatGeo-hybrid v6, e a superfície pública foi construída sobre eles. O pacote `EXECUTAR_BLOG_HANDOFF_002_APPLE_ALIGNED` declara uma **única identidade canônica** — `EXECUTAR-BLOG-IDENTITY-001` v2.0, `ADR-002` `APPROVED` — que substitui a identidade implícita do handoff 001. Duas exigências da v2 contradizem frontalmente o que estava implementado e verificado no CI: a serifa New York sai da identidade, e `--focus: #0A84FF` é obrigatório, enquanto a `ADR-DS-003` proíbe azul e o `check-drift.ts` falha o build em qualquer azul |
+| **Impacto de adiar** | A superfície pública ficaria numa identidade explicitamente superseded, e o gate de paleta passaria a defender uma decisão revogada — o pior estado possível para uma guarda automática: verde, e errada |
+| **Recomendação** | Estreitar a regra em vez de abandoná-la. O proibido é o **azul do produto** (`#1f93ff`) como cor de identidade; o azul de foco do sistema é permitido e obrigatório, porque um anel de foco que o usuário não reconhece como foco é regressão de acessibilidade, não escolha de estilo |
+| **Resposta de Leo** | **Formalizado. O pacote agora tem uma única identidade canônica: EXECUTAR Native Editorial** (2026-09-22) |
+| **Data** | 2026-09-22 |
+| **Consequência** | `ADR-DS-004`. A `ADR-DS-003` fica `SUPERSEDED_IN_PART`: a resolução do `DS-01` continua válida — o amarelo segue sendo a cor de marca, agora com uso contido — e só as regras de composição caem. A API de tokens passa a ser **papéis semânticos**, não hexadecimais; claro e escuro são duas aparências de uma identidade. A arquitetura de informação não muda: rotas, dados, Mapa, Oficina, VERA e navegação seguem intactos, como o próprio pacote determina |
+| **Evidência** | 13/13 SHA-256 do pacote conferidos contra o seu próprio `MANIFEST.json`, registrados em `reference/v2/CHECKSUMS.sha256`. Verificado no browser contra produção, nas duas aparências: `--ed-bg` resolve `#fff` no claro e `#000` no escuro, `--ed-focus` `#0a84ff` em ambas, coluna de leitura em 17px/1.6 dentro de 760px, sem New York. Zero blocos `:root` com `--ed-*` no bundle servido |
+
+---
+
+## DEC-010 — Publicar a série fundadora apesar da contradição de status na fonte · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | `RC-KNW-001_SERIE_ARTIGOS_01_02_03_QF_V1.zip` traz 3 artigos completos (RC-001/002/003) cujo próprio frontmatter declara `status: REDIGIDO_VALIDACAO_ESTRUTURAL` — redigido, pendente de validação estrutural. Os stubs `04-validacao/*.txt` fornecidos no mesmo pacote, para os mesmos 3 artigos, dizem `STATUS: VERIFIED`. As duas afirmações vêm da fonte, não deste repositório, e se contradizem |
+| **Impacto de adiar** | Sem uma decisão explícita, o conteúdo ficaria fora do site apesar de ter sido entregue como "faltante para lançamento", ou seria publicado silenciando a contradição — o tipo exato de sobreposição que a regra `DOCUMENTADO ≠ VERIFICADO` existe para impedir |
+| **Recomendação** | Publicar mesmo assim, sem reescrever a fonte para eliminar a contradição — apenas registrá-la aqui e em `packages/knowledge/data/quick-frameworks/PROVENANCE.md` |
+| **Resposta de Leo** | Conteúdo enviado com a instrução direta de implementar ("conteúdo faltante para lançamento implementar", 2026-09-22) |
+| **Data** | 2026-09-22 |
+| **Consequência** | 3 posts publicados em `packages/cms/content/blog/` (`risco-cognitivo`, `fatores-de-risco-cognitivo`, `exposicao-cognitiva`, slugs verbatim do campo `url:` de cada fonte) e 23 registros "Quick Framework EXECUTAR" (20 fatores FRC-01..20 do Mapa Cognitivo + os 3 artigos) em nova rota `/quick-frameworks`, corrigindo esse nome — que pertencia até agora, por engano, ao catálogo genérico de 299 frameworks (agora "Frameworks de apoio" em `/frameworks`) |
+| **Evidência** | 24/24 checksums dos arquivos-fonte conferidos; 23/23 registros validados contra o schema; os 20 `factor_id` batem 1:1 com os já vendorizados em `graph_data.json`. `PROVENANCE.md` cita a contradição de status linha por linha |

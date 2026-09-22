@@ -1,0 +1,95 @@
+import { createMetadata } from "@repo/seo/metadata";
+import { generativeStatus, registeredCapabilities } from "@repo/vera";
+import type { Metadata } from "next";
+import { VeraConsole } from "./vera-console";
+
+export const metadata: Metadata = createMetadata({
+  title: "VERA",
+  description:
+    "A interface de consulta ao corpus do EXECUTAR: recupera, cita e encaminha — sem afirmar o que não pode sustentar.",
+});
+
+/**
+ * VERA's public surface (ADR-VERA-001).
+ *
+ * The capability registry is shown on the page: VERA's authority never
+ * exceeds what is listed, and anything unlisted is denied. Publishing
+ * that list is what lets a reader hold it to the limit.
+ */
+const Vera = () => {
+  const generative = generativeStatus();
+  const capabilities = registeredCapabilities();
+
+  return (
+    <div
+      className="mx-auto"
+      style={{
+        maxWidth: "var(--ed-reading-max)",
+        paddingInline: "var(--ed-gutter)",
+        paddingBlock: "var(--ed-section)",
+      }}
+    >
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
+        <h1
+          className="font-semibold"
+          style={{
+            fontSize: "var(--ed-display-md)",
+            letterSpacing: "var(--ed-tracking-display-md)",
+            lineHeight: 1.05,
+          }}
+        >
+          VERA
+        </h1>
+        <p
+          className="ed-text-body-lg mt-5"
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
+        >
+          Pergunte sobre o custo cognitivo da execução. A VERA consulta o mapa
+          cognitivo, o catálogo de frameworks e os contratos da Oficina, cita o
+          que encontrou e encaminha para onde continuar. Quando não consegue
+          sustentar uma resposta, diz isso — análise da situação, nunca
+          diagnóstico de uma pessoa.
+        </p>
+      </header>
+
+      <div className="mt-12">
+        <VeraConsole generativeOffReason={generative.reason} />
+      </div>
+
+      <section className="mt-20">
+        <h2 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
+          O que a VERA pode fazer
+        </h2>
+        <p
+          className="ed-text-small mb-5"
+          style={{ color: "var(--ed-label-secondary)" }}
+        >
+          Esta lista é o limite, não um resumo dele. Uma capacidade que não está
+          aqui é negada por padrão, e nenhuma capacidade que altere estado roda
+          sem confirmação explícita.
+        </p>
+        <ul className="flex flex-col gap-3">
+          {capabilities.map((capability) => (
+            <li
+              key={capability.id}
+              style={{
+                borderTop: "1px solid var(--ed-separator)",
+                paddingTop: 12,
+              }}
+            >
+              <p className="ed-text-small font-medium">{capability.id}</p>
+              <p
+                className="ed-text-small"
+                style={{ color: "var(--ed-label-secondary)" }}
+              >
+                {capability.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+};
+
+export default Vera;

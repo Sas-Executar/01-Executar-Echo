@@ -1,0 +1,2339 @@
+[
+  {
+    "id": "ARTICLE-RC-001",
+    "slug": "o-que-e-risco-cognitivo",
+    "titulo": "O que é Risco Cognitivo?",
+    "fraseSintese": "Risco cognitivo nasce na relação entre objetivo, pessoa e sistema. — síntese a partir de ISO e EXECUTAR",
+    "origem": {
+      "termo": "O que é Risco Cognitivo?",
+      "significado": "Conceito operacional da série Risco Cognitivo.",
+      "etimologia": "Risco designa o efeito da incerteza sobre objetivos na linguagem da ISO 31000. Cognitivo deriva do latim cognoscere, conhecer. No EXECUTAR, a expressão não nomeia diagnóstico: organiza condições que podem comprometer uma execução quando demanda, vulnerabilidade e exposição se combinam."
+    },
+    "contexto": "Uma tarefa parece simples: finalizar um relatório. Mas a pessoa precisa localizar arquivos, interpretar a prioridade, lembrar dependências, alternar sistemas e retomar decisões. Se essa arquitetura favorece erro, atraso ou abandono, há uma condição de risco para o objetivo — não uma falha moral da pessoa.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar o conceito numa situação concreta."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Proteger o objetivo sem culpabilizar a pessoa."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo e tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor e responsáveis pelo desenho do trabalho."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar, controlar, comparar e registrar evidência."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO e EXECUTAR é a referência central deste recorte porque sustenta a definição de risco, carga mental ou desenho cognitivo usada pelo artigo. O framework EXECUTAR mantém explícitas as partes que são síntese própria.",
+      "autorCurto": "ISO e EXECUTAR"
+    },
+    "problemaExistente": {
+      "definicao": "Dificuldades de execução são atribuídas apenas à pessoa, enquanto tarefa, ambiente, processo e tecnologia permanecem fora da análise.",
+      "identificacao": "Aparece em sinais recorrentes de esforço, demora, erro ou reconstrução.",
+      "explicacao": "A demanda fica distribuída e sua origem operacional não é localizada.",
+      "fechamento": "A pessoa absorve trabalho que o sistema poderia organizar."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte observável do problema recebe linguagem, fronteira e controle.",
+      "identificacao": "Definir objetivo, contexto, demanda, vulnerabilidade, exposição, evento e impacto antes de caracterizar ou controlar o risco.",
+      "explicacao": "O controle é testado em uma situação, sem prometer resultado universal.",
+      "fechamento": "O aprendizado retorna ao processo."
+    },
+    "processo": [
+      "Entender: registrar objetivo, contexto, sinais e impacto.",
+      "Estruturar: distinguir conceito, evidência, hipótese e controle.",
+      "Executar: testar uma mudança, comparar e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[Demanda cognitiva]\n  C --> D[Vulnerabilidade e exposição]\n  D --> E[Possível risco]\n  E --> F[Evento e impacto]\n  F --> G[Controle e evidência]",
+    "progressoEsperado": "Antes, a dificuldade parece isolada ou pessoal. Com o framework, a situação ganha objetivo, contexto, demanda e controle. Depois, torna-se possível testar uma mudança pequena e observar seu efeito sem produzir diagnóstico ou certeza indevida.",
+    "aviso": "Conteúdo educativo e operacional. Não oferece diagnóstico, escore clínico ou relação causal automática. A aplicação depende do objetivo, contexto e evidência observada.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva os sinais.",
+        "Next 02 — Estruturar: localize a demanda e selecione um controle proporcional.",
+        "Next 03 — Executar: teste por um ciclo e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 31000:2018 — Risk management guidelines",
+        "href": "https://www.iso.org/iso-31000-risk-management.html",
+        "nota": "ISO, 2018."
+      },
+      {
+        "label": "ISO 10075-2:2024 — Design principles related to mental workload",
+        "href": "https://www.iso.org/standard/76686.html",
+        "nota": "ISO, 2024."
+      },
+      {
+        "label": "Making Content Usable for People with Cognitive and Learning Disabilities",
+        "href": "https://www.w3.org/TR/coga-usable/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Cognitive Offloading",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+        "nota": "Risko e Gilbert, 2016."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Dificuldades de execução são atribuídas apenas à pessoa, enquanto tarefa, ambiente, processo e tecnologia permanecem fora da análise.",
+      "premissa2": "Entender a situação, estruturar controle e executar experimento.",
+      "premissa3": "A execução produz evidência para melhorar o sistema.",
+      "conclusao": "Risco cognitivo nasce na relação entre objetivo, pessoa e sistema. — síntese a partir de ISO e EXECUTAR",
+      "ilustracaoTopo": "Cena de trabalho mostrando a passagem de demanda invisível para controle observável.",
+      "relacionados": []
+    }
+  },
+  {
+    "id": "ARTICLE-RC-002",
+    "slug": "fatores-de-risco-cognitivo-o-que-aumenta-a-probabilidade-de-falha",
+    "titulo": "Fatores de Risco Cognitivo: o que aumenta a probabilidade de falha?",
+    "fraseSintese": "Fatores mostram onde a execução começa a exigir esforço adicional. — síntese a partir de ISO, W3C e literatura experimental",
+    "origem": {
+      "termo": "Fatores de Risco Cognitivo: o que aumenta a probabilidade de falha?",
+      "significado": "Conceito operacional da série Risco Cognitivo.",
+      "etimologia": "Fator vem do latim factor, aquilo que faz ou produz. Aqui, fator é uma condição que pode modificar a demanda ou a exposição. A palavra não autoriza tratá-lo como causa suficiente nem como risco já caracterizado."
+    },
+    "contexto": "Uma pessoa tenta concluir uma entrega, mas enfrenta informação demais, tarefa vaga, dependências escondidas, interrupções, intenções futuras e sistemas desconectados. Cada ponto parece pequeno; juntos, eles mudam a arquitetura da execução.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar o conceito numa situação concreta."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Proteger o objetivo sem culpabilizar a pessoa."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo e tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor e responsáveis pelo desenho do trabalho."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar, controlar, comparar e registrar evidência."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO, W3C e literatura experimental é a referência central deste recorte porque sustenta a definição de risco, carga mental ou desenho cognitivo usada pelo artigo. O framework EXECUTAR mantém explícitas as partes que são síntese própria.",
+      "autorCurto": "ISO, W3C e literatura experimental"
+    },
+    "problemaExistente": {
+      "definicao": "Os sinais aparecem como dificuldades isoladas, sem taxonomia que conecte pessoa, informação, tarefa, ambiente e sistema.",
+      "identificacao": "Aparece em sinais recorrentes de esforço, demora, erro ou reconstrução.",
+      "explicacao": "A demanda fica distribuída e sua origem operacional não é localizada.",
+      "fechamento": "A pessoa absorve trabalho que o sistema poderia organizar."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte observável do problema recebe linguagem, fronteira e controle.",
+      "identificacao": "Usar vinte fatores como pontos de inspeção e priorizar os oito mais reconhecíveis na experiência cotidiana.",
+      "explicacao": "O controle é testado em uma situação, sem prometer resultado universal.",
+      "fechamento": "O aprendizado retorna ao processo."
+    },
+    "processo": [
+      "Entender: registrar objetivo, contexto, sinais e impacto.",
+      "Estruturar: distinguir conceito, evidência, hipótese e controle.",
+      "Executar: testar uma mudança, comparar e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Pessoa] --> F[Demanda cognitiva]\n  B[Informação] --> F\n  C[Tarefa] --> F\n  D[Ambiente] --> F\n  E[Sistema] --> F\n  F --> G[Exposição a avaliar]",
+    "progressoEsperado": "Antes, a dificuldade parece isolada ou pessoal. Com o framework, a situação ganha objetivo, contexto, demanda e controle. Depois, torna-se possível testar uma mudança pequena e observar seu efeito sem produzir diagnóstico ou certeza indevida.",
+    "aviso": "Conteúdo educativo e operacional. Não oferece diagnóstico, escore clínico ou relação causal automática. A aplicação depende do objetivo, contexto e evidência observada.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva os sinais.",
+        "Next 02 — Estruturar: localize a demanda e selecione um controle proporcional.",
+        "Next 03 — Executar: teste por um ciclo e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 10075-2:2024 — Design principles related to mental workload",
+        "href": "https://www.iso.org/standard/76686.html",
+        "nota": "ISO, 2024."
+      },
+      {
+        "label": "Making Content Usable for People with Cognitive and Learning Disabilities",
+        "href": "https://www.w3.org/TR/coga-usable/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Avoid Too Much Content",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p03-manageable-quantity/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Make Short Critical Paths",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p02-short-paths/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Limit Interruptions",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p01-minimal-interruptions/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Costs of a predictable switch between simple cognitive tasks",
+        "href": "https://doi.org/10.1037/0096-3445.124.2.207",
+        "nota": "Rogers e Monsell, 1995."
+      },
+      {
+        "label": "Measuring visual clutter",
+        "href": "https://doi.org/10.1167/7.2.17",
+        "nota": "Rosenholtz, Li e Nakano, 2007."
+      },
+      {
+        "label": "The capacity of visual working memory for features and conjunctions",
+        "href": "https://doi.org/10.1038/36846",
+        "nota": "Luck e Vogel, 1997."
+      },
+      {
+        "label": "Cognitive Offloading",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+        "nota": "Risko e Gilbert, 2016."
+      },
+      {
+        "label": "Optimal use of reminders",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/31448938/",
+        "nota": "Gilbert et al., 2019."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Os sinais aparecem como dificuldades isoladas, sem taxonomia que conecte pessoa, informação, tarefa, ambiente e sistema.",
+      "premissa2": "Entender a situação, estruturar controle e executar experimento.",
+      "premissa3": "A execução produz evidência para melhorar o sistema.",
+      "conclusao": "Fatores mostram onde a execução começa a exigir esforço adicional. — síntese a partir de ISO, W3C e literatura experimental",
+      "ilustracaoTopo": "Cena de trabalho mostrando a passagem de demanda invisível para controle observável.",
+      "relacionados": []
+    }
+  },
+  {
+    "id": "ARTICLE-RC-003",
+    "slug": "exposicao-cognitiva-quando-um-fator-de-risco-passa-a-importar",
+    "titulo": "Exposição Cognitiva: quando um fator de risco passa a importar?",
+    "fraseSintese": "Um fator importa quando encontra contexto, duração e consequência. — síntese a partir de ISO e síntese EXECUTAR",
+    "origem": {
+      "termo": "Exposição Cognitiva: quando um fator de risco passa a importar?",
+      "significado": "Conceito operacional da série Risco Cognitivo.",
+      "etimologia": "Exposição vem do latim exponere, colocar para fora ou diante de algo. No framework, não significa contato físico: descreve como uma pessoa encontra uma demanda cognitiva ao executar um objetivo."
+    },
+    "contexto": "Duas pessoas recebem a mesma notificação. Para uma, ela chega entre tarefas e não altera o trabalho. Para outra, interrompe uma etapa crítica, apaga o ponto de retomada e produz retrabalho. O fator é semelhante; a exposição não.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar o conceito numa situação concreta."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Proteger o objetivo sem culpabilizar a pessoa."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo e tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor e responsáveis pelo desenho do trabalho."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar, controlar, comparar e registrar evidência."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO e síntese EXECUTAR é a referência central deste recorte porque sustenta a definição de risco, carga mental ou desenho cognitivo usada pelo artigo. O framework EXECUTAR mantém explícitas as partes que são síntese própria.",
+      "autorCurto": "ISO e síntese EXECUTAR"
+    },
+    "problemaExistente": {
+      "definicao": "Contar fatores sem observar intensidade, frequência, duração, criticidade e contexto produz conclusões imprecisas.",
+      "identificacao": "Aparece em sinais recorrentes de esforço, demora, erro ou reconstrução.",
+      "explicacao": "A demanda fica distribuída e sua origem operacional não é localizada.",
+      "fechamento": "A pessoa absorve trabalho que o sistema poderia organizar."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte observável do problema recebe linguagem, fronteira e controle.",
+      "identificacao": "Registrar a exposição numa situação concreta e ligar sinais a eventos, impactos e controles testáveis.",
+      "explicacao": "O controle é testado em uma situação, sem prometer resultado universal.",
+      "fechamento": "O aprendizado retorna ao processo."
+    },
+    "processo": [
+      "Entender: registrar objetivo, contexto, sinais e impacto.",
+      "Estruturar: distinguir conceito, evidência, hipótese e controle.",
+      "Executar: testar uma mudança, comparar e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Fator identificado] --> B[Intensidade]\n  B --> C[Frequência]\n  C --> D[Duração]\n  D --> E[Criticidade e contexto]\n  E --> F[Evento possível]\n  F --> G[Controle e observação]",
+    "progressoEsperado": "Antes, a dificuldade parece isolada ou pessoal. Com o framework, a situação ganha objetivo, contexto, demanda e controle. Depois, torna-se possível testar uma mudança pequena e observar seu efeito sem produzir diagnóstico ou certeza indevida.",
+    "aviso": "Conteúdo educativo e operacional. Não oferece diagnóstico, escore clínico ou relação causal automática. A aplicação depende do objetivo, contexto e evidência observada.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva os sinais.",
+        "Next 02 — Estruturar: localize a demanda e selecione um controle proporcional.",
+        "Next 03 — Executar: teste por um ciclo e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 31000:2018 — Risk management guidelines",
+        "href": "https://www.iso.org/iso-31000-risk-management.html",
+        "nota": "ISO, 2018."
+      },
+      {
+        "label": "ISO 10075-2:2024 — Design principles related to mental workload",
+        "href": "https://www.iso.org/standard/76686.html",
+        "nota": "ISO, 2024."
+      },
+      {
+        "label": "Making Content Usable for People with Cognitive and Learning Disabilities",
+        "href": "https://www.w3.org/TR/coga-usable/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Limit Interruptions",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p01-minimal-interruptions/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "Costs of a predictable switch between simple cognitive tasks",
+        "href": "https://doi.org/10.1037/0096-3445.124.2.207",
+        "nota": "Rogers e Monsell, 1995."
+      },
+      {
+        "label": "Cognitive Offloading",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+        "nota": "Risko e Gilbert, 2016."
+      },
+      {
+        "label": "Optimal use of reminders",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/31448938/",
+        "nota": "Gilbert et al., 2019."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Contar fatores sem observar intensidade, frequência, duração, criticidade e contexto produz conclusões imprecisas.",
+      "premissa2": "Entender a situação, estruturar controle e executar experimento.",
+      "premissa3": "A execução produz evidência para melhorar o sistema.",
+      "conclusao": "Um fator importa quando encontra contexto, duração e consequência. — síntese a partir de ISO e síntese EXECUTAR",
+      "ilustracaoTopo": "Cena de trabalho mostrando a passagem de demanda invisível para controle observável.",
+      "relacionados": []
+    }
+  },
+  {
+    "id": "FRC-01",
+    "slug": "tailoring-do-projeto",
+    "titulo": "Tailoring do projeto",
+    "fraseSintese": "Adaptar o método reduz esforço sem perder controle. — síntese a partir de ISO",
+    "factorId": "FRC-01",
+    "macrogrupo": "Sistema e arquitetura de suporte",
+    "origem": {
+      "termo": "Tailoring do projeto.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Tailoring vem do inglês tailor, alfaiate: ajustar algo à medida. Em projetos, significa adequar método, controles e artefatos ao contexto, sem eliminar o que protege o objetivo."
+    },
+    "contexto": "Uma rotina pequena recebe o mesmo rito de um projeto complexo. A pessoa passa mais tempo alimentando controles do que executando a entrega. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar tailoring do projeto na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "ISO"
+    },
+    "problemaExistente": {
+      "definicao": "Processo padronizado sem ajuste ao porte, risco ou contexto.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Definir o mínimo necessário e ampliar controles apenas quando o risco exigir.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-01]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 31000:2018 — Risk management guidelines",
+        "href": "https://www.iso.org/iso-31000-risk-management.html",
+        "nota": "International Organization for Standardization, 2018."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Processo padronizado sem ajuste ao porte, risco ou contexto",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Adaptar o método reduz esforço sem perder controle. — síntese a partir de ISO",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-20",
+        "FRC-02."
+      ]
+    }
+  },
+  {
+    "id": "FRC-02",
+    "slug": "perfil-cognitivo-do-executor",
+    "titulo": "Perfil cognitivo do executor",
+    "fraseSintese": "O sistema deve apoiar diferenças sem rotular pessoas. — síntese a partir de W3C COGA",
+    "factorId": "FRC-02",
+    "macrogrupo": "Pessoa e cognição",
+    "origem": {
+      "termo": "Perfil cognitivo do executor.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Perfil deriva do italiano profilo, contorno; cognitivo vem do latim cognoscere, conhecer. Aqui descreve necessidades funcionais observáveis, não diagnóstico ou identidade fixa."
+    },
+    "contexto": "Duas pessoas recebem a mesma tarefa e encontram barreiras diferentes de memória, atenção, linguagem ou organização. Tratar ambas como idênticas esconde necessidades de apoio. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar perfil cognitivo do executor na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C COGA é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C COGA"
+    },
+    "problemaExistente": {
+      "definicao": "Desenho uniforme que ignora variação funcional e contexto.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Oferecer alternativas de apresentação, ritmo, lembretes e sequência sem diagnosticar.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-02]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Making Content Usable for People with Cognitive and Learning Disabilities",
+        "href": "https://www.w3.org/TR/coga-usable/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Desenho uniforme que ignora variação funcional e contexto",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "O sistema deve apoiar diferenças sem rotular pessoas. — síntese a partir de W3C COGA",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-01",
+        "FRC-03."
+      ]
+    }
+  },
+  {
+    "id": "FRC-03",
+    "slug": "quantidade-de-informacao",
+    "titulo": "Quantidade de informação",
+    "fraseSintese": "Mais informação disponível não significa mais informação utilizável. — síntese a partir de W3C WAI",
+    "factorId": "FRC-03",
+    "macrogrupo": "Informação e interface",
+    "origem": {
+      "termo": "Quantidade de informação.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Quantidade vem do latim quantitas, medida de quanto existe. Informação deriva de informare, dar forma. A torção prática é clara: acumular dados não garante que eles assumam forma útil."
+    },
+    "contexto": "Uma tela mostra mensagens, arquivos, métricas e histórico ao mesmo tempo. Antes de agir, a pessoa precisa separar o necessário do restante. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar quantidade de informação na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C WAI é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C WAI"
+    },
+    "problemaExistente": {
+      "definicao": "Volume simultâneo aumenta busca, comparação e manutenção mental.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Exibir primeiro o essencial e revelar detalhes sob demanda.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-03]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Avoid Too Much Content",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p03-manageable-quantity/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Volume simultâneo aumenta busca, comparação e manutenção mental",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Mais informação disponível não significa mais informação utilizável. — síntese a partir de W3C WAI",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-02",
+        "FRC-04."
+      ]
+    }
+  },
+  {
+    "id": "FRC-04",
+    "slug": "forma-e-visualizacao-da-informacao",
+    "titulo": "Forma e visualização da informação",
+    "fraseSintese": "A forma da informação também consome capacidade. — síntese a partir de Rosenholtz et al.",
+    "factorId": "FRC-04",
+    "macrogrupo": "Informação e interface",
+    "origem": {
+      "termo": "Forma e visualização da informação.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Forma vem do latim forma, configuração; visualização é tornar visível. O conceito trata de como a organização muda o custo de localizar e interpretar, mesmo sem mudar o conteúdo."
+    },
+    "contexto": "Dois relatórios contêm os mesmos dados. Um esconde a decisão em blocos equivalentes; o outro separa ação, evidência e detalhe. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar forma e visualização da informação na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "Rosenholtz et al. é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "Rosenholtz et al."
+    },
+    "problemaExistente": {
+      "definicao": "Hierarquia ausente obriga o leitor a reconstruir a estrutura.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Aplicar hierarquia, agrupamento, rótulos consistentes e contraste funcional.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-04]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Measuring visual clutter",
+        "href": "https://doi.org/10.1167/7.2.17",
+        "nota": "Rosenholtz, Li e Nakano, 2007."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Hierarquia ausente obriga o leitor a reconstruir a estrutura",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "A forma da informação também consome capacidade. — síntese a partir de Rosenholtz et al.",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-03",
+        "FRC-05."
+      ]
+    }
+  },
+  {
+    "id": "FRC-05",
+    "slug": "troca-de-tarefas",
+    "titulo": "Troca de tarefas",
+    "fraseSintese": "Trocar rapidamente não significa trocar sem custo. — síntese a partir de Rogers e Monsell",
+    "factorId": "FRC-05",
+    "macrogrupo": "Tarefa e fluxo de execução",
+    "origem": {
+      "termo": "Troca de tarefas.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Task switching significa troca de tarefa. Switch deriva do inglês para mudança ou desvio. No uso cognitivo, nomeia a reconfiguração entre regras e contextos, não apenas o clique entre telas."
+    },
+    "contexto": "Durante um relatório, uma mensagem leva ao calendário e depois ao e-mail. Ao voltar, é preciso descobrir novamente onde continuar. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar troca de tarefas na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "Rogers e Monsell é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "Rogers e Monsell"
+    },
+    "problemaExistente": {
+      "definicao": "Cada troca pode exigir abandonar e reativar regras e contexto.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Reduzir trocas evitáveis e registrar um ponto de retomada.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-05]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Costs of a predictable switch between simple cognitive tasks",
+        "href": "https://doi.org/10.1037/0096-3445.124.2.207",
+        "nota": "Rogers e Monsell, 1995."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Cada troca pode exigir abandonar e reativar regras e contexto",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Trocar rapidamente não significa trocar sem custo. — síntese a partir de Rogers e Monsell",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-04",
+        "FRC-06."
+      ]
+    }
+  },
+  {
+    "id": "FRC-06",
+    "slug": "decomposicao-de-tarefas",
+    "titulo": "Decomposição de tarefas",
+    "fraseSintese": "Objetivo visível ainda não é próxima ação. — síntese a partir de W3C WAI",
+    "factorId": "FRC-06",
+    "macrogrupo": "Tarefa e fluxo de execução",
+    "origem": {
+      "termo": "Decomposição de tarefas.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Decomposição une de, separação, e composição, formar o todo. Em execução, divide uma entrega em partes relacionadas sem perder o resultado final."
+    },
+    "contexto": "A tarefa diz “lançar o curso”. O objetivo existe, mas a primeira ação, as dependências e o critério de conclusão continuam invisíveis. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar decomposição de tarefas na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C WAI é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C WAI"
+    },
+    "problemaExistente": {
+      "definicao": "Objetivos amplos transferem planejamento para o momento de executar.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Converter objetivo em entrega, etapa, dependência e próxima ação.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-06]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Make Short Critical Paths",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p02-short-paths/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Objetivos amplos transferem planejamento para o momento de executar",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Objetivo visível ainda não é próxima ação. — síntese a partir de W3C WAI",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-05",
+        "FRC-07."
+      ]
+    }
+  },
+  {
+    "id": "FRC-07",
+    "slug": "clareza-e-escrita-da-tarefa",
+    "titulo": "Clareza e escrita da tarefa",
+    "fraseSintese": "Tarefa ambígua adia a decisão para a execução. — síntese a partir de W3C COGA",
+    "factorId": "FRC-07",
+    "macrogrupo": "Tarefa e fluxo de execução",
+    "origem": {
+      "termo": "Clareza e escrita da tarefa.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Clareza vem do latim clarus, luminoso ou evidente. Escrever uma tarefa com clareza é tornar ação, objeto, resultado e conclusão reconhecíveis antes do início."
+    },
+    "contexto": "“Organizar apresentação” pode significar revisar texto, imagens, ordem, referências ou envio. Cada retomada exige nova interpretação. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar clareza e escrita da tarefa na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C COGA é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C COGA"
+    },
+    "problemaExistente": {
+      "definicao": "Tarefa vaga não define ação observável nem estado de pronto.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Registrar verbo, objeto, resultado, contexto e critério de conclusão.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-07]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Making Content Usable for People with Cognitive and Learning Disabilities",
+        "href": "https://www.w3.org/TR/coga-usable/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Tarefa vaga não define ação observável nem estado de pronto",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Tarefa ambígua adia a decisão para a execução. — síntese a partir de W3C COGA",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-06",
+        "FRC-08."
+      ]
+    }
+  },
+  {
+    "id": "FRC-08",
+    "slug": "agrupamento-e-segmentacao",
+    "titulo": "Agrupamento e segmentação",
+    "fraseSintese": "Agrupar bem transforma muitos itens em unidades navegáveis. — síntese a partir de Luck e Vogel",
+    "factorId": "FRC-08",
+    "macrogrupo": "Informação e interface",
+    "origem": {
+      "termo": "Agrupamento e segmentação.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Chunking deriva de chunk, bloco ou pedaço. Em português, agrupamento segmenta elementos relacionados em unidades reconhecíveis, sem afirmar um número universal de itens."
+    },
+    "contexto": "Uma lista longa mistura ações, referências e decisões. O leitor precisa classificar tudo mentalmente antes de usar. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar agrupamento e segmentação na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "Luck e Vogel é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "Luck e Vogel"
+    },
+    "problemaExistente": {
+      "definicao": "Itens sem agrupamento competem como unidades equivalentes.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Agrupar por função, etapa ou decisão e nomear cada conjunto.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-08]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "The capacity of visual working memory for features and conjunctions",
+        "href": "https://doi.org/10.1038/36846",
+        "nota": "Luck e Vogel, 1997."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Itens sem agrupamento competem como unidades equivalentes",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Agrupar bem transforma muitos itens em unidades navegáveis. — síntese a partir de Luck e Vogel",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-07",
+        "FRC-09."
+      ]
+    }
+  },
+  {
+    "id": "FRC-09",
+    "slug": "dependencias-e-cadeia-de-valor",
+    "titulo": "Dependências e cadeia de valor",
+    "fraseSintese": "Lista completa pode esconder a ordem real do trabalho. — síntese a partir de ISO",
+    "factorId": "FRC-09",
+    "macrogrupo": "Tarefa e fluxo de execução",
+    "origem": {
+      "termo": "Dependências e cadeia de valor.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Dependência vem do latim dependere, pender de algo. Cadeia vem de catena, sequência ligada. Juntas, mostram que uma ação pode só existir depois de outra."
+    },
+    "contexto": "Aprovar identidade, finalizar página e publicar campanha aparecem lado a lado, embora a segunda dependa da primeira e a terceira da segunda. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar dependências e cadeia de valor na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "ISO"
+    },
+    "problemaExistente": {
+      "definicao": "Dependências implícitas geram início prematuro, espera e retrabalho.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Representar depende de, desbloqueia, bloqueado e pronto para iniciar.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-09]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 31000:2018 — Risk management guidelines",
+        "href": "https://www.iso.org/iso-31000-risk-management.html",
+        "nota": "International Organization for Standardization, 2018."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Dependências implícitas geram início prematuro, espera e retrabalho",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Lista completa pode esconder a ordem real do trabalho. — síntese a partir de ISO",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-08",
+        "FRC-10."
+      ]
+    }
+  },
+  {
+    "id": "FRC-10",
+    "slug": "externalizacao-cognitiva",
+    "titulo": "Externalização cognitiva",
+    "fraseSintese": "O ambiente pode carregar parte do trabalho mental. — síntese a partir de Risko e Gilbert",
+    "factorId": "FRC-10",
+    "macrogrupo": "Sistema e arquitetura de suporte",
+    "origem": {
+      "termo": "Externalização cognitiva.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Externalizar vem de externo: deslocar algo para fora. Cognição vem de cognoscere, conhecer. É usar ações ou representações externas para mudar a demanda interna da tarefa."
+    },
+    "contexto": "Uma decisão permanece apenas na memória de quem a tomou. Depois de uma interrupção, o grupo precisa reconstruí-la. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar externalização cognitiva na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "Risko e Gilbert é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "Risko e Gilbert"
+    },
+    "problemaExistente": {
+      "definicao": "Estado, intenção e contexto ficam presos à memória individual.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Registrar decisões, próximos passos, gatilhos e pontos de retomada.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-10]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Cognitive Offloading",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/27542527/",
+        "nota": "Risko e Gilbert, 2016."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Estado, intenção e contexto ficam presos à memória individual",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "O ambiente pode carregar parte do trabalho mental. — síntese a partir de Risko e Gilbert",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-09",
+        "FRC-11."
+      ]
+    }
+  },
+  {
+    "id": "FRC-11",
+    "slug": "memoria-prospectiva",
+    "titulo": "Memória prospectiva",
+    "fraseSintese": "Saber o que fazer não garante lembrar na hora. — síntese a partir de Gilbert et al.",
+    "factorId": "FRC-11",
+    "macrogrupo": "Pessoa e cognição",
+    "origem": {
+      "termo": "Memória prospectiva.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Prospectivo vem do latim prospicere, olhar adiante. Memória prospectiva é lembrar de executar uma intenção futura quando chega o tempo ou o contexto adequado."
+    },
+    "contexto": "A pessoa sabe que deve enviar o relatório depois da aprovação, mas a etapa depende de ela lembrar no momento exato. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar memória prospectiva na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "Gilbert et al. é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "Gilbert et al."
+    },
+    "problemaExistente": {
+      "definicao": "Intenção futura compete com outras atividades até surgir o gatilho.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Vincular lembrete ou automação ao evento que torna a ação possível.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-11]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Optimal use of reminders: Metacognition, effort, and cognitive offloading",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/31448938/",
+        "nota": "Gilbert et al., 2019."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Intenção futura compete com outras atividades até surgir o gatilho",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Saber o que fazer não garante lembrar na hora. — síntese a partir de Gilbert et al.",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-10",
+        "FRC-12."
+      ]
+    }
+  },
+  {
+    "id": "FRC-12",
+    "slug": "excesso-de-opcoes-e-padroes-manipulativos",
+    "titulo": "Excesso de opções e padrões manipulativos",
+    "fraseSintese": "Escolha útil exige opções compreensíveis e honestas. — síntese a partir de W3C WAI",
+    "factorId": "FRC-12",
+    "macrogrupo": "Informação e interface",
+    "origem": {
+      "termo": "Excesso de opções e padrões manipulativos.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Opção vem do latim optio, escolha. Dark pattern é um padrão de interface que direciona decisões contra o interesse do usuário; aqui usamos “padrão manipulativo”."
+    },
+    "contexto": "Uma tela oferece muitas alternativas, pré-seleciona a mais vantajosa ao serviço e dificulta comparar consequências. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar excesso de opções e padrões manipulativos na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C WAI é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C WAI"
+    },
+    "problemaExistente": {
+      "definicao": "Quantidade, assimetria e manipulação tornam a escolha mais trabalhosa.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Reduzir opções irrelevantes e apresentar consequências com simetria.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-12]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Avoid Too Much Content",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p03-manageable-quantity/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Quantidade, assimetria e manipulação tornam a escolha mais trabalhosa",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Escolha útil exige opções compreensíveis e honestas. — síntese a partir de W3C WAI",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-11",
+        "FRC-13."
+      ]
+    }
+  },
+  {
+    "id": "FRC-13",
+    "slug": "fadiga-decisoria",
+    "titulo": "Fadiga decisória",
+    "fraseSintese": "Decisões repetidas podem degradar a qualidade da escolha. — síntese a partir de Pignatiello et al.",
+    "factorId": "FRC-13",
+    "macrogrupo": "Pessoa e cognição",
+    "origem": {
+      "termo": "Fadiga decisória.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Decisão vem do latim decidere, cortar fora alternativas. Fadiga vem de fatigare, cansar. O termo descreve piora associada a sucessivas decisões, mas seus efeitos dependem de contexto e evidência."
+    },
+    "contexto": "Ao longo do dia, uma pessoa decide prioridades, canais, formatos e exceções. No fim, escolhas simples passam a ser adiadas ou automáticas. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar fadiga decisória na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "Pignatiello et al. é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "Pignatiello et al."
+    },
+    "problemaExistente": {
+      "definicao": "Muitas decisões recorrentes consomem tempo e controle executivo.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Padronizar escolhas repetitivas e reservar decisão para exceções reais.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-13]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Decision Fatigue: A Conceptual Analysis",
+        "href": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6119549/",
+        "nota": "Pignatiello, Martin e Hickman, 2018."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Muitas decisões recorrentes consomem tempo e controle executivo",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Decisões repetidas podem degradar a qualidade da escolha. — síntese a partir de Pignatiello et al.",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-12",
+        "FRC-14."
+      ]
+    }
+  },
+  {
+    "id": "FRC-14",
+    "slug": "ambiente-fisico-e-ergonomia",
+    "titulo": "Ambiente físico e ergonomia",
+    "fraseSintese": "O ambiente deve se ajustar ao trabalho humano. — síntese a partir de ISO",
+    "factorId": "FRC-14",
+    "macrogrupo": "Ambiente e contexto",
+    "origem": {
+      "termo": "Ambiente físico e ergonomia.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Ergonomia combina o grego ergon, trabalho, e nomos, regra. O campo estuda como sistemas, tarefas e ambientes podem ser projetados para pessoas."
+    },
+    "contexto": "Ruído, iluminação inadequada, desconforto e layout ruim competem com a tarefa e tornam a permanência mais custosa. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar ambiente físico e ergonomia na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "ISO"
+    },
+    "problemaExistente": {
+      "definicao": "Condições físicas e organizacionais acrescentam demanda evitável.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Ajustar posto, sinais, ruído, iluminação, pausas e circulação ao contexto.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-14]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 10075-2:2024 — Ergonomic principles related to mental workload",
+        "href": "https://www.iso.org/standard/76686.html",
+        "nota": "International Organization for Standardization, 2024."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Condições físicas e organizacionais acrescentam demanda evitável",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "O ambiente deve se ajustar ao trabalho humano. — síntese a partir de ISO",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-13",
+        "FRC-15."
+      ]
+    }
+  },
+  {
+    "id": "FRC-15",
+    "slug": "ambiente-digital",
+    "titulo": "Ambiente digital",
+    "fraseSintese": "Digitalizar não garante reduzir trabalho cognitivo. — síntese a partir de W3C WAI",
+    "factorId": "FRC-15",
+    "macrogrupo": "Ambiente e contexto",
+    "origem": {
+      "termo": "Ambiente digital.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Digital deriva do latim digitus, dedo, e passou a nomear representação numérica e computacional. Ambiente digital é o conjunto de ferramentas, estados e interações, não um aplicativo isolado."
+    },
+    "contexto": "Uma tarefa exige e-mail, calendário, arquivos, planilha e gerenciador. Cada ferramenta funciona, mas a pessoa sustenta a integração. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar ambiente digital na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C WAI é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C WAI"
+    },
+    "problemaExistente": {
+      "definicao": "Estados distribuídos, duplicação e notificações fragmentam a continuidade.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Criar ponto único de continuidade, integrar estados e limitar interrupções.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-15]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Limit Interruptions",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p01-minimal-interruptions/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Estados distribuídos, duplicação e notificações fragmentam a continuidade",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Digitalizar não garante reduzir trabalho cognitivo. — síntese a partir de W3C WAI",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-14",
+        "FRC-16."
+      ]
+    }
+  },
+  {
+    "id": "FRC-16",
+    "slug": "rotina-habitos-e-contexto",
+    "titulo": "Rotina hábitos e contexto",
+    "fraseSintese": "Contexto estável reduz decisões repetidas de início. — síntese a partir de ISO",
+    "factorId": "FRC-16",
+    "macrogrupo": "Ambiente e contexto",
+    "origem": {
+      "termo": "Rotina hábitos e contexto.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Rotina vem do francês route, caminho; hábito vem do latim habitus, modo adquirido. A ideia não é rigidez, mas pistas estáveis que tornam o início menos dependente de decisão."
+    },
+    "contexto": "A mesma atividade começa em horários, locais e ferramentas diferentes. Toda sessão exige reconstruir como iniciar. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar rotina hábitos e contexto na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "ISO"
+    },
+    "problemaExistente": {
+      "definicao": "Ausência de pistas estáveis aumenta preparação e decisão recorrente.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Definir gatilho, local, sequência curta e condição de encerramento.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-16]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 10075-2:2024 — Ergonomic principles related to mental workload",
+        "href": "https://www.iso.org/standard/76686.html",
+        "nota": "International Organization for Standardization, 2024."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Ausência de pistas estáveis aumenta preparação e decisão recorrente",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Contexto estável reduz decisões repetidas de início. — síntese a partir de ISO",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-15",
+        "FRC-17."
+      ]
+    }
+  },
+  {
+    "id": "FRC-17",
+    "slug": "preparacao-antes-da-execucao",
+    "titulo": "Preparação antes da execução",
+    "fraseSintese": "Preparar o caminho evita decidir durante cada passo. — síntese a partir de W3C COGA",
+    "factorId": "FRC-17",
+    "macrogrupo": "Tarefa e fluxo de execução",
+    "origem": {
+      "termo": "Preparação antes da execução.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Preparar vem do latim praeparare, deixar pronto antes. Execução vem de exsequi, levar até o fim. Preparação organiza recursos e critérios antes da ação principal."
+    },
+    "contexto": "A pessoa inicia e descobre que faltam arquivo, aprovação, ferramenta ou instrução. O trabalho para e precisa ser retomado depois. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar preparação antes da execução na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C COGA é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C COGA"
+    },
+    "problemaExistente": {
+      "definicao": "Pré-condições não verificadas transformam execução em busca e espera.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Usar entrada mínima: objetivo, recursos, dependências e pronto para iniciar.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-17]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Making Content Usable for People with Cognitive and Learning Disabilities",
+        "href": "https://www.w3.org/TR/coga-usable/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Pré-condições não verificadas transformam execução em busca e espera",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Preparar o caminho evita decidir durante cada passo. — síntese a partir de W3C COGA",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-16",
+        "FRC-18."
+      ]
+    }
+  },
+  {
+    "id": "FRC-18",
+    "slug": "competicao-pela-atencao",
+    "titulo": "Competição pela atenção",
+    "fraseSintese": "Quando tudo chama atenção nada orienta a ação. — síntese a partir de W3C WAI",
+    "factorId": "FRC-18",
+    "macrogrupo": "Pessoa e cognição",
+    "origem": {
+      "termo": "Competição pela atenção.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Atenção vem do latim attendere, voltar-se para algo. Competição descreve sinais simultâneos disputando seleção, inclusive quando nenhum é realmente prioritário."
+    },
+    "contexto": "Alertas, cores, sons, mensagens e tarefas urgentes aparecem juntos. A pessoa precisa decidir continuamente o que ignorar. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar competição pela atenção na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "W3C WAI é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "W3C WAI"
+    },
+    "problemaExistente": {
+      "definicao": "Sinais simultâneos tornam prioridade e relevância menos distinguíveis.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Remover alertas dispensáveis e reservar saliência para eventos acionáveis.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-18]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "Limit Interruptions",
+        "href": "https://www.w3.org/WAI/WCAG2/supplemental/patterns/o5p01-minimal-interruptions/",
+        "nota": "W3C WAI, 2021."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Sinais simultâneos tornam prioridade e relevância menos distinguíveis",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Quando tudo chama atenção nada orienta a ação. — síntese a partir de W3C WAI",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-17",
+        "FRC-19."
+      ]
+    }
+  },
+  {
+    "id": "FRC-19",
+    "slug": "sobrecarga-cognitiva-sistemica",
+    "titulo": "Sobrecarga cognitiva sistêmica",
+    "fraseSintese": "Pequenas fricções podem formar um problema do sistema. — síntese a partir de ISO",
+    "factorId": "FRC-19",
+    "macrogrupo": "Sistema e arquitetura de suporte",
+    "origem": {
+      "termo": "Sobrecarga cognitiva sistêmica.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Sobrecarga une sobre e carga; sistêmico vem do grego systema, conjunto organizado. O termo descreve demandas acumuladas entre componentes, não uma falha isolada da pessoa."
+    },
+    "contexto": "Localizar informação, entender a tarefa, alternar telas, lembrar dependências e recuperar contexto fazem parte da mesma entrega. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar sobrecarga cognitiva sistêmica na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "ISO"
+    },
+    "problemaExistente": {
+      "definicao": "Fricções distribuídas se acumulam e escondem a causa operacional.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Mapear a cadeia inteira e remover demandas evitáveis em cada ponto.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-19]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 10075-2:2024 — Ergonomic principles related to mental workload",
+        "href": "https://www.iso.org/standard/76686.html",
+        "nota": "International Organization for Standardization, 2024."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Fricções distribuídas se acumulam e escondem a causa operacional",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Pequenas fricções podem formar um problema do sistema. — síntese a partir de ISO",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-18",
+        "FRC-20."
+      ]
+    }
+  },
+  {
+    "id": "FRC-20",
+    "slug": "cadeia-de-desvalor-para-cadeia-de-valor",
+    "titulo": "Cadeia de desvalor para cadeia de valor",
+    "fraseSintese": "Controle útil transforma barreira em aprendizado operacional. — síntese a partir de ISO",
+    "factorId": "FRC-20",
+    "macrogrupo": "Sistema e arquitetura de suporte",
+    "origem": {
+      "termo": "Cadeia de desvalor para cadeia de valor.",
+      "significado": "Condição da execução que merece observação e controle.",
+      "etimologia": "Valor vem do latim valere, ter força ou utilidade. “Cadeia de desvalor cognitivo” é construção do EXECUTAR para rastrear onde a execução perde capacidade antes de gerar resultado."
+    },
+    "contexto": "Uma barreira produz retrabalho, mas ninguém registra causa, controle ou resultado. A mesma fricção reaparece no ciclo seguinte. O fator não caracteriza risco sozinho: precisa ser analisado com objetivo, contexto, vulnerabilidade, exposição e impacto.",
+    "cincoWDoisH": [
+      {
+        "variavel": "O que?",
+        "sintese": "Investigar cadeia de desvalor para cadeia de valor na execução real."
+      },
+      {
+        "variavel": "Por quê?",
+        "sintese": "Reduzir demanda evitável e proteger o objetivo."
+      },
+      {
+        "variavel": "Onde?",
+        "sintese": "Pessoa, tarefa, ambiente, processo ou tecnologia."
+      },
+      {
+        "variavel": "Quando?",
+        "sintese": "Quando esforço, erro, espera ou retrabalho aumentarem."
+      },
+      {
+        "variavel": "Quem?",
+        "sintese": "Executor, responsável pelo processo e projetista do sistema."
+      },
+      {
+        "variavel": "Como?",
+        "sintese": "Observar sinais, testar controle e comparar resultado."
+      },
+      {
+        "variavel": "Quanto?",
+        "sintese": "Um experimento pequeno por ciclo de execução."
+      }
+    ],
+    "referencia": {
+      "texto": "ISO é usado como referência central deste framework porque a fonte associada documenta princípios ou achados diretamente aplicáveis ao fator. A centralidade vale para este recorte; não significa consenso exclusivo sobre todo o tema.",
+      "autorCurto": "ISO"
+    },
+    "problemaExistente": {
+      "definicao": "Problema tratado isoladamente não retorna como aprendizagem do sistema.",
+      "identificacao": "Aparece como esforço extra, atraso, erro, esquecimento, espera ou reconstrução.",
+      "explicacao": "A execução absorve uma demanda que poderia estar no desenho do sistema.",
+      "fechamento": "A capacidade disponível deixa de servir integralmente ao objetivo."
+    },
+    "problemaSolucionado": {
+      "definicao": "A parte controlável do fator fica visível e recebe um experimento.",
+      "identificacao": "Encadear barreira, controle, processo adaptado, evidência e aprendizado.",
+      "explicacao": "O controle transfere demanda evitável para ambiente, processo ou tecnologia.",
+      "fechamento": "O resultado passa a ser observado sem prometer eliminação do problema."
+    },
+    "processo": [
+      "Entender: registrar situação, objetivo, sinais e impacto observável.",
+      "Estruturar: localizar o fator e escolher um controle pequeno e reversível.",
+      "Executar: aplicar o controle, comparar antes e depois e registrar aprendizado."
+    ],
+    "visaoSistemaMermaid": "flowchart TD\n  A[Objetivo] --> B[Contexto]\n  B --> C[FRC-20]\n  C --> D[Demanda cognitiva]\n  D --> E[Controle testável]\n  E --> F[Evidência e aprendizado]",
+    "progressoEsperado": "Antes, a pessoa sustenta parte do sistema mentalmente. Com um controle pequeno, observa menos reconstrução ou esforço evitável. Depois, a próxima ação, o estado e o critério ficam mais visíveis no cotidiano, sem afirmar resultado universal.",
+    "aviso": "Conteúdo educativo e operacional. Não diagnostica condição clínica nem transforma característica individual em risco. O efeito depende da pessoa, tarefa, ambiente e contexto.",
+    "next": {
+      "passos": [
+        "Next 01 — Entender: escolha uma situação real e descreva onde o esforço aparece.",
+        "Next 02 — Estruturar: selecione um controle diretamente ligado ao fator observado.",
+        "Next 03 — Executar: teste por um ciclo, compare sinais e registre o que mudou."
+      ],
+      "mermaid": "flowchart TD\n  A[Entender a situação] --> B[Estruturar um controle]\n  B --> C[Executar por um ciclo]\n  C --> D[Comparar e aprender]"
+    },
+    "fontes": [
+      {
+        "label": "ISO 31000:2018 — Risk management guidelines",
+        "href": "https://www.iso.org/iso-31000-risk-management.html",
+        "nota": "International Organization for Standardization, 2018."
+      },
+      {
+        "label": "RC-KNW-001 Knowledge Pack TP-001",
+        "href": "../../00-fonte/RC-KNW-001-INVENTARIO.md",
+        "nota": "corpus canônico fornecido pelo usuário."
+      }
+    ],
+    "infografico": {
+      "premissa1": "Problema tratado isoladamente não retorna como aprendizagem do sistema",
+      "premissa2": "Observar, estruturar controle, testar e registrar evidência.",
+      "premissa3": "Menos demanda evitável e mais continuidade observável.",
+      "conclusao": "Controle útil transforma barreira em aprendizado operacional. — síntese a partir de ISO",
+      "ilustracaoTopo": "Cena editorial que contrasta demanda invisível com controle externalizado.",
+      "relacionados": [
+        "FRC-19",
+        "FRC-01."
+      ]
+    }
+  }
+]

@@ -1,0 +1,93 @@
+import {
+  actionUnavailableReason,
+  areaLabel,
+  isPublished,
+  productTypeLabel,
+  type Solution,
+} from "@repo/solution-store";
+import Link from "next/link";
+
+/**
+ * The card is the primary unit of discovery (ADR-UX-001) and is shared
+ * across solutions, articles and learning content.
+ *
+ * It reports the solution's real lifecycle state rather than implying
+ * availability: none of the current records has cleared G6, and a card
+ * that looked like a shipped product would misstate the pipeline they are
+ * genuinely in.
+ */
+export function SolutionCard({ solution }: { readonly solution: Solution }) {
+  const { identity, card, lifecycle } = solution;
+  const content = card?.content;
+  const primaryBlocked = actionUnavailableReason(card?.actions?.primary);
+
+  return (
+    <article style={{ background: "var(--ed-bg)" }}>
+      <Link
+        className="flex h-full flex-col gap-3 p-6"
+        href={`/oficina/${identity.slug}`}
+        style={{ minHeight: 260 }}
+      >
+        <span
+          className="ed-text-caption uppercase tracking-[.1em]"
+          style={{ color: "var(--ed-label-secondary)" }}
+        >
+          {content?.eyebrow ?? productTypeLabel(identity.product_type)}
+        </span>
+
+        <h3 className="ed-text-headline font-semibold leading-tight">
+          {content?.title ?? identity.solution_name}
+        </h3>
+
+        <p
+          className="ed-text-small flex-1"
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
+        >
+          {content?.short_description ??
+            solution.public_layer?.problem_statement ??
+            ""}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {content?.primary_area || identity.category ? (
+            <span
+              className="ed-text-caption"
+              style={{
+                border: "1px solid var(--ed-separator)",
+                padding: "4px 8px",
+              }}
+            >
+              {areaLabel(content?.primary_area) ?? identity.category}
+            </span>
+          ) : null}
+
+          {/*
+            State, not a badge of approval. `isPublished` is G6, and the
+            blocked-action note says why Start isn't offered yet.
+          */}
+          <span
+            className="ed-text-caption"
+            style={{
+              padding: "4px 8px",
+              background: isPublished(solution)
+                ? "var(--ed-accent)"
+                : "var(--ed-bg-grouped)",
+              color: "var(--ed-label-primary)",
+            }}
+          >
+            {isPublished(solution)
+              ? "Publicado"
+              : (lifecycle?.current_state ?? "Em produção")}
+          </span>
+        </div>
+
+        <span
+          className="ed-text-caption"
+          style={{ color: "var(--ed-label-secondary)" }}
+        >
+          {primaryBlocked ? primaryBlocked : "Pronto para usar →"}
+        </span>
+      </Link>
+    </article>
+  );
+}

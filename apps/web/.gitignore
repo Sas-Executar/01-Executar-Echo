@@ -1,2 +1,7 @@
 .vercel
 .env*
+
+# Playwright output. These are run artifacts, not source — and a committed
+# .last-run.json is what turned the Lint check red on 44c3700.
+test-results/
+playwright-report/

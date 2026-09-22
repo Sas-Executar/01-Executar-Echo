@@ -1,4 +1,3 @@
-import { authMiddleware } from "@repo/auth/proxy";
 import { internationalizationMiddleware } from "@repo/internationalization/proxy";
 import { parseError } from "@repo/observability/error";
 import { secure } from "@repo/security";
@@ -14,14 +13,16 @@ import { env } from "@/env";
 
 export const config = {
   // matcher tells Next.js which routes to run the middleware on. This runs the
-  // middleware on all routes except for static assets and Posthog ingest
+  // middleware on all routes except for static assets and Posthog ingest.
+  //
+  // `api` and `.well-known` are excluded because they are not localized:
+  // the i18n middleware rewrites every matched path under a [locale]
+  // segment, so POST /api/vera became /en/api/vera — a route that does not
+  // exist — and the endpoint 404'd while the page calling it looked fine.
   matcher: [
-    "/((?!_next/static|_next/image|ingest|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/((?!api|\\.well-known|_next/static|_next/image|ingest|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
-
-const CLERK_HANDSHAKE_FAILURE =
-  /Handshake token verification failed|jwk-kid-mismatch/;
 
 const securityHeaders = env.FLAGS_SECRET
   ? securityMiddleware(noseconeOptionsWithToolbar)
@@ -49,7 +50,6 @@ const arcjetMiddleware = async (request: NextRequest) => {
   }
 };
 
-// Compose non-Clerk middleware with Nemo
 const composedMiddleware = createNEMO(
   {},
   {
@@ -57,74 +57,73 @@ const composedMiddleware = createNEMO(
   }
 );
 
-// Clerk middleware wraps other middleware in its callback
-const clerkProxy = authMiddleware(async (_auth, request, event) => {
-  // Run composed middleware (i18n + arcjet) first: the i18n rewrite is what
-  // makes the bare "/" resolve to "/[locale]" at all (next-international's
-  // "rewriteDefault" strategy). Security headers are decorative by
-  // comparison — nosecone's own middleware has been observed throwing a
-  // non-Error value intermittently (see WORKFLOW_01_01_EXECUTION_LOG.md,
-  // 2026-09-20), and running it first meant that throw aborted this whole
-  // callback before the rewrite ever ran, sending the un-rewritten "/"
-  // straight to Next's router — which 404s, since no route matches a bare
-  // "/" under the required [locale] segment. Guarding it here so a
-  // decorative-header failure degrades to "missing extra headers on this
-  // response" instead of "wrong route entirely".
-  const middlewareResponse = await composedMiddleware(
-    request as unknown as NextRequest,
-    event
-  );
+/**
+ * The root path's cache key is poisoned, repeatedly and durably.
+ *
+ * Measured on production: "/" returns a prerendered 404 with
+ * `x-vercel-cache: HIT`, `x-nextjs-prerender: 1` and an `age` in the
+ * hundreds of seconds, while the same URL with a cache-buster returns
+ * 200. The application is correct; what is served is a stale artifact
+ * from before the locale rewrite worked, and it has survived three
+ * deployments (GATE_LOG: "o 404 estático ficou fixado no CDN").
+ *
+ * Marking the rewrite of "/" `no-store` stops the edge from holding any
+ * entry under that key, so a stale one can never be served again — the
+ * homepage is a rewrite to a dynamic locale route, not a static asset,
+ * and there is nothing at this key worth caching.
+ */
+const markRootUncacheable = (request: NextRequest, response: Response) => {
+  if (request.nextUrl.pathname === "/") {
+    response.headers.set("cache-control", "private, no-store, max-age=0");
+  }
+  return response;
+};
 
-  let headersResponse: Awaited<ReturnType<typeof securityHeaders>> | undefined;
-  try {
-    // securityHeaders() returns a Promise (@nosecone/next's createMiddleware
-    // signature: () => Promise<Response>) — must be awaited inside the try,
-    // or a rejection surfaces after this catch already returned, which is
-    // exactly what kept producing "Error: [object Object]" in production
-    // after the first (synchronous try/catch only) attempt at this guard.
-    headersResponse = await securityHeaders();
-  } catch (error) {
-    parseError(error);
+/**
+ * apps/web's middleware. Deliberately does not run Clerk.
+ *
+ * This app is the public surface: no route renders authenticated UI and
+ * no page reads a session. Clerk was here only because next-forge wraps
+ * every app's middleware in it, and running it on a site with nothing to
+ * authenticate produced a steady class of outages rather than any
+ * benefit:
+ *
+ *   - GATE-MOBILE-001: a truncated publishable key redirected "/" to a
+ *     host that does not resolve; the homepage 404'd in 23 of 25 checks.
+ *   - c3d9821: a stale or foreign __session cookie threw out of Clerk's
+ *     own handshake verification, before any of this file's guards could
+ *     reach it, and returned a hard 500 on every route.
+ *   - Verified on the deployed site while checking failing requests:
+ *     Clerk was still issuing handshake redirects, and
+ *     /oficina/learn?__clerk_handshake=… came back 404.
+ *
+ * Two previous fixes tried to make that coupling survivable. Removing it
+ * is simpler and strictly safer: a visitor here is anonymous by
+ * definition. apps/app, which does render sign-in state, keeps Clerk.
+ *
+ * The i18n rewrite is what makes a bare "/" resolve to "/[locale]" at
+ * all (next-international's "rewriteDefault" strategy), so it runs
+ * first. Security headers are decorative by comparison — nosecone's
+ * middleware has been observed throwing a non-Error value intermittently
+ * (WORKFLOW_01_01_EXECUTION_LOG.md, 2026-09-20), and letting that abort
+ * the rewrite sent an un-rewritten "/" to Next's router, which 404s.
+ * Guarded so a header failure degrades to "missing extra headers"
+ * instead of "wrong route entirely".
+ */
+export default (async (request: NextRequest, event: NextFetchEvent) => {
+  const rewritten = await composedMiddleware(request, event);
+
+  if (rewritten) {
+    return markRootUncacheable(request, rewritten);
   }
 
-  // Return middleware response if it exists, otherwise headers response
-  return middlewareResponse || headersResponse;
-}) as unknown as NextProxy;
-
-// Clerk's own handshake verification runs before our callback ever gets
-// control, so a bad __session cookie throws out of clerkProxy() itself —
-// the try/catch inside the callback above can't reach it. Seen in
-// production on 2026-09-22: a visitor with a stale/foreign Clerk session
-// cookie (JWKS "kid" not present in this instance) got a hard 500 on every
-// route instead of just being treated as signed out. Clearing the cookie
-// and falling back to the composed (non-Clerk) middleware keeps the site
-// up for that request; the visitor is simply unauthenticated until they
-// sign in again.
-export default (async (request: NextRequest, event: NextFetchEvent) => {
   try {
-    return await (
-      clerkProxy as unknown as (
-        req: NextRequest,
-        ev: NextFetchEvent
-      ) => Promise<Response>
-    )(request, event);
-  } catch (error) {
-    const isHandshakeFailure =
-      error instanceof Error && CLERK_HANDSHAKE_FAILURE.test(error.message);
-    if (!isHandshakeFailure) {
-      throw error;
-    }
-    parseError(error);
-    // Still run the i18n rewrite so a bare "/" doesn't 404 (see the
-    // composedMiddleware comment above) — just skip Clerk entirely.
-    const rewritten = await composedMiddleware(
-      request as unknown as NextRequest,
-      event
+    return markRootUncacheable(
+      request,
+      (await securityHeaders()) ?? NextResponse.next()
     );
-    const fallback =
-      (rewritten as unknown as NextResponse) ?? NextResponse.next();
-    fallback.cookies.delete("__session");
-    fallback.cookies.delete("__client_uat");
-    return fallback;
+  } catch (error) {
+    parseError(error);
+    return markRootUncacheable(request, NextResponse.next());
   }
 }) as unknown as NextProxy;

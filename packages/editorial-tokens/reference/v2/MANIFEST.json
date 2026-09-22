@@ -1,0 +1,89 @@
+{
+  "package": {
+    "id": "EXECUTAR-BLOG-HANDOFF-002",
+    "version": "2.0",
+    "area": "Design Editorial / UX / Front-end",
+    "workflow": "Identidade → Tokens → Componentes → Wireframes → Implementação → QA",
+    "owner": "A_DEFINIR",
+    "status": "READY_FOR_IMPLEMENTATION",
+    "automation_level": "A4",
+    "identity": "EXECUTAR Native Editorial",
+    "supersedes": "EXECUTAR-BLOG-HANDOFF-001"
+  },
+  "canonical_order": [
+    "00_IDENTITY_CONTRACT.md",
+    "01_ADR-002_IDENTITY.md",
+    "02_TOKENS_CANONICAL.json",
+    "03_COMPONENT_CONTRACTS.md",
+    "04_WIREFRAMES_CANONICAL.md",
+    "05_FRONTEND_HANDOFF.md",
+    "06_ACCEPTANCE_CRITERIA.md"
+  ],
+  "files": [
+    {
+      "path": "00_IDENTITY_CONTRACT.md",
+      "sha256": "3c92eff15f858dabe68c0bd0372cb9c79dc54dd2e996a29b1c8036a4aac70238",
+      "bytes": 3115
+    },
+    {
+      "path": "01_ADR-002_IDENTITY.md",
+      "sha256": "d16c4690a37881eec2937772e7d87a00238bb63f3f493248e5d4c6c511461ade",
+      "bytes": 1935
+    },
+    {
+      "path": "02_TOKENS_CANONICAL.css",
+      "sha256": "d7e9a91489e57cd4de17aad57da075db8774b61738b08f9fe1da3a02cf0052a6",
+      "bytes": 2391
+    },
+    {
+      "path": "02_TOKENS_CANONICAL.json",
+      "sha256": "f8c152b67d3ea56ab969c2432f2fa9cb54a38a17061df97afe89a68734184aea",
+      "bytes": 3388
+    },
+    {
+      "path": "03_COMPONENT_CONTRACTS.md",
+      "sha256": "c19bba50c9fb84055896eef55a86a0a538bd0b056af6618134471399c8836930",
+      "bytes": 1921
+    },
+    {
+      "path": "04_WIREFRAMES_CANONICAL.md",
+      "sha256": "10d2330780b9ae3fd76b8c647f664b1661f3b57268724610746e9313fc50012a",
+      "bytes": 3319
+    },
+    {
+      "path": "05_FRONTEND_HANDOFF.md",
+      "sha256": "f2384cec06cc0595aa6cdf9e96ce82ac848d8923c716869abeaf213aba73411a",
+      "bytes": 1393
+    },
+    {
+      "path": "06_ACCEPTANCE_CRITERIA.md",
+      "sha256": "1fa3b0aab97441094792093735fbfb5020eb6c1abd088f8c6695924cb23b4e22",
+      "bytes": 1148
+    },
+    {
+      "path": "07_MIGRATION_V1_TO_V2.md",
+      "sha256": "50544cdd07d3f85de3a0354991c97e0dd145d9bee722527f7627446fc97002f4",
+      "bytes": 931
+    },
+    {
+      "path": "08_EVIDENCE.md",
+      "sha256": "c124686e6447071a642284091db1f8d3a8fde92fe6d4b3ee519f7b190611f864",
+      "bytes": 1177
+    },
+    {
+      "path": "README.md",
+      "sha256": "348980517c1d3c8d3ef3e26dfaf71e44f1d7c9e053962d36918268bb9a217382",
+      "bytes": 771
+    },
+    {
+      "path": "assets/README.md",
+      "sha256": "f3df147302be2a429767cfcb358d3706c9126c034941e51415865aa543c8227c",
+      "bytes": 152
+    },
+    {
+      "path": "assets/REFERENCE_ONLY_WIREFRAME_V1.png",
+      "sha256": "001734e538b35959ce34f64d0dac086eceb9d2e0777c67608618afa4608723c9",
+      "bytes": 1480345
+    }
+  ]
+}

@@ -1,0 +1,448 @@
+/**
+ * @repo/editorial-tokens — CSS output for the EXECUTAR public/editorial
+ * surfaces. Identity: EXECUTAR Native Editorial v2
+ * (`EXECUTAR-BLOG-IDENTITY-001` v2.0, ADR-DS-004), ported from
+ * `../reference/v2/02_TOKENS_CANONICAL.css`. Hand-authored, kept 1:1 in
+ * sync with `../src/*.ts`; `../scripts/check-drift.ts` diffs the two plus
+ * the vendored canonical file on every CI run.
+ *
+ * THE ISOLATION RULE
+ * ------------------
+ * Every declaration in this file lives under `[data-surface="editorial"]`.
+ * Nothing here is emitted at `:root`, and nothing here redefines a
+ * `--ds-*` variable. That is what lets apps/web dress its public surfaces
+ * in the editorial identity while apps/app and apps/mobile keep the
+ * product Design System (@repo/design-tokens, ADR-DS-001) untouched.
+ *
+ * The canonical file writes its roles at `:root` and its dark appearance
+ * at `@media (prefers-color-scheme: dark) :root`. Porting it verbatim
+ * would repaint the product apps, so both blocks are re-scoped here. The
+ * values are unchanged; only the selector is.
+ *
+ * `.github/workflows/ci.yml` (job `editorial-isolation`) fails the build
+ * if a rule escapes that selector, if `--ed-*` appears in apps/app or
+ * apps/mobile, or if packages/design-tokens changes hash.
+ *
+ * ROLES, NOT HEXES
+ * ----------------
+ * Identity contract rule 3: "Os componentes consomem papéis, não
+ * hexadecimais". The `--ed-*` names below are semantic roles, and the
+ * light and dark blocks are two appearances of one identity — a component
+ * written against `--ed-label-secondary` is correct in both without
+ * knowing either exists.
+ *
+ * WHY THE SHADCN BRIDGE IS REDECLARED BELOW
+ * -----------------------------------------
+ * packages/design-system/styles/globals.css maps shadcn's semantic
+ * variables (--background, --foreground, --primary, --border, --ring,
+ * --radius …) onto the product tokens at `:root`, and exposes them to
+ * Tailwind via `@theme inline`. Because `@theme inline` resolves those
+ * utilities to the *variable reference*, redeclaring the same variables
+ * on a descendant element re-points every `bg-background`,
+ * `text-foreground`, `border-border` … utility inside that subtree
+ * without touching the product mapping or forking the component library.
+ * Both the bare (`--background`) and the theme-key (`--color-background`)
+ * spellings are set, so the override holds under either compilation mode.
+ */
+
+[data-surface="editorial"] {
+  /*
+   * Two appearances, one identity. `color-scheme` tells the UA to render
+   * form controls, scrollbars and the canvas for whichever appearance is
+   * active — without it the dark block below would leave native controls
+   * light-on-dark.
+   */
+  --ed-bg: #ffffff;
+  --ed-bg-grouped: #f5f5f7;
+  --ed-surface-elevated: rgba(255, 255, 255, 0.78);
+
+  /* ---- Label roles. Content dominates; chrome recedes. ---- */
+  --ed-label-primary: #1d1d1f;
+  --ed-label-secondary: #6e6e73;
+  --ed-label-tertiary: #86868b;
+  --ed-separator: rgba(60, 60, 67, 0.18);
+
+  /* ---- Fill roles, for non-text surfaces (chips, tracks, wells). ---- */
+  --ed-fill-primary: rgba(120, 120, 128, 0.2);
+  --ed-fill-secondary: rgba(120, 120, 128, 0.12);
+
+  /*
+   * Brand accent. Reserved for selection, progress, microindicators and
+   * short highlights — never a decorative field or repeated fill. The
+   * yellow h2 rule bar of v6 is gone for exactly this reason.
+   */
+  --ed-accent: #ffcc00;
+  --ed-label-on-accent: #1d1d1f;
+  /*
+   * System focus blue. ADR-DS-003 banned blue outright; ADR-DS-004
+   * narrows that to the product azure (#1f93ff) as an identity colour and
+   * requires the system focus ring, which is what users recognise as
+   * focus.
+   */
+  --ed-focus: #0a84ff;
+  --ed-success: #34c759;
+  --ed-warning: #ff9f0a;
+  --ed-error: #ff3b30;
+
+  /* ---- Type families — src/typography.ts. System stack only. ---- */
+  --ed-font-ui:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --ed-font-display:
+    -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+
+  /* ---- Type scale. ---- */
+  --ed-display-xl: clamp(2.75rem, 6vw, 4.5rem);
+  --ed-display-lg: clamp(2.25rem, 4.5vw, 3.5rem);
+  --ed-display-md: clamp(1.75rem, 3.5vw, 2.75rem);
+  --ed-headline: clamp(1.375rem, 2.5vw, 2rem);
+  --ed-body-lg: 1.1875rem;
+  --ed-body: 1.0625rem;
+  --ed-small: 0.9375rem;
+  --ed-caption: 0.8125rem;
+
+  /*
+   * ---- Tracking — src/typography.ts `tracking`. ----
+   * Keyed to the size it rides with. Direction follows the HIG's
+   * documented rule (tighter as size grows, looser at small sizes); the
+   * values are this package's own approximation of that rule, not a
+   * table transcribed from an Apple-published kit — see ADR-DS-004.
+   */
+  --ed-tracking-display-xl: -0.022em;
+  --ed-tracking-display-lg: -0.019em;
+  --ed-tracking-display-md: -0.015em;
+  --ed-tracking-headline: -0.01em;
+  --ed-tracking-body-lg: -0.003em;
+  --ed-tracking-body: 0em;
+  --ed-tracking-small: 0.005em;
+  --ed-tracking-caption: 0.01em;
+
+  /*
+   * ---- Icon scale — src/typography.ts `iconScale`/`iconStroke`. ----
+   * Sized to the HIG's documented small/medium/large symbol scale
+   * (proportioned to adjacent text), not to an arbitrary pixel grid. No
+   * SF Symbols glyph is used or redistributed.
+   */
+  --ed-icon-sm: 16px;
+  --ed-icon-md: 20px;
+  --ed-icon-lg: 24px;
+  --ed-icon-stroke-regular: 1.5;
+  --ed-icon-stroke-medium: 2;
+
+  /* ---- Spacing scale — src/layout.ts `space`. ---- */
+  --ed-space-1: 4px;
+  --ed-space-2: 8px;
+  --ed-space-3: 12px;
+  --ed-space-4: 16px;
+  --ed-space-5: 20px;
+  --ed-space-6: 24px;
+  --ed-space-8: 32px;
+  --ed-space-10: 40px;
+  --ed-space-12: 48px;
+  --ed-space-16: 64px;
+  --ed-space-20: 80px;
+
+  /* ---- Form. Moderate radii; shape is discreet, not assertive. ---- */
+  --ed-radius-control: 12px;
+  --ed-radius-container: 16px;
+  --ed-radius-large: 22px;
+  --ed-radius-capsule: 999px;
+
+  /* ---- Measure — src/layout.ts `layout`. ---- */
+  --ed-measure-article: 66ch;
+  --ed-reading-max: 760px;
+  --ed-content-max: 1180px;
+  --ed-touch-min: 44px;
+
+  /* ---- Motion — src/motion.ts. ---- */
+  --ed-motion-fast: 120ms;
+  --ed-motion-standard: 220ms;
+  --ed-motion-slow: 360ms;
+  --ed-motion-curve: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* ---- Reading pair — src/typography.ts `reading`. ---- */
+  --ed-reading-font-size: 1.0625rem;
+  --ed-reading-line-height: 1.6;
+
+  /* ---- Chrome geometry — src/layout.ts `chrome`. ---- */
+  --ed-nav-h: 56px;
+  --ed-bottombar-h: 64px;
+  --ed-drawer-w: min(84vw, 360px);
+  --ed-gutter: clamp(20px, 4vw, 44px);
+  --ed-gap: 12px;
+  --ed-section: clamp(72px, 9vw, 140px);
+
+  /*
+   * ---- v1 aliases ----
+   * The surfaces built against the v6 names keep working, but every one
+   * of them now resolves through a v2 role, so they adapt to the dark
+   * appearance for free instead of staying pinned to a light-only hex.
+   * `scripts/check-drift.ts` asserts that each alias is a var() reference
+   * and not a literal, which is what stops the old palette creeping back.
+   */
+  --ed-ink: var(--ed-label-primary);
+  --ed-muted: var(--ed-label-secondary);
+  --ed-paper: var(--ed-bg);
+  --ed-soft: var(--ed-bg-grouped);
+  --ed-line: var(--ed-separator);
+  --ed-yellow: var(--ed-accent);
+  --ed-glass-light: var(--ed-surface-elevated);
+  --ed-wide: var(--ed-content-max);
+  --ed-shell: var(--ed-reading-max);
+  --ed-read: var(--ed-reading-max);
+  --ed-radius-card: var(--ed-radius-container);
+  --ed-radius-btn: var(--ed-radius-control);
+  --ed-radius-nav-icon: var(--ed-radius-control);
+  --ed-ease: var(--ed-motion-curve);
+  --ed-duration-drawer: var(--ed-motion-standard);
+  --ed-duration-chrome: var(--ed-motion-standard);
+  --ed-duration-hero: var(--ed-motion-slow);
+  --ed-sf: var(--ed-font-display);
+  --ed-sf-text: var(--ed-font-ui);
+
+  /* ---- shadcn/Tailwind bridge, re-pointed inside this subtree only ---- */
+  --background: var(--ed-bg);
+  --foreground: var(--ed-label-primary);
+  --card: var(--ed-bg);
+  --card-foreground: var(--ed-label-primary);
+  --popover: var(--ed-bg);
+  --popover-foreground: var(--ed-label-primary);
+  --primary: var(--ed-label-primary);
+  --primary-foreground: var(--ed-bg);
+  --secondary: var(--ed-bg-grouped);
+  --secondary-foreground: var(--ed-label-primary);
+  --muted: var(--ed-fill-secondary);
+  --muted-foreground: var(--ed-label-secondary);
+  --accent: var(--ed-fill-secondary);
+  --accent-foreground: var(--ed-label-primary);
+  --border: var(--ed-separator);
+  --input: var(--ed-separator);
+  --ring: var(--ed-focus);
+  --radius: var(--ed-radius-container);
+  --radius-sm: var(--ed-radius-control);
+  --radius-md: var(--ed-radius-control);
+  --radius-lg: var(--ed-radius-container);
+  --radius-xl: var(--ed-radius-large);
+
+  --color-background: var(--ed-bg);
+  --color-foreground: var(--ed-label-primary);
+  --color-card: var(--ed-bg);
+  --color-card-foreground: var(--ed-label-primary);
+  --color-popover: var(--ed-bg);
+  --color-popover-foreground: var(--ed-label-primary);
+  --color-primary: var(--ed-label-primary);
+  --color-primary-foreground: var(--ed-bg);
+  --color-secondary: var(--ed-bg-grouped);
+  --color-secondary-foreground: var(--ed-label-primary);
+  --color-muted: var(--ed-fill-secondary);
+  --color-muted-foreground: var(--ed-label-secondary);
+  --color-accent: var(--ed-fill-secondary);
+  --color-accent-foreground: var(--ed-label-primary);
+  --color-border: var(--ed-separator);
+  --color-input: var(--ed-separator);
+  --color-ring: var(--ed-focus);
+
+  /*
+   * Tailwind's `font-sans` resolves through this key. Pointing it at the
+   * system stack keeps every unprefixed utility on the editorial typeface
+   * without touching packages/design-system/lib/fonts.ts, which still
+   * loads IBM Plex for the product surfaces. `--font-serif` is mapped to
+   * the same stack on purpose: v2 has no second family, so a stray
+   * `font-serif` utility can no longer reintroduce one.
+   */
+  --font-sans: var(--ed-font-ui);
+  --font-serif: var(--ed-font-ui);
+
+  font-family: var(--ed-font-ui);
+  -webkit-font-smoothing: antialiased;
+  color: var(--ed-label-primary);
+  /*
+   * Two appearances, one identity. `color-scheme` tells the UA to render
+   * form controls, scrollbars and the canvas for whichever appearance is
+   * active — without it the dark block below would leave native controls
+   * light-on-dark.
+   */
+  color-scheme: light dark;
+  background-color: var(--ed-bg);
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * The dark appearance. Same roles, different values — no component knows
+ * this block exists. Scoped to the editorial surface so the product DS,
+ * which has its own `.dark` mechanism, is unaffected.
+ */
+@media (prefers-color-scheme: dark) {
+  [data-surface="editorial"] {
+    --ed-bg: #000000;
+    --ed-bg-grouped: #1c1c1e;
+    --ed-surface-elevated: rgba(28, 28, 30, 0.78);
+
+    --ed-label-primary: #f5f5f7;
+    --ed-label-secondary: #aeaeb2;
+    --ed-label-tertiary: #8e8e93;
+    --ed-separator: rgba(84, 84, 88, 0.65);
+
+    --ed-fill-primary: rgba(120, 120, 128, 0.36);
+    --ed-fill-secondary: rgba(120, 120, 128, 0.24);
+
+    --ed-accent: #ffd60a;
+    --ed-label-on-accent: #1d1d1f;
+    --ed-focus: #0a84ff;
+    --ed-success: #30d158;
+    --ed-warning: #ff9f0a;
+    --ed-error: #ff453a;
+  }
+}
+
+/*
+ * Focus ring. 3px at 3px offset in the system blue, per the canonical
+ * file — the ring users already recognise, and the one pair measured for
+ * contrast against both appearances.
+ */
+[data-surface="editorial"] :focus-visible {
+  outline: 3px solid var(--ed-focus);
+  outline-offset: 3px;
+}
+
+/* Headings take the display stack. One family; only the optical size differs. */
+[data-surface="editorial"] h1,
+[data-surface="editorial"] h2,
+[data-surface="editorial"] h3,
+[data-surface="editorial"] h4 {
+  font-family: var(--ed-font-display);
+  letter-spacing: -0.02em;
+}
+
+/*
+ * The reading column. 66ch capped at 760px, 17px at 1.6 — the four
+ * acceptance criteria for editorial text, asserted in
+ * `__tests__/tokens.test.ts`. No serif: v2 has one family.
+ */
+[data-surface="editorial"] .ed-article {
+  width: min(100%, var(--ed-reading-max));
+  max-width: var(--ed-measure-article);
+  margin-inline: auto;
+}
+
+[data-surface="editorial"] .ed-article > p,
+[data-surface="editorial"] .ed-article > ul,
+[data-surface="editorial"] .ed-article > ol,
+[data-surface="editorial"] .ed-article > blockquote {
+  font-size: var(--ed-reading-font-size);
+  line-height: var(--ed-reading-line-height);
+}
+
+[data-surface="editorial"] .ed-article > .ed-lead {
+  font-family: var(--ed-font-display);
+  font-size: var(--ed-headline);
+  line-height: 1.3;
+  color: var(--ed-label-secondary);
+  letter-spacing: -0.01em;
+}
+
+/*
+ * Chrome — and only chrome. Identity contract rule 5 lists where the
+ * translucent material may appear: floating header, contextual toolbar,
+ * bottom navigation, transient menus. Never a paragraph, card, table,
+ * evidence block or article background. Applying it here, as one class,
+ * is what makes that rule checkable.
+ */
+[data-surface="editorial"] .ed-chrome {
+  background: var(--ed-surface-elevated);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+}
+
+/*
+ * Appearance-aware brand mark. The brand package ships the wordmark as
+ * two flat PNGs — black and white — with no adaptive variant, so the
+ * page renders both and hides one. Doing it in CSS rather than in React
+ * keeps it correct without JS and without a hydration mismatch: the
+ * server cannot know the viewer's appearance.
+ */
+[data-surface="editorial"] .ed-mark-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-surface="editorial"] .ed-mark-light {
+    display: none;
+  }
+
+  [data-surface="editorial"] .ed-mark-dark {
+    display: block;
+  }
+}
+
+/*
+ * Full-bleed inline media. Escapes the reading column to the viewport
+ * edge while keeping the 4/5 portrait ratio the contract requires.
+ */
+[data-surface="editorial"] .ed-inline-media {
+  width: 100vw;
+  aspect-ratio: 4 / 5;
+  margin: 64px calc(50% - 50vw);
+}
+
+/*
+ * A rendered Mermaid diagram (Quick Framework "Visão do sistema" / "Next
+ * 01-02-03", or a ` ```mermaid ` fence in an article body). Centered and
+ * capped at the reading measure so a wide flowchart never forces the
+ * page to scroll horizontally.
+ */
+[data-surface="editorial"] .ed-article-mermaid {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  margin-block: var(--ed-space-8);
+  overflow-x: auto;
+}
+
+[data-surface="editorial"] .ed-article-mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+ * Compact inline CTA — the one layout measure adopted from the
+ * apple.com screenshot extraction (`DS-APPLE-UPGRADE-SCREENSHOT-001`,
+ * observational, not an official kit; its palette was rejected — see
+ * ADR-DS-004). Height, min-width, padding and radius match the
+ * screenshot's `compact_cta`; every value already existed in this
+ * token set (`--ed-space-6`, `--ed-radius-control`, `--ed-caption`) —
+ * nothing new was invented, only assembled into one utility.
+ */
+[data-surface="editorial"] .ed-cta-compact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 53px;
+  height: var(--ed-space-6);
+  padding-inline: 10px;
+  font-size: var(--ed-caption);
+  line-height: 1;
+  border-radius: var(--ed-radius-control);
+}
+
+/*
+ * Every animated moment reads its duration from these variables, so
+ * zeroing them here disables the lot in one place instead of
+ * per-component. The blanket rule below catches anything that animates
+ * without going through a token.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-surface="editorial"] {
+    --ed-motion-fast: 0ms;
+    --ed-motion-standard: 0ms;
+    --ed-motion-slow: 0ms;
+  }
+
+  [data-surface="editorial"] *,
+  [data-surface="editorial"] *::before,
+  [data-surface="editorial"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
