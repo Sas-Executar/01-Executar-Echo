@@ -268,6 +268,7 @@
         "@repo/rate-limit": "workspace:*",
         "@repo/security": "workspace:*",
         "@repo/seo": "workspace:*",
+        "@repo/solution-store": "workspace:*",
         "@rescale/nemo": "^2.1.1",
         "@sentry/nextjs": "^10.42.0",
         "@t3-oss/env-nextjs": "^0.13.10",
@@ -865,6 +866,18 @@
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "next": "16.1.6",
+      },
+    },
+    "packages/solution-store": {
+      "name": "@repo/solution-store",
+      "version": "0.0.0",
+      "dependencies": {
+        "zod": "^4.3.6",
+      },
+      "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.18",
       },
     },
     "packages/storage": {
@@ -2073,6 +2086,8 @@
     "@repo/security": ["@repo/security@workspace:packages/security"],
 
     "@repo/seo": ["@repo/seo@workspace:packages/seo"],
+
+    "@repo/solution-store": ["@repo/solution-store@workspace:packages/solution-store"],
 
     "@repo/storage": ["@repo/storage@workspace:packages/storage"],
 

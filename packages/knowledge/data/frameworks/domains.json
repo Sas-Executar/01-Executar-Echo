@@ -1,0 +1,263 @@
+[
+ {
+  "id": "D01",
+  "name": "Gestão Empresarial",
+  "slug": "gestao-empresarial",
+  "related_domains": [
+   "D10",
+   "D13",
+   "D07",
+   "D03"
+  ],
+  "framework_count": 26
+ },
+ {
+  "id": "D02",
+  "name": "Jurídico, Riscos e Conformidade",
+  "slug": "juridico-riscos-e-conformidade",
+  "related_domains": [
+   "D08",
+   "D12",
+   "D05",
+   "D22"
+  ],
+  "framework_count": 8
+ },
+ {
+  "id": "D03",
+  "name": "Finanças",
+  "slug": "financas",
+  "related_domains": [
+   "D01",
+   "D10",
+   "D13"
+  ],
+  "framework_count": 18
+ },
+ {
+  "id": "D04",
+  "name": "Pessoas e Recursos Humanos",
+  "slug": "pessoas-e-recursos-humanos",
+  "related_domains": [
+   "D01",
+   "D07",
+   "D08"
+  ],
+  "framework_count": 8
+ },
+ {
+  "id": "D05",
+  "name": "Dados",
+  "slug": "dados",
+  "related_domains": [
+   "D06",
+   "D10",
+   "D12"
+  ],
+  "framework_count": 10
+ },
+ {
+  "id": "D06",
+  "name": "Conhecimento e Busca Corporativa",
+  "slug": "conhecimento-e-busca-corporativa",
+  "related_domains": [
+   "D05",
+   "D09",
+   "D12"
+  ],
+  "framework_count": 8
+ },
+ {
+  "id": "D07",
+  "name": "Produtividade e Execução",
+  "slug": "produtividade-e-execucao",
+  "related_domains": [
+   "D01",
+   "D08",
+   "D22"
+  ],
+  "framework_count": 12
+ },
+ {
+  "id": "D08",
+  "name": "Operações",
+  "slug": "operacoes",
+  "related_domains": [
+   "D07",
+   "D02",
+   "D12"
+  ],
+  "framework_count": 15
+ },
+ {
+  "id": "D09",
+  "name": "Pesquisa e Inovação",
+  "slug": "pesquisa-e-inovacao",
+  "related_domains": [
+   "D06",
+   "D10",
+   "D13"
+  ],
+  "framework_count": 14
+ },
+ {
+  "id": "D10",
+  "name": "Gestão de Produto",
+  "slug": "gestao-de-produto",
+  "related_domains": [
+   "D09",
+   "D11",
+   "D13",
+   "D03"
+  ],
+  "framework_count": 29
+ },
+ {
+  "id": "D11",
+  "name": "Experiência e Projeto",
+  "slug": "experiencia-e-projeto",
+  "related_domains": [
+   "D10",
+   "D15",
+   "D12"
+  ],
+  "framework_count": 15
+ },
+ {
+  "id": "D12",
+  "name": "Engenharia",
+  "slug": "engenharia",
+  "related_domains": [
+   "D10",
+   "D05",
+   "D18",
+   "D20"
+  ],
+  "framework_count": 18
+ },
+ {
+  "id": "D13",
+  "name": "Mercado e Geração de Demanda",
+  "slug": "mercado-e-geracao-de-demanda",
+  "related_domains": [
+   "D01",
+   "D10",
+   "D14",
+   "D16"
+  ],
+  "framework_count": 20
+ },
+ {
+  "id": "D14",
+  "name": "Vendas",
+  "slug": "vendas",
+  "related_domains": [
+   "D13",
+   "D15",
+   "D03"
+  ],
+  "framework_count": 12
+ },
+ {
+  "id": "D15",
+  "name": "Atendimento e Sucesso do Cliente",
+  "slug": "atendimento-e-sucesso-do-cliente",
+  "related_domains": [
+   "D10",
+   "D11",
+   "D14"
+  ],
+  "framework_count": 10
+ },
+ {
+  "id": "D16",
+  "name": "Mídias Sociais e Atuação Digital",
+  "slug": "midias-sociais-e-atuacao-digital",
+  "related_domains": [
+   "D13",
+   "D19",
+   "D15"
+  ],
+  "framework_count": 10
+ },
+ {
+  "id": "D17",
+  "name": "Emprego e Portfólio",
+  "slug": "emprego-e-portfolio",
+  "related_domains": [
+   "D04",
+   "D19",
+   "D22"
+  ],
+  "framework_count": 8
+ },
+ {
+  "id": "D18",
+  "name": "Contratos e Esquemas",
+  "slug": "contratos-e-esquemas",
+  "related_domains": [
+   "D12",
+   "D20",
+   "D05"
+  ],
+  "framework_count": 10
+ },
+ {
+  "id": "D19",
+  "name": "Assets e CTA",
+  "slug": "assets-e-cta",
+  "related_domains": [
+   "D16",
+   "D13",
+   "D14"
+  ],
+  "framework_count": 10
+ },
+ {
+  "id": "D20",
+  "name": "Plataformas e Repositórios",
+  "slug": "plataformas-e-repositorios",
+  "related_domains": [
+   "D12",
+   "D18",
+   "D22"
+  ],
+  "framework_count": 10
+ },
+ {
+  "id": "D21",
+  "name": "Workbook",
+  "slug": "workbook",
+  "related_domains": [
+   "D03",
+   "D05",
+   "D07",
+   "D22"
+  ],
+  "framework_count": 8
+ },
+ {
+  "id": "D22",
+  "name": "Decisões e Registros",
+  "slug": "decisoes-e-registros",
+  "related_domains": [
+   "D01",
+   "D07",
+   "D12"
+  ],
+  "framework_count": 12
+ },
+ {
+  "id": "D23",
+  "name": "Blueprints",
+  "slug": "blueprints",
+  "related_domains": [
+   "D01",
+   "D08",
+   "D10",
+   "D11",
+   "D12"
+  ],
+  "framework_count": 8
+ }
+]
