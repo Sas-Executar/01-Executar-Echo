@@ -17,6 +17,7 @@
     "@repo/billing": "workspace:*",
     "@repo/cms": "workspace:*",
     "@repo/design-system": "workspace:*",
+    "@repo/editorial-tokens": "workspace:*",
     "@repo/email": "workspace:*",
     "@repo/feature-flags": "workspace:*",
     "@repo/internationalization": "workspace:*",

@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "id": "DESIGN-HYBRID-APPLE-007",
+    "version": "6.0",
+    "note": "v6 — resposta à validação de objetivo (blog editorial / leitura de conteúdo) feita na v5. Sincroniza o chrome de topo e rodapé no scroll (padrão Safari/Apple), restaura nav visível + trilha de categorias em desktop (drawer e barra inferior exclusivos do mobile), e mantém o bloco vertical de 100vh em todo artigo.",
+    "changelog": [
+      "barra superior passa de sticky para fixed, com transform:translateY(-100%) sincronizado com a barra inferior ao rolar para baixo/cima",
+      "abrir o drawer força a exibição do chrome (topo + barra inferior), evitando esconder o botão de fechar",
+      "desktop (>=900px): nav volta a mostrar links + trilha de categorias inline; menu, drawer-trigger e barra inferior de 3 itens ficam ocultos — navegação completa sempre visível, sem hambúrguer",
+      "mobile (<900px): comportamento da v5 mantido — 3 elementos no topo, drawer lateral, barra inferior de 3 destinos",
+      "bloco de imagem vertical 100vh confirmado em todo artigo, não só na home"
+    ]
+  },
+  "validation": {
+    "goal": "blog editorial e leitura de conteúdo",
+    "contrastChecked": "todos os pares texto/fundo passam WCAG AA (>=4.5:1)",
+    "readingMeasureUnchanged": "720px / line-height 1.62",
+    "chromeFootprintMobile": "~14% da altura de um iPhone padrão quando visível; agora recolhe durante o scroll de leitura",
+    "openItem": "drawer ainda sem focus-trap de teclado — recomendado antes de produção"
+  }
+}

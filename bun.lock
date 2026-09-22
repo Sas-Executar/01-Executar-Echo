@@ -258,6 +258,7 @@
         "@repo/billing": "workspace:*",
         "@repo/cms": "workspace:*",
         "@repo/design-system": "workspace:*",
+        "@repo/editorial-tokens": "workspace:*",
         "@repo/email": "workspace:*",
         "@repo/feature-flags": "workspace:*",
         "@repo/internationalization": "workspace:*",
@@ -544,6 +545,15 @@
         "@repo/schemas": "workspace:*",
         "zod": "^4.3.6",
       },
+      "devDependencies": {
+        "@repo/typescript-config": "workspace:*",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.18",
+      },
+    },
+    "packages/editorial-tokens": {
+      "name": "@repo/editorial-tokens",
+      "version": "0.0.0",
       "devDependencies": {
         "@repo/typescript-config": "workspace:*",
         "typescript": "^5.9.3",
@@ -2011,6 +2021,8 @@
     "@repo/design-tokens": ["@repo/design-tokens@workspace:packages/design-tokens"],
 
     "@repo/domain": ["@repo/domain@workspace:packages/domain"],
+
+    "@repo/editorial-tokens": ["@repo/editorial-tokens@workspace:packages/editorial-tokens"],
 
     "@repo/email": ["@repo/email@workspace:packages/email"],
 

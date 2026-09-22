@@ -103,6 +103,33 @@ jobs:
       - name: Check CSS/TS token drift
         run: bun run packages/design-tokens/scripts/check-drift.ts
 
+  editorial-isolation:
+    name: Editorial/product design-system isolation (ADR-DS-002)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # apps/web carries the public NatGeo-hybrid identity
+      # (@repo/editorial-tokens) alongside the product Design System
+      # (@repo/design-tokens). They only coexist safely because the
+      # editorial set is scoped to [data-surface="editorial"] and the
+      # product set is never edited to suit a public page. Breaking that
+      # shows up as apps/app or apps/mobile changing colour, which is
+      # exactly the kind of regression nobody spots in a diff — so it is
+      # asserted here rather than trusted.
+      - name: Check editorial token drift and scope
+        run: bun run packages/editorial-tokens/scripts/check-drift.ts
+
+      - name: Check product design system is untouched
+        run: bash scripts/check-editorial-isolation.sh
+
   # ADR-DS-001 Required Change #9 — Storybook visual regression. Runs
   # only once a real CHROMATIC_PROJECT_TOKEN repo secret exists (no
   # Chromatic connector to provision one automatically here). GitHub

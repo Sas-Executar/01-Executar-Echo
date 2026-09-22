@@ -1,0 +1,253 @@
+/**
+ * @repo/editorial-tokens — CSS output for the EXECUTAR public/editorial
+ * surfaces (ADR-DS-002, ADR-DS-003). Hand-authored, kept 1:1 in sync with
+ * ../src/*.ts; `../scripts/check-drift.ts` diffs the two plus the
+ * upstream `reference/tokens-hybrid.css` on every CI run.
+ *
+ * THE ISOLATION RULE
+ * ------------------
+ * Every declaration in this file lives under `[data-surface="editorial"]`.
+ * Nothing here is emitted at `:root`, and nothing here redefines a
+ * `--ds-*` variable. That is what lets apps/web dress its public surfaces
+ * in the editorial identity while apps/app and apps/mobile keep the
+ * product Design System (@repo/design-tokens, ADR-DS-001) untouched —
+ * the two token sets coexist in one stylesheet because one of them is
+ * scoped.
+ *
+ * `.github/workflows/ci.yml` (job `editorial-isolation`) fails the build
+ * if a rule in this file escapes that selector, if `--ed-*` appears in
+ * apps/app or apps/mobile, or if packages/design-tokens changes hash.
+ *
+ * WHY THE SHADCN BRIDGE IS REDECLARED BELOW
+ * -----------------------------------------
+ * packages/design-system/styles/globals.css maps shadcn's semantic
+ * variables (--background, --foreground, --primary, --border, --ring,
+ * --radius …) onto the product tokens at `:root`, and exposes them to
+ * Tailwind via `@theme inline`. Because `@theme inline` resolves those
+ * utilities to the *variable reference*, redeclaring the same variables
+ * on a descendant element re-points every `bg-background`,
+ * `text-foreground`, `border-border` … utility inside that subtree
+ * without touching the product mapping or forking the component library.
+ * Both the bare (`--background`) and the theme-key (`--color-background`)
+ * spellings are set, so the override holds under either compilation mode.
+ */
+
+[data-surface="editorial"] {
+  /* Brand identity — src/color.ts `brand`. Yellow at most once per screen. */
+  --ed-yellow: #ffcc00;
+  --ed-black: #000000;
+  --ed-charcoal: #111111;
+  --ed-charcoal-soft: #1c1c1e;
+
+  /* Surface — src/color.ts `surface`. Light surface dominates. */
+  --ed-ink: #1d1d1f;
+  --ed-muted: #6e6e73;
+  --ed-paper: #ffffff;
+  --ed-soft: #f5f5f7;
+  --ed-soft-2: #fbfbfd;
+  --ed-line: #d2d2d7;
+  --ed-line-dark: rgba(255, 255, 255, 0.12);
+  --ed-white: #ffffff;
+
+  /* Action — src/color.ts `action`. Black and yellow, never blue. */
+  --ed-action-primary: #000000;
+  --ed-action-accent: #ffcc00;
+
+  /* Effects — src/color.ts `effect`. */
+  --ed-glass-light: rgba(255, 255, 255, 0.86);
+  --ed-glass-dark: rgba(17, 17, 17, 0.82);
+  --ed-shadow: 0 12px 38px rgba(0, 0, 0, 0.08);
+
+  /* Type families — src/typography.ts. System stacks; no font redistributed. */
+  --ed-sf: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Arial, sans-serif;
+  --ed-sf-text: "SF Pro Text", "SF Pro Display", -apple-system,
+    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --ed-ny: "New York", "New York Small", "Iowan Old Style", Georgia,
+    "Times New Roman", serif;
+
+  /* Type scale — src/typography.ts. */
+  --ed-display-xl: clamp(3.3rem, 8vw, 7.25rem);
+  --ed-display-lg: clamp(2.5rem, 6vw, 5rem);
+  --ed-display-md: clamp(2rem, 4vw, 3.5rem);
+  --ed-headline: clamp(1.75rem, 3vw, 2.6rem);
+  --ed-body-lg: clamp(1.2rem, 1.8vw, 1.45rem);
+  --ed-body: 1rem;
+  --ed-small: 0.875rem;
+  --ed-caption: 0.75rem;
+
+  /* Layout — src/layout.ts. */
+  --ed-nav-h: 56px;
+  --ed-bottombar-h: 64px;
+  --ed-drawer-w: min(84vw, 360px);
+  --ed-shell: 980px;
+  --ed-wide: 1440px;
+  --ed-read: 720px;
+  --ed-gutter: clamp(20px, 4vw, 44px);
+  --ed-gap: 12px;
+  --ed-section: clamp(72px, 9vw, 140px);
+
+  /* Form — src/layout.ts. Square corners are identity. */
+  --ed-radius-card: 0px;
+  --ed-radius-btn: 8px;
+  --ed-radius-nav-icon: 4px;
+
+  /* Motion — src/motion.ts. */
+  --ed-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ed-duration-drawer: 320ms;
+  --ed-duration-chrome: 280ms;
+  --ed-duration-hero: 900ms;
+
+  /* Reading measure — src/typography.ts `reading`. Validated pair. */
+  --ed-reading-measure: 720px;
+  --ed-reading-line-height: 1.62;
+
+  /* ---- shadcn/Tailwind bridge, re-pointed inside this subtree only ---- */
+  --background: var(--ed-paper);
+  --foreground: var(--ed-ink);
+  --card: var(--ed-paper);
+  --card-foreground: var(--ed-ink);
+  --popover: var(--ed-paper);
+  --popover-foreground: var(--ed-ink);
+  --primary: var(--ed-action-primary);
+  --primary-foreground: var(--ed-white);
+  --secondary: var(--ed-soft);
+  --secondary-foreground: var(--ed-ink);
+  --muted: var(--ed-soft);
+  --muted-foreground: var(--ed-muted);
+  --accent: var(--ed-yellow);
+  --accent-foreground: var(--ed-black);
+  --border: var(--ed-line);
+  --input: var(--ed-line);
+  --ring: var(--ed-yellow);
+  --radius: var(--ed-radius-card);
+  --radius-sm: var(--ed-radius-nav-icon);
+  --radius-md: var(--ed-radius-btn);
+  --radius-lg: var(--ed-radius-card);
+  --radius-xl: var(--ed-radius-card);
+
+  --color-background: var(--ed-paper);
+  --color-foreground: var(--ed-ink);
+  --color-card: var(--ed-paper);
+  --color-card-foreground: var(--ed-ink);
+  --color-popover: var(--ed-paper);
+  --color-popover-foreground: var(--ed-ink);
+  --color-primary: var(--ed-action-primary);
+  --color-primary-foreground: var(--ed-white);
+  --color-secondary: var(--ed-soft);
+  --color-secondary-foreground: var(--ed-ink);
+  --color-muted: var(--ed-soft);
+  --color-muted-foreground: var(--ed-muted);
+  --color-accent: var(--ed-yellow);
+  --color-accent-foreground: var(--ed-black);
+  --color-border: var(--ed-line);
+  --color-input: var(--ed-line);
+  --color-ring: var(--ed-yellow);
+
+  /*
+   * Tailwind's `font-sans` resolves through this key. Pointing it at the
+   * SF stack keeps every unprefixed utility on the editorial typeface
+   * without touching packages/design-system/lib/fonts.ts, which still
+   * loads IBM Plex for the product surfaces.
+   */
+  --font-sans: var(--ed-sf-text);
+  --font-serif: var(--ed-ny);
+
+  background-color: var(--ed-paper);
+  color: var(--ed-ink);
+  font-family: var(--ed-sf-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * Focus ring. 2px yellow at 3px offset is the audited value from the v6
+ * handoff's accessibility table — kept here rather than left to the
+ * product ring so the contrast pair stays the one that was measured.
+ */
+[data-surface="editorial"] :focus-visible {
+  outline: 2px solid var(--ed-yellow);
+  outline-offset: 3px;
+}
+
+/* Headings and chrome take the display stack; body copy stays SF Text. */
+[data-surface="editorial"] h1,
+[data-surface="editorial"] h2,
+[data-surface="editorial"] h3,
+[data-surface="editorial"] h4 {
+  font-family: var(--ed-sf);
+  letter-spacing: -0.02em;
+}
+
+/*
+ * The reading column. Article bodies are set in the New York serif at the
+ * validated 720px / 1.62 measure — this is the one place the serif is
+ * used, and the one place the measure is fixed.
+ */
+[data-surface="editorial"] .ed-article {
+  max-width: var(--ed-reading-measure);
+  margin-inline: auto;
+}
+
+[data-surface="editorial"] .ed-article > p,
+[data-surface="editorial"] .ed-article > ul,
+[data-surface="editorial"] .ed-article > ol,
+[data-surface="editorial"] .ed-article > blockquote {
+  font-family: var(--ed-ny);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: var(--ed-reading-line-height);
+}
+
+[data-surface="editorial"] .ed-article > .ed-lead {
+  font-family: var(--ed-sf);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/*
+ * The yellow bar above each h2 is the single sanctioned yellow accent in
+ * the article body — 52x5px, per the handoff's component table.
+ */
+[data-surface="editorial"] .ed-article > h2::before {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 5px;
+  margin-bottom: 20px;
+  background: var(--ed-yellow);
+}
+
+/*
+ * Full-bleed inline media. Escapes the reading column to the viewport
+ * edge while keeping the 4/5 portrait ratio the contract requires —
+ * horizontal images are forbidden in editorial media slots.
+ */
+[data-surface="editorial"] .ed-inline-media {
+  margin: 64px calc(50% - 50vw);
+  aspect-ratio: 4 / 5;
+  width: 100vw;
+}
+
+/*
+ * Every animated moment in the contract is opt-out under reduced motion:
+ * hero entrance, feature-media reveal, drawer slide and the scroll chrome
+ * all read their duration from these variables, so zeroing them here
+ * disables the lot in one place instead of per-component.
+ */
+@media (prefers-reduced-motion: reduce) {
+  [data-surface="editorial"] {
+    --ed-duration-drawer: 0ms;
+    --ed-duration-chrome: 0ms;
+    --ed-duration-hero: 0ms;
+  }
+
+  [data-surface="editorial"] *,
+  [data-surface="editorial"] *::before,
+  [data-surface="editorial"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
