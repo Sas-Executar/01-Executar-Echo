@@ -38,12 +38,16 @@ const Oficina = () => {
       <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
-          style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+          style={{
+            fontSize: "var(--ed-display-md)",
+            letterSpacing: "var(--ed-tracking-display-md)",
+            lineHeight: 1.05,
+          }}
         >
           Oficina
         </h1>
         <p
-          className="mt-5 text-[length:var(--ed-body-lg)]"
+          className="ed-text-body-lg mt-5"
           style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           Ferramentas do ecossistema, descritas pelo problema que resolvem. Cada
@@ -68,13 +72,13 @@ const Oficina = () => {
 
       {areas.length > 0 ? (
         <section className="mt-16">
-          <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
             Áreas
           </h2>
           <ul className="flex flex-wrap gap-2">
             {areas.map((area) => (
               <li
-                className="text-[length:var(--ed-small)]"
+                className="ed-text-small"
                 key={area.id}
                 style={{
                   border: "1px solid var(--ed-separator)",
@@ -90,11 +94,11 @@ const Oficina = () => {
 
       {professions.length > 0 ? (
         <section className="mt-12">
-          <h2 className="mb-2 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
             Por profissão
           </h2>
           <p
-            className="mb-4 text-[length:var(--ed-small)]"
+            className="ed-text-small mb-4"
             style={{ color: "var(--ed-label-secondary)" }}
           >
             Profissões são uma dimensão tipada do catálogo, não etiquetas soltas
@@ -105,7 +109,7 @@ const Oficina = () => {
             {professions.map((profession) => (
               <li key={profession.id}>
                 <Link
-                  className="inline-flex items-center text-[length:var(--ed-small)]"
+                  className="ed-text-small inline-flex items-center"
                   href={`/oficina/learn#${profession.id}`}
                   style={{
                     minHeight: 44,

@@ -111,24 +111,21 @@ function Envelope({
   return (
     <article className="flex flex-col gap-8">
       <p
-        className="text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+        className="ed-text-caption uppercase tracking-[.12em]"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         Status: {envelope.status} · rota {envelope.canonical_route}
       </p>
 
       {envelope.answer ? (
-        <p
-          className="text-[length:var(--ed-body-lg)]"
-          style={{ lineHeight: 1.5 }}
-        >
+        <p className="ed-text-body-lg" style={{ lineHeight: 1.5 }}>
           {envelope.answer}
         </p>
       ) : (
         // Stated plainly rather than papered over with a generated
         // paragraph. The retrieval below is the real answer today.
         <p
-          className="border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
+          className="ed-text-small border-l-4 py-2 pl-4"
           style={{
             borderColor: "var(--ed-accent)",
             color: "var(--ed-label-secondary)",
@@ -141,7 +138,7 @@ function Envelope({
 
       {envelope.evidence.length > 0 ? (
         <section>
-          <h2 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Evidência
           </h2>
           <ul className="flex flex-col gap-4">
@@ -155,7 +152,7 @@ function Envelope({
               >
                 <p>{item.statement}</p>
                 <p
-                  className="text-[length:var(--ed-caption)]"
+                  className="ed-text-caption"
                   style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {item.ref}
@@ -166,7 +163,7 @@ function Envelope({
                 {/* The limit never travels apart from the statement. */}
                 {item.interpretation_limit ? (
                   <p
-                    className="mt-1 text-[length:var(--ed-caption)]"
+                    className="ed-text-caption mt-1"
                     style={{ color: "var(--ed-label-secondary)" }}
                   >
                     Limite de interpretação: {item.interpretation_limit}
@@ -180,7 +177,7 @@ function Envelope({
 
       {envelope.next_actions.length > 0 ? (
         <section>
-          <h2 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Para onde ir
           </h2>
           <ul className="flex flex-col gap-3">
@@ -198,7 +195,7 @@ function Envelope({
                   {action.label}
                 </Link>
                 <p
-                  className="text-[length:var(--ed-caption)]"
+                  className="ed-text-caption"
                   style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {action.rationale}
@@ -211,10 +208,10 @@ function Envelope({
 
       {envelope.unresolved.length > 0 ? (
         <section>
-          <h2 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Não resolvido
           </h2>
-          <ul className="flex list-disc flex-col gap-1 pl-5 text-[length:var(--ed-small)]">
+          <ul className="ed-text-small flex list-disc flex-col gap-1 pl-5">
             {envelope.unresolved.map((item) => (
               <li key={item}>{item}</li>
             ))}
@@ -224,12 +221,12 @@ function Envelope({
 
       <details>
         <summary
-          className="cursor-pointer text-[length:var(--ed-small)]"
+          className="ed-text-small cursor-pointer"
           style={{ minHeight: 44, display: "flex", alignItems: "center" }}
         >
           O que a VERA leu e decidiu
         </summary>
-        <div className="mt-3 flex flex-col gap-4 text-[length:var(--ed-small)]">
+        <div className="ed-text-small mt-3 flex flex-col gap-4">
           <div>
             <h3 className="font-semibold">Fontes lidas</h3>
             <ul className="list-disc pl-5">

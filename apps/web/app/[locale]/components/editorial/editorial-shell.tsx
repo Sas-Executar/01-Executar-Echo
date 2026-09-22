@@ -151,7 +151,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
             {PRIMARY_NAV.map((item) => (
               <Link
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className="font-medium text-[length:var(--ed-small)]"
+                className="ed-text-small font-medium"
                 href={item.href}
                 key={item.href}
                 style={{
@@ -218,9 +218,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
             paddingInline: "var(--ed-gutter)",
           }}
         >
-          <span className="font-semibold text-[length:var(--ed-small)]">
-            Navegar
-          </span>
+          <span className="ed-text-small font-semibold">Navegar</span>
           <button
             aria-label="Fechar menu"
             onClick={closeDrawer}
@@ -287,7 +285,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
             <li className="contents" key={item.href}>
               <Link
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className="flex h-full flex-col items-center justify-center text-[length:var(--ed-caption)]"
+                className="ed-text-caption flex h-full flex-col items-center justify-center"
                 href={item.href}
                 style={{
                   color: isActive(item.href)

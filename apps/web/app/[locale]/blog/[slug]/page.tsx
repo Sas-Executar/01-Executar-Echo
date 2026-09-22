@@ -3,6 +3,7 @@ import {
   AUTHOR,
   ctaForStage,
   searchFrameworks,
+  searchQuickFrameworks,
   taxonomyProblems,
   termSlug,
 } from "@repo/knowledge";
@@ -13,6 +14,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { env } from "@/env";
+import { editorialMdxComponents } from "../../components/editorial/mdx-components";
 
 const protocol = env.VERCEL_PROJECT_PRODUCTION_URL?.startsWith("https")
   ? "https"
@@ -59,7 +61,7 @@ export const generateStaticParams = async (): Promise<{ slug: string }[]> => {
  */
 const BlogPost = async ({ params }: BlogPostProperties) => {
   const { slug } = await params;
-  const post = await blog.getPost(slug);
+  const post = await blog.getPost(slug, editorialMdxComponents);
 
   if (!post) {
     notFound();
@@ -75,6 +77,10 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
   const frameworks = dedupe(
     post.tags.flatMap((tag) => searchFrameworks(tag.replace(/-/g, " "), 2))
+  ).slice(0, 3);
+
+  const quickFrameworks = dedupe(
+    post.tags.flatMap((tag) => searchQuickFrameworks(tag.replace(/-/g, " "), 2))
   ).slice(0, 3);
 
   const cta = post.funnelStage ? ctaForStage(post.funnelStage) : undefined;
@@ -110,7 +116,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
         >
           {post.pillar ? (
             <Link
-              className="mb-4 inline-flex items-center font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+              className="ed-text-caption mb-4 inline-flex items-center font-semibold uppercase tracking-[.12em]"
               href={`/blog/pilar/${termSlug(post.pillar)}`}
               style={{ color: "var(--ed-label-secondary)", minHeight: 44 }}
             >
@@ -120,13 +126,17 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
           <h1
             className="font-semibold"
-            style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+            style={{
+              fontSize: "var(--ed-display-md)",
+              letterSpacing: "var(--ed-tracking-display-md)",
+              lineHeight: 1.05,
+            }}
           >
             {post.title}
           </h1>
 
           <p
-            className="mt-6 text-[length:var(--ed-small)]"
+            className="ed-text-small mt-6"
             style={{ color: "var(--ed-label-secondary)" }}
           >
             {post.author ?? AUTHOR.name} ·{" "}
@@ -142,7 +152,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
           {problems.length > 0 ? (
             <p
-              className="mt-4 border-l-4 py-2 pl-4 text-[length:var(--ed-caption)]"
+              className="ed-text-caption mt-4 border-l-4 py-2 pl-4"
               style={{
                 borderColor: "var(--ed-accent)",
                 color: "var(--ed-label-secondary)",
@@ -173,7 +183,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
               padding: 40,
             }}
           >
-            <p className="text-[length:var(--ed-body-lg)]">{cta.copy}</p>
+            <p className="ed-text-body-lg">{cta.copy}</p>
             {cta.href ? (
               <Link
                 className="mt-6 inline-flex items-center font-semibold"
@@ -198,14 +208,14 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
         >
           {concepts.length > 0 ? (
             <section>
-              <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+              <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
                 Conceitos no Mapa
               </h2>
               <ul className="flex flex-wrap gap-2">
                 {concepts.map((node) => (
                   <li key={node.id}>
                     <Link
-                      className="inline-flex items-center text-[length:var(--ed-small)]"
+                      className="ed-text-small inline-flex items-center"
                       href={`/mapa?no=${encodeURIComponent(node.id)}`}
                       style={{
                         minHeight: 44,
@@ -223,7 +233,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
           {frameworks.length > 0 ? (
             <section>
-              <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+              <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
                 Frameworks para estruturar isto
               </h2>
               <ul className="flex flex-col gap-3">
@@ -241,7 +251,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                       {framework.name}
                     </Link>
                     <p
-                      className="text-[length:var(--ed-caption)]"
+                      className="ed-text-caption"
                       style={{ color: "var(--ed-label-secondary)" }}
                     >
                       {framework.purpose}
@@ -252,8 +262,41 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
             </section>
           ) : null}
 
+          {quickFrameworks.length > 0 ? (
+            <section>
+              <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
+                Quick Frameworks EXECUTAR
+              </h2>
+              <ul className="flex flex-col gap-3">
+                {quickFrameworks.map((qf) => (
+                  <li key={qf.id}>
+                    <Link
+                      className="font-medium underline"
+                      href={`/quick-frameworks/${qf.slug}`}
+                      style={{
+                        minHeight: 44,
+                        display: "inline-flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      {qf.titulo}
+                    </Link>
+                    {qf.fraseSintese ? (
+                      <p
+                        className="ed-text-caption"
+                        style={{ color: "var(--ed-label-secondary)" }}
+                      >
+                        {qf.fraseSintese}
+                      </p>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
           <section>
-            <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+            <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
               Continuar
             </h2>
             <ul className="flex flex-wrap gap-4">

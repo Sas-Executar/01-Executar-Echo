@@ -46,12 +46,16 @@ const Learn = () => {
       <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
-          style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+          style={{
+            fontSize: "var(--ed-display-md)",
+            letterSpacing: "var(--ed-tracking-display-md)",
+            lineHeight: 1.05,
+          }}
         >
           Learn
         </h1>
         <p
-          className="mt-5 text-[length:var(--ed-body-lg)]"
+          className="ed-text-body-lg mt-5"
           style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           Por onde começar, organizado por profissão. Uma profissão aparece aqui
@@ -70,11 +74,11 @@ const Learn = () => {
             const solutions = solutionsForProfession(profession.id);
             return (
               <section id={profession.id} key={profession.id}>
-                <h2 className="mb-2 font-semibold text-[length:var(--ed-headline)]">
+                <h2 className="ed-text-headline mb-2 font-semibold">
                   {profession.label}
                 </h2>
                 <p
-                  className="mb-5 text-[length:var(--ed-small)]"
+                  className="ed-text-small mb-5"
                   style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {solutions.length}{" "}

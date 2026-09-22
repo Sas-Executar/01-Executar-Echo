@@ -154,3 +154,17 @@ Decisão que o pacote original da Fase Zero não previu. Registrada como FP-004 
 | **Data** | 2026-09-22 |
 | **Consequência** | `ADR-DS-004`. A `ADR-DS-003` fica `SUPERSEDED_IN_PART`: a resolução do `DS-01` continua válida — o amarelo segue sendo a cor de marca, agora com uso contido — e só as regras de composição caem. A API de tokens passa a ser **papéis semânticos**, não hexadecimais; claro e escuro são duas aparências de uma identidade. A arquitetura de informação não muda: rotas, dados, Mapa, Oficina, VERA e navegação seguem intactos, como o próprio pacote determina |
 | **Evidência** | 13/13 SHA-256 do pacote conferidos contra o seu próprio `MANIFEST.json`, registrados em `reference/v2/CHECKSUMS.sha256`. Verificado no browser contra produção, nas duas aparências: `--ed-bg` resolve `#fff` no claro e `#000` no escuro, `--ed-focus` `#0a84ff` em ambas, coluna de leitura em 17px/1.6 dentro de 760px, sem New York. Zero blocos `:root` com `--ed-*` no bundle servido |
+
+---
+
+## DEC-010 — Publicar a série fundadora apesar da contradição de status na fonte · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | `RC-KNW-001_SERIE_ARTIGOS_01_02_03_QF_V1.zip` traz 3 artigos completos (RC-001/002/003) cujo próprio frontmatter declara `status: REDIGIDO_VALIDACAO_ESTRUTURAL` — redigido, pendente de validação estrutural. Os stubs `04-validacao/*.txt` fornecidos no mesmo pacote, para os mesmos 3 artigos, dizem `STATUS: VERIFIED`. As duas afirmações vêm da fonte, não deste repositório, e se contradizem |
+| **Impacto de adiar** | Sem uma decisão explícita, o conteúdo ficaria fora do site apesar de ter sido entregue como "faltante para lançamento", ou seria publicado silenciando a contradição — o tipo exato de sobreposição que a regra `DOCUMENTADO ≠ VERIFICADO` existe para impedir |
+| **Recomendação** | Publicar mesmo assim, sem reescrever a fonte para eliminar a contradição — apenas registrá-la aqui e em `packages/knowledge/data/quick-frameworks/PROVENANCE.md` |
+| **Resposta de Leo** | Conteúdo enviado com a instrução direta de implementar ("conteúdo faltante para lançamento implementar", 2026-09-22) |
+| **Data** | 2026-09-22 |
+| **Consequência** | 3 posts publicados em `packages/cms/content/blog/` (`risco-cognitivo`, `fatores-de-risco-cognitivo`, `exposicao-cognitiva`, slugs verbatim do campo `url:` de cada fonte) e 23 registros "Quick Framework EXECUTAR" (20 fatores FRC-01..20 do Mapa Cognitivo + os 3 artigos) em nova rota `/quick-frameworks`, corrigindo esse nome — que pertencia até agora, por engano, ao catálogo genérico de 299 frameworks (agora "Frameworks de apoio" em `/frameworks`) |
+| **Evidência** | 24/24 checksums dos arquivos-fonte conferidos; 23/23 registros validados contra o schema; os 20 `factor_id` batem 1:1 com os já vendorizados em `graph_data.json`. `PROVENANCE.md` cita a contradição de status linha por linha |

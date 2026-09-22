@@ -32,12 +32,16 @@ const Vera = () => {
       <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
-          style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+          style={{
+            fontSize: "var(--ed-display-md)",
+            letterSpacing: "var(--ed-tracking-display-md)",
+            lineHeight: 1.05,
+          }}
         >
           VERA
         </h1>
         <p
-          className="mt-5 text-[length:var(--ed-body-lg)]"
+          className="ed-text-body-lg mt-5"
           style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           Pergunte sobre o custo cognitivo da execução. A VERA consulta o mapa
@@ -53,11 +57,11 @@ const Vera = () => {
       </div>
 
       <section className="mt-20">
-        <h2 className="mb-2 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+        <h2 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
           O que a VERA pode fazer
         </h2>
         <p
-          className="mb-5 text-[length:var(--ed-small)]"
+          className="ed-text-small mb-5"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           Esta lista é o limite, não um resumo dele. Uma capacidade que não está
@@ -73,11 +77,9 @@ const Vera = () => {
                 paddingTop: 12,
               }}
             >
-              <p className="font-medium text-[length:var(--ed-small)]">
-                {capability.id}
-              </p>
+              <p className="ed-text-small font-medium">{capability.id}</p>
               <p
-                className="text-[length:var(--ed-small)]"
+                className="ed-text-small"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 {capability.description}

@@ -132,7 +132,15 @@ export const getPostsMeta = (type: ContentType): PostMeta[] => {
 
 export const getPost = async (
   type: ContentType,
-  slug: string
+  slug: string,
+  /**
+   * MDX component overrides. Left to the caller rather than hardcoded
+   * here: this package knows about MDX, not about how a fenced
+   * ` ```mermaid ` block should render on a particular app's surface —
+   * same separation `toTaxonomy()` already keeps for the editorial
+   * taxonomy.
+   */
+  components?: Parameters<typeof compileMDX>[0]["components"]
 ): Promise<Post | null> => {
   const raw = readRaw(type, slug);
 
@@ -143,6 +151,7 @@ export const getPost = async (
   const { content, frontmatter } = await compileMDX<Frontmatter>({
     source: raw,
     options: { parseFrontmatter: true },
+    components,
   });
 
   const stats = readingTime(raw);

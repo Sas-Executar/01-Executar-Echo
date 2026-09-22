@@ -27,7 +27,7 @@ export const generateMetadata = async ({
   }
 
   return createMetadata({
-    title: `${framework.name} — Quick Framework`,
+    title: `${framework.name} — Framework de apoio`,
     description: framework.purpose,
   });
 };
@@ -53,7 +53,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
       }}
     >
       <p
-        className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+        className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         {framework.domain_name} · {framework.id}
@@ -61,24 +61,25 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
 
       <h1
         className="font-semibold"
-        style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+        style={{
+          fontSize: "var(--ed-display-md)",
+          letterSpacing: "var(--ed-tracking-display-md)",
+          lineHeight: 1.05,
+        }}
       >
         {framework.name}
       </h1>
 
       {framework.aliases.length > 0 ? (
         <p
-          className="mt-3 text-[length:var(--ed-small)]"
+          className="ed-text-small mt-3"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           Também conhecido como {framework.aliases.join(", ")}.
         </p>
       ) : null}
 
-      <p
-        className="mt-6 text-[length:var(--ed-body-lg)]"
-        style={{ lineHeight: 1.5 }}
-      >
+      <p className="ed-text-body-lg mt-6" style={{ lineHeight: 1.5 }}>
         {framework.purpose}
       </p>
 
@@ -88,7 +89,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
         evidence. Without this a catalog entry reads like a finding.
       */}
       <p
-        className="mt-8 border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
+        className="ed-text-small mt-8 border-l-4 py-2 pl-4"
         style={{
           borderColor: "var(--ed-accent)",
           color: "var(--ed-label-secondary)",
@@ -100,13 +101,13 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
 
       {framework.search_tags.length > 0 ? (
         <section className="mt-10">
-          <h2 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Quando procurar por este modelo
           </h2>
           <ul className="flex flex-wrap gap-2">
             {framework.search_tags.map((tag) => (
               <li
-                className="text-[length:var(--ed-caption)]"
+                className="ed-text-caption"
                 key={tag}
                 style={{
                   border: "1px solid var(--ed-separator)",
@@ -122,10 +123,10 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
 
       {domain ? (
         <section className="mt-10">
-          <h2 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Domínio
           </h2>
-          <p className="text-[length:var(--ed-small)]">
+          <p className="ed-text-small">
             {domain.name} — {domain.framework_count} frameworks neste domínio.
           </p>
         </section>
@@ -133,7 +134,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
 
       {related.length > 0 ? (
         <section className="mt-12">
-          <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
             Frameworks adjacentes
           </h2>
           <ul
@@ -149,7 +150,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
                 >
                   <span className="font-medium">{item.name}</span>
                   <span
-                    className="text-[length:var(--ed-caption)]"
+                    className="ed-text-caption"
                     style={{ color: "var(--ed-label-secondary)" }}
                   >
                     {item.domain_name}

@@ -55,14 +55,18 @@ const PillarPage = async ({ params }: PillarPageProps) => {
     >
       <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <p
-          className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+          className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           Pilar editorial
         </p>
         <h1
           className="font-semibold"
-          style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+          style={{
+            fontSize: "var(--ed-display-md)",
+            letterSpacing: "var(--ed-tracking-display-md)",
+            lineHeight: 1.05,
+          }}
         >
           {pillar.value}
         </h1>
@@ -84,11 +88,11 @@ const PillarPage = async ({ params }: PillarPageProps) => {
                 href={`/blog/${post.slug}`}
                 style={{ minHeight: 180 }}
               >
-                <span className="font-semibold text-[length:var(--ed-headline)] leading-tight">
+                <span className="ed-text-headline font-semibold leading-tight">
                   {post.title}
                 </span>
                 <span
-                  className="text-[length:var(--ed-small)]"
+                  className="ed-text-small"
                   style={{
                     color: "var(--ed-label-secondary)",
                     lineHeight: 1.5,

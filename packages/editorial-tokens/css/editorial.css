@@ -100,6 +100,34 @@
   --ed-small: 0.9375rem;
   --ed-caption: 0.8125rem;
 
+  /*
+   * ---- Tracking — src/typography.ts `tracking`. ----
+   * Keyed to the size it rides with. Direction follows the HIG's
+   * documented rule (tighter as size grows, looser at small sizes); the
+   * values are this package's own approximation of that rule, not a
+   * table transcribed from an Apple-published kit — see ADR-DS-004.
+   */
+  --ed-tracking-display-xl: -0.022em;
+  --ed-tracking-display-lg: -0.019em;
+  --ed-tracking-display-md: -0.015em;
+  --ed-tracking-headline: -0.01em;
+  --ed-tracking-body-lg: -0.003em;
+  --ed-tracking-body: 0em;
+  --ed-tracking-small: 0.005em;
+  --ed-tracking-caption: 0.01em;
+
+  /*
+   * ---- Icon scale — src/typography.ts `iconScale`/`iconStroke`. ----
+   * Sized to the HIG's documented small/medium/large symbol scale
+   * (proportioned to adjacent text), not to an arbitrary pixel grid. No
+   * SF Symbols glyph is used or redistributed.
+   */
+  --ed-icon-sm: 16px;
+  --ed-icon-md: 20px;
+  --ed-icon-lg: 24px;
+  --ed-icon-stroke-regular: 1.5;
+  --ed-icon-stroke-medium: 2;
+
   /* ---- Spacing scale — src/layout.ts `space`. ---- */
   --ed-space-1: 4px;
   --ed-space-2: 8px;
@@ -354,6 +382,46 @@
   width: 100vw;
   aspect-ratio: 4 / 5;
   margin: 64px calc(50% - 50vw);
+}
+
+/*
+ * A rendered Mermaid diagram (Quick Framework "Visão do sistema" / "Next
+ * 01-02-03", or a ` ```mermaid ` fence in an article body). Centered and
+ * capped at the reading measure so a wide flowchart never forces the
+ * page to scroll horizontally.
+ */
+[data-surface="editorial"] .ed-article-mermaid {
+  display: flex;
+  justify-content: center;
+  max-width: 100%;
+  margin-block: var(--ed-space-8);
+  overflow-x: auto;
+}
+
+[data-surface="editorial"] .ed-article-mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/*
+ * Compact inline CTA — the one layout measure adopted from the
+ * apple.com screenshot extraction (`DS-APPLE-UPGRADE-SCREENSHOT-001`,
+ * observational, not an official kit; its palette was rejected — see
+ * ADR-DS-004). Height, min-width, padding and radius match the
+ * screenshot's `compact_cta`; every value already existed in this
+ * token set (`--ed-space-6`, `--ed-radius-control`, `--ed-caption`) —
+ * nothing new was invented, only assembled into one utility.
+ */
+[data-surface="editorial"] .ed-cta-compact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 53px;
+  height: var(--ed-space-6);
+  padding-inline: 10px;
+  font-size: var(--ed-caption);
+  line-height: 1;
+  border-radius: var(--ed-radius-control);
 }
 
 /*

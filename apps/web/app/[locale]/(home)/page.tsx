@@ -64,7 +64,7 @@ const Home = async () => {
         }}
       >
         <p
-          className="mb-5 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.16em]"
+          className="ed-text-caption mb-5 font-semibold uppercase tracking-[.16em]"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           {AUTHOR.tagline}
@@ -83,7 +83,7 @@ const Home = async () => {
         </h1>
 
         <p
-          className="mt-8 text-[length:var(--ed-body-lg)]"
+          className="ed-text-body-lg mt-8"
           style={{
             color: "var(--ed-label-secondary)",
             lineHeight: 1.5,
@@ -160,13 +160,14 @@ const Home = async () => {
           className="font-semibold"
           style={{
             fontSize: "var(--ed-headline)",
+            letterSpacing: "var(--ed-tracking-headline)",
             maxWidth: "var(--ed-reading-max)",
           }}
         >
           Como o conteúdo é construído
         </h2>
         <p
-          className="mt-4 text-[length:var(--ed-small)]"
+          className="ed-text-small mt-4"
           style={{
             color: "var(--ed-label-secondary)",
             maxWidth: "var(--ed-reading-max)",
@@ -186,19 +187,17 @@ const Home = async () => {
               style={{ background: "var(--ed-bg)", padding: 24 }}
             >
               <p
-                className="text-[length:var(--ed-caption)]"
+                className="ed-text-caption"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 {String(stage.order).padStart(2, "0")}
               </p>
-              <h3 className="mt-1 font-semibold text-[length:var(--ed-body-lg)]">
+              <h3 className="ed-text-body-lg mt-1 font-semibold">
                 {stage.stage}
               </h3>
-              <p className="mt-2 text-[length:var(--ed-small)]">
-                {stage.question}
-              </p>
+              <p className="ed-text-small mt-2">{stage.question}</p>
               <p
-                className="mt-3 text-[length:var(--ed-caption)]"
+                className="ed-text-caption mt-3"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 {stage.rule}
@@ -218,7 +217,10 @@ const Home = async () => {
       >
         <h2
           className="mb-8 font-semibold"
-          style={{ fontSize: "var(--ed-headline)" }}
+          style={{
+            fontSize: "var(--ed-headline)",
+            letterSpacing: "var(--ed-tracking-headline)",
+          }}
         >
           Por onde entrar
         </h2>
@@ -233,11 +235,11 @@ const Home = async () => {
                 href={surface.href}
                 style={{ minHeight: 200 }}
               >
-                <span className="font-semibold text-[length:var(--ed-headline)]">
+                <span className="ed-text-headline font-semibold">
                   {surface.title}
                 </span>
                 <span
-                  className="text-[length:var(--ed-small)]"
+                  className="ed-text-small"
                   style={{
                     color: "var(--ed-label-secondary)",
                     lineHeight: 1.5,
@@ -261,13 +263,16 @@ const Home = async () => {
       >
         <h2
           className="font-semibold"
-          style={{ fontSize: "var(--ed-headline)" }}
+          style={{
+            fontSize: "var(--ed-headline)",
+            letterSpacing: "var(--ed-tracking-headline)",
+          }}
         >
           Quem escreve
         </h2>
         <p className="mt-4 font-medium">{AUTHOR.name}</p>
         <p
-          className="text-[length:var(--ed-small)]"
+          className="ed-text-small"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           {AUTHOR.title}

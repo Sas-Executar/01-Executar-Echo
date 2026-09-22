@@ -59,14 +59,18 @@ const Onboarding = async ({ params }: OnboardingProps) => {
       }}
     >
       <p
-        className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+        className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         {solution.identity.solution_name}
       </p>
       <h1
         className="font-semibold"
-        style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+        style={{
+          fontSize: "var(--ed-display-md)",
+          letterSpacing: "var(--ed-tracking-display-md)",
+          lineHeight: 1.05,
+        }}
       >
         Como começar
       </h1>
@@ -80,14 +84,12 @@ const Onboarding = async ({ params }: OnboardingProps) => {
           {steps.map((step, index) => (
             <li key={step.id}>
               <p
-                className="mb-2 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+                className="ed-text-caption mb-2 font-semibold uppercase tracking-[.12em]"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 Passo {index + 1}
               </p>
-              <h2 className="font-semibold text-[length:var(--ed-headline)]">
-                {step.title}
-              </h2>
+              <h2 className="ed-text-headline font-semibold">{step.title}</h2>
               {step.body ? (
                 <p className="mt-2" style={{ lineHeight: 1.6 }}>
                   {step.body}
@@ -115,7 +117,7 @@ const Onboarding = async ({ params }: OnboardingProps) => {
           </Link>
         ) : (
           <p
-            className="text-[length:var(--ed-small)]"
+            className="ed-text-small"
             style={{ color: "var(--ed-label-secondary)" }}
           >
             {primaryBlocked} Esta solução ainda não tem um destino público para

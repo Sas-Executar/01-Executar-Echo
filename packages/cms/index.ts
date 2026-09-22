@@ -32,7 +32,8 @@ export const blog = {
    */
   getLatestPostMeta: () => Promise.resolve(getPostsMeta("blog")[0] ?? null),
 
-  getPost: (slug: string) => getPost("blog", slug),
+  getPost: (slug: string, components?: Parameters<typeof getPost>[2]) =>
+    getPost("blog", slug, components),
 };
 
 export const legal = {

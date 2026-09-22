@@ -95,3 +95,15 @@ public surface:
 - **`<html lang>` was hardcoded to `en`** under a `[locale]` segment,
   mislabelling Portuguese content.
 - **`RC-CTA-002` pointed at a route that was never built.**
+
+## Onda de conteúdo — Quick Frameworks EXECUTAR e série fundadora (2026-09-22)
+
+| Item | Fonte | Implementado | Integrado | Testado | Deployed | Verified |
+|---|---|---|---|---|---|---|
+| Quick Frameworks EXECUTAR (23 registros) | `RC-KNW-001_QUICK_FRAMEWORKS_V1` + `RC-KNW-001_SERIE_ARTIGOS_01_02_03_QF_V1` | ✅ `packages/knowledge/src/quick-frameworks.ts` | ✅ `/quick-frameworks`, ligado ao Mapa por `factor_id` e ao Blog por tag | ✅ 13 testes | ⏳ | ⏳ |
+| Correção de nome: "Quick Frameworks" pertence ao produto real | — | ✅ `/frameworks` renomeado para "Frameworks de apoio" | ✅ link cruzado nos dois sentidos | — | ⏳ | ⏳ |
+| Série fundadora (3 artigos de blog) | `RC-KNW-001_SERIE_ARTIGOS_01_02_03_QF_V1` | ✅ `risco-cognitivo`, `fatores-de-risco-cognitivo`, `exposicao-cognitiva` | ✅ pilar "Riscos Cognitivos" reaproveitado | ✅ | ⏳ | ⏳ |
+| Renderer Mermaid | — | ✅ componente client, `prefers-color-scheme` direto | ✅ MDX (`pre` override) + páginas Quick Framework | ⏳ visual, verificar em produção | ⏳ | ⏳ |
+| Layout do pacote Apple-screenshot | `DS_APPLE_UPGRADE_SCREENSHOT_001` | ✅ `.ed-cta-compact` — só medida, paleta rejeitada | — | — | ⏳ | ⏳ |
+
+Contradição registrada, não resolvida por inferência: os 3 artigos da série trazem `status: REDIGIDO_VALIDACAO_ESTRUTURAL` no próprio frontmatter e `STATUS: VERIFIED` nos stubs de validação do mesmo pacote — ver `DEC-010` e `packages/knowledge/data/quick-frameworks/PROVENANCE.md`.

@@ -71,7 +71,11 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
     >
       <h1
         className="font-semibold"
-        style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+        style={{
+          fontSize: "var(--ed-display-md)",
+          letterSpacing: "var(--ed-tracking-display-md)",
+          lineHeight: 1.05,
+        }}
       >
         Buscar
       </h1>
@@ -120,7 +124,7 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
         <div className="mt-10">
           <p className="font-medium">Nenhum resultado para “{query}”.</p>
           <p
-            className="mt-2 text-[length:var(--ed-small)]"
+            className="ed-text-small mt-2"
             style={{ color: "var(--ed-label-secondary)" }}
           >
             Foram consultados: {posts.length}{" "}
@@ -195,7 +199,7 @@ function ResultGroup({
 
   return (
     <section>
-      <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+      <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
         {title} ({items.length})
       </h2>
       <ul className="flex flex-col gap-4">
@@ -214,7 +218,7 @@ function ResultGroup({
             </Link>
             {item.detail ? (
               <p
-                className="text-[length:var(--ed-caption)]"
+                className="ed-text-caption"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 {item.detail}

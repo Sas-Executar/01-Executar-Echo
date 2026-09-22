@@ -59,12 +59,16 @@ const BlogIndex = async () => {
         <header style={{ maxWidth: "var(--ed-reading-max)" }}>
           <h1
             className="font-semibold"
-            style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+            style={{
+              fontSize: "var(--ed-display-md)",
+              letterSpacing: "var(--ed-tracking-display-md)",
+              lineHeight: 1.05,
+            }}
           >
             Blog
           </h1>
           <p
-            className="mt-5 text-[length:var(--ed-body-lg)]"
+            className="ed-text-body-lg mt-5"
             style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
           >
             O custo cognitivo da execução — o que aumenta o esforço de
@@ -84,7 +88,7 @@ const BlogIndex = async () => {
             <Link className="block" href={`/blog/${lead.slug}`}>
               {lead.pillar ? (
                 <p
-                  className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+                  className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
                   style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {lead.pillar}
@@ -94,6 +98,7 @@ const BlogIndex = async () => {
                 className="font-semibold"
                 style={{
                   fontSize: "var(--ed-display-lg)",
+                  letterSpacing: "var(--ed-tracking-display-lg)",
                   lineHeight: 1.02,
                   maxWidth: "14ch",
                 }}
@@ -101,7 +106,7 @@ const BlogIndex = async () => {
                 {lead.title}
               </h2>
               <p
-                className="mt-5 text-[length:var(--ed-body-lg)]"
+                className="ed-text-body-lg mt-5"
                 style={{
                   color: "var(--ed-label-secondary)",
                   maxWidth: "var(--ed-reading-max)",
@@ -115,7 +120,7 @@ const BlogIndex = async () => {
 
         {rest.length > 0 ? (
           <section className="mt-20">
-            <h2 className="mb-6 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+            <h2 className="ed-text-small mb-6 font-semibold uppercase tracking-wider">
               Mais artigos
             </h2>
             <ul
@@ -131,17 +136,17 @@ const BlogIndex = async () => {
                   >
                     {post.pillar ? (
                       <span
-                        className="text-[length:var(--ed-caption)] uppercase tracking-[.1em]"
+                        className="ed-text-caption uppercase tracking-[.1em]"
                         style={{ color: "var(--ed-label-secondary)" }}
                       >
                         {post.pillar}
                       </span>
                     ) : null}
-                    <span className="font-semibold text-[length:var(--ed-headline)] leading-tight">
+                    <span className="ed-text-headline font-semibold leading-tight">
                       {post.title}
                     </span>
                     <span
-                      className="text-[length:var(--ed-small)]"
+                      className="ed-text-small"
                       style={{
                         color: "var(--ed-label-secondary)",
                         lineHeight: 1.5,
@@ -158,14 +163,14 @@ const BlogIndex = async () => {
 
         {usedPillars.length > 0 ? (
           <section className="mt-20">
-            <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+            <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
               Pilares editoriais
             </h2>
             <ul className="flex flex-wrap gap-2">
               {usedPillars.map((pillar) => (
                 <li key={pillar.value}>
                   <Link
-                    className="inline-flex items-center text-[length:var(--ed-small)]"
+                    className="ed-text-small inline-flex items-center"
                     href={`/blog/pilar/${termSlug(pillar.value)}`}
                     style={{
                       minHeight: 44,

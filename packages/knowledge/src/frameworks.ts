@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 /**
- * The Quick Frameworks catalog.
+ * The general-purpose framework catalog (SWOT, PESTEL, 5 Whys, …) —
+ * rendered on the public site as "Frameworks de apoio", not "Quick
+ * Frameworks". That name belongs to a different product; see
+ * `quick-frameworks.ts`.
  *
  * Source: `skills/executar-safe-frameworks/catalog/frameworks.jsonl`
  * (`SKILL-EXE-SF-001` v1.0.0) — 299 framework records across the 23

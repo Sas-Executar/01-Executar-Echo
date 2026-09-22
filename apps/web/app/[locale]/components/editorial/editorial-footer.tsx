@@ -55,7 +55,7 @@ export const EditorialFooter = async () => {
             width={134}
           />
           <p
-            className="max-w-sm text-[length:var(--ed-small)]"
+            className="ed-text-small max-w-sm"
             style={{ color: "rgba(255,255,255,.7)" }}
           >
             Entenda → Estruture → Execute. Análise da situação, nunca
@@ -66,7 +66,7 @@ export const EditorialFooter = async () => {
         <div className="flex gap-16">
           <nav aria-label="Mais">
             <h2
-              className="mb-4 font-semibold text-[length:var(--ed-caption)] uppercase"
+              className="ed-text-caption mb-4 font-semibold uppercase"
               style={{ color: "rgba(255,255,255,.5)", letterSpacing: ".08em" }}
             >
               Mais
@@ -74,10 +74,7 @@ export const EditorialFooter = async () => {
             <ul className="flex flex-col gap-3">
               {FOOTER_NAV.map((item) => (
                 <li key={item.href}>
-                  <Link
-                    className="text-[length:var(--ed-small)]"
-                    href={item.href}
-                  >
+                  <Link className="ed-text-small" href={item.href}>
                     {item.label}
                   </Link>
                 </li>
@@ -87,7 +84,7 @@ export const EditorialFooter = async () => {
 
           <nav aria-label="Legal">
             <h2
-              className="mb-4 font-semibold text-[length:var(--ed-caption)] uppercase"
+              className="ed-text-caption mb-4 font-semibold uppercase"
               style={{ color: "rgba(255,255,255,.5)", letterSpacing: ".08em" }}
             >
               Legal
@@ -95,10 +92,7 @@ export const EditorialFooter = async () => {
             <ul className="flex flex-col gap-3">
               {legalPages.map((page) => (
                 <li key={page.slug}>
-                  <Link
-                    className="text-[length:var(--ed-small)]"
-                    href={`/legal/${page.slug}`}
-                  >
+                  <Link className="ed-text-small" href={`/legal/${page.slug}`}>
                     {page.title}
                   </Link>
                 </li>

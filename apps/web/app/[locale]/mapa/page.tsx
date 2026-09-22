@@ -42,19 +42,23 @@ const Mapa = async ({ searchParams }: MapaProps) => {
     >
       <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <p
-          className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+          className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           {map.metadata.project}
         </p>
         <h1
           className="font-semibold"
-          style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+          style={{
+            fontSize: "var(--ed-display-md)",
+            letterSpacing: "var(--ed-tracking-display-md)",
+            lineHeight: 1.05,
+          }}
         >
           Mapa Cognitivo
         </h1>
         <p
-          className="mt-5 text-[length:var(--ed-body-lg)]"
+          className="ed-text-body-lg mt-5"
           style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           {EXPECTED_COUNTS.nodes} nós e {EXPECTED_COUNTS.edges} relações entre

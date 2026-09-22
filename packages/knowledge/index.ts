@@ -13,3 +13,5 @@ export * from "./src/cognitive-map";
 export * from "./src/editorial";
 export * from "./src/frameworks";
 export * from "./src/load-frameworks";
+export * from "./src/load-quick-frameworks";
+export * from "./src/quick-frameworks";

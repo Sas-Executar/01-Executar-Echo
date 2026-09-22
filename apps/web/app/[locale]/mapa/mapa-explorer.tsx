@@ -6,7 +6,8 @@ import type {
   MapEvidence,
   MapNode,
 } from "@repo/knowledge";
-import { NOT_AVAILABLE } from "@repo/knowledge";
+import { NOT_AVAILABLE, quickFrameworkByFactorId } from "@repo/knowledge";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 /** Reader-facing names for the epistemic classes carried by every node. */
@@ -106,7 +107,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
         the opposite of what the corpus says.
       */}
       <p
-        className="mb-8 border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
+        className="ed-text-small mb-8 border-l-4 py-2 pl-4"
         style={{
           borderColor: "var(--ed-accent)",
           color: "var(--ed-label-secondary)",
@@ -123,7 +124,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
         {MODES.map((m) => (
           <button
             aria-selected={mode === m.id}
-            className="font-medium text-[length:var(--ed-small)]"
+            className="ed-text-small font-medium"
             key={m.id}
             onClick={() => setMode(m.id)}
             role="tab"
@@ -187,7 +188,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
 
       <p
         aria-live="polite"
-        className="mb-4 text-[length:var(--ed-small)]"
+        className="ed-text-small mb-4"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         {visible.length === 0
@@ -230,7 +231,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
               >
                 <span className="block font-medium">{node.label}</span>
                 <span
-                  className="block text-[length:var(--ed-caption)]"
+                  className="ed-text-caption block"
                   style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {node.type} · {node.layer}
@@ -279,11 +280,9 @@ function NodeDetail({
 }: NodeDetailProps) {
   return (
     <article style={{ border: "1px solid var(--ed-separator)", padding: 24 }}>
-      <h2 className="font-semibold text-[length:var(--ed-headline)]">
-        {node.label}
-      </h2>
+      <h2 className="ed-text-headline font-semibold">{node.label}</h2>
 
-      <dl className="mt-4 grid grid-cols-2 gap-3 text-[length:var(--ed-small)]">
+      <dl className="ed-text-small mt-4 grid grid-cols-2 gap-3">
         <Field label="Tipo" value={node.type} />
         <Field label="Camada" value={node.layer} />
         <Field label="Grupo" value={node.group} />
@@ -295,11 +294,25 @@ function NodeDetail({
         <Field label="Origem" value={node.source_ref} />
       </dl>
 
-      {node.notes ? (
-        <p className="mt-4 text-[length:var(--ed-small)]">{node.notes}</p>
+      {node.notes ? <p className="ed-text-small mt-4">{node.notes}</p> : null}
+
+      {/*
+        A node's own id doubles as its factor_id for the 20 solution
+        nodes — not a coincidence, the Quick Framework EXECUTAR concept
+        is the editorial explanation of the same factor this node
+        represents.
+      */}
+      {quickFrameworkByFactorId(node.id) ? (
+        <Link
+          className="ed-text-small mt-4 inline-flex items-center underline"
+          href={`/quick-frameworks/${quickFrameworkByFactorId(node.id)?.slug}`}
+          style={{ minHeight: 44 }}
+        >
+          Ver o Quick Framework de {node.id} →
+        </Link>
       ) : null}
 
-      <h3 className="mt-8 mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+      <h3 className="ed-text-small mt-8 mb-3 font-semibold uppercase tracking-wider">
         Relações ({relations.length})
       </h3>
       <ul className="flex flex-col gap-3">
@@ -326,7 +339,7 @@ function NodeDetail({
                 paddingTop: 12,
               }}
             >
-              <p className="text-[length:var(--ed-small)]">
+              <p className="ed-text-small">
                 <span style={{ color: "var(--ed-label-secondary)" }}>
                   {isOutgoing ? "→" : "←"} {edge.relation.replace(/_/g, " ")}
                 </span>{" "}
@@ -340,7 +353,7 @@ function NodeDetail({
                 </button>
               </p>
               <p
-                className="text-[length:var(--ed-caption)]"
+                className="ed-text-caption"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 {edge.edge_id} · classe {edge.epistemic_class}
@@ -355,7 +368,7 @@ function NodeDetail({
               */}
               {record ? (
                 <blockquote
-                  className="mt-2 pl-3 text-[length:var(--ed-caption)]"
+                  className="ed-text-caption mt-2 pl-3"
                   style={{ borderLeft: "3px solid var(--ed-accent)" }}
                 >
                   <p>{record.authorized_statement}</p>
@@ -386,7 +399,7 @@ function Field({
   return (
     <div>
       <dt
-        className="text-[length:var(--ed-caption)] uppercase tracking-wider"
+        className="ed-text-caption uppercase tracking-wider"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         {label}

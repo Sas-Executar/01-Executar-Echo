@@ -105,7 +105,7 @@ export function FrameworksBrowser({
 
       <p
         aria-live="polite"
-        className="mb-6 text-[length:var(--ed-small)]"
+        className="ed-text-small mb-6"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         {results.length === 0
@@ -125,16 +125,16 @@ export function FrameworksBrowser({
               style={{ minHeight: 180 }}
             >
               <span
-                className="text-[length:var(--ed-caption)] uppercase tracking-[.1em]"
+                className="ed-text-caption uppercase tracking-[.1em]"
                 style={{ color: "var(--ed-label-secondary)" }}
               >
                 {framework.domain_name}
               </span>
-              <span className="font-semibold text-[length:var(--ed-headline)] leading-tight">
+              <span className="ed-text-headline font-semibold leading-tight">
                 {framework.name}
               </span>
               <span
-                className="text-[length:var(--ed-small)]"
+                className="ed-text-small"
                 style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
               >
                 {framework.purpose}

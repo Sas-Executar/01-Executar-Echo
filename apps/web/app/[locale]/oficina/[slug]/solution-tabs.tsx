@@ -34,7 +34,7 @@ export function SolutionTabs({ solution }: { readonly solution: Solution }) {
           <button
             aria-controls={`panel-${tab.id}`}
             aria-selected={active === tab.id}
-            className="font-medium text-[length:var(--ed-small)]"
+            className="ed-text-small font-medium"
             id={`tab-${tab.id}`}
             key={tab.id}
             onClick={() => setActive(tab.id)}
@@ -98,7 +98,7 @@ function OverviewPanel({ solution }: { readonly solution: Solution }) {
             */}
       {fit?.risk_of_use?.length ? (
         <section>
-          <h3 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h3 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Quando isto é exagero
           </h3>
           <ul className="flex flex-col gap-4">
@@ -112,13 +112,13 @@ function OverviewPanel({ solution }: { readonly solution: Solution }) {
               >
                 <p className="font-medium">{risk.scenario}</p>
                 <p
-                  className="text-[length:var(--ed-small)]"
+                  className="ed-text-small"
                   style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {risk.failure_mode}
                 </p>
                 {risk.better_alternative ? (
-                  <p className="mt-1 text-[length:var(--ed-small)]">
+                  <p className="ed-text-small mt-1">
                     Em vez disso: {risk.better_alternative}
                   </p>
                 ) : null}
@@ -139,7 +139,7 @@ function ContentsPanel({ solution }: { readonly solution: Solution }) {
     <div className="flex flex-col gap-8">
       {pub?.tutorial ? (
         <section>
-          <h3 className="font-semibold text-[length:var(--ed-headline)]">
+          <h3 className="ed-text-headline font-semibold">
             {pub.tutorial.title}
           </h3>
           {pub.tutorial.introduction ? (
@@ -154,7 +154,7 @@ function ContentsPanel({ solution }: { readonly solution: Solution }) {
           ) : null}
           {pub.tutorial.expected_result ? (
             <p
-              className="mt-5 text-[length:var(--ed-small)]"
+              className="ed-text-small mt-5"
               style={{ color: "var(--ed-label-secondary)" }}
             >
               Resultado esperado: {pub.tutorial.expected_result}
@@ -167,7 +167,7 @@ function ContentsPanel({ solution }: { readonly solution: Solution }) {
 
       {fit?.best_use_cases?.length ? (
         <section>
-          <h3 className="mb-3 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h3 className="ed-text-small mb-3 font-semibold uppercase tracking-wider">
             Melhores usos
           </h3>
           <ul className="flex flex-col gap-5">
@@ -176,14 +176,14 @@ function ContentsPanel({ solution }: { readonly solution: Solution }) {
                 <p className="font-medium">{useCase.title}</p>
                 {useCase.problem ? (
                   <p
-                    className="text-[length:var(--ed-small)]"
+                    className="ed-text-small"
                     style={{ color: "var(--ed-label-secondary)" }}
                   >
                     {useCase.problem}
                   </p>
                 ) : null}
                 {useCase.fit_conditions?.length ? (
-                  <ul className="mt-2 flex list-disc flex-col gap-1 pl-5 text-[length:var(--ed-small)]">
+                  <ul className="ed-text-small mt-2 flex list-disc flex-col gap-1 pl-5">
                     {useCase.fit_conditions.map((cond) => (
                       <li key={cond}>{cond}</li>
                     ))}
@@ -203,17 +203,17 @@ function ExamplesPanel({ solution }: { readonly solution: Solution }) {
 
   return pub?.practical_example ? (
     <section className="flex flex-col gap-5">
-      <h3 className="font-semibold text-[length:var(--ed-headline)]">
+      <h3 className="ed-text-headline font-semibold">
         {pub.practical_example.title}
       </h3>
       <Block title="Cenário">{pub.practical_example.scenario}</Block>
       {pub.practical_example.input_example ? (
         <div>
-          <h4 className="mb-2 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h4 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
             Entrada
           </h4>
           <pre
-            className="overflow-x-auto p-4 text-[length:var(--ed-small)]"
+            className="ed-text-small overflow-x-auto p-4"
             style={{
               background: "var(--ed-bg-grouped)",
               whiteSpace: "pre-wrap",
@@ -228,11 +228,11 @@ function ExamplesPanel({ solution }: { readonly solution: Solution }) {
       </Block>
       {pub.practical_example.output_example ? (
         <div>
-          <h4 className="mb-2 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+          <h4 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
             Saída
           </h4>
           <pre
-            className="overflow-x-auto p-4 text-[length:var(--ed-small)]"
+            className="ed-text-small overflow-x-auto p-4"
             style={{
               background: "var(--ed-bg-grouped)",
               whiteSpace: "pre-wrap",
@@ -275,7 +275,7 @@ function Block({
 }) {
   return (
     <section>
-      <h3 className="mb-2 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+      <h3 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
         {title}
       </h3>
       {children ? <p>{children}</p> : <Empty />}
@@ -292,7 +292,7 @@ function ListBlock({
 }) {
   return (
     <section>
-      <h3 className="mb-2 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+      <h3 className="ed-text-small mb-2 font-semibold uppercase tracking-wider">
         {title}
       </h3>
       {items?.length ? (

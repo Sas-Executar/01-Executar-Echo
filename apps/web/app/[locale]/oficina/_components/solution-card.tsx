@@ -29,18 +29,18 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
         style={{ minHeight: 260 }}
       >
         <span
-          className="text-[length:var(--ed-caption)] uppercase tracking-[.1em]"
+          className="ed-text-caption uppercase tracking-[.1em]"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           {content?.eyebrow ?? productTypeLabel(identity.product_type)}
         </span>
 
-        <h3 className="font-semibold text-[length:var(--ed-headline)] leading-tight">
+        <h3 className="ed-text-headline font-semibold leading-tight">
           {content?.title ?? identity.solution_name}
         </h3>
 
         <p
-          className="flex-1 text-[length:var(--ed-small)]"
+          className="ed-text-small flex-1"
           style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           {content?.short_description ??
@@ -51,7 +51,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
         <div className="flex flex-wrap items-center gap-2">
           {content?.primary_area || identity.category ? (
             <span
-              className="text-[length:var(--ed-caption)]"
+              className="ed-text-caption"
               style={{
                 border: "1px solid var(--ed-separator)",
                 padding: "4px 8px",
@@ -66,7 +66,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
             blocked-action note says why Start isn't offered yet.
           */}
           <span
-            className="text-[length:var(--ed-caption)]"
+            className="ed-text-caption"
             style={{
               padding: "4px 8px",
               background: isPublished(solution)
@@ -82,7 +82,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
         </div>
 
         <span
-          className="text-[length:var(--ed-caption)]"
+          className="ed-text-caption"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           {primaryBlocked ? primaryBlocked : "Pronto para usar →"}

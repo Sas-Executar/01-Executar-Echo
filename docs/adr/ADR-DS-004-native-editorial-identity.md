@@ -129,3 +129,31 @@ are superseded. DS-003 is marked `SUPERSEDED_IN_PART`, not revoked.
   Aligning the optical sizes and symbol set against those kits is a
   future step, recorded as a GAP rather than claimed as done.
 - **Owner** is `A_DEFINIR` in the package itself and stays so here.
+
+## Addendum (2026-09-22) — `DS-APPLE-UPGRADE-SCREENSHOT-001`, layout adopted, palette rejected
+
+A package extracted from a screenshot of an apple.com marketing page
+(`IMG_1243.png`, `design-system.yaml`/`tokens.css`/`design-tokens.json`)
+was received. Its own README states plainly what it is: *"Tokens
+observacionais extraídos do raster; não representam o Design System
+interno da Apple"* — a reading of one rendered page, not an official Apple
+asset, and it says so itself.
+
+Its interface colours are `action_primary: #2F6FDB` (blue) and
+`brand_accent: #6A33BA` (purple) — Apple.com's own marketing palette, not
+this identity's. Adopting them would replace the EXECUTAR yellow accent
+and the system focus blue with Apple's brand colours, undoing the exact
+distinction this ADR draws.
+
+**Decision, by explicit instruction:** adopt layout and spacing only;
+reject the palette outright. Nothing from `art_palette` or
+`interface.colors` in the package enters `@repo/editorial-tokens`.
+
+Checked against what already exists: the package's `base_grid: 4px` and
+its padding multiples already match the `--ed-space-*` scale (`layout.ts`
+`space`), so nothing there needed to change. The one new addition is
+`.ed-cta-compact` (`css/editorial.css`), a utility for short inline CTAs
+matching the package's `compact_cta` measurements (24px height, ~53px
+min-width, 10px inline padding) — assembled entirely from tokens that
+already existed (`--ed-space-6`, `--ed-radius-control`, `--ed-caption`),
+not new values.

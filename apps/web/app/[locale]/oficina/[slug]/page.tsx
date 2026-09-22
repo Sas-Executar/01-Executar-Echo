@@ -60,7 +60,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
       }}
     >
       <p
-        className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
+        className="ed-text-caption mb-3 font-semibold uppercase tracking-[.12em]"
         style={{ color: "var(--ed-label-secondary)" }}
       >
         {card?.content?.eyebrow ?? productTypeLabel(identity.product_type)}
@@ -69,16 +69,17 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
 
       <h1
         className="font-semibold"
-        style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
+        style={{
+          fontSize: "var(--ed-display-md)",
+          letterSpacing: "var(--ed-tracking-display-md)",
+          lineHeight: 1.05,
+        }}
       >
         {identity.solution_name}
       </h1>
 
       {solution.public_layer?.problem_statement ? (
-        <p
-          className="mt-5 text-[length:var(--ed-body-lg)]"
-          style={{ lineHeight: 1.5 }}
-        >
+        <p className="ed-text-body-lg mt-5" style={{ lineHeight: 1.5 }}>
           {solution.public_layer.problem_statement}
         </p>
       ) : null}
@@ -88,11 +89,11 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
       <SolutionTabs solution={solution} />
 
       <section className="mt-16">
-        <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+        <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
           Estado de produção
         </h2>
         <p
-          className="mb-4 text-[length:var(--ed-small)]"
+          className="ed-text-small mb-4"
           style={{ color: "var(--ed-label-secondary)" }}
         >
           Esta solução está em{" "}
@@ -103,7 +104,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         <ul className="flex flex-wrap gap-2">
           {gates(solution).map(([name, passed]) => (
             <li
-              className="text-[length:var(--ed-caption)]"
+              className="ed-text-caption"
               key={name}
               style={{
                 padding: "6px 10px",
@@ -121,10 +122,10 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
 
         {lifecycle?.blockers?.length ? (
           <div className="mt-5">
-            <h3 className="mb-2 font-semibold text-[length:var(--ed-small)]">
+            <h3 className="ed-text-small mb-2 font-semibold">
               Pendências declaradas
             </h3>
-            <ul className="flex list-disc flex-col gap-1 pl-5 text-[length:var(--ed-small)]">
+            <ul className="ed-text-small flex list-disc flex-col gap-1 pl-5">
               {lifecycle.blockers.map((blocker) => (
                 <li key={blocker}>{blocker}</li>
               ))}
@@ -138,7 +139,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         */}
         {scoring?.status && scoring.status !== "SCORED" ? (
           <p
-            className="mt-5 text-[length:var(--ed-caption)]"
+            className="ed-text-caption mt-5"
             style={{ color: "var(--ed-label-secondary)" }}
           >
             Pontuação de utilidade ({scoring.methodology_id ?? "SEUS"}):{" "}
@@ -149,10 +150,10 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
       </section>
 
       <section className="mt-12">
-        <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
+        <h2 className="ed-text-small mb-4 font-semibold uppercase tracking-wider">
           Classificação
         </h2>
-        <dl className="grid gap-4 text-[length:var(--ed-small)] sm:grid-cols-2">
+        <dl className="ed-text-small grid gap-4 sm:grid-cols-2">
           <div>
             <dt style={{ color: "var(--ed-label-secondary)" }}>
               Área principal
@@ -179,7 +180,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
 
         {solution.source ? (
           <p
-            className="mt-6 text-[length:var(--ed-caption)]"
+            className="ed-text-caption mt-6"
             style={{ color: "var(--ed-label-secondary)" }}
           >
             Fonte: {solution.source.repository} · {solution.source.path}
@@ -245,7 +246,7 @@ function ActionBar({
         </Link>
       ) : (
         <span
-          className="inline-flex items-center text-[length:var(--ed-small)]"
+          className="ed-text-small inline-flex items-center"
           style={{
             minHeight: 56,
             paddingInline: 20,
