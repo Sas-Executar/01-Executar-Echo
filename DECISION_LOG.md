@@ -112,3 +112,31 @@ Decisão que o pacote original da Fase Zero não previu. Registrada como FP-004 
 | **Data** | 2026-09-21 |
 | **Consequência** | `AGENTS.md`, `README.md` e `MASTER_WORKBOOK.md` passam a citar `Sas-Executar/LANCAMENTO` como fonte canônica do domínio Blog. Assets de marca, a skill `executar-safe-frameworks` e a bio do autor (DOC-0019) são materializados como conteúdo real neste repo (`apps/web/public/brand/`, `skills/executar-safe-frameworks/`, `docs/executar/blog/`). Nenhum artigo de blog foi criado: `LANCAMENTO` ainda não tem conteúdo editorial pronto para publicação (`#07-ARTIGOS-PRONTOS` vazio, `#08-ARTIGOS-REVISAO` só com drafts em revisão) — publicar a partir de draft não revisado violaria a régua de maturidade deste arquivo |
 | **Evidência** | `Sas-Executar/LANCAMENTO` PR #10 (mergeável, CI verde, dois receipts de governança: `D23-EXECUTAR-BLOG-IMPORT-001`, `D18-RC-UNIFIED-GOVERNANCE-SCHEMA-001`) |
+
+---
+
+## DEC-007 — Identidade visual das superfícies públicas · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | Três fontes se contradiziam sobre a identidade das superfícies públicas. (1) `ADR-DS-001` faz de `packages/design-tokens` (green `#00bf63` / azure `#1f93ff` / IBM Plex) a SOT do Design System, consumida por `apps/app`, `apps/mobile` **e** `apps/web`. (2) O contrato NatGeo-hybrid v6 em `LANCAMENTO #02-UX-UI`/`#03-DESIGN-TOKENS` define para o Blog e institucional uma identidade oposta em quase todos os eixos: amarelo `#ffcc00`, preto, charcoal `#111111`, cantos retos, tipografia de sistema, **azul proibido**. (3) O `README.txt` do pacote de 82 PNGs declara uma terceira paleta, em escala de cinza, sem amarelo — conflito que o próprio corpus registra como `DS-01 USER_ACTION_REQUIRED`. Agravante técnico: Tailwind v4 CSS-first, sem `tailwind.config`, e o único mecanismo de escopo existente no repo era a classe `.dark`. Não havia como sustentar duas identidades — vestir o site significava editar os tokens do produto e repintar o app e o mobile junto |
+| **Impacto de adiar** | Qualquer implementação da superfície pública teria de escolher entre contrariar o contrato v6 (site com cara de app) ou editar `packages/design-tokens` (regressão visual silenciosa em `apps/app` e `apps/mobile`) |
+| **Recomendação** | Separar por **escopo**, não por disciplina: manter `packages/design-tokens` intocado como DS do produto e criar `@repo/editorial-tokens` emitido exclusivamente sob `[data-surface="editorial"]`, com a fronteira verificada mecanicamente no CI. Para o `DS-01`, adotar os tokens v6 — os PNGs são marcas em preto, branco e reverso, sem paleta própria, e compõem corretamente sobre a superfície editorial |
+| **Resposta de Leo** | **Tokens NatGeo v6 mandam na superfície pública** (2026-09-22) |
+| **Data** | 2026-09-22 |
+| **Consequência** | `ADR-DS-002` (separação), `ADR-DS-003` (resolve `DS-01`), `ADR-OFICINA-001` (o `visual_contract` do binding da Oficina deixa de governar superfícies públicas; a parte estrutural segue canônica). `packages/design-tokens` **não foi editado**: está fixado por hash em `scripts/PRODUCT_DS_BASELINE.sha256` e verificado pelo job `editorial-isolation`. `DS-01` sai de `USER_ACTION_REQUIRED` para `RESOLVED` |
+| **Evidência** | Isolamento confirmado no CSS **compilado**, não só no fonte: os tokens editoriais saem como `[data-surface=editorial]{--ed-yellow:#fc0…}` e nenhum bloco `:root` contém `--ed-*`. 11 testes, incluindo casos negativos que provam que a guarda falha quando violada |
+
+---
+
+## DEC-008 — Os três "Mapa" e a fonte de dados do Mapa Cognitivo · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | Três produtos diferentes são chamados de "Mapa": o Mapa Cognitivo público (`MAPA-PRD-001`, APPROVED, sem código), o Mapa-OS/Prisma interno (implementado em `packages/mapa-os` e `apps/app`), e o Scroll (`APP-SCR-001`, mobile). A ambiguidade já produziu erro de planejamento: um pedido para implementar `PRD-SCROLL-001`, identificador que **não existe em nenhum dos dois repositórios**. Além disso, o grafo materializado de 237 nós descrito pelo PRD não estava versionado em nenhum repositório |
+| **Impacto de adiar** | Risco concreto de regenerar o grafo por inferência a partir do BLOG-09 ou do corpus editorial — produzindo um artefato diferente com o mesmo identificador, sem que nada acusasse a substituição |
+| **Recomendação** | Registrar os três como produtos distintos, registrar a inexistência de `PRD-SCROLL-001`, e fixar `SCHEMA-RC-SOLUTION-004` como SOT de dados **não regenerável** |
+| **Resposta de Leo** | **Não reconstrua o grafo. O artefato já existe** — entregue como `SCHEMA-RC-SOLUTION-004_AGENT_BUNDLE` em 2026-09-22 |
+| **Data** | 2026-09-22 |
+| **Consequência** | `ADR-MAPA-001`. O bundle é vendorizado em `packages/knowledge/data/cognitive-map/` com checksums e procedência. Um teste verifica os checksums e as contagens a cada execução, de modo que regenerar o grafo **quebra o CI** — que é o comportamento desejado |
+| **Evidência** | `sha256sum -c` 10/10 OK na recepção; `graph_data.json` valida contra `graph_schema.json`; 237 nós · 528 relações · 20 soluções · 13 evidências, conferidos |

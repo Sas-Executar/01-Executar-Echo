@@ -244,3 +244,25 @@ dois caminhos de escrita de env var adotar como canônico) e ação com custo al
 silencioso (redeploy de produção nos três projetos). A ordem das operações importa mais
 que a velocidade — sincronizar antes de redeployar, e verificar `readyState` por
 projeto em vez de assumir que o merge publicou.
+
+---
+
+## GATE-PUBLIC-ECOSYSTEM-001 — Ecossistema público EXECUTAR · **PARCIAL — aguardando verificação de runtime**
+
+| | |
+|---|---|
+| **Fase** | `EXECUTAR-PUBLIC-ECOSYSTEM-FULLSTACK-001`, branch `claude/executar-public-ecosystem-fullstack-bsnscq` |
+| **Escopo** | Superfícies públicas: institucional, Blog, Mapa Cognitivo, Quick Frameworks, Oficina (5 superfícies), VERA |
+| **Estado anterior** | `apps/web` com 10 arquivos de rota. Oficina, Mapa público, Frameworks e VERA: documentados, **zero código**. 85 PNGs de marca com zero referências em código. Nenhum token editorial. Nenhum mecanismo de escopo além de `.dark` |
+| **G0 — baseline** | ✅ Auditoria forense concluída; matriz publicada em `docs/ecosystem/IMPLEMENTATION_MATRIX.md`. Diagnóstico corrigido: o 404 em `/pt-BR` era código de locale errado da minha parte (o locale é `pt`), não um defeito |
+| **G1 — governança** | ✅ 5 ADRs em `docs/adr/`. Nenhum ADR anterior apagado; o binding da Oficina foi marcado `superseded_in_part`, preservando a parte estrutural |
+| **G2 — fundação visual** | ✅ Isolamento verificado no CSS compilado. `packages/design-tokens` e `apps/app`/`apps/mobile` intocados, fixados por hash. Focus-trap do drawer — item 🔴 bloqueante do handoff v6 — implementado |
+| **G3 — institucional + Blog** | ✅ Build e testes; ⏳ runtime |
+| **G4 — frameworks** | ✅ 299 registros navegáveis; ⏳ runtime |
+| **G5 — Mapa** | ✅ 237 nós reais, deep links; ⏳ runtime |
+| **G6 — VERA** | ✅ camada determinística; camada generativa desligada por falta de chave, e a página diz isso. 21 testes, incluindo 4 de prompt injection; ⏳ runtime |
+| **G7 — Oficina** | ✅ 5 superfícies, 2 soluções reais; ⏳ runtime |
+| **G9 — qualidade** | ✅ lint limpo em 762 arquivos; 67/67 tarefas de test+typecheck; build de produção verde |
+| **G10 — deploy e verificação** | ⏳ **pendente** — é o que falta para este gate sair de PARCIAL |
+| **Falhas de planejamento registradas** | (1) Assumi `pt-BR` como locale e reportei um 404 inexistente antes de conferir `languine.json`. (2) Escrevi num comentário que o frontmatter era validado contra a taxonomia antes de implementar a validação; corrigido no mesmo commit. (3) Deixei o formatador reescrever dois artefatos vendorizados (grafo e referência v6) antes de excluí-los — os próprios gates de integridade pegaram, e é para isso que existem |
+| **Pendência externa** | Uma chave de LLM em `executar-nf-web` para a camada generativa da VERA. Não bloqueia nenhum outro gate |
