@@ -1,0 +1,238 @@
+﻿id,label,type,layer,group,epistemic_class,status,source_ref,notes
+CORE-PERSON,Pessoa,core,CENTER,Centro,D,DEFINED,TP-001 framework,
+CORE-OBJECTIVE,Objetivo,core,CENTER,Centro,D,DEFINED,TP-001 framework,
+CORE-SITUATION,Situação / execução concreta,core,CENTER,Centro,D,DEFINED,RC-SCAN,
+ENV-PHYSICAL,Ambiente físico,environment,R1,Ambiente,E,MODELLED,Modelagem do mapa,
+ENV-SOCIAL,Ambiente social,environment,R1,Ambiente,E,MODELLED,Modelagem do mapa,
+ENV-DIGITAL,Ambiente digital,environment,R1,Ambiente,E,MODELLED,Modelagem do mapa,
+ENV-TEMPORAL,Ambiente temporal,environment,R1,Ambiente,E,MODELLED,Modelagem do mapa,
+S1,Visual / Informacional,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S2,Auditivo / Interrupção,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S3,Temporal,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S4,Espacial / Ambiental,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S5,Memória / Executivo,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S6,Decisão / Ação,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S7,Processo / Relações,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+S8,Digital / Sistêmico,operational_sense,R2,Sentidos Operacionais,D,DEFINED,RC-SCAN-QUESTION-CATALOG-V1,
+STATE-STRESS,Estresse,emotion_state,R3,Emoção / Estado,E,MODELLED,Modelagem do mapa,Modulador transversal; não é diagnóstico.
+STATE-FATIGUE,Fadiga,emotion_state,R3,Emoção / Estado,E,MODELLED,Modelagem do mapa,Modulador transversal; não é diagnóstico.
+STATE-MOTIVATION,Motivação,emotion_state,R3,Emoção / Estado,E,MODELLED,Modelagem do mapa,Modulador transversal; não é diagnóstico.
+STATE-AROUSAL,Ativação,emotion_state,R3,Emoção / Estado,E,MODELLED,Modelagem do mapa,Modulador transversal; não é diagnóstico.
+STATE-THREAT,Ameaça / segurança percebida,emotion_state,R3,Emoção / Estado,E,MODELLED,Modelagem do mapa,Modulador transversal; não é diagnóstico.
+STATE-MOOD,Humor / valência,emotion_state,R3,Emoção / Estado,E,MODELLED,Modelagem do mapa,Modulador transversal; não é diagnóstico.
+COG-M1,Entrada & Percepção,cognitive_macro,R4,Cognição,E,MODELLED,Taxonomia funcional do mapa,
+COG-M1-F01,Percepção,cognitive_function,R4,Entrada & Percepção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M1-F02,Reconhecimento,cognitive_function,R4,Entrada & Percepção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M1-F03,Velocidade de processamento,cognitive_function,R4,Entrada & Percepção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M2,Atenção & Seleção,cognitive_macro,R4,Cognição,E,MODELLED,Taxonomia funcional do mapa,
+COG-M2-F01,Atenção seletiva,cognitive_function,R4,Atenção & Seleção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M2-F02,Atenção sustentada,cognitive_function,R4,Atenção & Seleção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M2-F03,Atenção alternada,cognitive_function,R4,Atenção & Seleção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M2-F04,Orientação,cognitive_function,R4,Atenção & Seleção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M2-F05,Controle atencional,cognitive_function,R4,Atenção & Seleção,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3,Memória & Aprendizagem,cognitive_macro,R4,Cognição,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F01,Memória de trabalho,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F02,Memória episódica,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F03,Memória semântica,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F04,Memória prospectiva,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F05,Codificação,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F06,Recuperação,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M3-F07,Aprendizagem,cognitive_function,R4,Memória & Aprendizagem,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4,Representação & Raciocínio,cognitive_macro,R4,Cognição,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4-F01,Linguagem,cognitive_function,R4,Representação & Raciocínio,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4-F02,Processamento visuoespacial,cognitive_function,R4,Representação & Raciocínio,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4-F03,Abstração,cognitive_function,R4,Representação & Raciocínio,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4-F04,Raciocínio,cognitive_function,R4,Representação & Raciocínio,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4-F05,Cálculo / numeracia,cognitive_function,R4,Representação & Raciocínio,E,MODELLED,Taxonomia funcional do mapa,
+COG-M4-F06,Resolução de problemas,cognitive_function,R4,Representação & Raciocínio,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5,Controle Executivo & Regulação,cognitive_macro,R4,Cognição,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F01,Controle inibitório,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F02,Flexibilidade cognitiva,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F03,Planejamento,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F04,Organização,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F05,Priorização,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F06,Gestão do tempo,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F07,Monitoramento,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F08,Metacognição,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M5-F09,Autorregulação,cognitive_function,R4,Controle Executivo & Regulação,E,MODELLED,Taxonomia funcional do mapa,
+COG-M6,"Decisão, Ação & Feedback",cognitive_macro,R4,Cognição,E,MODELLED,Taxonomia funcional do mapa,
+COG-M6-F01,Tomada de decisão,cognitive_function,R4,"Decisão, Ação & Feedback",E,MODELLED,Taxonomia funcional do mapa,
+COG-M6-F02,Iniciação,cognitive_function,R4,"Decisão, Ação & Feedback",E,MODELLED,Taxonomia funcional do mapa,
+COG-M6-F03,Praxia,cognitive_function,R4,"Decisão, Ação & Feedback",E,MODELLED,Taxonomia funcional do mapa,
+COG-M6-F04,Coordenação perceptivo-motora,cognitive_function,R4,"Decisão, Ação & Feedback",E,MODELLED,Taxonomia funcional do mapa,
+COG-M6-F05,Correção de curso,cognitive_function,R4,"Decisão, Ação & Feedback",E,MODELLED,Taxonomia funcional do mapa,
+COG-M6-F06,Feedback / aprendizagem por resultado,cognitive_function,R4,"Decisão, Ação & Feedback",E,MODELLED,Taxonomia funcional do mapa,
+MAN-RELEITURA,Releitura frequente,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-BUSCA,Busca / procura repetida,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-COMPARACAO,Comparação manual recorrente,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-CLUTTER,Dificuldade de localizar prioridade,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-OMISSAO,Omissão / perda de informação crítica,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-INTERRUPCAO,Interrupção,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-RETOMADA,Retomada lenta,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-DISTRACAO,Distração / mudança involuntária de foco,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-FLUXO,Quebra de fluxo / perda de continuidade,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-ATRASO,Atraso,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-ESQUECIMENTO,Esquecimento futuro,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-INICIO,Dificuldade de iniciar,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-TRANSICAO,Dificuldade de transição,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-MANUTENCAO,Manutenção mental excessiva,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-CONTEXTO,Reconstrução / recuperação de contexto,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-CHECAGEM,Checagem repetida,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-HESITACAO,Hesitação / paralisação,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-AMBIGUIDADE,Ambiguidade / reinterpretação,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-ESCOLHA,Escolha repetida / excesso de decisão,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-BLOQUEIO,Bloqueio tardio,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-DEPENDENCIA,Dependência oculta / sequência reconstruída,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-RETRABALHO,Retrabalho,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-FRAGMENTACAO,Fragmentação / estado distribuído,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+MAN-DUPLICACAO,Duplicação / manutenção administrativa,operational_manifestation,R5,Manifestação operacional,D,DEFINED,RC-SCAN signals / manifestações,Não equivale a déficit clínico.
+FRC-01,FRC-01 · Tailoring do projeto,frc_factor,R6,MG-05 Sistema & Arquitetura de Suporte,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"Método, etapas ou controles desproporcionais ao objetivo."
+FRC-02,FRC-02 · Perfil cognitivo do executor,frc_factor,R6,MG-01 Pessoa & Cognição,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"O fluxo presume a mesma capacidade de atenção, memória, planejamento e alternância para todos."
+FRC-03,FRC-03 · Quantidade de informação,frc_factor,R6,MG-02 Informação & Interface,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Filtrar e manter mais informação do que é utilizável naquele momento.
+FRC-04,FRC-04 · Forma e visualização da informação,frc_factor,R6,MG-02 Informação & Interface,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"Esforço elevado para procurar, comparar e descobrir o que importa."
+FRC-05,FRC-05 · Task switching,frc_factor,R6,MG-03 Tarefa & Fluxo de Execução,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Interrupção exige abandonar contexto e reconstruí-lo na retomada.
+FRC-06,FRC-06 · Decomposição de tarefas,frc_factor,R6,MG-03 Tarefa & Fluxo de Execução,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"Objetivo existe, mas não há próxima ação suficientemente explícita."
+FRC-07,FRC-07 · Clareza e escrita da tarefa,frc_factor,R6,MG-03 Tarefa & Fluxo de Execução,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,A tarefa precisa ser reinterpretada ao iniciar ou retomar.
+FRC-08,FRC-08 · Agrupamento e chunking,frc_factor,R6,MG-02 Informação & Interface,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Muitos elementos independentes competem como unidades separadas.
+FRC-09,FRC-09 · Dependências e cadeia de valor,frc_factor,R6,MG-03 Tarefa & Fluxo de Execução,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Dependências e ordem real precisam ser mantidas ou reconstruídas mentalmente.
+FRC-10,FRC-10 · Externalização cognitiva,frc_factor,R6,MG-05 Sistema & Arquitetura de Suporte,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"Prazos, estados, decisões e intenções permanecem na memória em vez do sistema."
+FRC-11,FRC-11 · Memória prospectiva,frc_factor,R6,MG-01 Pessoa & Cognição,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"A ação é conhecida, mas precisa ser lembrada no momento correto."
+FRC-12,FRC-12 · Excesso de opções e dark patterns,frc_factor,R6,MG-02 Informação & Interface,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Muitas alternativas ampliam comparação e escolha antes da ação.
+FRC-13,FRC-13 · Fadiga decisória,frc_factor,R6,MG-01 Pessoa & Cognição,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Decisões importantes competem com decisões anteriores e repetitivas.
+FRC-14,FRC-14 · Ambiente físico e ergonomia,frc_factor,R6,MG-04 Ambiente & Contexto,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"Ruído, fala, iluminação, organização ou equipamento acrescentam demanda."
+FRC-15,FRC-15 · Ambiente digital,frc_factor,R6,MG-02 Informação & Interface,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"Apps, notificações, abas e estados distribuídos exigem reorientação contínua."
+FRC-16,"FRC-16 · Rotina, hábitos e contexto",frc_factor,R6,MG-04 Ambiente & Contexto,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Comportamentos recorrentes precisam ser novamente decididos e iniciados.
+FRC-17,FRC-17 · Preparação antes da execução,frc_factor,R6,MG-03 Tarefa & Fluxo de Execução,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,"A tarefa começa sem contexto, materiais, regras ou primeira ação preparados."
+FRC-18,FRC-18 · Competição pela atenção,frc_factor,R6,MG-01 Pessoa & Cognição,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Vários estímulos ou objetivos permanecem candidatos simultâneos ao foco.
+FRC-19,FRC-19 · Sobrecarga cognitiva sistêmica,frc_factor,R6,MG-05 Sistema & Arquitetura de Suporte,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,Demandas de diferentes fontes acumulam-se e o sistema inteiro consome capacidade.
+FRC-20,FRC-20 · Cadeia de desvalor → cadeia de valor,frc_factor,R6,MG-05 Sistema & Arquitetura de Suporte,D,DEFINED,TP-001.FACTOR_INVENTORY.V1,O executor compensa continuamente um sistema mal desenhado em vez de receber suporte estrutural.
+DEM-COG,Demanda cognitiva possível,demand,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+VULN-CONTEXT,Vulnerabilidade / barreira relevante,vulnerability,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+EXP-COG,Exposição cognitiva possível,exposure,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+RISK-POSSIBLE,Risco cognitivo possível,risk,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+IMPACT-ERROR,Erro,impact,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+IMPACT-DELAY,Atraso,impact,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+IMPACT-FORGET,Esquecimento / omissão,impact,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+IMPACT-REWORK,Retrabalho,impact,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+IMPACT-ABANDON,Abandono,impact,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+IMPACT-CONTINUITY,Perda de continuidade,impact,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+FEEDBACK-TEST,Feedback do teste,feedback,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+LEARNING-RC,Aprendizado governado,learning,R7,Solução · Impacto · Feedback,D,DEFINED,TP-001 / RC-SCAN,
+ENGINE-SCAN,SCAN,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+ENGINE-CONVERT,CONVERT,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+ENGINE-MAP,MAP,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+ENGINE-REMEMBER,REMEMBER,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+ENGINE-FOCUS,FOCUS,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+ENGINE-CONTROL,CONTROL,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+ENGINE-MEASURE,MEASURE,engine,R7,Engines,D,DEFINED,TP-001 factor-solution matrix,
+SOL-01,Tailoring Engine,solution,R7,CONTROL,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Adaptar rigor, artefatos, controles e processos ao contexto e complexidade."
+SOL-02,Cognitive Demand Mapper,solution,R7,SCAN,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Mapear demandas da tarefa sem diagnosticar pessoas.
+SOL-03,Cognitive Content Converter,solution,R7,CONVERT,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Filtragem, progressive disclosure, agrupamento e foco no necessário para a ação atual."
+CTRL-FRC03-P,Progressive disclosure + filtragem contextual,control,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Mostrar prioritariamente apenas informação necessária à ação atual.
+CTRL-FRC03-D,Detectar busca/releitura excessiva,control,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Sinais: muitas consultas, releitura, procura repetida, comparação manual, abandono da leitura."
+CTRL-FRC03-C,Converter conteúdo para visão reduzida e hierarquizada,control,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Documento completo → Essencial agora → Ações → Evidências → Detalhes.
+ACTION-03,Converter o conteúdo para uma visão hierarquizada orientada à ação.,action,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-03-01,tempo até localizar informação necessária,metric,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-03-02,quantidade de releituras,metric,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-03-03,número de consultas ao documento,metric,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-03-04,next_action_identified,metric,R7,FRC-03,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-04,Cognitive View Engine,solution,R7,CONVERT,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Reduzir clutter, estabelecer hierarquia e distinguir prioridade."
+CTRL-FRC04-P,Hierarquia informacional pré-definida,control,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Prioridade → agrupamento semântico → contraste funcional → whitespace → progressive disclosure.
+CTRL-FRC04-D,Detectar competição visual,control,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Identificar telas/documentos em que elementos secundários competem com o principal.
+CTRL-FRC04-C,Re-renderizar conteúdo,control,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Conteúdo plano → título → decisão → ação → evidência → detalhe.
+ACTION-04,Aplicar uma estrutura visual hierarquizada ao mesmo conteúdo.,action,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-04-01,tempo para encontrar informação crítica,metric,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-04-02,cliques/rolagem até a ação,metric,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-04-03,erros de localização,metric,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-04-04,escolha correta do próximo passo,metric,R7,FRC-04,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-05,Resume Point Engine,solution,R7,FOCUS,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Batching, blocos protegidos e pontos explícitos de retomada."
+CTRL-FRC05-P,Batching + proteção do bloco ativo,control,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Manter 1 prioridade ativa e capturar externamente interrupções não urgentes.
+CTRL-FRC05-D,Registrar trocas de contexto,control,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Sinais: app_changed, task_changed, interruption_received, resume_required."
+CTRL-FRC05-C,Oferecer ponto explícito de retomada,control,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Registrar onde parou, última decisão, próximo passo e contexto necessário."
+ACTION-05,Criar um Resume Point antes de abandonar uma tarefa importante.,action,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-05-01,número de switches,metric,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-05-02,tempo para retomar,metric,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-05-03,releitura após interrupção,metric,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-05-04,tarefas abandonadas após troca,metric,R7,FRC-05,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-06,Task Decomposer,solution,R7,CONVERT,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Decompor objetivos em caminhos curtos com próxima ação explícita.
+CTRL-FRC06-P,Decompor antes da execução,control,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Objetivo → Entregável → Etapa → Próxima ação.
+CTRL-FRC06-D,Detectar objetivo sem primeira ação,control,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Sinais: não sei começar, tarefa grande demais, várias operações dentro da mesma tarefa."
+CTRL-FRC06-C,Pausar e decompor,control,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Interromper tentativa de execução e decompor o trabalho.
+ACTION-06,Perguntar: qual é a menor ação observável que faz este objetivo avançar?,action,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-06-01,tempo entre selecionar e iniciar,metric,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-06-02,objetivos sem próxima ação,metric,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-06-03,etapas concluídas,metric,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-06-04,abandono antes da primeira ação,metric,R7,FRC-06,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-07,TaskLint,solution,R7,CONVERT,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Explicitar início, processo, recursos, próximo passo e critério de conclusão."
+CTRL-FRC07-P,Validar tarefa antes da fila,control,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Ação + objeto + resultado + contexto + critério de conclusão.
+CTRL-FRC07-D,Detectar tarefas vagas,control,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Exemplos: organizar projeto, ver relatório, resolver apresentação, trabalhar marketing."
+CTRL-FRC07-C,Reescrever tarefa antes da execução,control,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Transformar intenção vaga em ação verificável e critério de pronto.
+ACTION-07,"Reescrever a tarefa para explicitar ação, resultado, contexto e critério de conclusão.",action,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-07-01,time_to_first_action,metric,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-07-02,número de reinterpretações,metric,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-07-03,tarefas devolvidas por ambiguidade,metric,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-07-04,percentual de tarefas com critério de pronto,metric,R7,FRC-07,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-08,Cognitive Chunker,solution,R7,CONVERT,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Transformar elementos relacionados em unidades significativas.
+SOL-09,Dependency Mapper,solution,R7,MAP,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Externalizar pré-requisitos, sequência, estado e próximo passo."
+CTRL-FRC09-P,Tornar dependências explícitas,control,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Cada atividade declara depende_de, desbloqueia, estado e responsável."
+CTRL-FRC09-D,Detectar início com pré-requisito incompleto,control,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Sinais: bloqueio tardio, espera, retrabalho, tarefa começada cedo demais."
+CTRL-FRC09-C,"Pausar, identificar predecessor e reordenar",control,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Converter lista de tarefas em grafo de execução.
+ACTION-09,Converter a lista de tarefas em grafo de dependências e estados.,action,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-09-01,bloqueios descobertos após início,metric,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-09-02,retrabalho por dependência,metric,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-09-03,tempo parado,metric,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-09-04,percentual de tarefas READY executadas sem bloqueio,metric,R7,FRC-09,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-10,External Memory Layer,solution,R7,REMEMBER,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Transferir memória de estados e intenções para objetos ou sistemas externos.
+SOL-11,Contextual Reminder Builder,solution,R7,REMEMBER,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Usar gatilhos contextuais e lembretes para intenções futuras.
+CTRL-FRC11-P,Converter intenção futura em gatilho externo,control,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Quando X ocorrer → apresentar Y.
+CTRL-FRC11-D,Detectar intenções repetidamente esquecidas,control,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Sinais: eu sabia, esqueci na hora, lembrei depois, etapa omitida."
+CTRL-FRC11-C,Substituir memória interna por gatilho verificável,control,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Após omissão, criar gatilho contextual verificável."
+ACTION-11,"Trocar 'lembrar de fazer' por uma regra contextual 'quando X acontecer, criar/apresentar Y'.",action,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-11-01,ações esquecidas,metric,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-11-02,ações realizadas após gatilho,metric,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-11-03,lembretes ignorados,metric,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-11-04,percentual de intenções concluídas no contexto esperado,metric,R7,FRC-11,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-12,Choice Audit,solution,R7,SCAN,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Reduzir opções simultâneas, usar defaults transparentes e preservar reversibilidade."
+SOL-13,Decision Rules Engine,solution,R7,CONTROL,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Pré-definir critérios e automatizar decisões repetitivas com cautela de evidência.
+SOL-14,Environment Load Scanner,solution,R7,SCAN,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Adequar tarefa ao ambiente e controlar estímulos irrelevantes.
+SOL-15,Focused Workspace,solution,R7,FOCUS,D,CATALOG_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Limitar interrupções, reduzir conteúdo concorrente e manter estado persistente."
+CTRL-FRC15-P,Workspace orientado à tarefa atual,control,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Uma ação principal visível; demais estados persistidos fora do campo competitivo.
+CTRL-FRC15-D,Detectar fragmentação operacional,control,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Sinais: múltiplos apps, informação duplicada, notificações concorrentes, estado distribuído, alternância de tela."
+CTRL-FRC15-C,Consolidar estado e reduzir fontes concorrentes,control,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,"Definir app principal, fechar fontes não necessárias, silenciar interrupções e registrar estado/próximo passo."
+ACTION-15,Executar atividade crítica em workspace focado com estado persistente.,action,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,
+METRIC-15-01,aplicativos utilizados por tarefa,metric,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-15-02,mudanças de janela,metric,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-15-03,interrupções,metric,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-15-04,tempo de retomada,metric,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+METRIC-15-05,tarefas concluídas sem troca de workspace,metric,R7,FRC-15,D,AUTHORIZED,RC-SCAN-INTERVENTION-CATALOG-V1,Métrica de execução; não clínica.
+SOL-16,Context Trigger Builder,solution,R7,REMEMBER,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,Criar pistas contextuais estáveis e relações situação–ação.
+SOL-17,Preflight Runner,solution,R7,MAP,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Executar preflight de objetivo, materiais, contexto, dependências e primeira ação."
+SOL-18,Focus Gate,solution,R7,FOCUS,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Uma prioridade ativa, captura externa de interrupções e redução de estímulos concorrentes."
+SOL-19,Cognitive Risk Scanner,solution,R7,SCAN,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Auditar conjuntamente pessoa, tarefa, informação, ambiente, processo e tecnologia."
+SOL-20,Risk-to-Control Engine,solution,R7,CONTROL,D,CONCEPTUAL_DEFINED_NOT_SCANNER_AUTHORIZED,TP-001.FACTOR_SOLUTION_MATRIX.V1,"Transformar barreira em controle, processo adaptado, execução, evidência e aprendizado."
+CLAIM-01,"Fatores isolados não equivalem automaticamente a risco; objetivo, contexto e exposição precisam ser considerados.",claim,R7,Evidência,D,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não dizer que cada fator é um risco.
+EVD-01,SCHEMA_RC_KNOWLEDGE_TO_ASSET_V1.yaml,evidence,R7,Evidência,D,DEFINED,TP-001.EVIDENCE_MATRIX.V1,FW · Não dizer que cada fator é um risco.
+CLAIM-02,A memória de trabalho tem capacidade limitada; mais informação disponível não amplia proporcionalmente manutenção/manipulação simultânea.,claim,R7,Evidência,B,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não generalizar para 'o cérebro só processa quatro informações'.
+EVD-02,Luck & Vogel (memória de trabalho visual),evidence,R7,Evidência,B,DEFINED,TP-001.EVIDENCE_MATRIX.V1,E1 · Não generalizar para 'o cérebro só processa quatro informações'.
+CLAIM-03,Quantidade e forma de apresentação são dimensões diferentes; organização pode modificar esforço para localizar e usar informação.,claim,R7,Evidência,C,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não afirmar que hierarquia visual sempre reduz carga.
+EVD-03,W3C Cognitive Accessibility; evidência aplicada sobre clutter,evidence,R7,Evidência,C,DEFINED,TP-001.EVIDENCE_MATRIX.V1,E2+S · Não afirmar que hierarquia visual sempre reduz carga.
+CLAIM-04,"Informar previamente etapas, recursos, processo e próximos passos reduz estrutura a reconstruir durante a tarefa.",claim,R7,Evidência,B,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,"A fórmula de escrita de tarefas do projeto é regra operacional, não lei científica."
+EVD-04,W3C — Task Expectations,evidence,R7,Evidência,B,DEFINED,TP-001.EVIDENCE_MATRIX.V1,"E2 · A fórmula de escrita de tarefas do projeto é regra operacional, não lei científica."
+CLAIM-05,Caminhos críticos mais curtos e sem etapas opcionais desnecessárias podem reduzir fricção.,claim,R7,Evidência,B,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não afirmar que menos etapas é sempre melhor.
+EVD-05,W3C — Make Short Critical Paths,evidence,R7,Evidência,B,DEFINED,TP-001.EVIDENCE_MATRIX.V1,E2 · Não afirmar que menos etapas é sempre melhor.
+CLAIM-06,Alternar conjuntos de regras pode produzir custos mensuráveis de desempenho.,claim,R7,Evidência,B,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não usar linguagem de dano cerebral ou tempo universal de recuperação.
+EVD-06,Rogers & Monsell,evidence,R7,Evidência,B,DEFINED,TP-001.EVIDENCE_MATRIX.V1,E1 · Não usar linguagem de dano cerebral ou tempo universal de recuperação.
+CLAIM-07,Interrupções podem deslocar foco e dificultar manutenção/recuperação do contexto da tarefa.,claim,R7,Evidência,C,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,"Efeito varia por pessoa, tarefa e tipo de interrupção."
+EVD-07,W3C; literatura de interrupção/retomada,evidence,R7,Evidência,C,DEFINED,TP-001.EVIDENCE_MATRIX.V1,"E2+S · Efeito varia por pessoa, tarefa e tipo de interrupção."
+CLAIM-08,Lembretes e recursos externos podem sustentar intenções futuras e reduzir dependência exclusiva de memória interna.,claim,R7,Evidência,B,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Externalização não elimina esquecimentos.
+EVD-08,Gilbert — strategic offloading/reminders,evidence,R7,Evidência,B,DEFINED,TP-001.EVIDENCE_MATRIX.V1,E1 · Externalização não elimina esquecimentos.
+CLAIM-09,"Ambiente digital pode apoiar execução ou adicionar interrupções, conteúdo concorrente e reorientação.",claim,R7,Evidência,C,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não generalizar que tecnologia aumenta carga cognitiva.
+EVD-09,"W3C — foco, interrupções e conteúdo manejável",evidence,R7,Evidência,C,DEFINED,TP-001.EVIDENCE_MATRIX.V1,E2+S · Não generalizar que tecnologia aumenta carga cognitiva.
+CLAIM-10,"Carga mental também é influenciada pelo desenho da tarefa, equipamentos, ambiente e fatores sociais/organizacionais.",claim,R7,Evidência,B,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,"A norma sustenta componentes, não valida o framework completo."
+EVD-10,ISO 10075-2:2024,evidence,R7,Evidência,B,DEFINED,TP-001.EVIDENCE_MATRIX.V1,"E2 · A norma sustenta componentes, não valida o framework completo."
+CLAIM-11,Múltiplas pequenas demandas podem coexistir e formar um problema sistêmico.,claim,R7,Evidência,C,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não afirmar relação linear/aditiva específica sem dados.
+EVD-11,Síntese compatível com ISO 10075-2,evidence,R7,Evidência,C,DEFINED,TP-001.EVIDENCE_MATRIX.V1,S · Não afirmar relação linear/aditiva específica sem dados.
+CLAIM-12,O framework propõe Objetivo → Contexto → Demanda → Vulnerabilidade → Exposição → Risco → Evento/Impacto.,claim,R7,Evidência,D,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Identificar explicitamente como framework proprietário.
+EVD-12,Documentos metodológicos do projeto,evidence,R7,Evidência,D,DEFINED,TP-001.EVIDENCE_MATRIX.V1,FW · Identificar explicitamente como framework proprietário.
+CLAIM-13,Cadeia de desvalor cognitivo descreve acúmulo de barreiras/demandas evitáveis que deslocam esforço para administrar o sistema.,claim,R7,Evidência,D,AUTHORIZED,TP-001.AUTHORIZED_CLAIMS.V1,Não apresentar como categoria científica estabelecida.
+EVD-13,Framework proprietário,evidence,R7,Evidência,D,DEFINED,TP-001.EVIDENCE_MATRIX.V1,FW · Não apresentar como categoria científica estabelecida.
