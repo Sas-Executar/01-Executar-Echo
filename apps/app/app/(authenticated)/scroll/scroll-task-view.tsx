@@ -1,111 +1,171 @@
 "use client";
 
-import { Badge } from "@repo/design-system/components/ui/badge";
-import { Button } from "@repo/design-system/components/ui/button";
+import { canTransitionScrollTask } from "@repo/domain";
+import type { ScrollTaskState, TaskState } from "@repo/schemas";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@repo/design-system/components/ui/card";
-import { canTransitionScrollTask, onTimerElapsed } from "@repo/domain";
-import type {
-  ScrollTaskState,
-  ScrollTaskTimerMinutes,
-  ScrollTaskUnit,
-} from "@repo/schemas";
-import { useEffect, useState } from "react";
+  ScrollTaskSlide,
+  type ScrollTaskUnitWithState,
+} from "./scroll-task-slide";
+import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
 
 interface ScrollTaskViewProperties {
-  readonly units: readonly ScrollTaskUnit[];
+  readonly units: readonly ScrollTaskUnitWithState[];
 }
 
-const STATE_LABEL_PT: Record<ScrollTaskState, string> = {
-  idle: "Parado",
-  running: "Em execução",
-  expanded: "Detalhado",
-  completed: "Concluído",
-  deferred: "Adiado",
-  timer_elapsed: "Tempo esgotado",
-};
-
-const TIMER_OPTIONS: readonly ScrollTaskTimerMinutes[] = [15, 30, 45];
+const INTERSECTION_THRESHOLD = 0.6;
 
 /**
- * Fase 7 (APP-SCR-001) — layout "33/33/33": três linhas de altura
- * igual, unidade ativa na linha central. Interação real (não mock):
- * `canTransitionScrollTask`/`onTimerElapsed` (`@repo/domain`) decidem
- * toda transição — nenhuma lógica de estado duplicada aqui.
+ * Fase 7 (APP-SCR-001), rewritten for Task 7/8 of the Scroll+Scanner P0
+ * plan — real native scroll-snap (chatgpt/scroll-task-prototype's own
+ * mechanism, `scroll-snap-type: y proximity` + one full-height section
+ * per unit) with IntersectionObserver deriving activeIndex from actual
+ * scroll position, not just from button clicks. Persistence
+ * (scroll-complete-button.tsx) is real: a transition removes the unit
+ * from this page's server-side query (scroll/page.tsx only ever sources
+ * READY + the single WIP task), so after router.refresh() the unit
+ * simply isn't in the next `units` prop — the array shrinking is what
+ * "advances to the next slide", no manual index bump needed for that
+ * case (see the units.length effect below, which only clamps).
  *
- * "Auto-scroll nunca marca conclusão automaticamente": o único caller
- * que produz `completed` é `advance("completed")`, disparado por um
- * clique explícito no botão "Concluir" — o timer (`tick`, abaixo) só
- * chama `onTimerElapsed`, que no máximo produz `timer_elapsed`, nunca
- * `completed` (ver o teste dessa garantia em
- * packages/domain/__tests__/scroll-task-state.test.ts).
- *
- * "Usuário inicia execução em ≤2 interações": idle → running é um
- * único clique no botão "Iniciar" (1 interação).
- *
- * Fora de escopo v1 (disclosurado no plano): timer adaptativo por IA,
- * reordenação completa das unidades, conclusão automática por tempo —
- * nenhum dos três está implementado aqui, de propósito.
+ * "Auto-scroll nunca marca conclusão automaticamente" and "≤2
+ * interações para iniciar" both still hold: canTransitionScrollTask/
+ * onTimerElapsed (@repo/domain) own every local transition, this file
+ * duplicates none of that logic.
  */
 export const ScrollTaskView = ({ units }: ScrollTaskViewProperties) => {
+  const router = useRouter();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<Map<string, HTMLElement>>(new Map());
+
   const [activeIndex, setActiveIndex] = useState(0);
-  const [state, setState] = useState<ScrollTaskState>("idle");
-  const [timerMinutes, setTimerMinutes] =
-    useState<ScrollTaskTimerMinutes | null>(null);
-  const [remainingSeconds, setRemainingSeconds] = useState<number | null>(null);
+  const [localState, setLocalState] = useState<ScrollTaskState>("idle");
 
-  const current = units[activeIndex];
-  const previous = activeIndex > 0 ? units[activeIndex - 1] : null;
-  const next = activeIndex < units.length - 1 ? units[activeIndex + 1] : null;
-
-  // Countdown — the only thing a running timer is allowed to do on
-  // reaching zero is call onTimerElapsed(), never advance() directly.
+  // A persisted transition (or the workspace simply changing) can
+  // shrink/grow the server-provided queue across a refresh — clamp
+  // rather than pointing past the end of the new array.
   useEffect(() => {
-    if (state !== "running" || remainingSeconds === null) {
-      return;
-    }
-    if (remainingSeconds <= 0) {
-      const nextState = onTimerElapsed(state);
-      if (nextState) {
-        setState(nextState);
+    setActiveIndex((index) => Math.min(index, Math.max(units.length - 1, 0)));
+  }, [units.length]);
+
+  const scrollToIndex = useCallback(
+    (index: number) => {
+      const unit = units[index];
+      const node = unit ? slideRefs.current.get(unit.refId) : null;
+      // Not implemented in jsdom (tests) and absent on some older
+      // browsers — guarded rather than assumed present.
+      if (typeof node?.scrollIntoView === "function") {
+        node.scrollIntoView({
+          block: "start",
+          behavior: prefersReducedMotion ? "instant" : "smooth",
+        });
       }
-      return;
-    }
-    const id = setTimeout(() => {
-      setRemainingSeconds((seconds) => (seconds === null ? null : seconds - 1));
-    }, 1000);
-    return () => clearTimeout(id);
-  }, [state, remainingSeconds]);
+    },
+    [units, prefersReducedMotion]
+  );
 
-  const advance = (to: ScrollTaskState) => {
-    if (!canTransitionScrollTask(state, to)) {
+  const goTo = useCallback(
+    (index: number) => {
+      const clamped = Math.max(0, Math.min(index, units.length - 1));
+      setActiveIndex(clamped);
+      setLocalState("idle");
+      scrollToIndex(clamped);
+    },
+    [units.length, scrollToIndex]
+  );
+
+  // Real scroll/swipe also drives activeIndex, not just the keyboard/
+  // buttons — guarded for environments without IntersectionObserver
+  // (jsdom in tests; older browsers).
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined" || !containerRef.current) {
       return;
     }
-    setState(to);
-    if (to === "completed" || to === "deferred") {
-      setTimerMinutes(null);
-      setRemainingSeconds(null);
-      if (activeIndex < units.length - 1) {
-        setActiveIndex((index) => index + 1);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!mostVisible) {
+          return;
+        }
+        const index = units.findIndex(
+          (unit) => slideRefs.current.get(unit.refId) === mostVisible.target
+        );
+        if (index !== -1) {
+          setActiveIndex((current) => {
+            if (index === current) {
+              return current;
+            }
+            setLocalState("idle");
+            return index;
+          });
+        }
+      },
+      { root: containerRef.current, threshold: INTERSECTION_THRESHOLD }
+    );
+    for (const node of slideRefs.current.values()) {
+      observer.observe(node);
+    }
+    return () => observer.disconnect();
+  }, [units]);
+
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) {
+      return;
+    }
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowDown" || event.key === "PageDown") {
+        event.preventDefault();
+        goTo(activeIndex + 1);
+      } else if (event.key === "ArrowUp" || event.key === "PageUp") {
+        event.preventDefault();
+        goTo(activeIndex - 1);
       }
-      setState("idle");
-    }
-  };
+    };
+    node.addEventListener("keydown", onKeyDown);
+    return () => node.removeEventListener("keydown", onKeyDown);
+  }, [activeIndex, goTo]);
 
-  const startWithTimer = (minutes: ScrollTaskTimerMinutes) => {
-    if (!canTransitionScrollTask(state, "running")) {
+  const onAdvanced = useCallback(
+    (toState: TaskState) => {
+      if (toState === "DOING") {
+        // Same unit, now started — stay on this slide.
+        setLocalState((current) =>
+          canTransitionScrollTask(current, "running") ? "running" : current
+        );
+      } else {
+        // VERIFY/DONE — the unit leaves this READY/WIP-only queue; the
+        // refresh below drops it from `units`, sliding the next one
+        // into this same activeIndex.
+        setLocalState("idle");
+      }
+      router.refresh();
+    },
+    [router]
+  );
+
+  const onAutoAdvance = useCallback(() => {
+    goTo(activeIndex + 1);
+  }, [activeIndex, goTo]);
+
+  const onDefer = useCallback(() => {
+    if (!canTransitionScrollTask(localState, "deferred")) {
       return;
     }
-    setTimerMinutes(minutes);
-    setRemainingSeconds(minutes * 60);
-    setState("running");
-  };
+    goTo(activeIndex + 1);
+  }, [localState, activeIndex, goTo]);
 
-  if (!current) {
+  const onExpand = useCallback(() => {
+    setLocalState((current) =>
+      canTransitionScrollTask(current, "expanded") ? "expanded" : current
+    );
+  }, []);
+
+  if (units.length === 0) {
     return (
       <div className="mx-auto flex max-w-2xl flex-col gap-6 p-8">
         <h1 className="font-semibold text-2xl">Scroll Task</h1>
@@ -117,95 +177,36 @@ export const ScrollTaskView = ({ units }: ScrollTaskViewProperties) => {
   }
 
   return (
-    <div className="mx-auto flex h-[80vh] max-w-2xl flex-col">
-      {/* Linha 1/3 — anterior, esmaecida */}
-      <div className="flex flex-1 items-center justify-center opacity-40">
-        {previous ? (
-          <p className="text-sm">{previous.titulo}</p>
-        ) : (
-          <p className="text-muted-foreground text-sm">— início —</p>
-        )}
-      </div>
-
-      {/* Linha 2/3 — unidade ativa, central */}
-      <div className="flex flex-1 items-center justify-center">
-        <Card className="w-full" onDoubleClick={() => advance("expanded")}>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>{current.titulo}</CardTitle>
-              <Badge variant="secondary">{STATE_LABEL_PT[state]}</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            {state === "idle" && (
-              <div className="flex flex-wrap gap-2">
-                <Button onClick={() => advance("running")}>Iniciar</Button>
-                {TIMER_OPTIONS.map((minutes) => (
-                  <Button
-                    key={minutes}
-                    onClick={() => startWithTimer(minutes)}
-                    variant="outline"
-                  >
-                    Iniciar com timer {minutes}min
-                  </Button>
-                ))}
-              </div>
-            )}
-
-            {(state === "running" ||
-              state === "expanded" ||
-              state === "timer_elapsed") && (
-              <>
-                {remainingSeconds !== null && state === "running" && (
-                  <p className="text-muted-foreground text-sm">
-                    Tempo restante: {Math.floor(remainingSeconds / 60)}:
-                    {String(remainingSeconds % 60).padStart(2, "0")}
-                  </p>
-                )}
-                {state === "timer_elapsed" && (
-                  <p className="text-sm">
-                    Timer de {timerMinutes}min esgotado — concluir, adiar ou
-                    continuar?
-                  </p>
-                )}
-                {state === "expanded" && (
-                  <p className="text-muted-foreground text-sm">
-                    Escopo: {current.scope} · refId: {current.refId}
-                  </p>
-                )}
-                <div className="flex flex-wrap gap-2">
-                  {state === "timer_elapsed" && (
-                    <Button onClick={() => advance("running")}>
-                      Continuar
-                    </Button>
-                  )}
-                  {state !== "expanded" && (
-                    <Button
-                      onClick={() => advance("expanded")}
-                      variant="outline"
-                    >
-                      Ver detalhe
-                    </Button>
-                  )}
-                  <Button onClick={() => advance("completed")}>Concluir</Button>
-                  <Button onClick={() => advance("deferred")} variant="ghost">
-                    Adiar
-                  </Button>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Linha 3/3 — próxima, esmaecida */}
-      <div className="flex flex-1 items-center justify-center opacity-40">
-        {next ? (
-          <p className="text-sm">{next.titulo}</p>
-        ) : (
-          <p className="text-muted-foreground text-sm">— fim —</p>
-        )}
-      </div>
-    </div>
+    <section
+      aria-label="Tarefas"
+      className="mx-auto h-[80vh] max-w-2xl overflow-y-auto overscroll-contain"
+      ref={containerRef}
+      style={{ scrollSnapType: "y proximity" }}
+      // biome-ignore lint/a11y/noNoninteractiveTabindex: a scrollable region needs keyboard focus for the ArrowUp/ArrowDown/PageUp/PageDown handler above to receive events at all.
+      tabIndex={0}
+    >
+      {units.map((unit, index) => (
+        <ScrollTaskSlide
+          isActive={index === activeIndex}
+          key={unit.refId}
+          localState={index === activeIndex ? localState : "idle"}
+          onAdvanced={onAdvanced}
+          onAutoAdvance={onAutoAdvance}
+          onDefer={onDefer}
+          onExpand={onExpand}
+          onLocalStateChange={setLocalState}
+          pendingCount={units.length - index}
+          position={{ index, total: units.length }}
+          ref={(node) => {
+            if (node) {
+              slideRefs.current.set(unit.refId, node);
+            } else {
+              slideRefs.current.delete(unit.refId);
+            }
+          }}
+          unit={unit}
+        />
+      ))}
+    </section>
   );
 };
