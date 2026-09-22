@@ -1,5 +1,6 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import graphJson from "../data/cognitive-map/graph_data.json" with {
+  type: "json",
+};
 import {
   type CognitiveMap,
   cognitiveMapSchema,
@@ -10,36 +11,38 @@ import {
 } from "./cognitive-map";
 
 /**
- * Resolved from `import.meta.url` rather than `process.cwd()` or
- * `import.meta.dirname`: this package is read from apps/web's server
- * bundle, where the working directory is the app and Turbopack does not
- * populate `dirname`. `packages/cms/lib/posts.ts` resolves its content
- * root the same way, for the same reason.
+ * Imported as a module rather than read with `fs`.
+ *
+ * The first version resolved a path from `import.meta.url` and called
+ * `readFileSync`. That works locally and in tests, and fails in
+ * production: Vercel traces the serverless bundle from static imports,
+ * so a data file only referenced through a computed path is not shipped
+ * with the function. Every route that touched the graph — `/mapa`,
+ * the article page and `POST /api/vera` — returned 500 in production
+ * while `/frameworks` and `/oficina`, which import their JSON, were
+ * fine. `load-frameworks.ts` already documented this trap; the graph
+ * simply had not been moved across.
+ *
+ * Importing also removes the per-cold-start file read, and the bundler
+ * fails the build if the file goes missing instead of the route failing
+ * at request time.
  */
-const DATA_DIR = path.join(
-  path.dirname(new URL(import.meta.url).pathname),
-  "../data/cognitive-map"
-);
-
 let cached: CognitiveMap | null = null;
 
 /**
- * Loads and validates the supplied graph.
+ * Validates and returns the supplied graph.
  *
- * Parsed through the schema on every cold start rather than cast: the
- * graph is vendored data, and a truncated or substituted file should fail
- * here — visibly, once — instead of rendering as a map with missing
- * regions that looks like a design decision.
- *
- * Cached after the first read; the file is immutable build input.
+ * Parsed through the schema rather than cast: the graph is vendored
+ * data, and a truncated or substituted file should fail here — visibly,
+ * once — instead of rendering as a map with missing regions that looks
+ * like a design decision.
  */
 export function loadCognitiveMap(): CognitiveMap {
   if (cached) {
     return cached;
   }
 
-  const raw = readFileSync(path.join(DATA_DIR, "graph_data.json"), "utf8");
-  cached = cognitiveMapSchema.parse(JSON.parse(raw));
+  cached = cognitiveMapSchema.parse(graphJson);
   return cached;
 }
 

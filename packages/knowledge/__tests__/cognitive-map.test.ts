@@ -28,8 +28,10 @@ import {
 
 const DATA_DIR = path.join(import.meta.dirname, "../data/cognitive-map");
 
-/** Hoisted so it is compiled once rather than per checksum line. */
+/** Hoisted so they are compiled once rather than per assertion. */
 const CHECKSUM_OK = /: OK$/;
+const BLOCK_COMMENT = /\/\*[\s\S]*?\*\//g;
+const LINE_COMMENT = /\/\/.*$/gm;
 
 describe("the supplied artifact", () => {
   it("matches the checksums it shipped with", () => {
@@ -67,6 +69,32 @@ describe("the supplied artifact", () => {
     expect(map.metadata.schema_id).toBe("SCHEMA-RC-SOLUTION-004");
     expect(map.metadata.governance_rule).toContain("Fator");
     expect(map.metadata.governance_rule).toContain("Risco");
+  });
+});
+
+describe("the loader is deployable", () => {
+  it("imports the graph instead of reading it from disk", () => {
+    // Regression guard. The first loader resolved a path from
+    // import.meta.url and called readFileSync — which passes locally and
+    // in this suite, and fails in production: Vercel traces the
+    // serverless bundle from static imports, so a data file reached only
+    // through a computed path is never shipped with the function.
+    // /mapa, the article page and POST /api/vera all returned 500 in
+    // production while /frameworks and /oficina, which import their
+    // JSON, were fine.
+    // Comments stripped first: the loader's own header explains this
+    // failure mode by name, and matching prose instead of code would
+    // make the guard fail for the wrong reason.
+    const source = readFileSync(
+      path.join(import.meta.dirname, "../src/load-cognitive-map.ts"),
+      "utf8"
+    )
+      .replace(BLOCK_COMMENT, "")
+      .replace(LINE_COMMENT, "");
+
+    expect(source).not.toContain("node:fs");
+    expect(source).not.toContain("readFileSync");
+    expect(source).toContain('from "../data/cognitive-map/graph_data.json"');
   });
 });
 
