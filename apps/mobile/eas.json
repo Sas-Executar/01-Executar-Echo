@@ -9,7 +9,9 @@
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_API_URL": "https://executar-nf-api.vercel.app",
-        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZW5kbGVzcy1ob3JuZXQtMTk2NC5jbGVyay5hY2NvdW50cy5kZXYk"
+        "EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZW5kbGVzcy1ob3JuZXQtMTk2NC5jbGVyay5hY2NvdW50cy5kZXYk",
+        "EXPO_PUBLIC_DINOV2_MODEL_URL": "https://raw.githubusercontent.com/Sas-Executar/01-Executar-Echo/73188322c5ec55896731917a6a97093d05c593df/dinov2-vits14.onnx",
+        "EXPO_PUBLIC_DINOV2_MODEL_SHA256": "49032b324a11de325016d6b5dc54d3720862b9f7d3221cda3ca6726439b211aa"
       },
       "ios": {
         "resourceClass": "m-medium"
@@ -28,6 +30,10 @@
     "preview": {
       "distribution": "internal",
       "channel": "preview",
+      "env": {
+        "EXPO_PUBLIC_DINOV2_MODEL_URL": "https://raw.githubusercontent.com/Sas-Executar/01-Executar-Echo/73188322c5ec55896731917a6a97093d05c593df/dinov2-vits14.onnx",
+        "EXPO_PUBLIC_DINOV2_MODEL_SHA256": "49032b324a11de325016d6b5dc54d3720862b9f7d3221cda3ca6726439b211aa"
+      },
       "ios": {
         "resourceClass": "m-medium"
       },
@@ -38,6 +44,10 @@
     "production": {
       "autoIncrement": true,
       "channel": "production",
+      "env": {
+        "EXPO_PUBLIC_DINOV2_MODEL_URL": "https://raw.githubusercontent.com/Sas-Executar/01-Executar-Echo/73188322c5ec55896731917a6a97093d05c593df/dinov2-vits14.onnx",
+        "EXPO_PUBLIC_DINOV2_MODEL_SHA256": "49032b324a11de325016d6b5dc54d3720862b9f7d3221cda3ca6726439b211aa"
+      },
       "ios": {
         "resourceClass": "m-medium"
       },

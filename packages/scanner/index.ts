@@ -20,6 +20,11 @@
  * network route yet (disclosed scope boundary, same shape as several
  * other M09 gaps: see vision/model-store.ts, dinov2-encoder.ts).
  */
+
+export {
+  type VisualSymbolEnrollmentRequest,
+  visualSymbolEnrollmentRequestSchema,
+} from "./src/enrollment-schema";
 export {
   INITIAL_LATCH_STATUS,
   type LatchState,

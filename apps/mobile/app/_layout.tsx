@@ -71,6 +71,10 @@ function RootLayoutNav() {
          * automatically without manual navigation calls. */}
         <Stack.Protected guard={Boolean(isSignedIn)}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="scanner-enroll"
+            options={{ title: "Cadastrar símbolo" }}
+          />
         </Stack.Protected>
         <Stack.Protected guard={!isSignedIn}>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
