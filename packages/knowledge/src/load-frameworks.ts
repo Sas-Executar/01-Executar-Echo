@@ -1,5 +1,7 @@
 import domainsJson from "../data/frameworks/domains.json" with { type: "json" };
-import frameworksJson from "../data/frameworks/frameworks.json" with { type: "json" };
+import frameworksJson from "../data/frameworks/frameworks.json" with {
+  type: "json",
+};
 import {
   type Framework,
   type FrameworkDomain,
@@ -13,9 +15,7 @@ import {
  * and the deployment trap where the data file isn't traced into the
  * serverless function.
  */
-const frameworks: Framework[] = frameworkSchema
-  .array()
-  .parse(frameworksJson);
+const frameworks: Framework[] = frameworkSchema.array().parse(frameworksJson);
 
 const domains: FrameworkDomain[] = frameworkDomainSchema
   .array()
@@ -30,15 +30,14 @@ export const frameworkBySlug = (slug: string): Framework | undefined =>
 export const frameworksInDomain = (domainId: string): Framework[] =>
   frameworks.filter((framework) => framework.domain_id === domainId);
 
-export const frameworkDomainById = (
-  id: string
-): FrameworkDomain | undefined => domains.find((domain) => domain.id === id);
+export const frameworkDomainById = (id: string): FrameworkDomain | undefined =>
+  domains.find((domain) => domain.id === id);
 
 /**
  * Deterministic search over name, aliases, purpose and tags.
  *
  * Mirrors what `scripts/select_frameworks.py` does in the skill: it
- * *suggests*, it never decides. Ranking is by where the match landed —
+ * suggests but never decides. Ranking is by where the match landed —
  * an exact name beats an alias, which beats a tag, which beats prose —
  * so the ordering is explainable rather than a similarity score nobody
  * can audit.
@@ -108,9 +107,5 @@ export function relatedFrameworks(
 }
 
 function fold(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .trim();
+  return value.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 }

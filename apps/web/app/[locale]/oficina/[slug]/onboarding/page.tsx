@@ -1,9 +1,9 @@
+import { createMetadata } from "@repo/seo/metadata";
 import {
   actionUnavailableReason,
   allSolutions,
   solutionBySlug,
 } from "@repo/solution-store";
-import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -118,15 +118,19 @@ const Onboarding = async ({ params }: OnboardingProps) => {
             className="text-[length:var(--ed-small)]"
             style={{ color: "var(--ed-muted)" }}
           >
-            {primaryBlocked} Esta solução ainda não tem um destino público
-            para iniciar.
+            {primaryBlocked} Esta solução ainda não tem um destino público para
+            iniciar.
           </p>
         )}
 
         <Link
           className="font-medium underline"
           href={`/oficina/${solution.identity.slug}`}
-          style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+          style={{
+            minHeight: 44,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
         >
           ← Voltar à solução
         </Link>

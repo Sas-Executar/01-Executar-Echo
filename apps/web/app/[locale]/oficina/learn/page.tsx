@@ -1,8 +1,8 @@
+import { createMetadata } from "@repo/seo/metadata";
 import {
   catalogProfessions,
   solutionsForProfession,
 } from "@repo/solution-store";
-import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SolutionCard } from "../_components/solution-card";
@@ -45,9 +45,9 @@ const Learn = () => {
           className="mt-5 text-[length:var(--ed-body-lg)]"
           style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
         >
-          Por onde começar, organizado por profissão. Uma profissão aparece
-          aqui porque alguma solução a declarou no próprio contrato — não
-          porque foi deduzida da categoria.
+          Por onde começar, organizado por profissão. Uma profissão aparece aqui
+          porque alguma solução a declarou no próprio contrato — não porque foi
+          deduzida da categoria.
         </p>
       </header>
 
@@ -76,7 +76,10 @@ const Learn = () => {
                   style={{ background: "var(--ed-line)" }}
                 >
                   {solutions.map((solution) => (
-                    <li className="contents" key={solution.identity.solution_id}>
+                    <li
+                      className="contents"
+                      key={solution.identity.solution_id}
+                    >
                       <SolutionCard solution={solution} />
                     </li>
                   ))}
@@ -91,7 +94,11 @@ const Learn = () => {
         <Link
           className="font-medium underline"
           href="/oficina"
-          style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+          style={{
+            minHeight: 44,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
         >
           ← Voltar à Oficina
         </Link>

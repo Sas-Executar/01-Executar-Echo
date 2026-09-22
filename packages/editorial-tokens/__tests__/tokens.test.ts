@@ -20,6 +20,12 @@ const REFERENCE_PATH = path.join(
   "../reference/tokens-hybrid.css"
 );
 
+/** Hoisted so they are compiled once rather than per assertion. */
+const CSS_COMMENT = /\/\*[\s\S]*?\*\//g;
+const ROOT_BLOCK = /(^|\})\s*:root\s*\{/;
+const DS_TOKEN = /--ds-[\w-]+\s*:/;
+const SELECTOR = /(^|\})\s*([^{}@]+)\{/g;
+
 const css = readFileSync(CSS_PATH, "utf8");
 const reference = readFileSync(REFERENCE_PATH, "utf8");
 
@@ -42,19 +48,19 @@ describe("isolation from the product design system", () => {
   it("emits nothing at :root", () => {
     // A bare `:root {` here would land the editorial palette on every
     // surface in the monorepo, apps/app included.
-    const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, "");
-    expect(withoutComments).not.toMatch(/(^|\})\s*:root\s*\{/);
+    const withoutComments = css.replace(CSS_COMMENT, "");
+    expect(withoutComments).not.toMatch(ROOT_BLOCK);
   });
 
   it("never redefines a --ds-* product token", () => {
-    const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, "");
-    expect(withoutComments).not.toMatch(/--ds-[\w-]+\s*:/);
+    const withoutComments = css.replace(CSS_COMMENT, "");
+    expect(withoutComments).not.toMatch(DS_TOKEN);
   });
 
-  it("scopes every rule to [data-surface=\"editorial\"]", () => {
-    const withoutComments = css.replace(/\/\*[\s\S]*?\*\//g, "");
-    const selectors = [...withoutComments.matchAll(/(^|\})\s*([^{}@]+)\{/g)].map(
-      (m) => m[2].trim()
+  it('scopes every rule to [data-surface="editorial"]', () => {
+    const withoutComments = css.replace(CSS_COMMENT, "");
+    const selectors = [...withoutComments.matchAll(SELECTOR)].map((m) =>
+      m[2].trim()
     );
     expect(selectors.length).toBeGreaterThan(0);
     for (const selector of selectors) {
@@ -85,7 +91,10 @@ describe("the drift checker itself", () => {
   });
 
   it("fails when a token value drifts from the TypeScript source", () => {
-    const drifted = css.replace("--ed-yellow: #ffcc00;", "--ed-yellow: #ffcc01;");
+    const drifted = css.replace(
+      "--ed-yellow: #ffcc00;",
+      "--ed-yellow: #ffcc01;"
+    );
     expect(drifted).not.toBe(css);
     const result = runCheckerOn(drifted);
     expect(result.code).toBe(1);
@@ -93,7 +102,10 @@ describe("the drift checker itself", () => {
   });
 
   it("fails when a product colour bleeds onto the editorial surface", () => {
-    const bled = css.replace("--ed-action-accent: #ffcc00;", "--ed-action-accent: #1f93ff;");
+    const bled = css.replace(
+      "--ed-action-accent: #ffcc00;",
+      "--ed-action-accent: #1f93ff;"
+    );
     expect(bled).not.toBe(css);
     const result = runCheckerOn(bled);
     expect(result.code).toBe(1);

@@ -28,7 +28,15 @@
       "!apps/email/.react-email",
       "!packages/cms/basehub-types.d.ts",
       "!packages/mapa-os/templates",
-      "!skills/executar-safe-frameworks"
+      "!skills/executar-safe-frameworks",
+      // Vendored upstream artifacts, kept byte-identical on purpose.
+      // packages/editorial-tokens/reference/ is the NatGeo-hybrid v6
+      // source that scripts/check-drift.ts diffs the token set against —
+      // reformatting it would break the comparison it exists for. The
+      // cognitive-map data is checksum-verified (ADR-MAPA-001), so any
+      // edit, including a formatter's, fails the integrity test.
+      "!packages/editorial-tokens/reference",
+      "!packages/knowledge/data"
     ]
   },
   "overrides": [

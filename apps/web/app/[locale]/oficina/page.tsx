@@ -1,9 +1,9 @@
+import { createMetadata } from "@repo/seo/metadata";
 import {
   allSolutions,
   catalogAreas,
   catalogProfessions,
 } from "@repo/solution-store";
-import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SolutionCard } from "./_components/solution-card";
@@ -46,9 +46,9 @@ const Oficina = () => {
           className="mt-5 text-[length:var(--ed-body-lg)]"
           style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
         >
-          Ferramentas do ecossistema, descritas pelo problema que resolvem.
-          Cada ficha diz também quando a ferramenta é exagero — porque saber
-          quando não usar algo economiza mais do que mais uma ferramenta.
+          Ferramentas do ecossistema, descritas pelo problema que resolvem. Cada
+          ficha diz também quando a ferramenta é exagero — porque saber quando
+          não usar algo economiza mais do que mais uma ferramenta.
         </p>
       </header>
 
@@ -76,7 +76,10 @@ const Oficina = () => {
               <li
                 className="text-[length:var(--ed-small)]"
                 key={area.id}
-                style={{ border: "1px solid var(--ed-line)", padding: "8px 12px" }}
+                style={{
+                  border: "1px solid var(--ed-line)",
+                  padding: "8px 12px",
+                }}
               >
                 {area.label}
               </li>
@@ -94,9 +97,9 @@ const Oficina = () => {
             className="mb-4 text-[length:var(--ed-small)]"
             style={{ color: "var(--ed-muted)" }}
           >
-            Profissões são uma dimensão tipada do catálogo, não etiquetas
-            soltas — e a adequação a uma profissão regulada nunca é inferida a
-            partir da categoria.
+            Profissões são uma dimensão tipada do catálogo, não etiquetas soltas
+            — e a adequação a uma profissão regulada nunca é inferida a partir
+            da categoria.
           </p>
           <ul className="flex flex-wrap gap-2">
             {professions.map((profession) => (
@@ -122,7 +125,11 @@ const Oficina = () => {
         <Link
           className="font-medium underline"
           href="/oficina/learn"
-          style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+          style={{
+            minHeight: 44,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
         >
           Learn — como começar, por profissão →
         </Link>

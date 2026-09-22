@@ -43,9 +43,9 @@ const MODES: readonly Mode[] = [
 type ModeId = string;
 
 interface MapaExplorerProps {
-  readonly map: CognitiveMap;
   /** Deep-linked node, resolved on the server so a shared link renders. */
   readonly initialNodeId: string | null;
+  readonly map: CognitiveMap;
 }
 
 export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
@@ -116,9 +116,9 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
       </p>
 
       <div
+        aria-label="Modo de exploração"
         className="mb-6 flex flex-wrap gap-2"
         role="tablist"
-        aria-label="Modo de exploração"
       >
         {MODES.map((m) => (
           <button
@@ -260,11 +260,11 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
 }
 
 interface NodeDetailProps {
-  readonly node: MapNode;
-  readonly relations: MapEdge[];
-  readonly nodeIndex: Map<string, MapNode>;
   readonly evidence: MapEvidence[];
+  readonly node: MapNode;
+  readonly nodeIndex: Map<string, MapNode>;
   readonly onSelect: (id: string) => void;
+  readonly relations: MapEdge[];
 }
 
 function NodeDetail({
@@ -389,9 +389,5 @@ function Field({
 }
 
 function fold(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .trim();
+  return value.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 }

@@ -133,7 +133,10 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
           <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
             Frameworks adjacentes
           </h2>
-          <ul className="grid gap-px sm:grid-cols-2" style={{ background: "var(--ed-line)" }}>
+          <ul
+            className="grid gap-px sm:grid-cols-2"
+            style={{ background: "var(--ed-line)" }}
+          >
             {related.map((item) => (
               <li key={item.id} style={{ background: "var(--ed-paper)" }}>
                 <Link
@@ -159,14 +162,22 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
         <Link
           className="font-medium underline"
           href="/frameworks"
-          style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+          style={{
+            minHeight: 44,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
         >
           ← Todos os frameworks
         </Link>
         <Link
           className="font-medium underline"
           href="/mapa"
-          style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+          style={{
+            minHeight: 44,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
         >
           Ver o Mapa Cognitivo
         </Link>

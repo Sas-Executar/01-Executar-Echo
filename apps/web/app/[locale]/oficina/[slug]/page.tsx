@@ -1,3 +1,4 @@
+import { createMetadata } from "@repo/seo/metadata";
 import {
   actionUnavailableReason,
   allSolutions,
@@ -5,9 +6,9 @@ import {
   gates,
   productTypeLabel,
   professionLabel,
+  type Solution,
   solutionBySlug,
 } from "@repo/solution-store";
-import { createMetadata } from "@repo/seo/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -48,10 +49,6 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
   }
 
   const { identity, card, lifecycle, classification, scoring } = solution;
-  const primary = card?.actions?.primary;
-  const secondary = card?.actions?.secondary;
-  const primaryBlocked = actionUnavailableReason(primary);
-  const secondaryBlocked = actionUnavailableReason(secondary);
 
   return (
     <div
@@ -86,65 +83,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         </p>
       ) : null}
 
-      {/*
-        Start and Download are semantically distinct actions (ADR-UX-001):
-        Start begins use or onboarding, Download delivers a package. Either
-        is rendered as a real control only when it has somewhere to go —
-        otherwise the reason is shown in its place. A button that does
-        nothing is worse than no button.
-      */}
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        {primaryBlocked === null && primary?.target ? (
-          <Link
-            className="inline-flex items-center font-semibold"
-            href={primary.target}
-            style={{
-              minHeight: 56,
-              paddingInline: 24,
-              background: "var(--ed-black)",
-              color: "var(--ed-white)",
-              borderRadius: "var(--ed-radius-btn)",
-            }}
-          >
-            {primary.label ?? "Start"}
-          </Link>
-        ) : (
-          <span
-            className="inline-flex items-center text-[length:var(--ed-small)]"
-            style={{
-              minHeight: 56,
-              paddingInline: 20,
-              border: "1px dashed var(--ed-line)",
-              color: "var(--ed-muted)",
-            }}
-          >
-            {primary?.label ?? "Start"} — {primaryBlocked}
-          </span>
-        )}
-
-        {secondaryBlocked === null && secondary?.target ? (
-          <Link
-            className="inline-flex items-center font-semibold"
-            href={secondary.target}
-            style={{
-              minHeight: 56,
-              paddingInline: 24,
-              border: "1px solid var(--ed-black)",
-              borderRadius: "var(--ed-radius-btn)",
-            }}
-          >
-            {secondary.label ?? "Download"}
-          </Link>
-        ) : null}
-
-        <Link
-          className="inline-flex items-center font-medium underline"
-          href={`/oficina/${identity.slug}/onboarding`}
-          style={{ minHeight: 56, paddingInline: 8 }}
-        >
-          Como começar
-        </Link>
-      </div>
+      <ActionBar slug={identity.slug} solution={solution} />
 
       <SolutionTabs solution={solution} />
 
@@ -211,7 +150,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         <h2 className="mb-4 font-semibold text-[length:var(--ed-small)] uppercase tracking-wider">
           Classificação
         </h2>
-        <dl className="grid gap-4 sm:grid-cols-2 text-[length:var(--ed-small)]">
+        <dl className="grid gap-4 text-[length:var(--ed-small)] sm:grid-cols-2">
           <div>
             <dt style={{ color: "var(--ed-muted)" }}>Área principal</dt>
             <dd>{areaLabel(classification?.areas?.primary) ?? "—"}</dd>
@@ -247,7 +186,11 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         <Link
           className="font-medium underline"
           href="/oficina"
-          style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+          style={{
+            minHeight: 44,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
         >
           ← Todas as soluções
         </Link>
@@ -255,5 +198,83 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
     </div>
   );
 };
+
+/**
+ * Start and Download are semantically distinct actions (ADR-UX-001):
+ * Start begins use or onboarding, Download delivers a package.
+ *
+ * Either renders as a real control only when it has somewhere to go;
+ * otherwise the reason appears in its place. A button that does nothing
+ * is worse than no button — and the corpus's own cards record
+ * unpublished targets as `PENDING_*`, which is honest in the data and
+ * would be dishonest on screen.
+ */
+function ActionBar({
+  solution,
+  slug,
+}: {
+  readonly solution: Solution;
+  readonly slug: string;
+}) {
+  const primary = solution.card?.actions?.primary;
+  const secondary = solution.card?.actions?.secondary;
+  const primaryBlocked = actionUnavailableReason(primary);
+  const secondaryBlocked = actionUnavailableReason(secondary);
+
+  return (
+    <div className="mt-8 flex flex-wrap items-center gap-3">
+      {primaryBlocked === null && primary?.target ? (
+        <Link
+          className="inline-flex items-center font-semibold"
+          href={primary.target}
+          style={{
+            minHeight: 56,
+            paddingInline: 24,
+            background: "var(--ed-black)",
+            color: "var(--ed-white)",
+            borderRadius: "var(--ed-radius-btn)",
+          }}
+        >
+          {primary.label ?? "Start"}
+        </Link>
+      ) : (
+        <span
+          className="inline-flex items-center text-[length:var(--ed-small)]"
+          style={{
+            minHeight: 56,
+            paddingInline: 20,
+            border: "1px dashed var(--ed-line)",
+            color: "var(--ed-muted)",
+          }}
+        >
+          {primary?.label ?? "Start"} — {primaryBlocked}
+        </span>
+      )}
+
+      {secondaryBlocked === null && secondary?.target ? (
+        <Link
+          className="inline-flex items-center font-semibold"
+          href={secondary.target}
+          style={{
+            minHeight: 56,
+            paddingInline: 24,
+            border: "1px solid var(--ed-black)",
+            borderRadius: "var(--ed-radius-btn)",
+          }}
+        >
+          {secondary.label ?? "Download"}
+        </Link>
+      ) : null}
+
+      <Link
+        className="inline-flex items-center font-medium underline"
+        href={`/oficina/${slug}/onboarding`}
+        style={{ minHeight: 56, paddingInline: 8 }}
+      >
+        Como começar
+      </Link>
+    </div>
+  );
+}
 
 export default SolutionPage;

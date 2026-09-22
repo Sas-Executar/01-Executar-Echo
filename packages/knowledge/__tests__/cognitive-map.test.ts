@@ -28,6 +28,9 @@ import {
 
 const DATA_DIR = path.join(import.meta.dirname, "../data/cognitive-map");
 
+/** Hoisted so it is compiled once rather than per checksum line. */
+const CHECKSUM_OK = /: OK$/;
+
 describe("the supplied artifact", () => {
   it("matches the checksums it shipped with", () => {
     // If this fails, the vendored graph is not the one that was verified
@@ -39,7 +42,7 @@ describe("the supplied artifact", () => {
     const lines = output.trim().split("\n");
     expect(lines).toHaveLength(7);
     for (const line of lines) {
-      expect(line).toMatch(/: OK$/);
+      expect(line).toMatch(CHECKSUM_OK);
     }
   });
 

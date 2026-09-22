@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 interface FrameworksBrowserProps {
-  readonly frameworks: readonly Framework[];
   readonly domains: readonly FrameworkDomain[];
+  readonly frameworks: readonly Framework[];
 }
 
 /**
@@ -105,7 +105,10 @@ export function FrameworksBrowser({
           : `${results.length} de ${frameworks.length} frameworks`}
       </p>
 
-      <ul className="grid gap-px md:grid-cols-2 lg:grid-cols-3" style={{ background: "var(--ed-line)" }}>
+      <ul
+        className="grid gap-px md:grid-cols-2 lg:grid-cols-3"
+        style={{ background: "var(--ed-line)" }}
+      >
         {results.map((framework) => (
           <li key={framework.id} style={{ background: "var(--ed-paper)" }}>
             <Link
@@ -145,9 +148,5 @@ const controlStyle: React.CSSProperties = {
 };
 
 function fold(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .trim();
+  return value.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 }

@@ -59,10 +59,7 @@ export function macroGroups(map: CognitiveMap): string[] {
   return [...groups].sort((a, b) => a.localeCompare(b, "pt-BR"));
 }
 
-export function findNode(
-  map: CognitiveMap,
-  id: string
-): MapNode | undefined {
+export function findNode(map: CognitiveMap, id: string): MapNode | undefined {
   return map.nodes.find((node) => node.id === id);
 }
 
@@ -123,14 +120,11 @@ export function searchNodes(map: CognitiveMap, query: string): MapNode[] {
     return [];
   }
   return map.nodes.filter(
-    (node) => fold(node.label).includes(needle) || fold(node.id).includes(needle)
+    (node) =>
+      fold(node.label).includes(needle) || fold(node.id).includes(needle)
   );
 }
 
 function fold(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .trim();
+  return value.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
 }

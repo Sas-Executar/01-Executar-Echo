@@ -114,7 +114,10 @@ function Envelope({
       </p>
 
       {envelope.answer ? (
-        <p className="text-[length:var(--ed-body-lg)]" style={{ lineHeight: 1.5 }}>
+        <p
+          className="text-[length:var(--ed-body-lg)]"
+          style={{ lineHeight: 1.5 }}
+        >
           {envelope.answer}
         </p>
       ) : (
@@ -124,8 +127,7 @@ function Envelope({
           className="border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
           style={{ borderColor: "var(--ed-yellow)", color: "var(--ed-muted)" }}
         >
-          {offReason ??
-            "Sem síntese em linguagem natural para esta resposta."}{" "}
+          {offReason ?? "Sem síntese em linguagem natural para esta resposta."}{" "}
           A VERA responde com o que recuperou e citou, abaixo.
         </p>
       )}
@@ -139,7 +141,10 @@ function Envelope({
             {envelope.evidence.map((item) => (
               <li
                 key={item.ref}
-                style={{ borderLeft: "3px solid var(--ed-line)", paddingLeft: 16 }}
+                style={{
+                  borderLeft: "3px solid var(--ed-line)",
+                  paddingLeft: 16,
+                }}
               >
                 <p>{item.statement}</p>
                 <p
@@ -147,7 +152,9 @@ function Envelope({
                   style={{ color: "var(--ed-muted)" }}
                 >
                   {item.ref}
-                  {item.epistemic_class ? ` · classe ${item.epistemic_class}` : ""}
+                  {item.epistemic_class
+                    ? ` · classe ${item.epistemic_class}`
+                    : ""}
                 </p>
                 {/* The limit never travels apart from the statement. */}
                 {item.interpretation_limit ? (
@@ -175,7 +182,11 @@ function Envelope({
                 <Link
                   className="font-medium underline"
                   href={action.href}
-                  style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}
+                  style={{
+                    minHeight: 44,
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
                 >
                   {action.label}
                 </Link>

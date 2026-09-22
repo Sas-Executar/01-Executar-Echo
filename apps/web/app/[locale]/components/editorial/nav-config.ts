@@ -10,8 +10,8 @@
  */
 
 export interface NavItem {
-  readonly label: string;
   readonly href: string;
+  readonly label: string;
 }
 
 /** Desktop inline navigation, shown at ≥900px alongside the category rail. */

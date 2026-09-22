@@ -1,242 +1,292 @@
 {
- "identity": {
-  "solution_id": "SOL-EXE-SAFE-FRAMEWORKS-001",
-  "solution_name": "Executar Safe Frameworks",
-  "slug": "executar-safe-frameworks",
-  "solution_type": "AI_SKILL",
-  "product_type": "skill_workflow",
-  "product_subtype": "skill",
-  "category": "Analysis & Decision Support",
-  "version": "1.0.0",
-  "source_file_ref": "skills/executar-safe-frameworks/manifest.yaml"
- },
- "classification": {
-  "areas": {
-   "primary": "research",
-   "secondary": ["product_management", "operations", "data"],
-   "original_categories": ["Research", "Strategy", "Reference docs"]
+  "identity": {
+    "solution_id": "SOL-EXE-SAFE-FRAMEWORKS-001",
+    "solution_name": "Executar Safe Frameworks",
+    "slug": "executar-safe-frameworks",
+    "solution_type": "AI_SKILL",
+    "product_type": "skill_workflow",
+    "product_subtype": "skill",
+    "category": "Analysis & Decision Support",
+    "version": "1.0.0",
+    "source_file_ref": "skills/executar-safe-frameworks/manifest.yaml"
   },
-  "professions": {
-   "primary": [
-    { "profession_id": "product_manager", "relevance": "high", "use_case_refs": ["BUC-01"] },
-    { "profession_id": "researcher", "relevance": "high", "use_case_refs": ["BUC-02"] },
-    { "profession_id": "data_analyst", "relevance": "medium", "use_case_refs": ["BUC-02"] },
-    { "profession_id": "project_manager", "relevance": "medium", "use_case_refs": ["BUC-03"] }
-   ],
-   "evidence_status": "USE_FIT_INFERRED_FROM_DOCUMENTED_CAPABILITIES"
-  },
-  "task_types": ["analyze", "research", "structure", "compare", "summarize"],
-  "artifact_types": ["report", "briefing", "markdown_document", "document"],
-  "semantic_tags": ["frameworks", "analise-estruturada", "evidencia", "rastreabilidade"],
-  "node_keys": [
-   "area:research",
-   "area:product_management",
-   "area:operations",
-   "profession:product_manager",
-   "profession:researcher",
-   "profession:data_analyst",
-   "task:analyze",
-   "task:research",
-   "artifact:report"
-  ]
- },
- "public_layer": {
-  "problem_statement": "Perguntas, pesquisas e documentos extensos chegam sem estrutura, e a análise acaba refletindo o que estava mais à mão em vez do que a evidência sustenta.",
-  "target_user": "Quem precisa transformar informação dispersa em uma análise estruturada e auditável, sem confundir fato com inferência.",
-  "three_p_n_three": {
-   "problema_que_resolve": "Reduz o trabalho de escolher, combinar e aplicar frameworks adequados a uma pergunta ou documento, mantendo a separação entre evidência e interpretação.",
-   "processo_aplicado": "Determina a intenção, levanta a base de evidência, seleciona um conjunto mínimo suficiente de frameworks com justificativa técnica, aplica cada um, sintetiza entre eles e verifica o relatório contra gates de qualidade.",
-   "progresso_pretendido": "Um relatório rastreável em que cada afirmação é classificada como fato, inferência, hipótese, conflito ou lacuna.",
-   "next": {
-    "01": "Descrever o objeto e a intenção da análise.",
-    "02": "Fornecer as fontes ou o documento a analisar.",
-    "03": "Revisar a seleção de frameworks antes da aplicação."
-   }
-  },
-  "tutorial": {
-   "title": "Safe Frameworks — da pergunta crua ao relatório rastreável",
-   "introduction": "Use quando houver material suficiente para analisar e a decisão depender de distinguir o que é evidência do que é leitura da evidência.",
-   "instructions": [
-    "Descreva o objeto e a intenção — compreender, comparar, decidir ou converter um documento.",
-    "Reúna as fontes disponíveis; o catálogo sugere frameworks, mas não substitui evidência.",
-    "Revise o conjunto de frameworks proposto e a justificativa técnica de cada escolha.",
-    "Aplique os frameworks e produza a síntese cruzada.",
-    "Verifique o relatório: toda afirmação classificada, toda lacuna declarada."
-   ],
-   "expected_result": "Um relatório com seleção justificada, análises por framework, síntese cruzada e uma seção explícita de lacunas, conflitos e limitações."
-  },
-  "practical_example": {
-   "title": "De um relatório longo para uma leitura estruturada",
-   "scenario": "Um relatório de mercado de dezenas de páginas precisa sustentar uma decisão de priorização, mas mistura dados, projeções e opinião.",
-   "input_example": "Relatório de mercado, notas de entrevistas e uma planilha de concorrentes.",
-   "transformation": "Determinar a intenção (decisão de priorização), selecionar entre 2 e 5 frameworks do catálogo com justificativa, aplicar cada um sobre a evidência disponível e sintetizar os pontos onde eles discordam.",
-   "output_example": "Relatório com síntese executiva, base de evidência, seleção de frameworks (com IDs FW-Dnn-nnn), análises, síntese cruzada e lacunas declaradas.",
-   "before_state": "Um documento longo cuja conclusão depende de quem o leu.",
-   "after_state": "Uma análise em que cada conclusão aponta para a evidência que a sustenta — ou declara que não há.",
-   "why_it_shines": "O catálogo de 299 frameworks é determinístico e auditável: a seleção é justificada e reproduzível, não uma sugestão opaca."
-  }
- },
- "capability_contract": {
-  "process_applied": "Intenção → evidência → seleção de frameworks → pesquisa/extração → aplicação → síntese cruzada → verificação → relatório.",
-  "intended_progress": "Análise estruturada e rastreável a partir de material não estruturado.",
-  "hero_use_case": "Documento ou pesquisa extensa → relatório orientado por evidência, com lacunas declaradas.",
-  "input_required": ["pergunta ou objeto de análise", "documentos", "pesquisa", "dados"],
-  "output_generated": ["relatório estruturado", "ficha de framework", "registro de evidência"],
-  "dependencies": [
-   "Catálogo de frameworks (299 registros, SKILL-EXE-SF-001)",
-   "Fontes de evidência fornecidas pelo usuário"
-  ],
-  "limitations": [
-   "Um framework organiza evidência; não cria evidência.",
-   "Não preenche lacunas por inferência — uma lacuna é declarada como lacuna.",
-   "A seleção de frameworks sugere; a decisão permanece com quem analisa.",
-   "Não constitui aconselhamento jurídico, clínico ou financeiro."
-  ]
- },
- "usage_fit": {
-  "best_use_cases": [
-   {
-    "id": "BUC-01",
-    "title": "Decisão que depende de leitura estruturada",
-    "problem": "A decisão está travada porque cada pessoa lê o mesmo material de um jeito.",
-    "scenario": "Priorização, entrada em mercado ou escolha entre alternativas, com material já reunido.",
-    "why_this_tool": "Torna explícito qual framework está organizando o quê, e onde eles discordam.",
-    "expected_gain": "A discussão passa a ser sobre a evidência, não sobre a interpretação implícita.",
-    "fit_conditions": [
-     "Existe material suficiente para analisar.",
-     "A decisão tem consequência suficiente para justificar a estrutura."
+  "classification": {
+    "areas": {
+      "primary": "research",
+      "secondary": ["product_management", "operations", "data"],
+      "original_categories": ["Research", "Strategy", "Reference docs"]
+    },
+    "professions": {
+      "primary": [
+        {
+          "profession_id": "product_manager",
+          "relevance": "high",
+          "use_case_refs": ["BUC-01"]
+        },
+        {
+          "profession_id": "researcher",
+          "relevance": "high",
+          "use_case_refs": ["BUC-02"]
+        },
+        {
+          "profession_id": "data_analyst",
+          "relevance": "medium",
+          "use_case_refs": ["BUC-02"]
+        },
+        {
+          "profession_id": "project_manager",
+          "relevance": "medium",
+          "use_case_refs": ["BUC-03"]
+        }
+      ],
+      "evidence_status": "USE_FIT_INFERRED_FROM_DOCUMENTED_CAPABILITIES"
+    },
+    "task_types": ["analyze", "research", "structure", "compare", "summarize"],
+    "artifact_types": ["report", "briefing", "markdown_document", "document"],
+    "semantic_tags": [
+      "frameworks",
+      "analise-estruturada",
+      "evidencia",
+      "rastreabilidade"
     ],
-    "evidence_refs": []
-   },
-   {
-    "id": "BUC-02",
-    "title": "Pesquisa extensa sem síntese",
-    "problem": "Fontes e achados acumulam-se sem uma leitura que os atravesse.",
-    "scenario": "Revisão de literatura, análise competitiva ou pesquisa de usuário com muitas fontes.",
-    "why_this_tool": "A síntese cruzada mostra convergência e conflito entre modelos, em vez de uma única narrativa.",
-    "expected_gain": "Menos retrabalho de leitura e um registro de evidência reutilizável.",
-    "fit_conditions": ["As fontes estão disponíveis.", "O resultado será reutilizado."],
-    "evidence_refs": []
-   },
-   {
-    "id": "BUC-03",
-    "title": "Documento longo que precisa virar decisão",
-    "problem": "Um documento denso precisa ser convertido em algo acionável sem perder o que ele sustenta.",
-    "scenario": "Relatório, contrato ou especificação extensa que alguém precisa operar.",
-    "why_this_tool": "Converte o documento preservando a cadeia entre afirmação e fonte.",
-    "expected_gain": "Uma leitura operável com as limitações preservadas.",
-    "fit_conditions": ["O documento está completo.", "As conclusões terão consequência."],
-    "evidence_refs": []
-   }
-  ],
-  "risk_of_use": [
-   {
-    "id": "RISK-01",
-    "scenario": "Pergunta simples, com resposta direta e de baixa consequência.",
-    "failure_mode": "A estrutura adiciona mais etapas do que a pergunta exige.",
-    "overkill_reason": "O custo de estruturar supera o ganho de rastreabilidade.",
-    "better_alternative": "Responder diretamente e registrar a fonte.",
-    "severity": "LOW",
-    "likelihood": "MEDIUM",
-    "mitigation": "Aplicar o fit gate antes de selecionar frameworks.",
-    "evidence_refs": []
-   },
-   {
-    "id": "RISK-02",
-    "scenario": "Base de evidência fraca ou ausente.",
-    "failure_mode": "A boa apresentação estrutural pode criar falsa sensação de fundamento.",
-    "overkill_reason": "Um framework bem aplicado sobre evidência insuficiente continua sendo evidência insuficiente.",
-    "better_alternative": "Levantar evidência antes de analisar.",
-    "severity": "MEDIUM",
-    "likelihood": "MEDIUM",
-    "mitigation": "Declarar EVIDENCE_STATUS como PARTIAL ou CONFLICTED e listar as lacunas explicitamente.",
-    "evidence_refs": []
-   }
-  ]
- },
- "lifecycle": {
-  "current_state": "STORE_READY",
-  "next_state": "PUBLISHED",
-  "blockers": [
-   "Assets editoriais (poster, video loop, carrossel) ainda não produzidos.",
-   "Pontuação SEUS não calculada: a metodologia está em CALIBRATION_REQUIRED."
-  ]
- },
- "definition_of_done": {
-  "G1_SCHEMA_COMPLETE": true,
-  "G2_BUNDLE_COMPLETE": true,
-  "G3_EDITORIAL_ASSETS_COMPLETE": false,
-  "G4_QA_COMPLETE": false,
-  "G5_STORE_SUBMISSION_COMPLETE": false,
-  "G6_PUBLISHED": false
- },
- "scoring": {
-  "methodology_id": "SEUS-v0.1",
-  "status": "CALIBRATION_REQUIRED",
-  "overall": { "score_status": "NOT_COMPUTED" }
- },
- "card": {
-  "variant": "solution",
-  "solution_id": "SOL-EXE-SAFE-FRAMEWORKS-001",
-  "content": {
-   "eyebrow": "Skill & Workflow",
-   "title": "Executar Safe Frameworks",
-   "short_description": "Seleciona e aplica frameworks para transformar pesquisa e documentos em análise rastreável.",
-   "product_type": "skill_workflow",
-   "primary_area": "research",
-   "professions": ["product_manager", "researcher", "data_analyst", "project_manager"],
-   "tags": ["frameworks", "analise-estruturada", "evidencia"]
+    "node_keys": [
+      "area:research",
+      "area:product_management",
+      "area:operations",
+      "profession:product_manager",
+      "profession:researcher",
+      "profession:data_analyst",
+      "task:analyze",
+      "task:research",
+      "artifact:report"
+    ]
   },
-  "actions": {
-   "primary": { "type": "start", "label": "Abrir catálogo", "target": "/frameworks" },
-   "secondary": { "type": "download", "label": "Download", "enabled": false, "target": null }
+  "public_layer": {
+    "problem_statement": "Perguntas, pesquisas e documentos extensos chegam sem estrutura, e a análise acaba refletindo o que estava mais à mão em vez do que a evidência sustenta.",
+    "target_user": "Quem precisa transformar informação dispersa em uma análise estruturada e auditável, sem confundir fato com inferência.",
+    "three_p_n_three": {
+      "problema_que_resolve": "Reduz o trabalho de escolher, combinar e aplicar frameworks adequados a uma pergunta ou documento, mantendo a separação entre evidência e interpretação.",
+      "processo_aplicado": "Determina a intenção, levanta a base de evidência, seleciona um conjunto mínimo suficiente de frameworks com justificativa técnica, aplica cada um, sintetiza entre eles e verifica o relatório contra gates de qualidade.",
+      "progresso_pretendido": "Um relatório rastreável em que cada afirmação é classificada como fato, inferência, hipótese, conflito ou lacuna.",
+      "next": {
+        "01": "Descrever o objeto e a intenção da análise.",
+        "02": "Fornecer as fontes ou o documento a analisar.",
+        "03": "Revisar a seleção de frameworks antes da aplicação."
+      }
+    },
+    "tutorial": {
+      "title": "Safe Frameworks — da pergunta crua ao relatório rastreável",
+      "introduction": "Use quando houver material suficiente para analisar e a decisão depender de distinguir o que é evidência do que é leitura da evidência.",
+      "instructions": [
+        "Descreva o objeto e a intenção — compreender, comparar, decidir ou converter um documento.",
+        "Reúna as fontes disponíveis; o catálogo sugere frameworks, mas não substitui evidência.",
+        "Revise o conjunto de frameworks proposto e a justificativa técnica de cada escolha.",
+        "Aplique os frameworks e produza a síntese cruzada.",
+        "Verifique o relatório: toda afirmação classificada, toda lacuna declarada."
+      ],
+      "expected_result": "Um relatório com seleção justificada, análises por framework, síntese cruzada e uma seção explícita de lacunas, conflitos e limitações."
+    },
+    "practical_example": {
+      "title": "De um relatório longo para uma leitura estruturada",
+      "scenario": "Um relatório de mercado de dezenas de páginas precisa sustentar uma decisão de priorização, mas mistura dados, projeções e opinião.",
+      "input_example": "Relatório de mercado, notas de entrevistas e uma planilha de concorrentes.",
+      "transformation": "Determinar a intenção (decisão de priorização), selecionar entre 2 e 5 frameworks do catálogo com justificativa, aplicar cada um sobre a evidência disponível e sintetizar os pontos onde eles discordam.",
+      "output_example": "Relatório com síntese executiva, base de evidência, seleção de frameworks (com IDs FW-Dnn-nnn), análises, síntese cruzada e lacunas declaradas.",
+      "before_state": "Um documento longo cuja conclusão depende de quem o leu.",
+      "after_state": "Uma análise em que cada conclusão aponta para a evidência que a sustenta — ou declara que não há.",
+      "why_it_shines": "O catálogo de 299 frameworks é determinístico e auditável: a seleção é justificada e reproduzível, não uma sugestão opaca."
+    }
+  },
+  "capability_contract": {
+    "process_applied": "Intenção → evidência → seleção de frameworks → pesquisa/extração → aplicação → síntese cruzada → verificação → relatório.",
+    "intended_progress": "Análise estruturada e rastreável a partir de material não estruturado.",
+    "hero_use_case": "Documento ou pesquisa extensa → relatório orientado por evidência, com lacunas declaradas.",
+    "input_required": [
+      "pergunta ou objeto de análise",
+      "documentos",
+      "pesquisa",
+      "dados"
+    ],
+    "output_generated": [
+      "relatório estruturado",
+      "ficha de framework",
+      "registro de evidência"
+    ],
+    "dependencies": [
+      "Catálogo de frameworks (299 registros, SKILL-EXE-SF-001)",
+      "Fontes de evidência fornecidas pelo usuário"
+    ],
+    "limitations": [
+      "Um framework organiza evidência; não cria evidência.",
+      "Não preenche lacunas por inferência — uma lacuna é declarada como lacuna.",
+      "A seleção de frameworks sugere; a decisão permanece com quem analisa.",
+      "Não constitui aconselhamento jurídico, clínico ou financeiro."
+    ]
+  },
+  "usage_fit": {
+    "best_use_cases": [
+      {
+        "id": "BUC-01",
+        "title": "Decisão que depende de leitura estruturada",
+        "problem": "A decisão está travada porque cada pessoa lê o mesmo material de um jeito.",
+        "scenario": "Priorização, entrada em mercado ou escolha entre alternativas, com material já reunido.",
+        "why_this_tool": "Torna explícito qual framework está organizando o quê, e onde eles discordam.",
+        "expected_gain": "A discussão passa a ser sobre a evidência, não sobre a interpretação implícita.",
+        "fit_conditions": [
+          "Existe material suficiente para analisar.",
+          "A decisão tem consequência suficiente para justificar a estrutura."
+        ],
+        "evidence_refs": []
+      },
+      {
+        "id": "BUC-02",
+        "title": "Pesquisa extensa sem síntese",
+        "problem": "Fontes e achados acumulam-se sem uma leitura que os atravesse.",
+        "scenario": "Revisão de literatura, análise competitiva ou pesquisa de usuário com muitas fontes.",
+        "why_this_tool": "A síntese cruzada mostra convergência e conflito entre modelos, em vez de uma única narrativa.",
+        "expected_gain": "Menos retrabalho de leitura e um registro de evidência reutilizável.",
+        "fit_conditions": [
+          "As fontes estão disponíveis.",
+          "O resultado será reutilizado."
+        ],
+        "evidence_refs": []
+      },
+      {
+        "id": "BUC-03",
+        "title": "Documento longo que precisa virar decisão",
+        "problem": "Um documento denso precisa ser convertido em algo acionável sem perder o que ele sustenta.",
+        "scenario": "Relatório, contrato ou especificação extensa que alguém precisa operar.",
+        "why_this_tool": "Converte o documento preservando a cadeia entre afirmação e fonte.",
+        "expected_gain": "Uma leitura operável com as limitações preservadas.",
+        "fit_conditions": [
+          "O documento está completo.",
+          "As conclusões terão consequência."
+        ],
+        "evidence_refs": []
+      }
+    ],
+    "risk_of_use": [
+      {
+        "id": "RISK-01",
+        "scenario": "Pergunta simples, com resposta direta e de baixa consequência.",
+        "failure_mode": "A estrutura adiciona mais etapas do que a pergunta exige.",
+        "overkill_reason": "O custo de estruturar supera o ganho de rastreabilidade.",
+        "better_alternative": "Responder diretamente e registrar a fonte.",
+        "severity": "LOW",
+        "likelihood": "MEDIUM",
+        "mitigation": "Aplicar o fit gate antes de selecionar frameworks.",
+        "evidence_refs": []
+      },
+      {
+        "id": "RISK-02",
+        "scenario": "Base de evidência fraca ou ausente.",
+        "failure_mode": "A boa apresentação estrutural pode criar falsa sensação de fundamento.",
+        "overkill_reason": "Um framework bem aplicado sobre evidência insuficiente continua sendo evidência insuficiente.",
+        "better_alternative": "Levantar evidência antes de analisar.",
+        "severity": "MEDIUM",
+        "likelihood": "MEDIUM",
+        "mitigation": "Declarar EVIDENCE_STATUS como PARTIAL ou CONFLICTED e listar as lacunas explicitamente.",
+        "evidence_refs": []
+      }
+    ]
+  },
+  "lifecycle": {
+    "current_state": "STORE_READY",
+    "next_state": "PUBLISHED",
+    "blockers": [
+      "Assets editoriais (poster, video loop, carrossel) ainda não produzidos.",
+      "Pontuação SEUS não calculada: a metodologia está em CALIBRATION_REQUIRED."
+    ]
+  },
+  "definition_of_done": {
+    "G1_SCHEMA_COMPLETE": true,
+    "G2_BUNDLE_COMPLETE": true,
+    "G3_EDITORIAL_ASSETS_COMPLETE": false,
+    "G4_QA_COMPLETE": false,
+    "G5_STORE_SUBMISSION_COMPLETE": false,
+    "G6_PUBLISHED": false
+  },
+  "scoring": {
+    "methodology_id": "SEUS-v0.1",
+    "status": "CALIBRATION_REQUIRED",
+    "overall": { "score_status": "NOT_COMPUTED" }
+  },
+  "card": {
+    "variant": "solution",
+    "solution_id": "SOL-EXE-SAFE-FRAMEWORKS-001",
+    "content": {
+      "eyebrow": "Skill & Workflow",
+      "title": "Executar Safe Frameworks",
+      "short_description": "Seleciona e aplica frameworks para transformar pesquisa e documentos em análise rastreável.",
+      "product_type": "skill_workflow",
+      "primary_area": "research",
+      "professions": [
+        "product_manager",
+        "researcher",
+        "data_analyst",
+        "project_manager"
+      ],
+      "tags": ["frameworks", "analise-estruturada", "evidencia"]
+    },
+    "actions": {
+      "primary": {
+        "type": "start",
+        "label": "Abrir catálogo",
+        "target": "/frameworks"
+      },
+      "secondary": {
+        "type": "download",
+        "label": "Download",
+        "enabled": false,
+        "target": null
+      }
+    }
+  },
+  "onboarding": {
+    "entry_action": "Start",
+    "status": "BRIEF_READY",
+    "steps": [
+      {
+        "id": "O01",
+        "role": "what_this_is",
+        "title": "O que é",
+        "body": "Um catálogo de 299 frameworks com um procedimento para escolhê-los, aplicá-los e verificar o resultado."
+      },
+      {
+        "id": "O02",
+        "role": "what_you_need",
+        "title": "O que você precisa",
+        "body": "Uma pergunta ou objeto de análise, e o material que sustenta a resposta."
+      },
+      {
+        "id": "O03",
+        "role": "how_to_start",
+        "title": "Como começar",
+        "body": "Descreva a intenção da análise. A seleção sugere um conjunto mínimo suficiente; a decisão é sua."
+      },
+      {
+        "id": "O04",
+        "role": "example",
+        "title": "Exemplo",
+        "body": "Analise este relatório de mercado para sustentar uma decisão de priorização."
+      },
+      {
+        "id": "O05",
+        "role": "next_action",
+        "title": "Próxima ação",
+        "body": "Percorra o catálogo por domínio e veja o que cada framework organiza."
+      }
+    ]
+  },
+  "release": {
+    "release_id": "REL-EXE-SAFE-FRAMEWORKS-001",
+    "solution_id": "SOL-EXE-SAFE-FRAMEWORKS-001",
+    "solution_version": "1.0.0",
+    "product_type": "skill_workflow"
+  },
+  "source": {
+    "repository": "Sas-Executar/01-Executar-Echo",
+    "path": "skills/executar-safe-frameworks/",
+    "note": "Authored from the skill's own manifest, SKILL.md, references and 299-record catalog, all present in this repository. Scores are left uncomputed because SEUS is CALIBRATION_REQUIRED; no value is invented to fill the field."
   }
- },
- "onboarding": {
-  "entry_action": "Start",
-  "status": "BRIEF_READY",
-  "steps": [
-   {
-    "id": "O01",
-    "role": "what_this_is",
-    "title": "O que é",
-    "body": "Um catálogo de 299 frameworks com um procedimento para escolhê-los, aplicá-los e verificar o resultado."
-   },
-   {
-    "id": "O02",
-    "role": "what_you_need",
-    "title": "O que você precisa",
-    "body": "Uma pergunta ou objeto de análise, e o material que sustenta a resposta."
-   },
-   {
-    "id": "O03",
-    "role": "how_to_start",
-    "title": "Como começar",
-    "body": "Descreva a intenção da análise. A seleção sugere um conjunto mínimo suficiente; a decisão é sua."
-   },
-   {
-    "id": "O04",
-    "role": "example",
-    "title": "Exemplo",
-    "body": "Analise este relatório de mercado para sustentar uma decisão de priorização."
-   },
-   {
-    "id": "O05",
-    "role": "next_action",
-    "title": "Próxima ação",
-    "body": "Percorra o catálogo por domínio e veja o que cada framework organiza."
-   }
-  ]
- },
- "release": {
-  "release_id": "REL-EXE-SAFE-FRAMEWORKS-001",
-  "solution_id": "SOL-EXE-SAFE-FRAMEWORKS-001",
-  "solution_version": "1.0.0",
-  "product_type": "skill_workflow"
- },
- "source": {
-  "repository": "Sas-Executar/01-Executar-Echo",
-  "path": "skills/executar-safe-frameworks/",
-  "note": "Authored from the skill's own manifest, SKILL.md, references and 299-record catalog, all present in this repository. Scores are left uncomputed because SEUS is CALIBRATION_REQUIRED; no value is invented to fill the field."
- }
 }

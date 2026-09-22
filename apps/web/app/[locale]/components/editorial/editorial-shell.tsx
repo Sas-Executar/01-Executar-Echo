@@ -3,7 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { BOTTOM_NAV, PRIMARY_NAV } from "./nav-config";
 import { useFocusTrap } from "./use-focus-trap";
 import { useScrollChrome } from "./use-scroll-chrome";
@@ -51,12 +57,6 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
     return () => document.removeEventListener("keydown", onKey);
   }, [drawerOpen, closeDrawer]);
 
-  // A route change closes the drawer. Without this, tapping a link
-  // navigates behind an open drawer that never dismisses.
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [pathname]);
-
   // The page must not scroll behind an open drawer.
   useEffect(() => {
     if (!drawerOpen) {
@@ -90,7 +90,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
           height: "var(--ed-nav-h)",
           background: "var(--ed-glass-light)",
           transform: chromeVisible ? "translateY(0)" : "translateY(-100%)",
-          transition: `transform var(--ed-duration-chrome) var(--ed-ease)`,
+          transition: "transform var(--ed-duration-chrome) var(--ed-ease)",
         }}
       >
         <div
@@ -201,7 +201,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
           width: "var(--ed-drawer-w)",
           background: "var(--ed-paper)",
           transform: drawerOpen ? "translateX(0)" : "translateX(-100%)",
-          transition: `transform var(--ed-duration-drawer) var(--ed-ease)`,
+          transition: "transform var(--ed-duration-drawer) var(--ed-ease)",
           visibility: drawerOpen ? "visible" : "hidden",
         }}
       >
@@ -234,6 +234,10 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
               className="flex items-center"
               href={item.href}
               key={item.href}
+              // Closed here rather than in an effect on `pathname`: the
+              // click is the actual event, and a same-route link would
+              // not fire a navigation to react to at all.
+              onClick={closeDrawer}
               style={{
                 minHeight: "var(--ed-nav-h)",
                 paddingInline: "var(--ed-gutter)",
@@ -269,7 +273,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
           height: "var(--ed-bottombar-h)",
           background: "var(--ed-glass-light)",
           transform: chromeVisible ? "translateY(0)" : "translateY(100%)",
-          transition: `transform var(--ed-duration-chrome) var(--ed-ease)`,
+          transition: "transform var(--ed-duration-chrome) var(--ed-ease)",
         }}
       >
         <ul className="grid h-full grid-cols-3">

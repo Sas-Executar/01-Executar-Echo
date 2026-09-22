@@ -18,8 +18,8 @@
 export interface TaxonomyTerm {
   /** Stable short code, or `null` where the source defines none. */
   readonly code: string | null;
-  readonly value: string;
   readonly definition: string;
+  readonly value: string;
 }
 
 /**
@@ -30,58 +30,210 @@ export interface TaxonomyTerm {
  * asserted back onto the taxonomy as if it were canonical.
  */
 export const EDITORIAL_PILLARS: readonly TaxonomyTerm[] = [
-  { code: null, value: "Cognição e Neurodivergência", definition: "Pilar editorial canônico." },
-  { code: null, value: "Comportamento e Autogerenciamento", definition: "Pilar editorial canônico." },
-  { code: null, value: "Riscos Cognitivos", definition: "Pilar editorial canônico." },
-  { code: null, value: "Processos e Projetos Neuroadaptados", definition: "Pilar editorial canônico." },
-  { code: null, value: "Controles e Ergonomia", definition: "Pilar editorial canônico." },
-  { code: null, value: "Tecnologia e Automação", definition: "Pilar editorial canônico." },
-  { code: null, value: "Aplicação e Evidência", definition: "Pilar editorial canônico." },
+  {
+    code: null,
+    value: "Cognição e Neurodivergência",
+    definition: "Pilar editorial canônico.",
+  },
+  {
+    code: null,
+    value: "Comportamento e Autogerenciamento",
+    definition: "Pilar editorial canônico.",
+  },
+  {
+    code: null,
+    value: "Riscos Cognitivos",
+    definition: "Pilar editorial canônico.",
+  },
+  {
+    code: null,
+    value: "Processos e Projetos Neuroadaptados",
+    definition: "Pilar editorial canônico.",
+  },
+  {
+    code: null,
+    value: "Controles e Ergonomia",
+    definition: "Pilar editorial canônico.",
+  },
+  {
+    code: null,
+    value: "Tecnologia e Automação",
+    definition: "Pilar editorial canônico.",
+  },
+  {
+    code: null,
+    value: "Aplicação e Evidência",
+    definition: "Pilar editorial canônico.",
+  },
 ] as const;
 
 /** Reader awareness, from unaware of the problem to ready to act. */
 export const AWARENESS_LEVELS: readonly TaxonomyTerm[] = [
-  { code: null, value: "Inconsciente do problema", definition: "Nível de consciência." },
-  { code: null, value: "Consciente do problema", definition: "Nível de consciência." },
-  { code: null, value: "Consciente do mecanismo", definition: "Nível de consciência." },
-  { code: null, value: "Consciente do risco", definition: "Nível de consciência." },
-  { code: null, value: "Consciente da solução", definition: "Nível de consciência." },
-  { code: null, value: "Consciente do método", definition: "Nível de consciência." },
-  { code: null, value: "Consciente do produto", definition: "Nível de consciência." },
-  { code: null, value: "Pronto para ação", definition: "Nível de consciência." },
+  {
+    code: null,
+    value: "Inconsciente do problema",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Consciente do problema",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Consciente do mecanismo",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Consciente do risco",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Consciente da solução",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Consciente do método",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Consciente do produto",
+    definition: "Nível de consciência.",
+  },
+  {
+    code: null,
+    value: "Pronto para ação",
+    definition: "Nível de consciência.",
+  },
 ] as const;
 
 export const FUNNEL_STAGES: readonly TaxonomyTerm[] = [
-  { code: "DESCOBERTA", value: "Descoberta", definition: "Etapa do funil editorial." },
-  { code: "RESOLUÇÃO", value: "Resolução", definition: "Etapa do funil editorial." },
-  { code: "APROFUNDAMENTO", value: "Aprofundamento", definition: "Etapa do funil editorial." },
-  { code: "CONVERSÃO", value: "Conversão", definition: "Etapa do funil editorial." },
-  { code: "RETENÇÃO", value: "Retenção", definition: "Etapa do funil editorial." },
+  {
+    code: "DESCOBERTA",
+    value: "Descoberta",
+    definition: "Etapa do funil editorial.",
+  },
+  {
+    code: "RESOLUÇÃO",
+    value: "Resolução",
+    definition: "Etapa do funil editorial.",
+  },
+  {
+    code: "APROFUNDAMENTO",
+    value: "Aprofundamento",
+    definition: "Etapa do funil editorial.",
+  },
+  {
+    code: "CONVERSÃO",
+    value: "Conversão",
+    definition: "Etapa do funil editorial.",
+  },
+  {
+    code: "RETENÇÃO",
+    value: "Retenção",
+    definition: "Etapa do funil editorial.",
+  },
 ] as const;
 
 /** Proprietary solution families — the vocabulary the Oficina inherits. */
 export const SOLUTION_FAMILIES: readonly TaxonomyTerm[] = [
-  { code: "CONVERSOR", value: "Conversor", definition: "Família proprietária de solução editorial." },
-  { code: "SCANNER", value: "Scanner", definition: "Família proprietária de solução editorial." },
-  { code: "MAPA", value: "Mapa", definition: "Família proprietária de solução editorial." },
-  { code: "CHECKLIST", value: "Checklist", definition: "Família proprietária de solução editorial." },
-  { code: "PRISMA", value: "Prisma", definition: "Família proprietária de solução editorial." },
-  { code: "PROTOCOLO", value: "Protocolo", definition: "Família proprietária de solução editorial." },
+  {
+    code: "CONVERSOR",
+    value: "Conversor",
+    definition: "Família proprietária de solução editorial.",
+  },
+  {
+    code: "SCANNER",
+    value: "Scanner",
+    definition: "Família proprietária de solução editorial.",
+  },
+  {
+    code: "MAPA",
+    value: "Mapa",
+    definition: "Família proprietária de solução editorial.",
+  },
+  {
+    code: "CHECKLIST",
+    value: "Checklist",
+    definition: "Família proprietária de solução editorial.",
+  },
+  {
+    code: "PRISMA",
+    value: "Prisma",
+    definition: "Família proprietária de solução editorial.",
+  },
+  {
+    code: "PROTOCOLO",
+    value: "Protocolo",
+    definition: "Família proprietária de solução editorial.",
+  },
 ] as const;
 
 export const ASSET_FORMATS: readonly TaxonomyTerm[] = [
-  { code: "CAR", value: "Carrossel", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "REEL", value: "Reel", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "STORY", value: "Story", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "PROMPT", value: "Prompt", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "HTML", value: "HTML", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "ART", value: "Artigo", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "IMG", value: "Imagem", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "PDF", value: "PDF", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "PRISMA", value: "Prisma", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "NEWS", value: "Newsletter", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "CTA", value: "CTA", definition: "Formato derivado do mesmo problema/solução." },
-  { code: "LINKEDIN", value: "LinkedIn", definition: "Formato derivado do mesmo problema/solução." },
+  {
+    code: "CAR",
+    value: "Carrossel",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "REEL",
+    value: "Reel",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "STORY",
+    value: "Story",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "PROMPT",
+    value: "Prompt",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "HTML",
+    value: "HTML",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "ART",
+    value: "Artigo",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "IMG",
+    value: "Imagem",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "PDF",
+    value: "PDF",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "PRISMA",
+    value: "Prisma",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "NEWS",
+    value: "Newsletter",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "CTA",
+    value: "CTA",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
+  {
+    code: "LINKEDIN",
+    value: "LinkedIn",
+    definition: "Formato derivado do mesmo problema/solução.",
+  },
 ] as const;
 
 /**
@@ -94,10 +246,10 @@ export const ASSET_FORMATS: readonly TaxonomyTerm[] = [
  */
 export interface NarrativeStage {
   readonly order: number;
-  readonly stage: string;
-  readonly question: string;
   readonly purpose: string;
+  readonly question: string;
   readonly rule: string;
+  readonly stage: string;
 }
 
 export const NARRATIVE_ARCHITECTURE: readonly NarrativeStage[] = [
@@ -175,16 +327,16 @@ export const NARRATIVE_ARCHITECTURE: readonly NarrativeStage[] = [
  * callers skip those instead of rendering a dead button.
  */
 export interface CallToAction {
-  readonly id: string;
-  readonly name: string;
-  readonly intent: string;
-  readonly funnelStage: string;
-  readonly nextStep: string;
-  readonly destinationType: string;
-  readonly destination: string;
-  readonly primaryMetric: string;
   readonly copy: string;
+  readonly destination: string;
+  readonly destinationType: string;
+  readonly funnelStage: string;
   readonly href: string | null;
+  readonly id: string;
+  readonly intent: string;
+  readonly name: string;
+  readonly nextStep: string;
+  readonly primaryMetric: string;
 }
 
 export const CTAS: readonly CallToAction[] = [
@@ -213,7 +365,11 @@ export const CTAS: readonly CallToAction[] = [
     destination: "Guia Custo Cognitivo",
     primaryMetric: "Cliques",
     copy: "Acesse o guia e aplique o processo completo.",
-    href: "/conceitos",
+    // The "Guia Custo Cognitivo" is a distinct artifact that does not
+    // exist yet. Pointing this at the nearest surface would quietly
+    // change what the CTA promises, so it stays inert until the guide
+    // is published.
+    href: null,
   },
   {
     id: "RC-CTA-003",
@@ -257,9 +413,23 @@ export const CTAS: readonly CallToAction[] = [
 export const activeCtas = (): CallToAction[] =>
   CTAS.filter((cta) => cta.href !== null);
 
-/** Picks the CTA routed to a funnel stage, if one is defined and active. */
+/**
+ * Picks the CTA routed to a funnel stage, if one is defined and active.
+ *
+ * Strict by design: the routing table in `05_CTA_ROUTING` defines no CTA
+ * for "Descoberta", and substituting a different stage's CTA would put a
+ * conversion ask in front of a reader who is still recognising the
+ * problem — the opposite of what the funnel encodes. Surfaces with no
+ * routed CTA offer their own next steps instead of borrowing one.
+ */
 export const ctaForStage = (stage: string): CallToAction | undefined =>
   activeCtas().find((cta) => cta.funnelStage === stage);
+
+/** Funnel stages that currently have no active CTA routed to them. */
+export const stagesWithoutCta = (): string[] =>
+  FUNNEL_STAGES.filter((stage) => !ctaForStage(stage.value)).map(
+    (stage) => stage.value
+  );
 
 /**
  * URL slug for a taxonomy term that has no canonical code.
@@ -286,3 +456,53 @@ export const AUTHOR = {
   tagline: "Entenda → Estruture → Execute",
   bio: "Escreve sobre o custo cognitivo da execução: o que aumenta o esforço de trabalhar, por que isso raramente é uma questão de disciplina, e quais condições do sistema podem ser mudadas.",
 } as const;
+
+/* ------------------------------------------------------------ validation */
+
+/**
+ * Whether a value names a real term in its taxonomy.
+ *
+ * Article frontmatter is hand-written, so a pillar can be misspelled or
+ * invented. Surfaces use these to tell "unclassified" apart from
+ * "classified as something that does not exist" — the second is a
+ * content bug worth surfacing, the first is simply a fact about the
+ * article.
+ */
+const isKnownTerm = (terms: readonly TaxonomyTerm[], value?: string) =>
+  value === undefined ? false : terms.some((term) => term.value === value);
+
+export const isKnownPillar = (value?: string): boolean =>
+  isKnownTerm(EDITORIAL_PILLARS, value);
+
+export const isKnownAwarenessLevel = (value?: string): boolean =>
+  isKnownTerm(AWARENESS_LEVELS, value);
+
+export const isKnownFunnelStage = (value?: string): boolean =>
+  isKnownTerm(FUNNEL_STAGES, value);
+
+/**
+ * Classification problems in a post's frontmatter, if any. Empty means
+ * either correctly classified or honestly unclassified.
+ */
+export function taxonomyProblems(post: {
+  pillar?: string;
+  awarenessLevel?: string;
+  funnelStage?: string;
+}): string[] {
+  const problems: string[] = [];
+  if (post.pillar !== undefined && !isKnownPillar(post.pillar)) {
+    problems.push(`Pilar desconhecido: "${post.pillar}".`);
+  }
+  if (
+    post.awarenessLevel !== undefined &&
+    !isKnownAwarenessLevel(post.awarenessLevel)
+  ) {
+    problems.push(
+      `Nível de consciência desconhecido: "${post.awarenessLevel}".`
+    );
+  }
+  if (post.funnelStage !== undefined && !isKnownFunnelStage(post.funnelStage)) {
+    problems.push(`Etapa de funil desconhecida: "${post.funnelStage}".`);
+  }
+  return problems;
+}

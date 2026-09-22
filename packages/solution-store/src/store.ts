@@ -1,5 +1,9 @@
-import safeFrameworks from "../data/solutions/executar-safe-frameworks.json" with { type: "json" };
-import obsidianEditorial from "../data/solutions/obsidian-editorial.json" with { type: "json" };
+import safeFrameworks from "../data/solutions/executar-safe-frameworks.json" with {
+  type: "json",
+};
+import obsidianEditorial from "../data/solutions/obsidian-editorial.json" with {
+  type: "json",
+};
 import taxonomyJson from "../data/taxonomy.json" with { type: "json" };
 import { type CardAction, type Solution, solutionSchema } from "./schema";
 
@@ -71,7 +75,7 @@ export const isPublished = (solution: Solution): boolean =>
   solution.definition_of_done?.G6_PUBLISHED === true;
 
 /** The gates, in order, as `[name, passed]` — for showing real progress. */
-export function gates(solution: Solution): Array<[string, boolean]> {
+export function gates(solution: Solution): [string, boolean][] {
   const dod = solution.definition_of_done;
   return [
     ["G1 Schema", dod?.G1_SCHEMA_COMPLETE === true],

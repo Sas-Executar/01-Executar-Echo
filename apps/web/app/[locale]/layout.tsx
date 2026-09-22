@@ -1,8 +1,8 @@
 import "./editorial.css";
 import { AnalyticsProvider } from "@repo/analytics/provider";
-import { PublicDesignSystemProvider } from "@repo/design-system/public-provider";
 import { fonts } from "@repo/design-system/lib/fonts";
 import { cn } from "@repo/design-system/lib/utils";
+import { PublicDesignSystemProvider } from "@repo/design-system/public-provider";
 import { Toolbar } from "@repo/feature-flags/components/toolbar";
 import type { ReactNode } from "react";
 import { EditorialFooter } from "./components/editorial/editorial-footer";

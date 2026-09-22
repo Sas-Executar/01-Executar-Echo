@@ -13,6 +13,6 @@
  */
 export * from "./src/capabilities";
 export * from "./src/envelope";
+export * from "./src/generative";
 export * from "./src/intent";
 export * from "./src/respond";
-export * from "./src/generative";

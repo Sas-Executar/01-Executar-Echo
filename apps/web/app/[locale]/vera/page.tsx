@@ -60,9 +60,9 @@ const Vera = () => {
           className="mb-5 text-[length:var(--ed-small)]"
           style={{ color: "var(--ed-muted)" }}
         >
-          Esta lista é o limite, não um resumo dele. Uma capacidade que não
-          está aqui é negada por padrão, e nenhuma capacidade que altere estado
-          roda sem confirmação explícita.
+          Esta lista é o limite, não um resumo dele. Uma capacidade que não está
+          aqui é negada por padrão, e nenhuma capacidade que altere estado roda
+          sem confirmação explícita.
         </p>
         <ul className="flex flex-col gap-3">
           {capabilities.map((capability) => (

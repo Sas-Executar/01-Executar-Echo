@@ -9,10 +9,30 @@ import readingTime from "reading-time";
 export type ContentType = "blog" | "legal";
 
 export interface PostMeta {
+  author?: string;
+  awarenessLevel?: string;
   date: string;
   description: string;
+  funnelStage?: string;
   image?: string;
+  /**
+   * Editorial taxonomy, from `#06-PILARES-TAXONOMIA/taxonomia.yaml`
+   * (closes gap CMS-02, which noted that frontmatter carried only
+   * title/description/date/image while the taxonomy defined seven
+   * pillars, eight awareness levels and five funnel stages).
+   *
+   * All optional: an article that has not been classified is shown
+   * unclassified rather than assigned a plausible pillar.
+   *
+   * Deliberately typed as plain strings here. This package knows about
+   * MDX, not about the editorial taxonomy — `@repo/knowledge` owns those
+   * vocabularies, and the surfaces that render a pillar resolve it there
+   * (`pillarBySlug`, `isKnownPillar`). Importing the taxonomy into the
+   * content reader would couple file parsing to editorial policy.
+   */
+  pillar?: string;
   slug: string;
+  tags: string[];
   title: string;
 }
 
@@ -22,9 +42,14 @@ export type Post = PostMeta & {
 };
 
 interface Frontmatter {
+  author?: string;
+  awareness_level?: string;
   date?: string;
   description?: string;
+  funnel_stage?: string;
   image?: string;
+  pillar?: string;
+  tags?: string[];
   title: string;
 }
 
@@ -65,6 +90,19 @@ const readRaw = (type: ContentType, slug: string): string | null => {
   return fs.readFileSync(filePath, "utf-8");
 };
 
+/**
+ * Frontmatter keys are snake_case (matching the YAML taxonomy they come
+ * from) while the exported type is camelCase (matching the rest of the
+ * codebase). Mapping happens here, in one place.
+ */
+const toTaxonomy = (frontmatter: Frontmatter) => ({
+  pillar: frontmatter.pillar,
+  awarenessLevel: frontmatter.awareness_level,
+  funnelStage: frontmatter.funnel_stage,
+  author: frontmatter.author,
+  tags: frontmatter.tags ?? [],
+});
+
 const toMeta = (slug: string, raw: string): PostMeta => {
   const { data } = matter(raw);
   const frontmatter = data as Frontmatter;
@@ -75,6 +113,7 @@ const toMeta = (slug: string, raw: string): PostMeta => {
     description: frontmatter.description ?? "",
     date: frontmatter.date ?? new Date(0).toISOString(),
     image: frontmatter.image,
+    ...toTaxonomy(frontmatter),
   };
 };
 
@@ -114,6 +153,7 @@ export const getPost = async (
     description: frontmatter.description ?? "",
     date: frontmatter.date ?? new Date(0).toISOString(),
     image: frontmatter.image,
+    ...toTaxonomy(frontmatter),
     content,
     readingTimeMinutes: Math.max(1, Math.round(stats.minutes)),
   };

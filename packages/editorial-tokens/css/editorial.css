@@ -59,12 +59,15 @@
   --ed-shadow: 0 12px 38px rgba(0, 0, 0, 0.08);
 
   /* Type families — src/typography.ts. System stacks; no font redistributed. */
-  --ed-sf: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+  --ed-sf:
+    "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
     "Helvetica Neue", Arial, sans-serif;
-  --ed-sf-text: "SF Pro Text", "SF Pro Display", -apple-system,
-    BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --ed-ny: "New York", "New York Small", "Iowan Old Style", Georgia,
-    "Times New Roman", serif;
+  --ed-sf-text:
+    "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Arial, sans-serif;
+  --ed-ny:
+    "New York", "New York Small", "Iowan Old Style", Georgia, "Times New Roman",
+    serif;
 
   /* Type scale — src/typography.ts. */
   --ed-display-xl: clamp(3.3rem, 8vw, 7.25rem);
@@ -152,11 +155,11 @@
    */
   --font-sans: var(--ed-sf-text);
   --font-serif: var(--ed-ny);
-
-  background-color: var(--ed-paper);
-  color: var(--ed-ink);
   font-family: var(--ed-sf-text);
   -webkit-font-smoothing: antialiased;
+  color: var(--ed-ink);
+
+  background-color: var(--ed-paper);
   text-rendering: optimizeLegibility;
 }
 
@@ -210,11 +213,11 @@
  * the article body — 52x5px, per the handoff's component table.
  */
 [data-surface="editorial"] .ed-article > h2::before {
-  content: "";
   display: block;
   width: 52px;
   height: 5px;
   margin-bottom: 20px;
+  content: "";
   background: var(--ed-yellow);
 }
 
@@ -224,9 +227,9 @@
  * horizontal images are forbidden in editorial media slots.
  */
 [data-surface="editorial"] .ed-inline-media {
-  margin: 64px calc(50% - 50vw);
-  aspect-ratio: 4 / 5;
   width: 100vw;
+  aspect-ratio: 4 / 5;
+  margin: 64px calc(50% - 50vw);
 }
 
 /*

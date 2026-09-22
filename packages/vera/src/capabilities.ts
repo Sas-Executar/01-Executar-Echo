@@ -8,8 +8,8 @@
  */
 
 export interface Capability {
-  readonly id: string;
   readonly description: string;
+  readonly id: string;
   /** Whether invoking this changes state anywhere. */
   readonly mutates: boolean;
   /** Mutating capabilities may never run without explicit confirmation. */

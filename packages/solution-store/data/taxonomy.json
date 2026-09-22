@@ -1,667 +1,567 @@
 {
- "PRODUCT_TYPES": {
-  "schema_version": "1.0",
-  "registry_id": "OFICINA_PRODUCT_TYPES",
-  "status": "canonical",
-  "product_types": [
-   {
-    "id": "template",
-    "label": "Templates",
-    "description": "Artefatos reutilizáveis como tabelas, estruturas, modelos e documentos.",
-    "examples": [
-     "tabela",
-     "planilha",
-     "documento",
-     "estrutura",
-     "template"
+  "PRODUCT_TYPES": {
+    "schema_version": "1.0",
+    "registry_id": "OFICINA_PRODUCT_TYPES",
+    "status": "canonical",
+    "product_types": [
+      {
+        "id": "template",
+        "label": "Templates",
+        "description": "Artefatos reutilizáveis como tabelas, estruturas, modelos e documentos.",
+        "examples": [
+          "tabela",
+          "planilha",
+          "documento",
+          "estrutura",
+          "template"
+        ],
+        "default_downloadable": true,
+        "default_interactive": false
+      },
+      {
+        "id": "skill_workflow",
+        "label": "Skills & Workflows",
+        "description": "Skills, workflows e pacotes operacionais executáveis ou instaláveis.",
+        "examples": ["skill", "workflow", "agent workflow"],
+        "default_downloadable": true,
+        "default_interactive": true
+      },
+      {
+        "id": "ebook",
+        "label": "Ebooks",
+        "description": "Publicações long-form distribuídas como leitura ou download.",
+        "examples": ["ebook", "guide"],
+        "default_downloadable": true,
+        "default_interactive": false
+      },
+      {
+        "id": "article",
+        "label": "Artigos",
+        "description": "Conteúdo editorial publicado na Oficina ou no blog.",
+        "examples": ["article", "tutorial", "editorial"],
+        "default_downloadable": false,
+        "default_interactive": false
+      },
+      {
+        "id": "prompt",
+        "label": "Prompts",
+        "description": "Prompts reutilizáveis para execução direta ou cópia.",
+        "examples": ["prompt", "prompt pack"],
+        "default_downloadable": true,
+        "default_interactive": true
+      },
+      {
+        "id": "plugin",
+        "label": "Plugins",
+        "description": "Integrações instaláveis que expõem capacidades, conectores, tools ou prompts.",
+        "examples": ["plugin", "connector package"],
+        "default_downloadable": false,
+        "default_interactive": true
+      },
+      {
+        "id": "photo_prompt",
+        "label": "Photo-prompts",
+        "description": "Prompts orientados à criação ou transformação visual.",
+        "examples": ["photo prompt", "image prompt"],
+        "default_downloadable": true,
+        "default_interactive": true
+      }
     ],
-    "default_downloadable": true,
-    "default_interactive": false
-   },
-   {
-    "id": "skill_workflow",
-    "label": "Skills & Workflows",
-    "description": "Skills, workflows e pacotes operacionais executáveis ou instaláveis.",
-    "examples": [
-     "skill",
-     "workflow",
-     "agent workflow"
-    ],
-    "default_downloadable": true,
-    "default_interactive": true
-   },
-   {
-    "id": "ebook",
-    "label": "Ebooks",
-    "description": "Publicações long-form distribuídas como leitura ou download.",
-    "examples": [
-     "ebook",
-     "guide"
-    ],
-    "default_downloadable": true,
-    "default_interactive": false
-   },
-   {
-    "id": "article",
-    "label": "Artigos",
-    "description": "Conteúdo editorial publicado na Oficina ou no blog.",
-    "examples": [
-     "article",
-     "tutorial",
-     "editorial"
-    ],
-    "default_downloadable": false,
-    "default_interactive": false
-   },
-   {
-    "id": "prompt",
-    "label": "Prompts",
-    "description": "Prompts reutilizáveis para execução direta ou cópia.",
-    "examples": [
-     "prompt",
-     "prompt pack"
-    ],
-    "default_downloadable": true,
-    "default_interactive": true
-   },
-   {
-    "id": "plugin",
-    "label": "Plugins",
-    "description": "Integrações instaláveis que expõem capacidades, conectores, tools ou prompts.",
-    "examples": [
-     "plugin",
-     "connector package"
-    ],
-    "default_downloadable": false,
-    "default_interactive": true
-   },
-   {
-    "id": "photo_prompt",
-    "label": "Photo-prompts",
-    "description": "Prompts orientados à criação ou transformação visual.",
-    "examples": [
-     "photo prompt",
-     "image prompt"
-    ],
-    "default_downloadable": true,
-    "default_interactive": true
-   }
-  ],
-  "rules": {
-   "exactly_one_primary_product_type": true,
-   "product_subtype_allowed": true,
-   "use_stable_ids": true,
-   "product_type_is_not_artifact_type": true
-  }
- },
- "AREAS": {
-  "schema_version": "1.1",
-  "registry_id": "SOLUTION_AREAS",
-  "status": "canonical",
-  "escopo": {
-   "incluir": [
-    "imagem_categorias_01",
-    "imagem_categorias_02"
-   ],
-   "excluir": [
-    "imagem_clerk"
-   ]
+    "rules": {
+      "exactly_one_primary_product_type": true,
+      "product_subtype_allowed": true,
+      "use_stable_ids": true,
+      "product_type_is_not_artifact_type": true
+    }
   },
-  "taxonomia": {
-   "produtividade": {
-    "id": "productivity",
-    "label": "Productivity",
-    "aliases": [
-     "Pipelines & jobs",
-     "Tickets & tasks",
-     "Files & documents",
-     "Reference docs"
-    ]
-   },
-   "product_management": {
-    "id": "product_management",
-    "label": "Product Management",
-    "aliases": [
-     "Product management",
-     "Product"
-    ]
-   },
-   "sales": {
-    "id": "sales",
-    "label": "Sales",
-    "aliases": [
-     "Sales and marketing",
-     "Contacts & leads",
-     "Commerce and shopping"
-    ]
-   },
-   "legal": {
-    "id": "legal",
-    "label": "Legal",
-    "aliases": []
-   },
-   "operacoes": {
-    "id": "operations",
-    "label": "Operations",
-    "aliases": [
-     "Pipelines & jobs",
-     "Tickets & tasks"
-    ]
-   },
-   "small_business": {
-    "id": "small_business",
-    "label": "Small Business",
-    "aliases": [
-     "Commerce and shopping"
-    ]
-   },
-   "customer_support": {
-    "id": "customer_support",
-    "label": "Customer Support",
-    "aliases": [
-     "Tickets & tasks",
-     "Communication",
-     "Email & messages"
-    ]
-   },
-   "produto": {
-    "id": "product",
-    "label": "Product",
-    "aliases": [
-     "Product Management"
-    ]
-   },
-   "design": {
-    "id": "design",
-    "label": "Design",
-    "aliases": [
-     "Designs & media",
-     "Media and entertainment"
-    ]
-   },
-   "human_resources": {
-    "id": "human_resources",
-    "label": "Human Resources",
-    "aliases": [
-     "HR"
-    ]
-   },
-   "marketing": {
-    "id": "marketing",
-    "label": "Marketing",
-    "aliases": [
-     "Sales and marketing"
-    ]
-   },
-   "financeiro": {
-    "id": "finance",
-    "label": "Finance",
-    "aliases": [
-     "Financial services"
-    ]
-   },
-   "research": {
-    "id": "research",
-    "label": "Research",
-    "aliases": [
-     "Reference docs"
-    ]
-   },
-   "data": {
-    "id": "data",
-    "label": "Data",
-    "aliases": [
-     "Databases",
-     "Logs & errors"
-    ]
-   },
-   "engineering": {
-    "id": "engineering",
-    "label": "Engineering",
-    "aliases": [
-     "Code",
-     "APIs",
-     "Servers & cloud"
-    ]
-   }
+  "AREAS": {
+    "schema_version": "1.1",
+    "registry_id": "SOLUTION_AREAS",
+    "status": "canonical",
+    "escopo": {
+      "incluir": ["imagem_categorias_01", "imagem_categorias_02"],
+      "excluir": ["imagem_clerk"]
+    },
+    "taxonomia": {
+      "produtividade": {
+        "id": "productivity",
+        "label": "Productivity",
+        "aliases": [
+          "Pipelines & jobs",
+          "Tickets & tasks",
+          "Files & documents",
+          "Reference docs"
+        ]
+      },
+      "product_management": {
+        "id": "product_management",
+        "label": "Product Management",
+        "aliases": ["Product management", "Product"]
+      },
+      "sales": {
+        "id": "sales",
+        "label": "Sales",
+        "aliases": [
+          "Sales and marketing",
+          "Contacts & leads",
+          "Commerce and shopping"
+        ]
+      },
+      "legal": {
+        "id": "legal",
+        "label": "Legal",
+        "aliases": []
+      },
+      "operacoes": {
+        "id": "operations",
+        "label": "Operations",
+        "aliases": ["Pipelines & jobs", "Tickets & tasks"]
+      },
+      "small_business": {
+        "id": "small_business",
+        "label": "Small Business",
+        "aliases": ["Commerce and shopping"]
+      },
+      "customer_support": {
+        "id": "customer_support",
+        "label": "Customer Support",
+        "aliases": ["Tickets & tasks", "Communication", "Email & messages"]
+      },
+      "produto": {
+        "id": "product",
+        "label": "Product",
+        "aliases": ["Product Management"]
+      },
+      "design": {
+        "id": "design",
+        "label": "Design",
+        "aliases": ["Designs & media", "Media and entertainment"]
+      },
+      "human_resources": {
+        "id": "human_resources",
+        "label": "Human Resources",
+        "aliases": ["HR"]
+      },
+      "marketing": {
+        "id": "marketing",
+        "label": "Marketing",
+        "aliases": ["Sales and marketing"]
+      },
+      "financeiro": {
+        "id": "finance",
+        "label": "Finance",
+        "aliases": ["Financial services"]
+      },
+      "research": {
+        "id": "research",
+        "label": "Research",
+        "aliases": ["Reference docs"]
+      },
+      "data": {
+        "id": "data",
+        "label": "Data",
+        "aliases": ["Databases", "Logs & errors"]
+      },
+      "engineering": {
+        "id": "engineering",
+        "label": "Engineering",
+        "aliases": ["Code", "APIs", "Servers & cloud"]
+      }
+    },
+    "categorias_originais_imagens": {
+      "imagem_01": [
+        "Code",
+        "Commerce and shopping",
+        "Communication",
+        "Data",
+        "Design",
+        "Education",
+        "Financial services",
+        "Health",
+        "Legal",
+        "Life sciences",
+        "Media and entertainment",
+        "Nonprofit",
+        "Other",
+        "Productivity",
+        "Sales and marketing",
+        "Travel"
+      ],
+      "imagem_02": [
+        "APIs",
+        "Engineering",
+        "Code",
+        "Contacts & leads",
+        "Files & documents",
+        "Pipelines & jobs",
+        "Finance",
+        "Databases",
+        "Tickets & tasks",
+        "Financial services",
+        "Designs & media",
+        "Reference docs",
+        "Sales",
+        "Logs & errors",
+        "Websites",
+        "Email & messages",
+        "Servers & cloud",
+        "AI models & agents",
+        "Marketing",
+        "Data"
+      ]
+    },
+    "areas_principais_normalizadas": [
+      "Productivity",
+      "Product Management",
+      "Sales",
+      "Legal",
+      "Operations",
+      "Small Business",
+      "Customer Support",
+      "Product",
+      "Design",
+      "Human Resources",
+      "Marketing",
+      "Finance",
+      "Research",
+      "Data",
+      "Engineering"
+    ],
+    "normalizacao": {
+      "duplicatas_removidas": ["Sales", "Legal", "Operations"],
+      "regra": {
+        "preservar_categoria_original": true,
+        "permitir_multiplas_areas": true,
+        "usar_area_principal_normalizada": true,
+        "usar_ids_estaveis_em_solucoes": true
+      }
+    }
   },
-  "categorias_originais_imagens": {
-   "imagem_01": [
-    "Code",
-    "Commerce and shopping",
-    "Communication",
-    "Data",
-    "Design",
-    "Education",
-    "Financial services",
-    "Health",
-    "Legal",
-    "Life sciences",
-    "Media and entertainment",
-    "Nonprofit",
-    "Other",
-    "Productivity",
-    "Sales and marketing",
-    "Travel"
-   ],
-   "imagem_02": [
-    "APIs",
-    "Engineering",
-    "Code",
-    "Contacts & leads",
-    "Files & documents",
-    "Pipelines & jobs",
-    "Finance",
-    "Databases",
-    "Tickets & tasks",
-    "Financial services",
-    "Designs & media",
-    "Reference docs",
-    "Sales",
-    "Logs & errors",
-    "Websites",
-    "Email & messages",
-    "Servers & cloud",
-    "AI models & agents",
-    "Marketing",
-    "Data"
-   ]
+  "PROFESSIONS": {
+    "schema_version": "1.0",
+    "registry_id": "SOLUTION_PROFESSIONS",
+    "status": "canonical",
+    "id_policy": "stable_english_snake_case",
+    "external_codes_status": "future_mapping",
+    "professions": [
+      {
+        "id": "lawyer",
+        "label_pt_BR": "Advogado",
+        "label_en": "Lawyer",
+        "entity_type": "profession",
+        "aliases": ["advocacia", "jurídico"]
+      },
+      {
+        "id": "accountant",
+        "label_pt_BR": "Contador",
+        "label_en": "Accountant",
+        "entity_type": "profession",
+        "aliases": ["contabilidade"]
+      },
+      {
+        "id": "teacher",
+        "label_pt_BR": "Professor",
+        "label_en": "Teacher",
+        "entity_type": "profession",
+        "aliases": ["docente", "educador"]
+      },
+      {
+        "id": "student",
+        "label_pt_BR": "Estudante",
+        "label_en": "Student",
+        "entity_type": "learner_role",
+        "aliases": ["aluno"]
+      },
+      {
+        "id": "researcher",
+        "label_pt_BR": "Pesquisador",
+        "label_en": "Researcher",
+        "entity_type": "profession",
+        "aliases": ["pesquisa", "cientista"]
+      },
+      {
+        "id": "designer",
+        "label_pt_BR": "Designer",
+        "label_en": "Designer",
+        "entity_type": "profession",
+        "aliases": ["design"]
+      },
+      {
+        "id": "engineer",
+        "label_pt_BR": "Engenheiro",
+        "label_en": "Engineer",
+        "entity_type": "profession",
+        "aliases": ["engenharia"]
+      },
+      {
+        "id": "software_developer",
+        "label_pt_BR": "Desenvolvedor",
+        "label_en": "Software Developer",
+        "entity_type": "profession",
+        "aliases": ["programador", "developer"]
+      },
+      {
+        "id": "product_manager",
+        "label_pt_BR": "Gestor de Produto",
+        "label_en": "Product Manager",
+        "entity_type": "profession",
+        "aliases": ["product manager", "PM"]
+      },
+      {
+        "id": "marketing_professional",
+        "label_pt_BR": "Profissional de Marketing",
+        "label_en": "Marketing Professional",
+        "entity_type": "profession",
+        "aliases": ["marketing"]
+      },
+      {
+        "id": "sales_professional",
+        "label_pt_BR": "Profissional de Vendas",
+        "label_en": "Sales Professional",
+        "entity_type": "profession",
+        "aliases": ["vendedor", "executivo de vendas"]
+      },
+      {
+        "id": "data_analyst",
+        "label_pt_BR": "Analista de Dados",
+        "label_en": "Data Analyst",
+        "entity_type": "profession",
+        "aliases": ["analytics"]
+      },
+      {
+        "id": "hr_professional",
+        "label_pt_BR": "Profissional de RH",
+        "label_en": "Human Resources Professional",
+        "entity_type": "profession",
+        "aliases": ["recursos humanos", "RH"]
+      },
+      {
+        "id": "entrepreneur",
+        "label_pt_BR": "Empreendedor",
+        "label_en": "Entrepreneur",
+        "entity_type": "professional_role",
+        "aliases": ["small business owner", "fundador"]
+      },
+      {
+        "id": "project_manager",
+        "label_pt_BR": "Gestor de Projetos",
+        "label_en": "Project Manager",
+        "entity_type": "profession",
+        "aliases": ["gerente de projetos", "project manager"]
+      }
+    ],
+    "rules": {
+      "allow_multiple_professions_per_solution": true,
+      "distinguish_primary_and_related": true,
+      "require_use_case_or_rationale": true,
+      "do_not_infer_regulated_professional_suitability_from_category_alone": true,
+      "future_external_mapping": {
+        "cbo": null,
+        "isco": null
+      }
+    }
   },
-  "areas_principais_normalizadas": [
-   "Productivity",
-   "Product Management",
-   "Sales",
-   "Legal",
-   "Operations",
-   "Small Business",
-   "Customer Support",
-   "Product",
-   "Design",
-   "Human Resources",
-   "Marketing",
-   "Finance",
-   "Research",
-   "Data",
-   "Engineering"
-  ],
-  "normalizacao": {
-   "duplicatas_removidas": [
-    "Sales",
-    "Legal",
-    "Operations"
-   ],
-   "regra": {
-    "preservar_categoria_original": true,
-    "permitir_multiplas_areas": true,
-    "usar_area_principal_normalizada": true,
-    "usar_ids_estaveis_em_solucoes": true
-   }
-  }
- },
- "PROFESSIONS": {
-  "schema_version": "1.0",
-  "registry_id": "SOLUTION_PROFESSIONS",
-  "status": "canonical",
-  "id_policy": "stable_english_snake_case",
-  "external_codes_status": "future_mapping",
-  "professions": [
-   {
-    "id": "lawyer",
-    "label_pt_BR": "Advogado",
-    "label_en": "Lawyer",
-    "entity_type": "profession",
-    "aliases": [
-     "advocacia",
-     "jurídico"
-    ]
-   },
-   {
-    "id": "accountant",
-    "label_pt_BR": "Contador",
-    "label_en": "Accountant",
-    "entity_type": "profession",
-    "aliases": [
-     "contabilidade"
-    ]
-   },
-   {
-    "id": "teacher",
-    "label_pt_BR": "Professor",
-    "label_en": "Teacher",
-    "entity_type": "profession",
-    "aliases": [
-     "docente",
-     "educador"
-    ]
-   },
-   {
-    "id": "student",
-    "label_pt_BR": "Estudante",
-    "label_en": "Student",
-    "entity_type": "learner_role",
-    "aliases": [
-     "aluno"
-    ]
-   },
-   {
-    "id": "researcher",
-    "label_pt_BR": "Pesquisador",
-    "label_en": "Researcher",
-    "entity_type": "profession",
-    "aliases": [
-     "pesquisa",
-     "cientista"
-    ]
-   },
-   {
-    "id": "designer",
-    "label_pt_BR": "Designer",
-    "label_en": "Designer",
-    "entity_type": "profession",
-    "aliases": [
-     "design"
-    ]
-   },
-   {
-    "id": "engineer",
-    "label_pt_BR": "Engenheiro",
-    "label_en": "Engineer",
-    "entity_type": "profession",
-    "aliases": [
-     "engenharia"
-    ]
-   },
-   {
-    "id": "software_developer",
-    "label_pt_BR": "Desenvolvedor",
-    "label_en": "Software Developer",
-    "entity_type": "profession",
-    "aliases": [
-     "programador",
-     "developer"
-    ]
-   },
-   {
-    "id": "product_manager",
-    "label_pt_BR": "Gestor de Produto",
-    "label_en": "Product Manager",
-    "entity_type": "profession",
-    "aliases": [
-     "product manager",
-     "PM"
-    ]
-   },
-   {
-    "id": "marketing_professional",
-    "label_pt_BR": "Profissional de Marketing",
-    "label_en": "Marketing Professional",
-    "entity_type": "profession",
-    "aliases": [
-     "marketing"
-    ]
-   },
-   {
-    "id": "sales_professional",
-    "label_pt_BR": "Profissional de Vendas",
-    "label_en": "Sales Professional",
-    "entity_type": "profession",
-    "aliases": [
-     "vendedor",
-     "executivo de vendas"
-    ]
-   },
-   {
-    "id": "data_analyst",
-    "label_pt_BR": "Analista de Dados",
-    "label_en": "Data Analyst",
-    "entity_type": "profession",
-    "aliases": [
-     "analytics"
-    ]
-   },
-   {
-    "id": "hr_professional",
-    "label_pt_BR": "Profissional de RH",
-    "label_en": "Human Resources Professional",
-    "entity_type": "profession",
-    "aliases": [
-     "recursos humanos",
-     "RH"
-    ]
-   },
-   {
-    "id": "entrepreneur",
-    "label_pt_BR": "Empreendedor",
-    "label_en": "Entrepreneur",
-    "entity_type": "professional_role",
-    "aliases": [
-     "small business owner",
-     "fundador"
-    ]
-   },
-   {
-    "id": "project_manager",
-    "label_pt_BR": "Gestor de Projetos",
-    "label_en": "Project Manager",
-    "entity_type": "profession",
-    "aliases": [
-     "gerente de projetos",
-     "project manager"
-    ]
-   }
-  ],
-  "rules": {
-   "allow_multiple_professions_per_solution": true,
-   "distinguish_primary_and_related": true,
-   "require_use_case_or_rationale": true,
-   "do_not_infer_regulated_professional_suitability_from_category_alone": true,
-   "future_external_mapping": {
-    "cbo": null,
-    "isco": null
-   }
-  }
- },
- "TASK_TYPES": {
-  "schema_version": "1.0",
-  "registry_id": "SOLUTION_TASK_TYPES",
-  "status": "canonical",
-  "task_types": [
-   {
-    "id": "organize",
-    "label": "Organizar"
-   },
-   {
-    "id": "structure",
-    "label": "Estruturar"
-   },
-   {
-    "id": "document",
-    "label": "Documentar"
-   },
-   {
-    "id": "transform",
-    "label": "Transformar"
-   },
-   {
-    "id": "summarize",
-    "label": "Resumir"
-   },
-   {
-    "id": "edit",
-    "label": "Editar"
-   },
-   {
-    "id": "format",
-    "label": "Formatar"
-   },
-   {
-    "id": "analyze",
-    "label": "Analisar"
-   },
-   {
-    "id": "research",
-    "label": "Pesquisar"
-   },
-   {
-    "id": "extract",
-    "label": "Extrair"
-   },
-   {
-    "id": "compare",
-    "label": "Comparar"
-   },
-   {
-    "id": "validate",
-    "label": "Validar"
-   },
-   {
-    "id": "automate",
-    "label": "Automatizar"
-   },
-   {
-    "id": "plan",
-    "label": "Planejar"
-   },
-   {
-    "id": "present",
-    "label": "Apresentar"
-   },
-   {
-    "id": "publish",
-    "label": "Publicar"
-   },
-   {
-    "id": "knowledge_management",
-    "label": "Gerenciar conhecimento"
-   }
-  ],
-  "rules": {
-   "allow_multiple": true,
-   "use_canonical_ids": true,
-   "freeform_task_tags_allowed": false
-  }
- },
- "ARTIFACT_TYPES": {
-  "schema_version": "1.0",
-  "registry_id": "SOLUTION_ARTIFACT_TYPES",
-  "status": "canonical",
-  "artifact_types": [
-   {
-    "id": "document",
-    "label": "Documento"
-   },
-   {
-    "id": "markdown_document",
-    "label": "Documento Markdown"
-   },
-   {
-    "id": "report",
-    "label": "Relatório"
-   },
-   {
-    "id": "briefing",
-    "label": "Briefing"
-   },
-   {
-    "id": "project_documentation",
-    "label": "Documentação de projeto"
-   },
-   {
-    "id": "knowledge_base",
-    "label": "Base de conhecimento"
-   },
-   {
-    "id": "presentation",
-    "label": "Apresentação"
-   },
-   {
-    "id": "spreadsheet",
-    "label": "Planilha"
-   },
-   {
-    "id": "database_record",
-    "label": "Registro de banco de dados"
-   },
-   {
-    "id": "email",
-    "label": "E-mail"
-   },
-   {
-    "id": "code",
-    "label": "Código"
-   },
-   {
-    "id": "image",
-    "label": "Imagem"
-   },
-   {
-    "id": "video",
-    "label": "Vídeo"
-   },
-   {
-    "id": "audio",
-    "label": "Áudio"
-   },
-   {
-    "id": "form",
-    "label": "Formulário"
-   },
-   {
-    "id": "checklist",
-    "label": "Checklist"
-   },
-   {
-    "id": "template",
-    "label": "Template"
-   },
-   {
-    "id": "contract",
-    "label": "Contrato"
-   },
-   {
-    "id": "website",
-    "label": "Website"
-   }
-  ],
-  "rules": {
-   "allow_multiple": true,
-   "use_canonical_ids": true,
-   "freeform_artifact_types_allowed": false
-  }
- },
- "TAGGING_RULES": {
-  "schema_version": "1.0",
-  "registry_id": "SOLUTION_TAGGING_RULES",
-  "status": "canonical",
-  "typed_dimensions": [
-   "area",
-   "profession",
-   "task",
-   "artifact",
-   "context",
-   "technology"
-  ],
-  "node_key_format": "<dimension>:<canonical_id>",
-  "tag_format": "lowercase_snake_case",
-  "rules": {
-   "preserve_original_categories": true,
-   "use_normalized_primary_area": true,
-   "allow_multiple_areas": true,
-   "allow_multiple_professions": true,
-   "profession_links_require_use_case_or_rationale": true,
-   "do_not_use_freeform_tags_when_canonical_id_exists": true,
-   "freeform_semantic_tags_allowed": true,
-   "freeform_tags_must_not_replace_typed_dimensions": true,
-   "trace_every_release_bundle_to_solution_id": true,
-   "trace_every_store_submission_to_solution_id": true
+  "TASK_TYPES": {
+    "schema_version": "1.0",
+    "registry_id": "SOLUTION_TASK_TYPES",
+    "status": "canonical",
+    "task_types": [
+      {
+        "id": "organize",
+        "label": "Organizar"
+      },
+      {
+        "id": "structure",
+        "label": "Estruturar"
+      },
+      {
+        "id": "document",
+        "label": "Documentar"
+      },
+      {
+        "id": "transform",
+        "label": "Transformar"
+      },
+      {
+        "id": "summarize",
+        "label": "Resumir"
+      },
+      {
+        "id": "edit",
+        "label": "Editar"
+      },
+      {
+        "id": "format",
+        "label": "Formatar"
+      },
+      {
+        "id": "analyze",
+        "label": "Analisar"
+      },
+      {
+        "id": "research",
+        "label": "Pesquisar"
+      },
+      {
+        "id": "extract",
+        "label": "Extrair"
+      },
+      {
+        "id": "compare",
+        "label": "Comparar"
+      },
+      {
+        "id": "validate",
+        "label": "Validar"
+      },
+      {
+        "id": "automate",
+        "label": "Automatizar"
+      },
+      {
+        "id": "plan",
+        "label": "Planejar"
+      },
+      {
+        "id": "present",
+        "label": "Apresentar"
+      },
+      {
+        "id": "publish",
+        "label": "Publicar"
+      },
+      {
+        "id": "knowledge_management",
+        "label": "Gerenciar conhecimento"
+      }
+    ],
+    "rules": {
+      "allow_multiple": true,
+      "use_canonical_ids": true,
+      "freeform_task_tags_allowed": false
+    }
   },
-  "examples": [
-   "area:legal",
-   "profession:lawyer",
-   "task:document",
-   "artifact:contract",
-   "profession:student",
-   "artifact:report"
-  ]
- }
+  "ARTIFACT_TYPES": {
+    "schema_version": "1.0",
+    "registry_id": "SOLUTION_ARTIFACT_TYPES",
+    "status": "canonical",
+    "artifact_types": [
+      {
+        "id": "document",
+        "label": "Documento"
+      },
+      {
+        "id": "markdown_document",
+        "label": "Documento Markdown"
+      },
+      {
+        "id": "report",
+        "label": "Relatório"
+      },
+      {
+        "id": "briefing",
+        "label": "Briefing"
+      },
+      {
+        "id": "project_documentation",
+        "label": "Documentação de projeto"
+      },
+      {
+        "id": "knowledge_base",
+        "label": "Base de conhecimento"
+      },
+      {
+        "id": "presentation",
+        "label": "Apresentação"
+      },
+      {
+        "id": "spreadsheet",
+        "label": "Planilha"
+      },
+      {
+        "id": "database_record",
+        "label": "Registro de banco de dados"
+      },
+      {
+        "id": "email",
+        "label": "E-mail"
+      },
+      {
+        "id": "code",
+        "label": "Código"
+      },
+      {
+        "id": "image",
+        "label": "Imagem"
+      },
+      {
+        "id": "video",
+        "label": "Vídeo"
+      },
+      {
+        "id": "audio",
+        "label": "Áudio"
+      },
+      {
+        "id": "form",
+        "label": "Formulário"
+      },
+      {
+        "id": "checklist",
+        "label": "Checklist"
+      },
+      {
+        "id": "template",
+        "label": "Template"
+      },
+      {
+        "id": "contract",
+        "label": "Contrato"
+      },
+      {
+        "id": "website",
+        "label": "Website"
+      }
+    ],
+    "rules": {
+      "allow_multiple": true,
+      "use_canonical_ids": true,
+      "freeform_artifact_types_allowed": false
+    }
+  },
+  "TAGGING_RULES": {
+    "schema_version": "1.0",
+    "registry_id": "SOLUTION_TAGGING_RULES",
+    "status": "canonical",
+    "typed_dimensions": [
+      "area",
+      "profession",
+      "task",
+      "artifact",
+      "context",
+      "technology"
+    ],
+    "node_key_format": "<dimension>:<canonical_id>",
+    "tag_format": "lowercase_snake_case",
+    "rules": {
+      "preserve_original_categories": true,
+      "use_normalized_primary_area": true,
+      "allow_multiple_areas": true,
+      "allow_multiple_professions": true,
+      "profession_links_require_use_case_or_rationale": true,
+      "do_not_use_freeform_tags_when_canonical_id_exists": true,
+      "freeform_semantic_tags_allowed": true,
+      "freeform_tags_must_not_replace_typed_dimensions": true,
+      "trace_every_release_bundle_to_solution_id": true,
+      "trace_every_store_submission_to_solution_id": true
+    },
+    "examples": [
+      "area:legal",
+      "profession:lawyer",
+      "task:document",
+      "artifact:contract",
+      "profession:student",
+      "artifact:report"
+    ]
+  }
 }

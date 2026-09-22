@@ -61,8 +61,12 @@ export function useFocusTrap(
       }
 
       const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+      const last = focusable.at(-1);
       const activeEl = document.activeElement;
+
+      if (!last) {
+        return;
+      }
 
       if (event.shiftKey && activeEl === first) {
         event.preventDefault();
