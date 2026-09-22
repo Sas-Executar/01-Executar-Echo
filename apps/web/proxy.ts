@@ -8,6 +8,7 @@ import {
   securityMiddleware,
 } from "@repo/security/proxy";
 import { createNEMO } from "@rescale/nemo";
+import type { NextFetchEvent } from "next/dist/server/web/spec-extension/fetch-event";
 import { type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 
@@ -18,6 +19,9 @@ export const config = {
     "/((?!_next/static|_next/image|ingest|favicon.ico|.*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
   ],
 };
+
+const CLERK_HANDSHAKE_FAILURE =
+  /Handshake token verification failed|jwk-kid-mismatch/;
 
 const securityHeaders = env.FLAGS_SECRET
   ? securityMiddleware(noseconeOptionsWithToolbar)
@@ -54,7 +58,7 @@ const composedMiddleware = createNEMO(
 );
 
 // Clerk middleware wraps other middleware in its callback
-export default authMiddleware(async (_auth, request, event) => {
+const clerkProxy = authMiddleware(async (_auth, request, event) => {
   // Run composed middleware (i18n + arcjet) first: the i18n rewrite is what
   // makes the bare "/" resolve to "/[locale]" at all (next-international's
   // "rewriteDefault" strategy). Security headers are decorative by
@@ -85,4 +89,42 @@ export default authMiddleware(async (_auth, request, event) => {
 
   // Return middleware response if it exists, otherwise headers response
   return middlewareResponse || headersResponse;
+}) as unknown as NextProxy;
+
+// Clerk's own handshake verification runs before our callback ever gets
+// control, so a bad __session cookie throws out of clerkProxy() itself —
+// the try/catch inside the callback above can't reach it. Seen in
+// production on 2026-09-22: a visitor with a stale/foreign Clerk session
+// cookie (JWKS "kid" not present in this instance) got a hard 500 on every
+// route instead of just being treated as signed out. Clearing the cookie
+// and falling back to the composed (non-Clerk) middleware keeps the site
+// up for that request; the visitor is simply unauthenticated until they
+// sign in again.
+export default (async (request: NextRequest, event: NextFetchEvent) => {
+  try {
+    return await (
+      clerkProxy as unknown as (
+        req: NextRequest,
+        ev: NextFetchEvent
+      ) => Promise<Response>
+    )(request, event);
+  } catch (error) {
+    const isHandshakeFailure =
+      error instanceof Error && CLERK_HANDSHAKE_FAILURE.test(error.message);
+    if (!isHandshakeFailure) {
+      throw error;
+    }
+    parseError(error);
+    // Still run the i18n rewrite so a bare "/" doesn't 404 (see the
+    // composedMiddleware comment above) — just skip Clerk entirely.
+    const rewritten = await composedMiddleware(
+      request as unknown as NextRequest,
+      event
+    );
+    const fallback =
+      (rewritten as unknown as NextResponse) ?? NextResponse.next();
+    fallback.cookies.delete("__session");
+    fallback.cookies.delete("__client_uat");
+    return fallback;
+  }
 }) as unknown as NextProxy;
