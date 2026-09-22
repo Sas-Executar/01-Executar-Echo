@@ -54,7 +54,7 @@ export function FrameworksBrowser({
   return (
     <div>
       <div className="mb-6 flex flex-col gap-3 md:flex-row">
-        <label className="flex-1">
+        <label className="min-w-0 flex-1">
           <span className="sr-only">Buscar framework</span>
           <input
             className="w-full"
@@ -65,9 +65,16 @@ export function FrameworksBrowser({
             value={query}
           />
         </label>
-        <label>
+        <label className="min-w-0">
           <span className="sr-only">Filtrar por domínio</span>
+          {/*
+            `w-full` plus `min-w-0`: a select is sized by its longest
+            option, and "Todos os domínios (299)" pushed the row past a
+            320px viewport — measured as 25px of horizontal overflow on
+            the deployed page.
+          */}
           <select
+            className="w-full"
             onChange={(event) => setDomainId(event.target.value)}
             style={controlStyle}
             value={domainId}
@@ -80,9 +87,10 @@ export function FrameworksBrowser({
             ))}
           </select>
         </label>
-        <label>
+        <label className="min-w-0">
           <span className="sr-only">Ordenar</span>
           <select
+            className="w-full"
             onChange={(event) =>
               setSort(event.target.value === "dominio" ? "dominio" : "nome")
             }
