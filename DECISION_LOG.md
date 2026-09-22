@@ -140,3 +140,17 @@ Decisão que o pacote original da Fase Zero não previu. Registrada como FP-004 
 | **Data** | 2026-09-22 |
 | **Consequência** | `ADR-MAPA-001`. O bundle é vendorizado em `packages/knowledge/data/cognitive-map/` com checksums e procedência. Um teste verifica os checksums e as contagens a cada execução, de modo que regenerar o grafo **quebra o CI** — que é o comportamento desejado |
 | **Evidência** | `sha256sum -c` 10/10 OK na recepção; `graph_data.json` valida contra `graph_schema.json`; 237 nós · 528 relações · 20 soluções · 13 evidências, conferidos |
+
+---
+
+## DEC-009 — Identidade pública: EXECUTAR Native Editorial v2 substitui a v6 · **DECIDED**
+
+| | |
+|---|---|
+| **Conflito** | A `DEC-007` adotou os tokens NatGeo-hybrid v6, e a superfície pública foi construída sobre eles. O pacote `EXECUTAR_BLOG_HANDOFF_002_APPLE_ALIGNED` declara uma **única identidade canônica** — `EXECUTAR-BLOG-IDENTITY-001` v2.0, `ADR-002` `APPROVED` — que substitui a identidade implícita do handoff 001. Duas exigências da v2 contradizem frontalmente o que estava implementado e verificado no CI: a serifa New York sai da identidade, e `--focus: #0A84FF` é obrigatório, enquanto a `ADR-DS-003` proíbe azul e o `check-drift.ts` falha o build em qualquer azul |
+| **Impacto de adiar** | A superfície pública ficaria numa identidade explicitamente superseded, e o gate de paleta passaria a defender uma decisão revogada — o pior estado possível para uma guarda automática: verde, e errada |
+| **Recomendação** | Estreitar a regra em vez de abandoná-la. O proibido é o **azul do produto** (`#1f93ff`) como cor de identidade; o azul de foco do sistema é permitido e obrigatório, porque um anel de foco que o usuário não reconhece como foco é regressão de acessibilidade, não escolha de estilo |
+| **Resposta de Leo** | **Formalizado. O pacote agora tem uma única identidade canônica: EXECUTAR Native Editorial** (2026-09-22) |
+| **Data** | 2026-09-22 |
+| **Consequência** | `ADR-DS-004`. A `ADR-DS-003` fica `SUPERSEDED_IN_PART`: a resolução do `DS-01` continua válida — o amarelo segue sendo a cor de marca, agora com uso contido — e só as regras de composição caem. A API de tokens passa a ser **papéis semânticos**, não hexadecimais; claro e escuro são duas aparências de uma identidade. A arquitetura de informação não muda: rotas, dados, Mapa, Oficina, VERA e navegação seguem intactos, como o próprio pacote determina |
+| **Evidência** | 13/13 SHA-256 do pacote conferidos contra o seu próprio `MANIFEST.json`, registrados em `reference/v2/CHECKSUMS.sha256`. Verificado no browser contra produção, nas duas aparências: `--ed-bg` resolve `#fff` no claro e `#000` no escuro, `--ed-focus` `#0a84ff` em ambas, coluna de leitura em 17px/1.6 dentro de 760px, sem New York. Zero blocos `:root` com `--ed-*` no bundle servido |

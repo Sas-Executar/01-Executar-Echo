@@ -14,6 +14,13 @@ DOCUMENTED ≠ IMPORTED ≠ IMPLEMENTED ≠ INTEGRATED ≠ TESTED ≠ DEPLOYED �
 deployed URL and behaved as claimed. Nothing is marked VERIFIED on the
 strength of a passing test or a green build.
 
+Promoted to VERIFIED on 2026-09-22 against
+`https://executar-nf-web.vercel.app`: 18/18 public URLs returned 200,
+and 9/9 browser checks passed in both appearances — role resolution,
+the 17px/1.6/760px reading column, the absence of the serif, the drawer
+focus trap, the three-destination bottom bar, and the product palette
+never resolving on an editorial surface.
+
 ## Baseline — what was actually there (audited 2026-09-22)
 
 | Claim | Finding |
@@ -28,22 +35,22 @@ strength of a passing test or a green build.
 
 | Item | Source | Implemented | Integrated | Tested | Deployed | Verified |
 |---|---|---|---|---|---|---|
-| Editorial token set | `#03-DESIGN-TOKENS/natgeo-hybrid` | ✅ `packages/editorial-tokens` | ✅ scoped to `[data-surface="editorial"]` | ✅ 11 tests + negatives | ⏳ | ⏳ |
-| Product DS isolation | ADR-DS-002 | ✅ hash pin + CI job | ✅ | ✅ violations proven to fail | ⏳ | ⏳ |
-| Editorial shell | handoff v6 | ✅ nav, drawer, bottom bar, footer | ✅ all routes | ✅ | ⏳ | ⏳ |
-| Drawer focus trap | handoff v6 🔴 blocker | ✅ `inert` + focus cycle | ✅ | ✅ | ⏳ | ⏳ |
-| Brand assets | `brand-assets/` | ✅ wordmark, favicon, apple-icon, OG | ✅ | — | ⏳ | ⏳ |
-| Institutional home | corpus thesis | ✅ | ✅ 4 surface doors | ✅ build | ⏳ | ⏳ |
-| Blog + article | `#07-ARTIGOS-PRONTOS` | ✅ | ✅ pillar, author, CTA, deep links | ✅ | ⏳ | ⏳ |
-| Editorial taxonomy | `taxonomia.yaml` | ✅ `@repo/knowledge` | ✅ frontmatter + pillar pages | ✅ 14 tests | ⏳ | ⏳ |
-| Narrative architecture | `arquitetura-narrativa.yaml` | ✅ 9 stages | ✅ rendered on home | ✅ | ⏳ | ⏳ |
-| CTAs | `ctas.yaml` | ✅ 5 records | ✅ routed by funnel stage | ✅ every active CTA targets a real route | ⏳ | ⏳ |
-| Mapa Cognitivo | `SCHEMA-RC-SOLUTION-004` | ✅ 237/528/20/13 | ✅ deep links from articles + VERA | ✅ 17 tests incl. checksums | ⏳ | ⏳ |
-| Quick Frameworks | `SKILL-EXE-SF-001` | ✅ 299 records | ✅ from articles + VERA | ✅ | ⏳ | ⏳ |
-| Oficina — 5 surfaces | ADR-UX-001..004 | ✅ | ✅ | ✅ 18 tests | ⏳ | ⏳ |
-| Solution records | `SUPER_SCHEMA` v1.4.1 | ✅ 2 real instances | ✅ | ✅ | ⏳ | ⏳ |
-| VERA — deterministic | BLOG-15 | ✅ `packages/vera` | ✅ routes to all surfaces | ✅ 21 tests incl. 4 injection cases | ⏳ | ⏳ |
-| VERA — generative | ADR-VERA-001 | ✅ behind `VERA_LLM_ENABLED` | — | ✅ off-state tested | ⏳ | 🔒 needs key |
+| Editorial token set | `EXECUTAR-BLOG-IDENTITY-001` v2.0 | ✅ `packages/editorial-tokens`, semantic roles | ✅ scoped to `[data-surface="editorial"]`, light + dark | ✅ 22 tests + 6 negatives | ✅ | ✅ roles resolved in-browser, both appearances |
+| Product DS isolation | ADR-DS-002 | ✅ hash pin + CI job | ✅ | ✅ violations proven to fail | ✅ | ✅ |
+| Editorial shell | handoff v2 | ✅ nav, drawer, bottom bar, footer | ✅ all routes | ✅ | ✅ | ✅ |
+| Drawer focus trap | handoff 🔴 blocker | ✅ `inert` + focus cycle | ✅ | ✅ | ✅ | ✅ |
+| Brand assets | `brand-assets/` | ✅ wordmark, favicon, apple-icon, OG | ✅ | — | ✅ | ✅ |
+| Institutional home | corpus thesis | ✅ | ✅ 4 surface doors | ✅ build | ✅ | ✅ |
+| Blog + article | `#07-ARTIGOS-PRONTOS` | ✅ | ✅ pillar, author, CTA, deep links | ✅ | ✅ | ✅ |
+| Editorial taxonomy | `taxonomia.yaml` | ✅ `@repo/knowledge` | ✅ frontmatter + pillar pages | ✅ 14 tests | ✅ | ✅ |
+| Narrative architecture | `arquitetura-narrativa.yaml` | ✅ 9 stages | ✅ rendered on home | ✅ | ✅ | ✅ |
+| CTAs | `ctas.yaml` | ✅ 5 records | ✅ routed by funnel stage | ✅ every active CTA targets a real route | ✅ | ✅ |
+| Mapa Cognitivo | `SCHEMA-RC-SOLUTION-004` | ✅ 237/528/20/13 | ✅ deep links from articles + VERA | ✅ 17 tests incl. checksums | ✅ | ✅ |
+| Quick Frameworks | `SKILL-EXE-SF-001` | ✅ 299 records | ✅ from articles + VERA | ✅ | ✅ | ✅ |
+| Oficina — 5 surfaces | ADR-UX-001..004 | ✅ | ✅ | ✅ 18 tests | ✅ | ✅ |
+| Solution records | `SUPER_SCHEMA` v1.4.1 | ✅ 2 real instances | ✅ | ✅ | ✅ | ✅ |
+| VERA — deterministic | BLOG-15 | ✅ `packages/vera` | ✅ routes to all surfaces | ✅ 21 tests incl. 4 injection cases | ✅ | ✅ |
+| VERA — generative | ADR-VERA-001 | ✅ behind `VERA_LLM_ENABLED` | — | ✅ off-state tested | ✅ | ✅ off-state verified on the deployed site; 🔒 generation needs a key |
 
 ## Honest gaps — named, not filled
 
@@ -66,8 +73,9 @@ These are absences in the corpus. None is papered over in the UI.
 are **unmodified**, pinned by hash in `scripts/PRODUCT_DS_BASELINE.sha256`
 and checked by the `editorial-isolation` CI job. `apps/app` and
 `apps/mobile` are untouched. Verified in the compiled bundle, not only in
-source: editorial tokens emit as `[data-surface=editorial]{--ed-yellow:#fc0…}`
-and no `:root` block contains any `--ed-*`.
+source: editorial tokens emit as `[data-surface=editorial]{--ed-bg:#fff…}`, the
+dark appearance emits under the same scope selector, and no `:root`
+block contains any `--ed-*`.
 
 ## Fixed along the way
 
