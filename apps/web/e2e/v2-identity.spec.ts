@@ -8,6 +8,21 @@ import { expect, test } from "@playwright/test";
  */
 const ARTICLE = "/blog/tp-001-fatores-de-risco-cognitivo";
 
+/**
+ * The minifier rewrites #ffffff as #fff, so a literal comparison would
+ * fail on a value that is in fact correct.
+ */
+const SHORT_HEX = /^#[0-9a-f]{3}$/i;
+
+const expand = (hex: string | null) =>
+  hex && SHORT_HEX.test(hex)
+    ? `#${hex
+        .slice(1)
+        .split("")
+        .map((c) => c + c)
+        .join("")}`
+    : hex;
+
 const computed = (selector: string, prop: string) =>
   `(() => { const el = document.querySelector(${JSON.stringify(selector)});
      return el ? getComputedStyle(el).getPropertyValue(${JSON.stringify(prop)}).trim() : null; })()`;
@@ -20,13 +35,17 @@ test.describe("light appearance", () => {
   }) => {
     await page.goto(ARTICLE);
     const body = "body";
-    expect(await page.evaluate(computed(body, "--ed-bg"))).toBe("#ffffff");
-    expect(await page.evaluate(computed(body, "--ed-label-primary"))).toBe(
-      "#1d1d1f"
+    expect(expand(await page.evaluate(computed(body, "--ed-bg")))).toBe(
+      "#ffffff"
     );
-    expect(await page.evaluate(computed(body, "--ed-focus"))).toBe("#0a84ff");
+    expect(
+      expand(await page.evaluate(computed(body, "--ed-label-primary")))
+    ).toBe("#1d1d1f");
+    expect(expand(await page.evaluate(computed(body, "--ed-focus")))).toBe(
+      "#0a84ff"
+    );
     // The product ramp must not appear anywhere in the resolved values.
-    expect(await page.evaluate(computed(body, "--ed-accent"))).not.toBe(
+    expect(expand(await page.evaluate(computed(body, "--ed-accent")))).not.toBe(
       "#1f93ff"
     );
   });
@@ -57,12 +76,16 @@ test.describe("dark appearance", () => {
   test("derives dark from the same roles", async ({ page }) => {
     await page.goto(ARTICLE);
     const body = "body";
-    expect(await page.evaluate(computed(body, "--ed-bg"))).toBe("#000000");
-    expect(await page.evaluate(computed(body, "--ed-label-primary"))).toBe(
-      "#f5f5f7"
+    expect(expand(await page.evaluate(computed(body, "--ed-bg")))).toBe(
+      "#000000"
     );
+    expect(
+      expand(await page.evaluate(computed(body, "--ed-label-primary")))
+    ).toBe("#f5f5f7");
     // One identity: the focus colour is the same in both appearances.
-    expect(await page.evaluate(computed(body, "--ed-focus"))).toBe("#0a84ff");
+    expect(expand(await page.evaluate(computed(body, "--ed-focus")))).toBe(
+      "#0a84ff"
+    );
   });
 
   test("actually paints dark, not just declares it", async ({ page }) => {
