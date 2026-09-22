@@ -57,6 +57,21 @@ const composedMiddleware = createNEMO(
   }
 );
 
+/**
+ * Whether Clerk can run at all. `packages/auth/keys.ts` already declares
+ * both keys `.optional()`, but `authMiddleware` throws outright when they
+ * are absent — so a public site that renders no authenticated UI could
+ * still be taken down entirely by a missing or rotated key.
+ *
+ * apps/web references `@repo/auth` in exactly one place: this file. No
+ * page here reads a session. Treating the keys as genuinely optional
+ * therefore costs nothing and removes a whole class of outage — the same
+ * class GATE-MOBILE-001 and commit c3d9821 both landed in production.
+ */
+const clerkConfigured = Boolean(
+  process.env.CLERK_SECRET_KEY && process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+);
+
 // Clerk middleware wraps other middleware in its callback
 const clerkProxy = authMiddleware(async (_auth, request, event) => {
   // Run composed middleware (i18n + arcjet) first: the i18n rewrite is what
@@ -101,6 +116,25 @@ const clerkProxy = authMiddleware(async (_auth, request, event) => {
 // up for that request; the visitor is simply unauthenticated until they
 // sign in again.
 export default (async (request: NextRequest, event: NextFetchEvent) => {
+  // No Clerk keys: run the i18n rewrite and security headers directly.
+  // The visitor is simply unauthenticated, which is the correct state for
+  // every route in this app, instead of every route returning a 500.
+  if (!clerkConfigured) {
+    const rewritten = await composedMiddleware(
+      request as unknown as NextRequest,
+      event
+    );
+    if (rewritten) {
+      return rewritten;
+    }
+    try {
+      return (await securityHeaders()) ?? NextResponse.next();
+    } catch (error) {
+      parseError(error);
+      return NextResponse.next();
+    }
+  }
+
   try {
     return await (
       clerkProxy as unknown as (
