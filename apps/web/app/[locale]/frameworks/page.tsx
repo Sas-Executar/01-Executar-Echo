@@ -13,6 +13,18 @@ export const metadata: Metadata = createMetadata({
 });
 
 /**
+ * Rendered once at build time.
+ *
+ * This page takes no request input — the catalog is build-time constant
+ * — but Next was treating it as dynamic, so every request re-serialized
+ * all 299 records into the RSC payload. Measured on the deployed site,
+ * that route failed roughly 1 request in 15 with a 502 or a >5s
+ * response, while /mapa and the static routes were clean across the same
+ * sample. Prerendering removes the per-request work entirely.
+ */
+export const dynamic = "force-static";
+
+/**
  * The Quick Frameworks surface, over the catalog that ships with
  * `skills/executar-safe-frameworks` (SKILL-EXE-SF-001).
  */

@@ -4,6 +4,18 @@ const BASE = "https://executar-nf-web.vercel.app";
 
 /** Hoisted so they compile once rather than per assertion. */
 const ANY_VALUE = /.*/;
+const SHORT_HEX = /^#([\da-f])([\da-f])([\da-f])$/i;
+
+/** `#000` and `#000000` are the same colour; compare them as such. */
+function expand(hex?: string | null): string | undefined {
+  if (!hex) {
+    return undefined;
+  }
+  const short = hex.trim().match(SHORT_HEX);
+  return short
+    ? `#${short[1]}${short[1]}${short[2]}${short[2]}${short[3]}${short[3]}`
+    : hex.trim();
+}
 const ROUTES = [
   "/",
   "/blog",
@@ -122,10 +134,11 @@ test("the public surface uses no product-palette colour", async ({ page }) => {
   });
 
   expect(resolved).not.toBeNull();
-  // Re-pointed at the editorial set, not the product one.
-  expect(resolved?.primary).toBe("#000000");
-  expect(resolved?.ring).toBe("#ffcc00");
-  expect(resolved?.background).toBe("#ffffff");
+  // Compared as expanded hex: the minifier rewrites #000000 as #000, and
+  // a literal string match would fail on a value that is in fact correct.
+  expect(expand(resolved?.primary)).toBe("#000000");
+  expect(expand(resolved?.ring)).toBe("#ffcc00");
+  expect(expand(resolved?.background)).toBe("#ffffff");
   // Square corners are identity on this surface.
   expect(resolved?.radius).toBe("0px");
 });
