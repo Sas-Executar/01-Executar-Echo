@@ -22,7 +22,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
   const primaryBlocked = actionUnavailableReason(card?.actions?.primary);
 
   return (
-    <article style={{ background: "var(--ed-paper)" }}>
+    <article style={{ background: "var(--ed-bg)" }}>
       <Link
         className="flex h-full flex-col gap-3 p-6"
         href={`/oficina/${identity.slug}`}
@@ -30,7 +30,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
       >
         <span
           className="text-[length:var(--ed-caption)] uppercase tracking-[.1em]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           {content?.eyebrow ?? productTypeLabel(identity.product_type)}
         </span>
@@ -41,7 +41,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
 
         <p
           className="flex-1 text-[length:var(--ed-small)]"
-          style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           {content?.short_description ??
             solution.public_layer?.problem_statement ??
@@ -53,7 +53,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
             <span
               className="text-[length:var(--ed-caption)]"
               style={{
-                border: "1px solid var(--ed-line)",
+                border: "1px solid var(--ed-separator)",
                 padding: "4px 8px",
               }}
             >
@@ -70,9 +70,9 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
             style={{
               padding: "4px 8px",
               background: isPublished(solution)
-                ? "var(--ed-yellow)"
-                : "var(--ed-soft)",
-              color: "var(--ed-ink)",
+                ? "var(--ed-accent)"
+                : "var(--ed-bg-grouped)",
+              color: "var(--ed-label-primary)",
             }}
           >
             {isPublished(solution)
@@ -83,7 +83,7 @@ export function SolutionCard({ solution }: { readonly solution: Solution }) {
 
         <span
           className="text-[length:var(--ed-caption)]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           {primaryBlocked ? primaryBlocked : "Pronto para usar →"}
         </span>

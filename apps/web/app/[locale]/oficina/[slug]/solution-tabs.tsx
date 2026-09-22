@@ -28,7 +28,7 @@ export function SolutionTabs({ solution }: { readonly solution: Solution }) {
         aria-label="Seções da solução"
         className="flex flex-wrap gap-2 border-b"
         role="tablist"
-        style={{ borderColor: "var(--ed-line)" }}
+        style={{ borderColor: "var(--ed-separator)" }}
       >
         {TABS.map((tab) => (
           <button
@@ -45,7 +45,7 @@ export function SolutionTabs({ solution }: { readonly solution: Solution }) {
               background: "transparent",
               borderBottom:
                 active === tab.id
-                  ? "3px solid var(--ed-yellow)"
+                  ? "3px solid var(--ed-accent)"
                   : "3px solid transparent",
             }}
             type="button"
@@ -106,14 +106,14 @@ function OverviewPanel({ solution }: { readonly solution: Solution }) {
               <li
                 key={risk.id}
                 style={{
-                  borderLeft: "3px solid var(--ed-line)",
+                  borderLeft: "3px solid var(--ed-separator)",
                   paddingLeft: 16,
                 }}
               >
                 <p className="font-medium">{risk.scenario}</p>
                 <p
                   className="text-[length:var(--ed-small)]"
-                  style={{ color: "var(--ed-muted)" }}
+                  style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {risk.failure_mode}
                 </p>
@@ -155,7 +155,7 @@ function ContentsPanel({ solution }: { readonly solution: Solution }) {
           {pub.tutorial.expected_result ? (
             <p
               className="mt-5 text-[length:var(--ed-small)]"
-              style={{ color: "var(--ed-muted)" }}
+              style={{ color: "var(--ed-label-secondary)" }}
             >
               Resultado esperado: {pub.tutorial.expected_result}
             </p>
@@ -177,7 +177,7 @@ function ContentsPanel({ solution }: { readonly solution: Solution }) {
                 {useCase.problem ? (
                   <p
                     className="text-[length:var(--ed-small)]"
-                    style={{ color: "var(--ed-muted)" }}
+                    style={{ color: "var(--ed-label-secondary)" }}
                   >
                     {useCase.problem}
                   </p>
@@ -215,7 +215,7 @@ function ExamplesPanel({ solution }: { readonly solution: Solution }) {
           <pre
             className="overflow-x-auto p-4 text-[length:var(--ed-small)]"
             style={{
-              background: "var(--ed-soft)",
+              background: "var(--ed-bg-grouped)",
               whiteSpace: "pre-wrap",
             }}
           >
@@ -234,7 +234,7 @@ function ExamplesPanel({ solution }: { readonly solution: Solution }) {
           <pre
             className="overflow-x-auto p-4 text-[length:var(--ed-small)]"
             style={{
-              background: "var(--ed-soft)",
+              background: "var(--ed-bg-grouped)",
               whiteSpace: "pre-wrap",
             }}
           >
@@ -311,7 +311,7 @@ function ListBlock({
 /** Absence named as absence, rather than an empty region on the page. */
 function Empty() {
   return (
-    <p style={{ color: "var(--ed-muted)" }}>
+    <p style={{ color: "var(--ed-label-secondary)" }}>
       Não disponível — ainda não definido no contrato desta solução.
     </p>
   );

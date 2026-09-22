@@ -27,6 +27,11 @@ interface EditorialShellProps {
  * swaps the design system for this subtree (ADR-DS-002) — the product
  * identity is untouched outside it.
  *
+ * The translucent material is `.ed-chrome`, from the token layer. It is
+ * applied here and in the bottom bar and nowhere else: identity contract
+ * v2 rule 5 confines it to the chrome, never to an article, a card or a
+ * table.
+ *
  * Layout values come from `--ed-*` custom properties rather than Tailwind
  * spacing utilities wherever the handoff fixed an exact number (nav 56px,
  * bottom bar 64px, drawer min(84vw,360px), targets ≥44px). Those were
@@ -83,20 +88,20 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
     >
       {/* Top navigation. Translates out with the bottom bar, never alone. */}
       <header
-        className="fixed top-0 right-0 left-0 z-50 border-[var(--ed-line)] border-b backdrop-blur-xl"
+        className="ed-chrome fixed top-0 right-0 left-0 z-50 border-[var(--ed-separator)] border-b"
         data-testid="editorial-nav"
         data-visible={chromeVisible}
         style={{
           height: "var(--ed-nav-h)",
-          background: "var(--ed-glass-light)",
           transform: chromeVisible ? "translateY(0)" : "translateY(-100%)",
-          transition: "transform var(--ed-duration-chrome) var(--ed-ease)",
+          transition:
+            "transform var(--ed-motion-standard) var(--ed-motion-curve)",
         }}
       >
         <div
           className="mx-auto flex h-full items-center justify-between"
           style={{
-            maxWidth: "var(--ed-wide)",
+            maxWidth: "var(--ed-content-max)",
             paddingInline: "var(--ed-gutter)",
           }}
         >
@@ -111,7 +116,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
               width: "var(--ed-nav-h)",
               height: "var(--ed-nav-h)",
               marginInlineStart: "calc(var(--ed-gutter) * -0.5)",
-              borderRadius: "var(--ed-radius-nav-icon)",
+              borderRadius: "var(--ed-radius-control)",
             }}
             type="button"
           >
@@ -152,7 +157,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
                 style={{
                   paddingBlock: 6,
                   borderBottom: isActive(item.href)
-                    ? "3px solid var(--ed-yellow)"
+                    ? "3px solid var(--ed-accent)"
                     : "3px solid transparent",
                 }}
               >
@@ -169,7 +174,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
               width: "var(--ed-nav-h)",
               height: "var(--ed-nav-h)",
               marginInlineEnd: "calc(var(--ed-gutter) * -0.5)",
-              borderRadius: "var(--ed-radius-nav-icon)",
+              borderRadius: "var(--ed-radius-control)",
             }}
           >
             <SearchIcon />
@@ -199,9 +204,10 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
         role="dialog"
         style={{
           width: "var(--ed-drawer-w)",
-          background: "var(--ed-paper)",
+          background: "var(--ed-bg)",
           transform: drawerOpen ? "translateX(0)" : "translateX(-100%)",
-          transition: "transform var(--ed-duration-drawer) var(--ed-ease)",
+          transition:
+            "transform var(--ed-motion-standard) var(--ed-motion-curve)",
           visibility: drawerOpen ? "visible" : "hidden",
         }}
       >
@@ -221,7 +227,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
             style={{
               width: 44,
               height: 44,
-              borderRadius: "var(--ed-radius-nav-icon)",
+              borderRadius: "var(--ed-radius-control)",
             }}
             type="button"
           >
@@ -242,7 +248,7 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
                 minHeight: "var(--ed-nav-h)",
                 paddingInline: "var(--ed-gutter)",
                 boxShadow: isActive(item.href)
-                  ? "inset 3px 0 0 var(--ed-yellow)"
+                  ? "inset 3px 0 0 var(--ed-accent)"
                   : undefined,
               }}
             >
@@ -266,14 +272,14 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
       {/* Bottom bar: exactly three destinations, by contract. */}
       <nav
         aria-label="Navegação rápida"
-        className="fixed right-0 bottom-0 left-0 z-40 border-[var(--ed-line)] border-t backdrop-blur-xl lg:hidden"
+        className="ed-chrome fixed right-0 bottom-0 left-0 z-40 border-[var(--ed-separator)] border-t lg:hidden"
         data-testid="editorial-bottom-bar"
         data-visible={chromeVisible}
         style={{
           height: "var(--ed-bottombar-h)",
-          background: "var(--ed-glass-light)",
           transform: chromeVisible ? "translateY(0)" : "translateY(100%)",
-          transition: "transform var(--ed-duration-chrome) var(--ed-ease)",
+          transition:
+            "transform var(--ed-motion-standard) var(--ed-motion-curve)",
         }}
       >
         <ul className="grid h-full grid-cols-3">
@@ -285,8 +291,8 @@ export function EditorialShell({ children, footer }: EditorialShellProps) {
                 href={item.href}
                 style={{
                   color: isActive(item.href)
-                    ? "var(--ed-ink)"
-                    : "var(--ed-muted)",
+                    ? "var(--ed-label-primary)"
+                    : "var(--ed-label-secondary)",
                   fontWeight: isActive(item.href) ? 600 : 400,
                 }}
               >

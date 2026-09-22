@@ -53,14 +53,14 @@ const Onboarding = async ({ params }: OnboardingProps) => {
     <article
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-read)",
+        maxWidth: "var(--ed-reading-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
       <p
         className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         {solution.identity.solution_name}
       </p>
@@ -72,7 +72,7 @@ const Onboarding = async ({ params }: OnboardingProps) => {
       </h1>
 
       {steps.length === 0 ? (
-        <p className="mt-8" style={{ color: "var(--ed-muted)" }}>
+        <p className="mt-8" style={{ color: "var(--ed-label-secondary)" }}>
           Não disponível — o onboarding desta solução ainda não foi definido.
         </p>
       ) : (
@@ -81,7 +81,7 @@ const Onboarding = async ({ params }: OnboardingProps) => {
             <li key={step.id}>
               <p
                 className="mb-2 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 Passo {index + 1}
               </p>
@@ -106,9 +106,9 @@ const Onboarding = async ({ params }: OnboardingProps) => {
             style={{
               minHeight: 56,
               paddingInline: 24,
-              background: "var(--ed-black)",
-              color: "var(--ed-white)",
-              borderRadius: "var(--ed-radius-btn)",
+              background: "var(--ed-label-primary)",
+              color: "var(--ed-bg)",
+              borderRadius: "var(--ed-radius-control)",
             }}
           >
             {primary.label ?? "Start"}
@@ -116,7 +116,7 @@ const Onboarding = async ({ params }: OnboardingProps) => {
         ) : (
           <p
             className="text-[length:var(--ed-small)]"
-            style={{ color: "var(--ed-muted)" }}
+            style={{ color: "var(--ed-label-secondary)" }}
           >
             {primaryBlocked} Esta solução ainda não tem um destino público para
             iniciar.

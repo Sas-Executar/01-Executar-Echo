@@ -64,7 +64,7 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-shell)",
+        maxWidth: "var(--ed-reading-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
@@ -87,9 +87,9 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
             style={{
               minHeight: 56,
               paddingInline: 16,
-              border: "1px solid var(--ed-line)",
-              borderRadius: "var(--ed-radius-btn)",
-              background: "var(--ed-paper)",
+              border: "1px solid var(--ed-separator)",
+              borderRadius: "var(--ed-radius-control)",
+              background: "var(--ed-bg)",
             }}
             type="search"
           />
@@ -99,9 +99,9 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
           style={{
             minHeight: 56,
             paddingInline: 24,
-            background: "var(--ed-black)",
-            color: "var(--ed-white)",
-            borderRadius: "var(--ed-radius-btn)",
+            background: "var(--ed-label-primary)",
+            color: "var(--ed-bg)",
+            borderRadius: "var(--ed-radius-control)",
           }}
           type="submit"
         >
@@ -110,7 +110,7 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
       </form>
 
       {query === "" ? (
-        <p className="mt-10" style={{ color: "var(--ed-muted)" }}>
+        <p className="mt-10" style={{ color: "var(--ed-label-secondary)" }}>
           A busca cobre artigos, conceitos do Mapa Cognitivo, frameworks e
           soluções da Oficina.
         </p>
@@ -121,7 +121,7 @@ const Buscar = async ({ searchParams }: BuscarProps) => {
           <p className="font-medium">Nenhum resultado para “{query}”.</p>
           <p
             className="mt-2 text-[length:var(--ed-small)]"
-            style={{ color: "var(--ed-muted)" }}
+            style={{ color: "var(--ed-label-secondary)" }}
           >
             Foram consultados: {posts.length}{" "}
             {posts.length === 1 ? "artigo" : "artigos"}, {map.nodes.length} nós
@@ -215,7 +215,7 @@ function ResultGroup({
             {item.detail ? (
               <p
                 className="text-[length:var(--ed-caption)]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 {item.detail}
               </p>

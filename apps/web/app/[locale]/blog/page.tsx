@@ -51,12 +51,12 @@ const BlogIndex = async () => {
       <div
         className="mx-auto"
         style={{
-          maxWidth: "var(--ed-wide)",
+          maxWidth: "var(--ed-content-max)",
           paddingInline: "var(--ed-gutter)",
           paddingBlock: "var(--ed-section)",
         }}
       >
-        <header style={{ maxWidth: "var(--ed-read)" }}>
+        <header style={{ maxWidth: "var(--ed-reading-max)" }}>
           <h1
             className="font-semibold"
             style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
@@ -65,7 +65,7 @@ const BlogIndex = async () => {
           </h1>
           <p
             className="mt-5 text-[length:var(--ed-body-lg)]"
-            style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+            style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
           >
             O custo cognitivo da execução — o que aumenta o esforço de
             trabalhar, por que isso raramente é uma questão de disciplina, e
@@ -74,7 +74,7 @@ const BlogIndex = async () => {
         </header>
 
         {posts.length === 0 ? (
-          <p className="mt-16" style={{ color: "var(--ed-muted)" }}>
+          <p className="mt-16" style={{ color: "var(--ed-label-secondary)" }}>
             Nenhum artigo publicado ainda.
           </p>
         ) : null}
@@ -85,7 +85,7 @@ const BlogIndex = async () => {
               {lead.pillar ? (
                 <p
                   className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-                  style={{ color: "var(--ed-muted)" }}
+                  style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {lead.pillar}
                 </p>
@@ -102,7 +102,10 @@ const BlogIndex = async () => {
               </h2>
               <p
                 className="mt-5 text-[length:var(--ed-body-lg)]"
-                style={{ color: "var(--ed-muted)", maxWidth: "var(--ed-read)" }}
+                style={{
+                  color: "var(--ed-label-secondary)",
+                  maxWidth: "var(--ed-reading-max)",
+                }}
               >
                 {lead.description}
               </p>
@@ -117,10 +120,10 @@ const BlogIndex = async () => {
             </h2>
             <ul
               className="grid gap-px md:grid-cols-2 lg:grid-cols-3"
-              style={{ background: "var(--ed-line)" }}
+              style={{ background: "var(--ed-separator)" }}
             >
               {rest.map((post) => (
-                <li key={post.slug} style={{ background: "var(--ed-paper)" }}>
+                <li key={post.slug} style={{ background: "var(--ed-bg)" }}>
                   <Link
                     className="flex h-full flex-col gap-3 p-6"
                     href={`/blog/${post.slug}`}
@@ -129,7 +132,7 @@ const BlogIndex = async () => {
                     {post.pillar ? (
                       <span
                         className="text-[length:var(--ed-caption)] uppercase tracking-[.1em]"
-                        style={{ color: "var(--ed-muted)" }}
+                        style={{ color: "var(--ed-label-secondary)" }}
                       >
                         {post.pillar}
                       </span>
@@ -139,7 +142,10 @@ const BlogIndex = async () => {
                     </span>
                     <span
                       className="text-[length:var(--ed-small)]"
-                      style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+                      style={{
+                        color: "var(--ed-label-secondary)",
+                        lineHeight: 1.5,
+                      }}
                     >
                       {post.description}
                     </span>
@@ -163,7 +169,7 @@ const BlogIndex = async () => {
                     href={`/blog/pilar/${termSlug(pillar.value)}`}
                     style={{
                       minHeight: 44,
-                      border: "1px solid var(--ed-line)",
+                      border: "1px solid var(--ed-separator)",
                       padding: "0 12px",
                     }}
                   >

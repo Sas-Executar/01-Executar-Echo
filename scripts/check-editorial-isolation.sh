@@ -3,10 +3,10 @@
 # ADR-DS-002 — the boundary guard between the two design systems.
 #
 # apps/web now carries a second visual identity (@repo/editorial-tokens,
-# the NatGeo-hybrid v6 contract) alongside the product Design System
-# (@repo/design-tokens, ADR-DS-001). They coexist safely only because the
-# editorial set is scoped to [data-surface="editorial"] and the product
-# set is never edited to accommodate it.
+# EXECUTAR Native Editorial v2, ADR-DS-004) alongside the product Design
+# System (@repo/design-tokens, ADR-DS-001). They coexist safely only
+# because the editorial set is scoped to [data-surface="editorial"] and
+# the product set is never edited to accommodate it.
 #
 # That arrangement is easy to break by accident and expensive to notice:
 # the symptom is apps/app or apps/mobile quietly changing colour. This

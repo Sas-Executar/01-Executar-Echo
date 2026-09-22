@@ -54,14 +54,14 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-shell)",
+        maxWidth: "var(--ed-reading-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
       <p
         className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         {card?.content?.eyebrow ?? productTypeLabel(identity.product_type)}
         {identity.version ? ` · v${identity.version}` : ""}
@@ -93,7 +93,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         </h2>
         <p
           className="mb-4 text-[length:var(--ed-small)]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           Esta solução está em{" "}
           {lifecycle?.current_state ?? "estado não declarado"}. Os portões
@@ -107,9 +107,11 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
               key={name}
               style={{
                 padding: "6px 10px",
-                border: "1px solid var(--ed-line)",
-                background: passed ? "var(--ed-soft)" : "transparent",
-                color: passed ? "var(--ed-ink)" : "var(--ed-muted)",
+                border: "1px solid var(--ed-separator)",
+                background: passed ? "var(--ed-bg-grouped)" : "transparent",
+                color: passed
+                  ? "var(--ed-label-primary)"
+                  : "var(--ed-label-secondary)",
               }}
             >
               {passed ? "✓" : "○"} {name}
@@ -137,7 +139,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         {scoring?.status && scoring.status !== "SCORED" ? (
           <p
             className="mt-5 text-[length:var(--ed-caption)]"
-            style={{ color: "var(--ed-muted)" }}
+            style={{ color: "var(--ed-label-secondary)" }}
           >
             Pontuação de utilidade ({scoring.methodology_id ?? "SEUS"}):{" "}
             {scoring.status}. Nenhuma pontuação é exibida porque nenhuma foi
@@ -152,16 +154,20 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         </h2>
         <dl className="grid gap-4 text-[length:var(--ed-small)] sm:grid-cols-2">
           <div>
-            <dt style={{ color: "var(--ed-muted)" }}>Área principal</dt>
+            <dt style={{ color: "var(--ed-label-secondary)" }}>
+              Área principal
+            </dt>
             <dd>{areaLabel(classification?.areas?.primary) ?? "—"}</dd>
           </div>
           <div>
-            <dt style={{ color: "var(--ed-muted)" }}>Tipo de produto</dt>
+            <dt style={{ color: "var(--ed-label-secondary)" }}>
+              Tipo de produto
+            </dt>
             <dd>{productTypeLabel(identity.product_type)}</dd>
           </div>
           {classification?.professions?.primary?.length ? (
             <div className="sm:col-span-2">
-              <dt style={{ color: "var(--ed-muted)" }}>Profissões</dt>
+              <dt style={{ color: "var(--ed-label-secondary)" }}>Profissões</dt>
               <dd>
                 {classification.professions.primary
                   .map((p) => professionLabel(p.profession_id))
@@ -174,7 +180,7 @@ const SolutionPage = async ({ params }: SolutionPageProps) => {
         {solution.source ? (
           <p
             className="mt-6 text-[length:var(--ed-caption)]"
-            style={{ color: "var(--ed-muted)" }}
+            style={{ color: "var(--ed-label-secondary)" }}
           >
             Fonte: {solution.source.repository} · {solution.source.path}
             {solution.source.note ? ` — ${solution.source.note}` : ""}
@@ -230,9 +236,9 @@ function ActionBar({
           style={{
             minHeight: 56,
             paddingInline: 24,
-            background: "var(--ed-black)",
-            color: "var(--ed-white)",
-            borderRadius: "var(--ed-radius-btn)",
+            background: "var(--ed-label-primary)",
+            color: "var(--ed-bg)",
+            borderRadius: "var(--ed-radius-control)",
           }}
         >
           {primary.label ?? "Start"}
@@ -243,8 +249,8 @@ function ActionBar({
           style={{
             minHeight: 56,
             paddingInline: 20,
-            border: "1px dashed var(--ed-line)",
-            color: "var(--ed-muted)",
+            border: "1px dashed var(--ed-separator)",
+            color: "var(--ed-label-secondary)",
           }}
         >
           {primary?.label ?? "Start"} — {primaryBlocked}
@@ -258,8 +264,8 @@ function ActionBar({
           style={{
             minHeight: 56,
             paddingInline: 24,
-            border: "1px solid var(--ed-black)",
-            borderRadius: "var(--ed-radius-btn)",
+            border: "1px solid var(--ed-label-primary)",
+            borderRadius: "var(--ed-radius-control)",
           }}
         >
           {secondary.label ?? "Download"}

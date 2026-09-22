@@ -58,6 +58,28 @@ const composedMiddleware = createNEMO(
 );
 
 /**
+ * The root path's cache key is poisoned, repeatedly and durably.
+ *
+ * Measured on production: "/" returns a prerendered 404 with
+ * `x-vercel-cache: HIT`, `x-nextjs-prerender: 1` and an `age` in the
+ * hundreds of seconds, while the same URL with a cache-buster returns
+ * 200. The application is correct; what is served is a stale artifact
+ * from before the locale rewrite worked, and it has survived three
+ * deployments (GATE_LOG: "o 404 estático ficou fixado no CDN").
+ *
+ * Marking the rewrite of "/" `no-store` stops the edge from holding any
+ * entry under that key, so a stale one can never be served again — the
+ * homepage is a rewrite to a dynamic locale route, not a static asset,
+ * and there is nothing at this key worth caching.
+ */
+const markRootUncacheable = (request: NextRequest, response: Response) => {
+  if (request.nextUrl.pathname === "/") {
+    response.headers.set("cache-control", "private, no-store, max-age=0");
+  }
+  return response;
+};
+
+/**
  * apps/web's middleware. Deliberately does not run Clerk.
  *
  * This app is the public surface: no route renders authenticated UI and
@@ -92,13 +114,16 @@ export default (async (request: NextRequest, event: NextFetchEvent) => {
   const rewritten = await composedMiddleware(request, event);
 
   if (rewritten) {
-    return rewritten;
+    return markRootUncacheable(request, rewritten);
   }
 
   try {
-    return (await securityHeaders()) ?? NextResponse.next();
+    return markRootUncacheable(
+      request,
+      (await securityHeaders()) ?? NextResponse.next()
+    );
   } catch (error) {
     parseError(error);
-    return NextResponse.next();
+    return markRootUncacheable(request, NextResponse.next());
   }
 }) as unknown as NextProxy;

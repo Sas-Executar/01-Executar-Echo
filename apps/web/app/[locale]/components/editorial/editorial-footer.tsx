@@ -16,21 +16,39 @@ export const EditorialFooter = async () => {
   return (
     <footer
       style={{
-        background: "var(--ed-charcoal)",
-        color: "var(--ed-white)",
+        background: "var(--ed-bg-grouped)",
+        color: "var(--ed-label-primary)",
+        borderTop: "1px solid var(--ed-separator)",
         marginTop: "var(--ed-section)",
       }}
     >
       <div
         className="mx-auto flex flex-col gap-10 py-16 md:flex-row md:justify-between"
         style={{
-          maxWidth: "var(--ed-wide)",
+          maxWidth: "var(--ed-content-max)",
           paddingInline: "var(--ed-gutter)",
         }}
       >
         <div className="flex flex-col gap-4">
+          {/*
+            The footer is neutral in v2 — content dominates, the brand is
+            subordinate — so the wordmark has to follow the appearance
+            rather than the old charcoal band. The brand package ships
+            only flat black and white PNGs, so both are rendered and the
+            token layer hides one (`.ed-mark-light` / `.ed-mark-dark`).
+          */}
           <Image
             alt="EXECUTAR"
+            className="ed-mark-light"
+            height={20}
+            src="/brand/02_wordmark/executar-wordmark-black-1200px.png"
+            style={{ height: 20, width: "auto" }}
+            width={134}
+          />
+          <Image
+            alt=""
+            aria-hidden
+            className="ed-mark-dark"
             height={20}
             src="/brand/02_wordmark/executar-wordmark-white-1200px.png"
             style={{ height: 20, width: "auto" }}

@@ -24,12 +24,12 @@ const Vera = () => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-shell)",
+        maxWidth: "var(--ed-reading-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
-      <header style={{ maxWidth: "var(--ed-read)" }}>
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
           style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
@@ -38,7 +38,7 @@ const Vera = () => {
         </h1>
         <p
           className="mt-5 text-[length:var(--ed-body-lg)]"
-          style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           Pergunte sobre o custo cognitivo da execução. A VERA consulta o mapa
           cognitivo, o catálogo de frameworks e os contratos da Oficina, cita o
@@ -58,7 +58,7 @@ const Vera = () => {
         </h2>
         <p
           className="mb-5 text-[length:var(--ed-small)]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           Esta lista é o limite, não um resumo dele. Uma capacidade que não está
           aqui é negada por padrão, e nenhuma capacidade que altere estado roda
@@ -68,14 +68,17 @@ const Vera = () => {
           {capabilities.map((capability) => (
             <li
               key={capability.id}
-              style={{ borderTop: "1px solid var(--ed-line)", paddingTop: 12 }}
+              style={{
+                borderTop: "1px solid var(--ed-separator)",
+                paddingTop: 12,
+              }}
             >
               <p className="font-medium text-[length:var(--ed-small)]">
                 {capability.id}
               </p>
               <p
                 className="text-[length:var(--ed-small)]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 {capability.description}
               </p>

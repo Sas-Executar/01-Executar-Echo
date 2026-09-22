@@ -1,34 +1,49 @@
 #!/usr/bin/env bun
 /**
- * ADR-DS-002 / ADR-DS-003 — CI gate for the editorial token set.
+ * ADR-DS-002 / ADR-DS-004 — CI gate for the editorial token set
+ * (EXECUTAR Native Editorial v2).
  *
- * Three things are checked, in order of how badly they'd hurt:
+ * Five things are checked, in order of how badly they'd hurt:
  *
  *  1. ISOLATION. Every rule in `css/editorial.css` must sit under
  *     `[data-surface="editorial"]`, and the file must never define a
  *     `--ds-*` variable. This is what keeps the product Design System
  *     (ADR-DS-001) intact while apps/web wears a second identity — if it
- *     breaks, apps/app and apps/mobile start repainting.
+ *     breaks, apps/app and apps/mobile start repainting. The canonical
+ *     v2 file writes its roles at `:root`; porting it without re-scoping
+ *     is precisely the mistake this catches.
  *  2. DRIFT. `css/editorial.css` is hand-authored to mirror `src/*.ts`
  *     1:1; this diffs the two, the same way
  *     `packages/design-tokens/scripts/check-drift.ts` does for the
  *     product tokens.
- *  3. PALETTE. No Green/Azure product value may appear on an editorial
- *     surface. The v6 contract removed blue deliberately ("nunca azul")
- *     and ADR-DS-003 settled the DS-01 palette conflict in favour of the
- *     NatGeo-hybrid set — this makes that decision mechanical.
+ *  3. APPEARANCE PARITY. Light and dark are two appearances of ONE
+ *     identity, so every colour role must exist in both blocks. A role
+ *     present in light and missing in dark is a component that renders
+ *     wrong at night.
+ *  4. PALETTE. No product Green/Azure value may appear on an editorial
+ *     surface. ADR-DS-004 narrowed ADR-DS-003's blanket ban on blue: the
+ *     product azure (#1f93ff) stays forbidden as an identity colour,
+ *     while the system focus blue (#0a84ff) is required. Both halves are
+ *     checked, so neither can quietly drift.
+ *  5. ROLES, NOT HEXES. Identity contract rule 3. Public-surface
+ *     components must consume `--ed-*` roles; a literal hex in a public
+ *     component is a colour that cannot follow the dark appearance.
  *
  * Run: `bun run packages/editorial-tokens/scripts/check-drift.ts`
  * (or `bun run check:drift` from packages/editorial-tokens).
  */
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import { action, brand, effect, surface } from "../src/color";
-import { layout, radius } from "../src/layout";
+import { dark, light } from "../src/color";
+import { chrome, layout, radius, space } from "../src/layout";
 import { duration, easing } from "../src/motion";
 import { fontFamily, fontSize, reading } from "../src/typography";
 
 const CSS_PATH = path.join(import.meta.dirname, "../css/editorial.css");
+const PUBLIC_COMPONENTS = path.join(
+  import.meta.dirname,
+  "../../../apps/web/app"
+);
 const SCOPE = '[data-surface="editorial"]';
 
 const raw = readFileSync(CSS_PATH, "utf8");
@@ -79,17 +94,34 @@ function parseVars(source: string): CssVars {
   return vars;
 }
 
+/** The text between the first `{` after `from` and its matching `}`. */
+function blockAfter(from: number): string {
+  const open = css.indexOf("{", from);
+  let depth = 0;
+  for (let i = open; i < css.length; i++) {
+    if (css[i] === "{") {
+      depth++;
+    } else if (css[i] === "}") {
+      depth--;
+      if (depth === 0) {
+        return css.slice(open + 1, i);
+      }
+    }
+  }
+  return "";
+}
+
 /*
- * Only the base scope block feeds the drift comparison. The
- * `prefers-reduced-motion` block deliberately re-declares the duration
- * variables as 0ms; parsing the whole file would read those overrides as
- * the token values and report drift against src/motion.ts every run.
+ * Only the base scope block feeds the drift comparison. The dark and
+ * reduced-motion blocks deliberately re-declare roles; parsing the whole
+ * file would read those overrides as the token values and report drift
+ * against src/*.ts every run.
  */
-const baseBlock = css.slice(
-  css.indexOf("{", css.indexOf(SCOPE)) + 1,
-  css.indexOf("}", css.indexOf(SCOPE))
-);
+const baseBlock = blockAfter(css.indexOf(SCOPE));
 const cssVars = parseVars(baseBlock);
+
+const darkAt = css.indexOf("prefers-color-scheme: dark");
+const darkVars = parseVars(blockAfter(css.indexOf(SCOPE, darkAt)));
 
 /**
  * Compares two CSS values by meaning rather than by spelling. The
@@ -103,6 +135,8 @@ const norm = (v: string) =>
     .replace(/\s+/g, " ")
     .replace(/\s*,\s*/g, ",")
     .replace(/(^|[\s(,])0\.(\d)/g, "$1.$2")
+    .replace(/(\.\d*?)0+(?=\D|$)/g, "$1")
+    .replace(/\.(?=\D|$)/g, "")
     .trim();
 
 function expect(cssName: string, tsValue: string, label: string) {
@@ -119,27 +153,31 @@ function expect(cssName: string, tsValue: string, label: string) {
   }
 }
 
-expect("ed-yellow", brand.yellow, "brand.yellow");
-expect("ed-black", brand.black, "brand.black");
-expect("ed-charcoal", brand.charcoal, "brand.charcoal");
-expect("ed-charcoal-soft", brand.charcoalSoft, "brand.charcoalSoft");
+/** Colour roles, light appearance. */
+const ROLE_VAR: Record<keyof typeof light, string> = {
+  bg: "ed-bg",
+  bgGrouped: "ed-bg-grouped",
+  surfaceElevated: "ed-surface-elevated",
+  labelPrimary: "ed-label-primary",
+  labelSecondary: "ed-label-secondary",
+  labelTertiary: "ed-label-tertiary",
+  separator: "ed-separator",
+  fillPrimary: "ed-fill-primary",
+  fillSecondary: "ed-fill-secondary",
+  accent: "ed-accent",
+  labelOnAccent: "ed-label-on-accent",
+  focus: "ed-focus",
+  success: "ed-success",
+  warning: "ed-warning",
+  error: "ed-error",
+};
 
-expect("ed-ink", surface.ink, "surface.ink");
-expect("ed-muted", surface.muted, "surface.muted");
-expect("ed-paper", surface.paper, "surface.paper");
-expect("ed-soft", surface.soft, "surface.soft");
-expect("ed-soft-2", surface.soft2, "surface.soft2");
-expect("ed-line", surface.line, "surface.line");
-expect("ed-white", surface.white, "surface.white");
+for (const [role, cssName] of Object.entries(ROLE_VAR)) {
+  expect(cssName, light[role as keyof typeof light], `light.${role}`);
+}
 
-expect("ed-action-primary", action.primary, "action.primary");
-expect("ed-action-accent", action.accent, "action.accent");
-
-expect("ed-shadow", effect.shadow, "effect.shadow");
-
-expect("ed-sf", fontFamily.sf, "fontFamily.sf");
-expect("ed-sf-text", fontFamily.sfText, "fontFamily.sfText");
-expect("ed-ny", fontFamily.ny, "fontFamily.ny");
+expect("ed-font-ui", fontFamily.ui, "fontFamily.ui");
+expect("ed-font-display", fontFamily.display, "fontFamily.display");
 
 expect("ed-display-xl", fontSize.displayXl, "fontSize.displayXl");
 expect("ed-display-lg", fontSize.displayLg, "fontSize.displayLg");
@@ -150,49 +188,81 @@ expect("ed-body", fontSize.body, "fontSize.body");
 expect("ed-small", fontSize.small, "fontSize.small");
 expect("ed-caption", fontSize.caption, "fontSize.caption");
 
-expect("ed-reading-measure", reading.measure, "reading.measure");
+expect("ed-reading-font-size", reading.fontSize, "reading.fontSize");
 expect("ed-reading-line-height", reading.lineHeight, "reading.lineHeight");
+expect("ed-measure-article", reading.measure, "reading.measure");
+expect("ed-reading-max", reading.max, "reading.max");
 
-expect("ed-nav-h", layout.navH, "layout.navH");
-expect("ed-bottombar-h", layout.bottombarH, "layout.bottombarH");
-expect("ed-drawer-w", layout.drawerW, "layout.drawerW");
-expect("ed-shell", layout.shell, "layout.shell");
-expect("ed-wide", layout.wide, "layout.wide");
-expect("ed-read", layout.read, "layout.read");
-expect("ed-gutter", layout.gutter, "layout.gutter");
-expect("ed-gap", layout.gap, "layout.gap");
-expect("ed-section", layout.section, "layout.section");
+for (const [step, value] of Object.entries(space)) {
+  expect(`ed-space-${step}`, value, `space.${step}`);
+}
 
-expect("ed-radius-card", radius.card, "radius.card");
-expect("ed-radius-btn", radius.btn, "radius.btn");
-expect("ed-radius-nav-icon", radius.navIcon, "radius.navIcon");
+expect("ed-radius-control", radius.control, "radius.control");
+expect("ed-radius-container", radius.container, "radius.container");
+expect("ed-radius-large", radius.large, "radius.large");
+expect("ed-radius-capsule", radius.capsule, "radius.capsule");
 
-expect("ed-duration-drawer", duration.drawer, "duration.drawer");
-expect("ed-duration-chrome", duration.chrome, "duration.chrome");
-expect("ed-duration-hero", duration.heroEntrance, "duration.heroEntrance");
+expect("ed-content-max", layout.contentMax, "layout.contentMax");
+expect("ed-touch-min", layout.touchMin, "layout.touchMin");
 
-// The easing curve is written with a leading zero in CSS (`0.22`) and
-// without in the upstream contract (`.22`); compare numerically rather
-// than textually so a cosmetic difference isn't reported as drift.
-const easingDigits = (v: string) => v.replace(/[^0-9.,]/g, "");
-if (
-  cssVars["ed-ease"] &&
-  easingDigits(cssVars["ed-ease"]).replace(/\b0\./g, ".") !==
-    easingDigits(easing.standard).replace(/\b0\./g, ".")
-) {
-  failures.push(
-    `drift: easing.standard — --ed-ease is "${cssVars["ed-ease"]}" in CSS ` +
-      `but "${easing.standard}" in src/motion.ts`
+expect("ed-nav-h", chrome.navH, "chrome.navH");
+expect("ed-bottombar-h", chrome.bottombarH, "chrome.bottombarH");
+expect("ed-drawer-w", chrome.drawerW, "chrome.drawerW");
+expect("ed-gutter", chrome.gutter, "chrome.gutter");
+expect("ed-gap", chrome.gap, "chrome.gap");
+expect("ed-section", chrome.section, "chrome.section");
+
+expect("ed-motion-fast", duration.fast, "duration.fast");
+expect("ed-motion-standard", duration.standard, "duration.standard");
+expect("ed-motion-slow", duration.slow, "duration.slow");
+expect("ed-motion-curve", easing.standard, "easing.standard");
+
+/*
+ * The v1 aliases must resolve through a role. A literal value here is the
+ * old palette creeping back in under a name components still use, and it
+ * would be pinned to the light appearance forever.
+ */
+for (const [name, value] of Object.entries(cssVars)) {
+  if (!name.startsWith("ed-")) {
+    continue;
+  }
+  const isAlias = !(
+    Object.values(ROLE_VAR).includes(name) || value.startsWith("var(")
   );
+  if (isAlias && /#[0-9a-f]{3,8}\b/i.test(value)) {
+    failures.push(
+      `roles: --${name} is a literal colour ("${value}"). Non-role ` +
+        "variables must reference a role with var(), or the value can't " +
+        "follow the dark appearance (ADR-DS-004)."
+    );
+  }
 }
 
 /* ---------------------------------------------------------------- 3 */
 
-// Product ramp values that must never surface on an editorial page. Blue
-// in particular was removed from this contract on purpose.
+for (const [role, cssName] of Object.entries(ROLE_VAR)) {
+  const expected = dark[role as keyof typeof dark];
+  const actual = darkVars[cssName];
+  if (actual === undefined) {
+    failures.push(
+      `appearance: --${cssName} is missing from the ` +
+        "prefers-color-scheme: dark block. Light and dark are two " +
+        "appearances of one identity — every role exists in both."
+    );
+  } else if (norm(actual) !== norm(expected)) {
+    failures.push(
+      `appearance: dark.${role} — --${cssName} is "${norm(actual)}" in CSS ` +
+        `but "${norm(expected)}" in src/color.ts`
+    );
+  }
+}
+
+/* ---------------------------------------------------------------- 4 */
+
+// Product ramp values that must never surface on an editorial page.
 const FORBIDDEN: Record<string, string> = {
   "#00bf63": "Green 9 (product brand)",
-  "#1f93ff": "Azure 9 (product information colour)",
+  "#1f93ff": "Azure 9 (product information colour) — not the system focus blue",
   "#4b4a4a": "Neutral 12 (product text)",
   "#f6f6f6": "product canvas",
 };
@@ -201,9 +271,54 @@ for (const [hex, label] of Object.entries(FORBIDDEN)) {
   if (css.toLowerCase().includes(hex)) {
     failures.push(
       `palette: ${hex} (${label}) appears in css/editorial.css. The public ` +
-        "surface uses the NatGeo-hybrid set and never blue (ADR-DS-003)."
+        "surface is EXECUTAR Native Editorial and never wears the product " +
+        "ramp (ADR-DS-004)."
     );
   }
+}
+
+// The other half of the same rule: the system focus blue is required.
+if (!css.toLowerCase().includes(light.focus)) {
+  failures.push(
+    `palette: the system focus blue (${light.focus}) is absent. ` +
+      "ADR-DS-004 requires it — a focus ring users don't recognise as " +
+      "focus is an accessibility regression, not a style choice."
+  );
+}
+
+/* ---------------------------------------------------------------- 5 */
+
+/** Public-surface files, excluding the ones that legitimately hold data. */
+function walk(dir: string, out: string[] = []): string[] {
+  for (const entry of readdirSync(dir)) {
+    const full = path.join(dir, entry);
+    if (statSync(full).isDirectory()) {
+      if (entry !== "node_modules" && entry !== ".next") {
+        walk(full, out);
+      }
+    } else if (entry.endsWith(".tsx")) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+let scanned = 0;
+try {
+  for (const file of walk(PUBLIC_COMPONENTS)) {
+    scanned++;
+    const source = readFileSync(file, "utf8");
+    for (const hit of source.matchAll(/#[0-9a-fA-F]{6}\b/g)) {
+      failures.push(
+        `roles: ${path.relative(PUBLIC_COMPONENTS, file)} hard-codes ` +
+          `"${hit[0]}". Public components consume --ed-* roles, never ` +
+          "hexadecimals (identity contract v2, rule 3)."
+      );
+    }
+  }
+} catch {
+  // apps/web isn't checked out in every consumer of this package; the
+  // token checks above still stand on their own.
 }
 
 /* ------------------------------------------------------------ report */
@@ -218,6 +333,8 @@ if (failures.length > 0) {
 }
 
 process.stdout.write(
-  `Editorial tokens OK — ${Object.keys(cssVars).length} custom properties, ` +
-    `all scoped to ${SCOPE}, no product-palette bleed.\n`
+  `Editorial tokens OK — ${Object.keys(cssVars).length} custom properties ` +
+    `and ${Object.keys(darkVars).length} dark overrides, all scoped to ` +
+    `${SCOPE}; ${scanned} public components, no hard-coded colour, no ` +
+    "product-palette bleed.\n"
 );

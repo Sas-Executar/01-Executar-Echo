@@ -35,15 +35,15 @@ const Mapa = async ({ searchParams }: MapaProps) => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-wide)",
+        maxWidth: "var(--ed-content-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
-      <header style={{ maxWidth: "var(--ed-read)" }}>
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <p
           className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           {map.metadata.project}
         </p>
@@ -55,7 +55,7 @@ const Mapa = async ({ searchParams }: MapaProps) => {
         </h1>
         <p
           className="mt-5 text-[length:var(--ed-body-lg)]"
-          style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           {EXPECTED_COUNTS.nodes} nós e {EXPECTED_COUNTS.edges} relações entre
           fatores de risco cognitivo, funções executivas, manifestações

@@ -58,9 +58,9 @@ export function VeraConsole({ generativeOffReason }: VeraConsoleProps) {
             style={{
               minHeight: 56,
               paddingInline: 16,
-              border: "1px solid var(--ed-line)",
-              borderRadius: "var(--ed-radius-btn)",
-              background: "var(--ed-paper)",
+              border: "1px solid var(--ed-separator)",
+              borderRadius: "var(--ed-radius-control)",
+              background: "var(--ed-bg)",
             }}
             value={question}
           />
@@ -71,9 +71,9 @@ export function VeraConsole({ generativeOffReason }: VeraConsoleProps) {
           style={{
             minHeight: 56,
             paddingInline: 24,
-            background: "var(--ed-black)",
-            color: "var(--ed-white)",
-            borderRadius: "var(--ed-radius-btn)",
+            background: "var(--ed-label-primary)",
+            color: "var(--ed-bg)",
+            borderRadius: "var(--ed-radius-control)",
             opacity: pending ? 0.6 : 1,
           }}
           type="submit"
@@ -83,7 +83,11 @@ export function VeraConsole({ generativeOffReason }: VeraConsoleProps) {
       </form>
 
       {error ? (
-        <p className="mt-4" role="alert" style={{ color: "var(--ed-ink)" }}>
+        <p
+          className="mt-4"
+          role="alert"
+          style={{ color: "var(--ed-label-primary)" }}
+        >
           {error}
         </p>
       ) : null}
@@ -108,7 +112,7 @@ function Envelope({
     <article className="flex flex-col gap-8">
       <p
         className="text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         Status: {envelope.status} · rota {envelope.canonical_route}
       </p>
@@ -125,7 +129,10 @@ function Envelope({
         // paragraph. The retrieval below is the real answer today.
         <p
           className="border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
-          style={{ borderColor: "var(--ed-yellow)", color: "var(--ed-muted)" }}
+          style={{
+            borderColor: "var(--ed-accent)",
+            color: "var(--ed-label-secondary)",
+          }}
         >
           {offReason ?? "Sem síntese em linguagem natural para esta resposta."}{" "}
           A VERA responde com o que recuperou e citou, abaixo.
@@ -142,14 +149,14 @@ function Envelope({
               <li
                 key={item.ref}
                 style={{
-                  borderLeft: "3px solid var(--ed-line)",
+                  borderLeft: "3px solid var(--ed-separator)",
                   paddingLeft: 16,
                 }}
               >
                 <p>{item.statement}</p>
                 <p
                   className="text-[length:var(--ed-caption)]"
-                  style={{ color: "var(--ed-muted)" }}
+                  style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {item.ref}
                   {item.epistemic_class
@@ -160,7 +167,7 @@ function Envelope({
                 {item.interpretation_limit ? (
                   <p
                     className="mt-1 text-[length:var(--ed-caption)]"
-                    style={{ color: "var(--ed-muted)" }}
+                    style={{ color: "var(--ed-label-secondary)" }}
                   >
                     Limite de interpretação: {item.interpretation_limit}
                   </p>
@@ -192,7 +199,7 @@ function Envelope({
                 </Link>
                 <p
                   className="text-[length:var(--ed-caption)]"
-                  style={{ color: "var(--ed-muted)" }}
+                  style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {action.rationale}
                 </p>

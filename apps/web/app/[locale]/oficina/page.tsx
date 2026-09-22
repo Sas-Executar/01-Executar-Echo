@@ -30,12 +30,12 @@ const Oficina = () => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-wide)",
+        maxWidth: "var(--ed-content-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
-      <header style={{ maxWidth: "var(--ed-read)" }}>
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
           style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
@@ -44,7 +44,7 @@ const Oficina = () => {
         </h1>
         <p
           className="mt-5 text-[length:var(--ed-body-lg)]"
-          style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           Ferramentas do ecossistema, descritas pelo problema que resolvem. Cada
           ficha diz também quando a ferramenta é exagero — porque saber quando
@@ -56,7 +56,7 @@ const Oficina = () => {
         <h2 className="sr-only">Soluções</h2>
         <ul
           className="grid gap-px md:grid-cols-2 lg:grid-cols-3"
-          style={{ background: "var(--ed-line)" }}
+          style={{ background: "var(--ed-separator)" }}
         >
           {solutions.map((solution) => (
             <li className="contents" key={solution.identity.solution_id}>
@@ -77,7 +77,7 @@ const Oficina = () => {
                 className="text-[length:var(--ed-small)]"
                 key={area.id}
                 style={{
-                  border: "1px solid var(--ed-line)",
+                  border: "1px solid var(--ed-separator)",
                   padding: "8px 12px",
                 }}
               >
@@ -95,7 +95,7 @@ const Oficina = () => {
           </h2>
           <p
             className="mb-4 text-[length:var(--ed-small)]"
-            style={{ color: "var(--ed-muted)" }}
+            style={{ color: "var(--ed-label-secondary)" }}
           >
             Profissões são uma dimensão tipada do catálogo, não etiquetas soltas
             — e a adequação a uma profissão regulada nunca é inferida a partir
@@ -109,7 +109,7 @@ const Oficina = () => {
                   href={`/oficina/learn#${profession.id}`}
                   style={{
                     minHeight: 44,
-                    border: "1px solid var(--ed-line)",
+                    border: "1px solid var(--ed-separator)",
                     padding: "0 12px",
                   }}
                 >

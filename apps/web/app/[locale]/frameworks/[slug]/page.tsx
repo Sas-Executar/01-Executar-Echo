@@ -47,14 +47,14 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
     <article
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-shell)",
+        maxWidth: "var(--ed-reading-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
       <p
         className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         {framework.domain_name} · {framework.id}
       </p>
@@ -69,7 +69,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
       {framework.aliases.length > 0 ? (
         <p
           className="mt-3 text-[length:var(--ed-small)]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           Também conhecido como {framework.aliases.join(", ")}.
         </p>
@@ -89,7 +89,10 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
       */}
       <p
         className="mt-8 border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
-        style={{ borderColor: "var(--ed-yellow)", color: "var(--ed-muted)" }}
+        style={{
+          borderColor: "var(--ed-accent)",
+          color: "var(--ed-label-secondary)",
+        }}
       >
         Um framework organiza evidência; não cria evidência. Aplicá-lo a uma
         situação real exige separar fato, inferência, hipótese e lacuna.
@@ -106,7 +109,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
                 className="text-[length:var(--ed-caption)]"
                 key={tag}
                 style={{
-                  border: "1px solid var(--ed-line)",
+                  border: "1px solid var(--ed-separator)",
                   padding: "6px 10px",
                 }}
               >
@@ -135,10 +138,10 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
           </h2>
           <ul
             className="grid gap-px sm:grid-cols-2"
-            style={{ background: "var(--ed-line)" }}
+            style={{ background: "var(--ed-separator)" }}
           >
             {related.map((item) => (
-              <li key={item.id} style={{ background: "var(--ed-paper)" }}>
+              <li key={item.id} style={{ background: "var(--ed-bg)" }}>
                 <Link
                   className="flex flex-col gap-1 p-5"
                   href={`/frameworks/${item.slug}`}
@@ -147,7 +150,7 @@ const FrameworkPage = async ({ params }: FrameworkPageProps) => {
                   <span className="font-medium">{item.name}</span>
                   <span
                     className="text-[length:var(--ed-caption)]"
-                    style={{ color: "var(--ed-muted)" }}
+                    style={{ color: "var(--ed-label-secondary)" }}
                   >
                     {item.domain_name}
                   </span>

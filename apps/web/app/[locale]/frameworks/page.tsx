@@ -36,12 +36,12 @@ const Frameworks = () => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-wide)",
+        maxWidth: "var(--ed-content-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
-      <header style={{ maxWidth: "var(--ed-read)" }}>
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
           style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
@@ -50,7 +50,7 @@ const Frameworks = () => {
         </h1>
         <p
           className="mt-5 text-[length:var(--ed-body-lg)]"
-          style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           {frameworks.length} frameworks em {domains.length} domínios. Um
           framework organiza evidência — ele não cria evidência. Cada ficha diz

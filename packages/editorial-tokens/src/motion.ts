@@ -1,21 +1,21 @@
 /**
- * Editorial motion — NatGeo-hybrid v6.
+ * Editorial motion — EXECUTAR Native Editorial v2 (ADR-DS-004), from
+ * `reference/v2/02_TOKENS_CANONICAL.css`.
  *
- * The contract allows exactly two animated moments per page (hero
- * entrance, feature-media reveal) plus the synchronized scroll-chrome
- * pattern. No per-card fades, no hover reveals. Everything below is
- * disabled under `prefers-reduced-motion: reduce` — see `css/editorial.css`.
+ * Motion is functional: it explains where something came from. No
+ * per-card fades, no hover reveals. Everything below collapses under
+ * `prefers-reduced-motion: reduce` — see `css/editorial.css`.
  */
 
 export const easing = {
-  standard: "cubic-bezier(.22,1,.36,1)",
+  standard: "cubic-bezier(.2,.8,.2,1)",
 } as const;
 
 export const duration = {
-  /** Drawer slide. */
-  drawer: "320ms",
-  /** Scroll chrome hide/return — nav and bottom bar move together. */
-  chrome: "280ms",
-  /** Hero entrance, fires once. */
-  heroEntrance: "900ms",
+  /** Micro-feedback: press states, small toggles. */
+  fast: "120ms",
+  /** The default: drawers, sheets, chrome hide/return. */
+  standard: "220ms",
+  /** Large surface transitions only. */
+  slow: "360ms",
 } as const;

@@ -58,14 +58,14 @@ const Home = async () => {
       <section
         className="mx-auto"
         style={{
-          maxWidth: "var(--ed-wide)",
+          maxWidth: "var(--ed-content-max)",
           paddingInline: "var(--ed-gutter)",
           paddingBlock: "var(--ed-section)",
         }}
       >
         <p
           className="mb-5 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.16em]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           {AUTHOR.tagline}
         </p>
@@ -85,9 +85,9 @@ const Home = async () => {
         <p
           className="mt-8 text-[length:var(--ed-body-lg)]"
           style={{
-            color: "var(--ed-muted)",
+            color: "var(--ed-label-secondary)",
             lineHeight: 1.5,
-            maxWidth: "var(--ed-read)",
+            maxWidth: "var(--ed-reading-max)",
           }}
         >
           Parte considerável do custo de executar vem das condições em que o
@@ -105,9 +105,9 @@ const Home = async () => {
               style={{
                 minHeight: 56,
                 paddingInline: 24,
-                background: "var(--ed-black)",
-                color: "var(--ed-white)",
-                borderRadius: "var(--ed-radius-btn)",
+                background: "var(--ed-label-primary)",
+                color: "var(--ed-bg)",
+                borderRadius: "var(--ed-radius-control)",
               }}
             >
               Ler: {latest.title}
@@ -119,8 +119,8 @@ const Home = async () => {
             style={{
               minHeight: 56,
               paddingInline: 24,
-              border: "1px solid var(--ed-black)",
-              borderRadius: "var(--ed-radius-btn)",
+              border: "1px solid var(--ed-label-primary)",
+              borderRadius: "var(--ed-radius-control)",
             }}
           >
             Explorar o Mapa
@@ -136,7 +136,7 @@ const Home = async () => {
       */}
       <section
         className="relative w-full"
-        style={{ minHeight: "60vh", background: "var(--ed-charcoal)" }}
+        style={{ minHeight: "60vh", background: "var(--ed-bg-grouped)" }}
       >
         <Image
           alt=""
@@ -151,20 +151,26 @@ const Home = async () => {
       <section
         className="mx-auto"
         style={{
-          maxWidth: "var(--ed-wide)",
+          maxWidth: "var(--ed-content-max)",
           paddingInline: "var(--ed-gutter)",
           paddingBlock: "var(--ed-section)",
         }}
       >
         <h2
           className="font-semibold"
-          style={{ fontSize: "var(--ed-headline)", maxWidth: "var(--ed-read)" }}
+          style={{
+            fontSize: "var(--ed-headline)",
+            maxWidth: "var(--ed-reading-max)",
+          }}
         >
           Como o conteúdo é construído
         </h2>
         <p
           className="mt-4 text-[length:var(--ed-small)]"
-          style={{ color: "var(--ed-muted)", maxWidth: "var(--ed-read)" }}
+          style={{
+            color: "var(--ed-label-secondary)",
+            maxWidth: "var(--ed-reading-max)",
+          }}
         >
           Cada artigo percorre a mesma arquitetura narrativa, e cada estágio tem
           uma regra que restringe o que ele pode afirmar.
@@ -172,16 +178,16 @@ const Home = async () => {
 
         <ol
           className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-3"
-          style={{ background: "var(--ed-line)" }}
+          style={{ background: "var(--ed-separator)" }}
         >
           {NARRATIVE_ARCHITECTURE.map((stage) => (
             <li
               key={stage.stage}
-              style={{ background: "var(--ed-paper)", padding: 24 }}
+              style={{ background: "var(--ed-bg)", padding: 24 }}
             >
               <p
                 className="text-[length:var(--ed-caption)]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 {String(stage.order).padStart(2, "0")}
               </p>
@@ -193,7 +199,7 @@ const Home = async () => {
               </p>
               <p
                 className="mt-3 text-[length:var(--ed-caption)]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 {stage.rule}
               </p>
@@ -205,7 +211,7 @@ const Home = async () => {
       <section
         className="mx-auto"
         style={{
-          maxWidth: "var(--ed-wide)",
+          maxWidth: "var(--ed-content-max)",
           paddingInline: "var(--ed-gutter)",
           paddingBottom: "var(--ed-section)",
         }}
@@ -218,10 +224,10 @@ const Home = async () => {
         </h2>
         <ul
           className="grid gap-px md:grid-cols-2"
-          style={{ background: "var(--ed-line)" }}
+          style={{ background: "var(--ed-separator)" }}
         >
           {SURFACES.map((surface) => (
-            <li key={surface.href} style={{ background: "var(--ed-paper)" }}>
+            <li key={surface.href} style={{ background: "var(--ed-bg)" }}>
               <Link
                 className="flex h-full flex-col gap-3 p-8"
                 href={surface.href}
@@ -232,7 +238,10 @@ const Home = async () => {
                 </span>
                 <span
                   className="text-[length:var(--ed-small)]"
-                  style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+                  style={{
+                    color: "var(--ed-label-secondary)",
+                    lineHeight: 1.5,
+                  }}
                 >
                   {surface.body}
                 </span>
@@ -245,7 +254,7 @@ const Home = async () => {
       <section
         className="mx-auto"
         style={{
-          maxWidth: "var(--ed-read)",
+          maxWidth: "var(--ed-reading-max)",
           paddingInline: "var(--ed-gutter)",
           paddingBottom: "var(--ed-section)",
         }}
@@ -259,7 +268,7 @@ const Home = async () => {
         <p className="mt-4 font-medium">{AUTHOR.name}</p>
         <p
           className="text-[length:var(--ed-small)]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           {AUTHOR.title}
         </p>

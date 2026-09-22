@@ -14,6 +14,15 @@ export const metadata: Metadata = createMetadata({
 });
 
 /**
+ * Prerendered for the same reason /frameworks is: the page takes no
+ * request input — the profession registry and the solutions are
+ * build-time constant — but Next was treating it as dynamic, and it
+ * returned a timeout in a production sample alongside the pre-fix
+ * /frameworks. Removing the per-request work removes the cold start.
+ */
+export const dynamic = "force-static";
+
+/**
  * Learn (ADR-UX-004) — connected to the store but distinct from it.
  *
  * Browse-by-role is fed from the `PROFESSIONS.yaml` registry via each
@@ -29,12 +38,12 @@ const Learn = () => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-wide)",
+        maxWidth: "var(--ed-content-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
-      <header style={{ maxWidth: "var(--ed-read)" }}>
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <h1
           className="font-semibold"
           style={{ fontSize: "var(--ed-display-md)", lineHeight: 1.05 }}
@@ -43,7 +52,7 @@ const Learn = () => {
         </h1>
         <p
           className="mt-5 text-[length:var(--ed-body-lg)]"
-          style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+          style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
         >
           Por onde começar, organizado por profissão. Uma profissão aparece aqui
           porque alguma solução a declarou no próprio contrato — não porque foi
@@ -52,7 +61,7 @@ const Learn = () => {
       </header>
 
       {professions.length === 0 ? (
-        <p className="mt-12" style={{ color: "var(--ed-muted)" }}>
+        <p className="mt-12" style={{ color: "var(--ed-label-secondary)" }}>
           Nenhuma solução declarou profissões ainda.
         </p>
       ) : (
@@ -66,14 +75,14 @@ const Learn = () => {
                 </h2>
                 <p
                   className="mb-5 text-[length:var(--ed-small)]"
-                  style={{ color: "var(--ed-muted)" }}
+                  style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {solutions.length}{" "}
                   {solutions.length === 1 ? "solução" : "soluções"}
                 </p>
                 <ul
                   className="grid gap-px md:grid-cols-2 lg:grid-cols-3"
-                  style={{ background: "var(--ed-line)" }}
+                  style={{ background: "var(--ed-separator)" }}
                 >
                   {solutions.map((solution) => (
                     <li

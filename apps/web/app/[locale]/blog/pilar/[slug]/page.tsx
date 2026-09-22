@@ -48,15 +48,15 @@ const PillarPage = async ({ params }: PillarPageProps) => {
     <div
       className="mx-auto"
       style={{
-        maxWidth: "var(--ed-wide)",
+        maxWidth: "var(--ed-content-max)",
         paddingInline: "var(--ed-gutter)",
         paddingBlock: "var(--ed-section)",
       }}
     >
-      <header style={{ maxWidth: "var(--ed-read)" }}>
+      <header style={{ maxWidth: "var(--ed-reading-max)" }}>
         <p
           className="mb-3 font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
-          style={{ color: "var(--ed-muted)" }}
+          style={{ color: "var(--ed-label-secondary)" }}
         >
           Pilar editorial
         </p>
@@ -69,16 +69,16 @@ const PillarPage = async ({ params }: PillarPageProps) => {
       </header>
 
       {posts.length === 0 ? (
-        <p className="mt-12" style={{ color: "var(--ed-muted)" }}>
+        <p className="mt-12" style={{ color: "var(--ed-label-secondary)" }}>
           Ainda não há artigos publicados neste pilar.
         </p>
       ) : (
         <ul
           className="mt-12 grid gap-px md:grid-cols-2 lg:grid-cols-3"
-          style={{ background: "var(--ed-line)" }}
+          style={{ background: "var(--ed-separator)" }}
         >
           {posts.map((post) => (
-            <li key={post.slug} style={{ background: "var(--ed-paper)" }}>
+            <li key={post.slug} style={{ background: "var(--ed-bg)" }}>
               <Link
                 className="flex h-full flex-col gap-3 p-6"
                 href={`/blog/${post.slug}`}
@@ -89,7 +89,10 @@ const PillarPage = async ({ params }: PillarPageProps) => {
                 </span>
                 <span
                   className="text-[length:var(--ed-small)]"
-                  style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+                  style={{
+                    color: "var(--ed-label-secondary)",
+                    lineHeight: 1.5,
+                  }}
                 >
                   {post.description}
                 </span>

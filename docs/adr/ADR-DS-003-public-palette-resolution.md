@@ -1,6 +1,8 @@
 # ADR-DS-003 — Public palette: resolving the DS-01 conflict
 
-- **Status:** ACCEPTED
+- **Status:** SUPERSEDED_IN_PART by ADR-DS-004 (2026-09-22) — the `DS-01`
+  resolution stands; the v6 composition rules and the blanket prohibition
+  on blue do not. See ADR-DS-004 for what each half means now.
 - **Date:** 2026-09-22
 - **Owner:** A DEFINIR
 - **Resolves:** `DS-01 USER_ACTION_REQUIRED` (LANCAMENTO `#23-MANIFEST-HANDOFF/PLANO-MESTRE-END-TO-END.md`)

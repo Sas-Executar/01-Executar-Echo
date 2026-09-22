@@ -104,12 +104,15 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
           paddingInline: "var(--ed-gutter)",
         }}
       >
-        <header className="mx-auto" style={{ maxWidth: "var(--ed-read)" }}>
+        <header
+          className="mx-auto"
+          style={{ maxWidth: "var(--ed-reading-max)" }}
+        >
           {post.pillar ? (
             <Link
               className="mb-4 inline-flex items-center font-semibold text-[length:var(--ed-caption)] uppercase tracking-[.12em]"
               href={`/blog/pilar/${termSlug(post.pillar)}`}
-              style={{ color: "var(--ed-muted)", minHeight: 44 }}
+              style={{ color: "var(--ed-label-secondary)", minHeight: 44 }}
             >
               {post.pillar}
             </Link>
@@ -124,7 +127,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
           <p
             className="mt-6 text-[length:var(--ed-small)]"
-            style={{ color: "var(--ed-muted)" }}
+            style={{ color: "var(--ed-label-secondary)" }}
           >
             {post.author ?? AUTHOR.name} ·{" "}
             <time dateTime={post.date}>
@@ -141,8 +144,8 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
             <p
               className="mt-4 border-l-4 py-2 pl-4 text-[length:var(--ed-caption)]"
               style={{
-                borderColor: "var(--ed-yellow)",
-                color: "var(--ed-muted)",
+                borderColor: "var(--ed-accent)",
+                color: "var(--ed-label-secondary)",
               }}
             >
               {problems.join(" ")}
@@ -151,10 +154,11 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
         </header>
 
         {/*
-          `ed-article` carries the validated reading measure: 720px at
-          1.62 in the New York serif, with the 52x5px yellow rule above
-          each h2. Those are measured values from the v6 handoff, not
-          styling preferences, so they live in the token layer.
+          `ed-article` carries the reading measure from the identity
+          contract: 66ch capped at 760px, 17px at line-height 1.6, in the
+          system stack. Those are acceptance criteria (v2, section
+          "Editorial"), not styling preferences, so they live in the token
+          layer rather than here.
         */}
         <div className="ed-article mt-16">{post.content}</div>
 
@@ -162,9 +166,10 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
           <aside
             className="mx-auto mt-20"
             style={{
-              maxWidth: "var(--ed-read)",
-              background: "var(--ed-charcoal)",
-              color: "var(--ed-white)",
+              maxWidth: "var(--ed-reading-max)",
+              background: "var(--ed-bg-grouped)",
+              color: "var(--ed-label-primary)",
+              borderRadius: "var(--ed-radius-container)",
               padding: 40,
             }}
           >
@@ -176,9 +181,9 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                 style={{
                   minHeight: 56,
                   paddingInline: 24,
-                  background: "var(--ed-yellow)",
-                  color: "var(--ed-black)",
-                  borderRadius: "var(--ed-radius-btn)",
+                  background: "var(--ed-accent)",
+                  color: "var(--ed-label-on-accent)",
+                  borderRadius: "var(--ed-radius-control)",
                 }}
               >
                 {cta.name}
@@ -189,7 +194,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
         <div
           className="mx-auto mt-20 flex flex-col gap-12"
-          style={{ maxWidth: "var(--ed-read)" }}
+          style={{ maxWidth: "var(--ed-reading-max)" }}
         >
           {concepts.length > 0 ? (
             <section>
@@ -204,7 +209,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                       href={`/mapa?no=${encodeURIComponent(node.id)}`}
                       style={{
                         minHeight: 44,
-                        border: "1px solid var(--ed-line)",
+                        border: "1px solid var(--ed-separator)",
                         padding: "0 12px",
                       }}
                     >
@@ -237,7 +242,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                     </Link>
                     <p
                       className="text-[length:var(--ed-caption)]"
-                      style={{ color: "var(--ed-muted)" }}
+                      style={{ color: "var(--ed-label-secondary)" }}
                     >
                       {framework.purpose}
                     </p>

@@ -106,7 +106,7 @@ export function FrameworksBrowser({
       <p
         aria-live="polite"
         className="mb-6 text-[length:var(--ed-small)]"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         {results.length === 0
           ? "Nenhum framework corresponde a essa busca."
@@ -115,10 +115,10 @@ export function FrameworksBrowser({
 
       <ul
         className="grid gap-px md:grid-cols-2 lg:grid-cols-3"
-        style={{ background: "var(--ed-line)" }}
+        style={{ background: "var(--ed-separator)" }}
       >
         {results.map((framework) => (
-          <li key={framework.id} style={{ background: "var(--ed-paper)" }}>
+          <li key={framework.id} style={{ background: "var(--ed-bg)" }}>
             <Link
               className="flex h-full flex-col gap-2 p-6"
               href={`/frameworks/${framework.slug}`}
@@ -126,7 +126,7 @@ export function FrameworksBrowser({
             >
               <span
                 className="text-[length:var(--ed-caption)] uppercase tracking-[.1em]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 {framework.domain_name}
               </span>
@@ -135,7 +135,7 @@ export function FrameworksBrowser({
               </span>
               <span
                 className="text-[length:var(--ed-small)]"
-                style={{ color: "var(--ed-muted)", lineHeight: 1.5 }}
+                style={{ color: "var(--ed-label-secondary)", lineHeight: 1.5 }}
               >
                 {framework.purpose}
               </span>
@@ -150,9 +150,9 @@ export function FrameworksBrowser({
 const controlStyle: React.CSSProperties = {
   minHeight: 44,
   paddingInline: 12,
-  border: "1px solid var(--ed-line)",
-  borderRadius: "var(--ed-radius-btn)",
-  background: "var(--ed-paper)",
+  border: "1px solid var(--ed-separator)",
+  borderRadius: "var(--ed-radius-control)",
+  background: "var(--ed-bg)",
 };
 
 function fold(value: string): string {

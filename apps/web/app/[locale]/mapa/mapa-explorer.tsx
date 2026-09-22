@@ -108,8 +108,8 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
       <p
         className="mb-8 border-l-4 py-2 pl-4 text-[length:var(--ed-small)]"
         style={{
-          borderColor: "var(--ed-yellow)",
-          color: "var(--ed-muted)",
+          borderColor: "var(--ed-accent)",
+          color: "var(--ed-label-secondary)",
         }}
       >
         {map.metadata.governance_rule}
@@ -130,10 +130,11 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
             style={{
               minHeight: 44,
               paddingInline: 16,
-              borderRadius: "var(--ed-radius-btn)",
-              background: mode === m.id ? "var(--ed-black)" : "transparent",
-              color: mode === m.id ? "var(--ed-white)" : "var(--ed-ink)",
-              border: `1px solid ${mode === m.id ? "var(--ed-black)" : "var(--ed-line)"}`,
+              borderRadius: "var(--ed-radius-control)",
+              background:
+                mode === m.id ? "var(--ed-label-primary)" : "transparent",
+              color: mode === m.id ? "var(--ed-bg)" : "var(--ed-label-primary)",
+              border: `1px solid ${mode === m.id ? "var(--ed-label-primary)" : "var(--ed-separator)"}`,
             }}
             type="button"
           >
@@ -152,9 +153,9 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
             style={{
               minHeight: 44,
               paddingInline: 12,
-              border: "1px solid var(--ed-line)",
-              borderRadius: "var(--ed-radius-btn)",
-              background: "var(--ed-paper)",
+              border: "1px solid var(--ed-separator)",
+              borderRadius: "var(--ed-radius-control)",
+              background: "var(--ed-bg)",
             }}
             type="search"
             value={query}
@@ -168,9 +169,9 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
             style={{
               minHeight: 44,
               paddingInline: 12,
-              border: "1px solid var(--ed-line)",
-              borderRadius: "var(--ed-radius-btn)",
-              background: "var(--ed-paper)",
+              border: "1px solid var(--ed-separator)",
+              borderRadius: "var(--ed-radius-control)",
+              background: "var(--ed-bg)",
             }}
             value={group}
           >
@@ -187,7 +188,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
       <p
         aria-live="polite"
         className="mb-4 text-[length:var(--ed-small)]"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         {visible.length === 0
           ? "Nenhum nó corresponde a esses filtros."
@@ -204,7 +205,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
         <ul
           aria-label="Nós do mapa"
           className="max-h-[560px] overflow-y-auto"
-          style={{ border: "1px solid var(--ed-line)" }}
+          style={{ border: "1px solid var(--ed-separator)" }}
         >
           {visible.map((node) => (
             <li key={node.id}>
@@ -215,12 +216,14 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
                 style={{
                   minHeight: 56,
                   padding: "12px 16px",
-                  borderBottom: "1px solid var(--ed-line)",
+                  borderBottom: "1px solid var(--ed-separator)",
                   background:
-                    selectedId === node.id ? "var(--ed-soft)" : "transparent",
+                    selectedId === node.id
+                      ? "var(--ed-bg-grouped)"
+                      : "transparent",
                   boxShadow:
                     selectedId === node.id
-                      ? "inset 3px 0 0 var(--ed-yellow)"
+                      ? "inset 3px 0 0 var(--ed-accent)"
                       : undefined,
                 }}
                 type="button"
@@ -228,7 +231,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
                 <span className="block font-medium">{node.label}</span>
                 <span
                   className="block text-[length:var(--ed-caption)]"
-                  style={{ color: "var(--ed-muted)" }}
+                  style={{ color: "var(--ed-label-secondary)" }}
                 >
                   {node.type} · {node.layer}
                   {node.group ? ` · ${node.group}` : ""}
@@ -248,7 +251,7 @@ export function MapaExplorer({ map, initialNodeId }: MapaExplorerProps) {
               relations={relations}
             />
           ) : (
-            <p style={{ color: "var(--ed-muted)" }}>
+            <p style={{ color: "var(--ed-label-secondary)" }}>
               Selecione um nó para ver suas relações, a classe epistêmica e a
               evidência associada.
             </p>
@@ -275,7 +278,7 @@ function NodeDetail({
   onSelect,
 }: NodeDetailProps) {
   return (
-    <article style={{ border: "1px solid var(--ed-line)", padding: 24 }}>
+    <article style={{ border: "1px solid var(--ed-separator)", padding: 24 }}>
       <h2 className="font-semibold text-[length:var(--ed-headline)]">
         {node.label}
       </h2>
@@ -318,10 +321,13 @@ function NodeDetail({
               // keeps resolving to the same relation.
               id={edge.edge_id}
               key={edge.edge_id}
-              style={{ borderTop: "1px solid var(--ed-line)", paddingTop: 12 }}
+              style={{
+                borderTop: "1px solid var(--ed-separator)",
+                paddingTop: 12,
+              }}
             >
               <p className="text-[length:var(--ed-small)]">
-                <span style={{ color: "var(--ed-muted)" }}>
+                <span style={{ color: "var(--ed-label-secondary)" }}>
                   {isOutgoing ? "→" : "←"} {edge.relation.replace(/_/g, " ")}
                 </span>{" "}
                 <button
@@ -335,7 +341,7 @@ function NodeDetail({
               </p>
               <p
                 className="text-[length:var(--ed-caption)]"
-                style={{ color: "var(--ed-muted)" }}
+                style={{ color: "var(--ed-label-secondary)" }}
               >
                 {edge.edge_id} · classe {edge.epistemic_class}
                 {edge.weight ? ` · peso ${edge.weight}` : ""}
@@ -350,10 +356,13 @@ function NodeDetail({
               {record ? (
                 <blockquote
                   className="mt-2 pl-3 text-[length:var(--ed-caption)]"
-                  style={{ borderLeft: "3px solid var(--ed-yellow)" }}
+                  style={{ borderLeft: "3px solid var(--ed-accent)" }}
                 >
                   <p>{record.authorized_statement}</p>
-                  <p className="mt-1" style={{ color: "var(--ed-muted)" }}>
+                  <p
+                    className="mt-1"
+                    style={{ color: "var(--ed-label-secondary)" }}
+                  >
                     Limite de interpretação:{" "}
                     {record.interpretation_limit ?? NOT_AVAILABLE}
                   </p>
@@ -378,7 +387,7 @@ function Field({
     <div>
       <dt
         className="text-[length:var(--ed-caption)] uppercase tracking-wider"
-        style={{ color: "var(--ed-muted)" }}
+        style={{ color: "var(--ed-label-secondary)" }}
       >
         {label}
       </dt>
