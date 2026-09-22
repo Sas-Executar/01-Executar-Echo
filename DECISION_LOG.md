@@ -59,15 +59,28 @@ fontes, o impacto de adiar, a recomendação fundamentada e a resposta.
 
 ---
 
-## DEC-004 — Scanner: OCR ou DINOv2/ONNX · **A DEFINIR**
+## DEC-004 — Scanner: OCR ou DINOv2/ONNX · **DECIDED**
+
+O pipeline on-device (`packages/scanner`: `preprocess.ts`, `dinov2-encoder.ts`,
+`similarity.ts`) já implementava e testava apenas o caminho DINOv2/ONNX, mas
+a decisão nunca tinha sido registrada aqui — o único bloqueio real era a
+ausência de um artefato `.onnx` hospedado. Numa sessão de execução do plano
+Scroll+Scanner (P0 lançamento), diante da confirmação de que nenhum arquivo
+do modelo existia no repositório, no zip enviado ou em qualquer branch/
+Release, Leo escolheu explicitamente sourciar um modelo DINOv2 público
+("Use um modelo DINOv2 público (Recomendado)") em vez de esperar por um
+artefato próprio — resposta que resolve de fato a escolha OCR vs. DINOv2 em
+favor de DINOv2, já que a alternativa OCR nunca teve implementação no corpus.
 
 | | |
 |---|---|
-| **Conflito** | O corpus preserva as duas abordagens, sem escolher |
-| **Impacto de adiar** | F10 fica sem caminho técnico definido |
-| **Resposta de Leo** | `A DEFINIR` |
-| **Trava** | **F10** |
-| **Nota** | Decisão reversível e de baixo custo se tomada antes da F10 começar; não precisa ser resolvida agora |
+| **Conflito** | O corpus preservava as duas abordagens (OCR e DINOv2/ONNX), sem escolher |
+| **Impacto de adiar** | F10 ficava sem caminho técnico definido |
+| **Resposta de Leo** | **DINOv2/ONNX — modelo público `facebook/dinov2-small` (ViT-S/14), exportado para ONNX (opset 17) e hospedado por Claude nesta sessão, já que nenhum artefato próprio existia** |
+| **Data** | 2026-09-21 |
+| **Consequência** | `dinov2-vits14.onnx` publicado na branch órfã `model-assets` (commit `7318832`), servido via URL raw imutável pinada no SHA do commit; `EXPO_PUBLIC_DINOV2_MODEL_URL`/`EXPO_PUBLIC_DINOV2_MODEL_SHA256` preenchidos em `apps/mobile/.env.example` e `eas.json`; rota `POST /scanner/symbols` e tela `apps/mobile/app/scanner-enroll.tsx` fecham o caminho de enrollment ponta a ponta |
+| **Trava** | ~~F10~~ — desbloqueada |
+| **Evidência** | Commits `5f083ba`, `abf665c`, `9284d3e`, `2c8ff06` nesta branch; validação numérica do export (similaridade de cosseno 0.9999999 contra o PyTorch original) e SHA-256 conferido via `curl`+`sha256sum` |
 
 ---
 
