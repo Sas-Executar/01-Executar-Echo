@@ -1,0 +1,55 @@
+schema_version: "1.0"
+id: BLOG-REQUIREMENTS-TRACEABILITY
+status: ACTIVE
+baselines:
+  echo:
+    repository: Sas-Executar/01-Executar-Echo
+    sha: f5a20dc13398d6e4a10765f388a34b557b5346b0
+  blueprint:
+    repository: Sas-Executar/04-exe-pre-Blueprint
+    sha: b7fd9e4853b9ca51c275737e9ef197105740f607
+  operational_requirements:
+    source: "Notion MASTER_INDEX — Ecossistema"
+    section: "03 · BLOG"
+authority_rules:
+  - "NORMATIVE_REQUIREMENT must come from an existing source."
+  - "DERIVED_VERIFICATION may prove implementation but cannot create product behavior."
+  - "IMPLEMENTATION_EVIDENCE cannot rewrite requirements."
+  - "PROPOSED is not an existing requirement."
+  - "Unknown links are GAP, never inferred."
+gaps:
+  - id: GAP-PRD-BLOG-001
+    status: BLOCKED
+    description: "No dedicated PRD-BLOG or Blog-specific authoritative acceptance-criteria registry found in the examined Blueprint baseline."
+requirements:
+  BLOG-01: "Qual função do Blog no ecossistema e qual proposta central?"
+  BLOG-02: "Referências editoriais, educacionais e de produto"
+  BLOG-03: "Descoberta → leitura → exploração → CTA → conversão"
+  BLOG-04: "Requisitos comuns de UX, leitura, navegação e conversão"
+  BLOG-05: "Pilares temáticos e função de cada um"
+  BLOG-06: "Campanhas, objetivos, audiência e CTA"
+  BLOG-07: "Voz, formatos, cadência, categorias e regras editoriais"
+  BLOG-08: "Modelo de conteúdo, campos, taxonomia, workflow e publicação"
+  BLOG-09: "Mapa interativo, conteúdo, função e integração no journey"
+  BLOG-10: "Função da oficina e relacionamento com conteúdos/produtos"
+  BLOG-11: "CTAs, regras, destinos e eventos de conversão"
+  BLOG-12: "Materiais, templates, ferramentas e downloads"
+  BLOG-13: "Skills associadas ao Blog e à Oficina"
+  BLOG-14: "Produtos e recursos do ecossistema conectados ao Blog"
+  BLOG-15: "Papel, funções, entradas, saídas e limites"
+  BLOG-16: "Custos de uso, modelo comercial e limites"
+  BLOG-17: "Componentes, tokens, editorial UI e padrões"
+  BLOG-18: "Arquitetura de rotas e páginas"
+  BLOG-19: "Frameworks rápidos, finalidade, estrutura e CTA"
+  BLOG-20: "Inventário, status, categoria, pilares e publicação"
+release_status_values:
+  - PASS
+  - BLOCKED
+pass_requires:
+  - normative_source
+  - preserved_requirement_text
+  - authoritative_ac_or_explicit_non_applicability
+  - implementation_target
+  - executed_test
+  - production_verification_when_applicable
+  - evidence

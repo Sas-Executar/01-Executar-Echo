@@ -1,0 +1,105 @@
+schema_version: "1.0"
+id: BLOG-DEPLOY-CHECKLIST
+status: ACTIVE
+owner_surface: apps/web
+content_source: packages/cms/content/blog
+deploy_workflow: .github/workflows/deploy-web.yml
+deployment_platform: vercel
+source_method:
+  - anthropic_knowledge_work_engineering_deploy_checklist
+  - anthropic_knowledge_work_engineering_documentation
+  - repository_live_structure
+  - executar_blog_launch_input
+  - notion_master_index_blog_01_20
+  - blueprint_traceability_rules
+status_values: [PASS, BLOCKED]
+traceability_manifest: docs/operations/BLOG_REQUIREMENTS_TRACEABILITY.yaml
+normative_gap: GAP-PRD-BLOG-001
+blocking_rule: "Any missing/failed mandatory source link, implementation, test, deployment, verification, or evidence is BLOCKED."
+critical_invariant: "Every MDX intentionally published maps to a production /blog/<slug> URL returning HTTP 200 with rendered body."
+gates:
+  - id: source_scope
+    blocking: true
+    checks:
+      - release_scope_declared
+      - pr_reviewed
+      - no_known_critical_blog_bug
+      - mdx_articles_present
+      - frontmatter_title_description_date
+      - unique_path_safe_slugs
+  - id: cms_content
+    blocking: true
+    checks:
+      - cms_tests_pass
+      - all_mdx_resolve
+      - mdx_compile_pass
+      - date_order_valid
+      - reading_time_generated
+  - id: quality
+    blocking: true
+    commands:
+      - "bunx ultracite check ."
+      - "bun run typecheck"
+      - "bun run test"
+      - "bunx turbo run build --filter=web"
+  - id: routes_render
+    blocking: true
+    checks:
+      - blog_index_renders
+      - all_release_slugs_render
+      - unknown_slug_not_found
+      - article_body_present
+  - id: seo_discovery
+    blocking: true
+    checks:
+      - index_metadata
+      - article_metadata
+      - blog_jsonld
+      - blogposting_jsonld
+      - sitemap_all_slugs
+      - robots_sitemap
+      - canonical_policy_verified
+  - id: launch_requirements
+    blocking: true
+    scope_controlled: true
+    checks:
+      - analytics_kpi
+      - comments_or_approved_out_of_scope
+      - newsletter_cta
+      - social_sharing
+      - editorial_submission_production_workflow
+      - ecosystem_routes_deep_links
+  - id: deploy
+    blocking: true
+    checks:
+      - ci_green
+      - preview_available
+      - preview_blog_smoke
+      - production_deploy_recorded
+  - id: production_smoke
+    blocking: true
+    checks:
+      - blog_http_success
+      - changed_slugs_http_200
+      - known_existing_slug_http_200
+      - article_body_present
+      - sitemap_contains_expected_slugs
+      - robots_reachable
+      - no_new_critical_runtime_errors
+rollback_triggers:
+  - blog_index_unavailable
+  - intended_article_404_or_5xx
+  - mdx_missing_from_deployed_bundle
+  - sitemap_missing_expected_article
+  - critical_blog_journey_failure
+  - material_error_or_latency_regression
+  - security_or_privacy_defect
+rollback_command_template: 'vercel rollback <deployment-url-or-id> --token="$VERCEL_TOKEN"'
+evidence_required:
+  - commit_sha
+  - pr
+  - ci_run
+  - preview_url
+  - production_deployment
+  - smoke_results
+  - last_known_good_deployment
